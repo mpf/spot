@@ -1,0 +1,144 @@
+\chapter{Window functions}\label{Sec:SparcoWindowFunc}
+
+% Parzen window unclear, scale discrete mesh from -1 to 1?
+
+% On the use of windows for harmonic analysis with the discrete Fourier transform
+% Harris, F.J.  
+% This paper appears in: Proceedings of the IEEE
+% Publication Date: Jan. 1978
+% Volume: 66,  Issue: 1
+% On page(s): 51- 83
+% ISSN: 0018-9219
+% Date Published in Issue: 2005-06-28 14:49:59.0
+% Abstract: This paper makes available a concise review of data
+% windows and their affect on the detection of harmonic signals in the
+% presence of broad-band noise, and in the presence of nearby strong
+% harmonic interference. We also call attention to a number of common
+% errors in the application of windows when used with the fast Fourier
+% transform. This paper includes a comprehensive catalog of data
+% windows along with their significant performance parameters from
+% which the different windows can be compared. Finally, an example
+% demonstrates the use and value of windows to resolve closely spaced
+% harmonic signals characterized by large differences in amplitude.
+
+% N is number of samples, n  http://en.wikipedia.org/wiki/Window_function
+
+Define $k:= \left\vert \frac{2n}{N-1} - 1\right\vert$, for
+$n=0,\ldots,N-1$, as the normalized offset from the center; i.e.,
+corresponding to the samples $0 \leq \vert \ell\vert \leq
+\frac{N}{2}$, normalized to the range $0$ to $1$.
+
+\begin{longtable}{|p{3.1cm}p{10cm}|}
+\hline
+Bartlett & 
+      $\displaystyle w(k) = 1 - k$ \\
+&\\ Bartlett-Hann &
+   $\displaystyle w(n) = a_0 -
+   a_1\left\vert \frac{n}{N-1}- \frac{1}{2}\right\vert -
+   a_2\cos\left(\frac{2\pi n}{N-1}\right)$ \\ 
+  & \footnotesize with $a_0 = 0.62$, $a_1 = 0.48$, $a_2 = 0.38$ \\
+&\\ Blackman &
+   $\displaystyle w_{\alpha}(n) = \sum_{j=0}^2 a_j(-1)^j \cos\left(\frac{2j\pi
+   n}{N-1}\right)$ \\
+  & \footnotesize with $a_0 = (1-\alpha)/2$, $a_1 = 1/2$, $a_2 = \alpha / 2$ \\
+&\\ Blackman-Harris &
+   $\displaystyle w(n) = \sum_{j=0}^3 a_j(-1)^j \cos\left(\frac{2j\pi
+   n}{N-1}\right)$ \\
+  & \footnotesize with $a_0 = 0.35875$, $a_1 = 0.48829$, $a_2 = 0.14128$, $a_3 = 0.01168$ \\
+&\\ Blackman-Nuttall &
+   $\displaystyle w(n) = \sum_{j=0}^3 a_j(-1)^j \cos\left(\frac{2j\pi
+   n}{N-1}\right)$ \\
+  & \footnotesize with $a_0 = 0.3635819$, $a_1 = 0.4891775$,
+   $a_2 = 0.1365995$, $a_3 = 0.0106411$ \\
+&\\ Bohman &
+   $\displaystyle w(k) = (1 - k)
+   \cos(\pi k) +
+   \frac{1}{\pi}\sin(\pi k) $ \\
+&\\ Cauchy &
+   $\displaystyle w_{\alpha}(k) = \frac{1}{1 + (\alpha\cdot k)^2}$ \\
+&\\ Cos & See cosine \\
+&\\ Cosine &
+   $\displaystyle w_{\alpha}(k) = cos^{\alpha}\left(\frac{k\pi}{2}\right)$ \\
+&\\ Dirichlet & 
+   $\displaystyle w(k) = 1$ \\
+&\\ Flat top / Flattop&
+   $\displaystyle w_{\alpha}(n) = \textstyle\frac{1}{\sum_{j=0}^4 a_i}
+   \displaystyle \sum_{j=0}^4 a_j(-1)^j \cos\left(\frac{2j\pi
+   n}{N-1}\right)$ \\
+  & \footnotesize with $a_0 = 1$, $a_1 = 1.93$, $a_2 = 1.29$, $a_3 =
+  0.388$, $a_4 = 0.032$ \\
+&\\ Gauss & See Gaussian \\
+&\\ Gaussian & 
+  $\displaystyle w_{\alpha}(k) =
+  \mathrm{exp}\left(-\frac{1}{2}\left(\alpha k\right)^2\right)$\\
+&\\ Hamming &
+   $\displaystyle w(n) = a_0 - a_1\cos\left(\frac{2\pi
+   n}{N-1}\right)$  \\
+   & \footnotesize with $a_0 = 0.54$, $a_1 = 0.46$ \\
+&\\ Hann &
+  $\displaystyle w(n) = \frac{1}{2}\left(1 - \cos\left(\frac{2\pi
+  n}{N-1}\right)\right)$ \\
+&\\ Hann-Poisson &
+  $\displaystyle w_{\alpha}(k) = \frac{1}{2}\left[1 + \cos\left(\pi k)\right]\right)\exp\left(-ak\right)$ \\
+&\\ Kaiser &
+   $\displaystyle w_{\alpha}(k) = I_0\left(\alpha\sqrt{1 -
+   k^2}\right)/I_0(\alpha)$  \\
+   & \footnotesize with $I_0$ the zeroth-order modified Bessel
+   function of the first kind \\
+&\\ Kaiser-Bessel\ \ \ \ \ \ \ \ \ Derived (KBD) & 
+   $\displaystyle w_{\alpha}(n) = \begin{cases} 
+   c\left(\sum_{j=0}^n v_{\alpha}(j)\right)^{1/2},
+   & \ \ 0 \leq n < N/2 \\
+   c\left(\sum_{j=0}^{N-n-1} v_{\alpha}(j)\right)^{1/2},
+   
+   & \ \ N/2 \leq n < N
+ \end{cases}$ \\
+ & \footnotesize with $c=\left(\sum_{j=0}^{N/2}
+   v_{\alpha}(j)\right)^{-1/2}$, $v_{\alpha}(n)$ the $(N/2+1)$-point
+ Kaiser
+ window. $N$ must be an even number.\\
+   % http://ccrma.stanford.edu/courses/422/projects/kbd/kbdwindow.cpp
+   % http://en.wikipedia.org/wiki/Kaiser_window
+&\\ Lanczos &
+   $\displaystyle w_{\alpha}(k) = \left(\frac{\sin(\pi k)}{\pi k}\right)^{\alpha}$ \\
+&\\ Nuttall &
+   $\displaystyle w(n) = \sum_{j=0}^3 a_j(-1)^j \cos\left(\frac{2j\pi
+   n}{N-1}\right)$ \\
+  & \footnotesize with $a_0 = 0.355768$, $a_1 = 0.487396$,
+   $a_2 = 0.144232$, $a_3 = 0.012604$ \\
+&\\ Parzen & 
+   $\displaystyle w(t) = \begin{cases}
+   1 - 6\left(\frac{t}{N/2}\right)^2\left(1 - \frac{\vert
+       t\vert}{N/2}\right), & \ \ 0 \leq \vert t\vert \leq \frac{N}{4} \\
+   2\left(1 - \frac{\vert t\vert}{N/2}\right)^3, &
+   \ \ \frac{N}{4} \leq \vert t\vert \leq \frac{N}{2}   
+   \end{cases}$ \\
+% Mathematical Considerations in the Estimation of Spectra
+% Emanuel Parzen
+% Technometrics, Vol. 3, No. 2 (May, 1961), pp. 167-190 
+&\\ Poisson & See Lanczos, $\alpha = 1$
+   $\displaystyle w(k) = \exp\left(-ak\right)$ \\
+&\\ Rectangle & See Dirichlet \\
+&\\ Riesz &
+   $\displaystyle w(k) = 1 - \vert k\vert^2$ \\
+&\\ Sinc & See Lanczos \\
+&\\ Triangle & 
+   $\displaystyle w(k) = 1 - k$\\
+&\\ Tukey & 
+   $\displaystyle w_{\alpha}(t) = \begin{cases}
+   1, & 0 \leq \vert t\vert \leq \alpha\frac{N}{2} \\
+   \displaystyle\frac{1}{2} + \frac{1}{2}\cos\left(\frac{\pi}{2}\cdot
+   \frac{2t/N - \alpha}{1 - \alpha}\right), &
+   \alpha\frac{N}{2} \leq \vert
+   t\vert \leq \frac{N}{2}
+   \end{cases}$ \\
+&\\ Uniform & See Dirichlet \\
+&\\ Vall\'e-Poussin & See Parzen \\
+&\\ Weierstrass & See Gaussian \\
+\hline
+\end{longtable}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% End: 

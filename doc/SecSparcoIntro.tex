@@ -1,0 +1,65 @@
+\chapter{Introduction}
+
+The focus of the first version of \sparco{} was to provide a unified
+collection of test problems for compressed sensing. Each problem is of
+the form
+\[
+b = MBx_0 + e,\quad \mbox{or}\quad b = Ms + e,
+\]
+where $b$ is the observed vector, $M$ is a measurement matrix, $s$ is
+a signal which can be sparsely represented as the product $Bx_0$,
+where $x_0$ is sparse, and $e$ is additive noise. Especially in the
+earlier years of compressed sensing (or atomic decomposition), the
+sparsity matrix $B$ consisted of a concatenation of sparsity bases
+such as the discrete Fourier, cosine, and wavelet transforms. One
+salient feature of these transforms is that there exist ways to
+evaluate matrix-vector products with these bases, without ever having
+to form the underlying matrix explicitly. This leads to fast
+multiplication times as well as a high level of scalability in matrix
+dimensions. When combining such operators into a compound operator it
+is then desirable to preserve these properties. One way to do this is
+to write special code for each distinct $B$. This is very time
+consuming and a more general framework was set up to implement all
+operators. 
+
+After the release of \sparco{} it became increasingly clear that the
+operator framework was very useful on its own, which then led to the
+development of the \sparco{} operator toolbox (\spot). The aim of the
+toolbox is to make operators feel like matrices and allowing many of
+the standard methods to be applied to them. The result is a
+comprehensive set of operators and methods on operators. Each operator
+implements multiplication by itself and by its complex conjugate (or
+transpose for real matrices).
+
+%That means that when $A$ and $B$ are some \sparco{} operators, we can
+%write
+%\begin{codeblock}
+%y = A * x;
+%z = B'* y;
+%\end{codeblock}
+%Like with matrices it would also be perfectly fine to write things as
+%\begin{codeblock}
+%C = B'* A; % Create compound operator
+%z = C * x;
+%D = [A, B];
+%\end{codeblock}
+
+% - Develop sparco, set of test problems for sparse recovery
+% - Recognized the need for flexible operators
+% - Initially this was done using function handles alone
+% - Since then, the flexible set of operators itself became more popular
+% - Developed now into full set of operators, still based on function
+%   handles to easy of extension, but now wrapped in a Sparco class
+% - The aim was to make operators feel like matrices and allowing many
+%   of the standard methods to be applied to them.
+% - The result (The \sparco{} operator toolbox) is a comprehensive set
+%   of operators and methods.
+
+
+% Element specific operations are slow; and operators such at .*
+% cannot be implemented without losing the implicit nature of operators.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% End: 

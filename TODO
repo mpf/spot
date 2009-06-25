@@ -1,0 +1,3 @@
+- opFoG: Should it be binary? MPF says "absolutely".  If so, then
+  simplify @opSpot/mtimes.
+
