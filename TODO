@@ -1,3 +1,10 @@
-- opFoG: Should it be binary? MPF says "absolutely".  If so, then
-  simplify @opSpot/mtimes.
+- opMatrix
+  - overloads 'double'
 
+- opScalar: not needed
+
+- opFoG:
+  scalar mults: detect 1-by-1 ops, and apply double to get scalar.
+  preprocess and store in "operators".
+
+- 
