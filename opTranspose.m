@@ -27,7 +27,7 @@ classdef opFoG < opSpot
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opFoG(A,B)
           
           if nargin == 0
@@ -48,12 +48,6 @@ classdef opFoG < opSpot
              error('One of the operators is not a valid input.')
           end
           
-          % A single valid input results in quickly returning it.
-%           if nargin == 1
-%              op = A;
-%              return
-%           end
-          
           % Check operator consistency and complexity
           [mA, nA] = size(A);
           [mB, nB] = size(B);
@@ -70,7 +64,7 @@ classdef opFoG < opSpot
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
           % Get operators
           op1 = op.children{1};

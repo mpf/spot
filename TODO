@@ -1,29 +1,27 @@
- opSpot@double: check dimensions
+Check non-decimated wavelet 
 
-- display of opMatrix?
+[] opBlockDiag.m; Is the parameter input okay?
+[] opBlockDiag.m; Avoid replicating operator explicitly
+[] opBlockDiag.m; How to display repeated blocks: opBlockDiag(ones(10,1),opDCT(4))?
+[] opDiag.m; Should this function work like opBlockDiag.m
+[] @opSpot/diag.m; Should this be similar to blkdiag?
 
-- opScalar: not needed
+[] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 
-- opFoG:
-  scalar mults: detect 1-by-1 ops, and apply double to get scalar.
-  preprocess and store in "operators".
 
 - opClass??? Wrapper for classes that support the multiplication function
 
-opBlockDiag.m
-opDiag.m
 
-opClass.m
 opConvolve.m
 opCurvelet.m
 opDirac.m
 opEye.m
 opFFT.m
-opFoG.m
 opFunction.m
+opSoftThr.m
+opHardThr.m
 opGaussian.m
 opHaar.m
-opHadamard.m
 opHeaviside.m
 opImag.m
 opInverse.m
@@ -46,12 +44,16 @@ opZeros.m
 
 
 DONE
-- opMatrix
-- opFoG
 - opBernoulli
 - opBinary
+- opBlockDiag.m
+- opClass.m
 - opConj
+- opDiag.m
 - opDictionary
+- opFoG
+- opHadamard.m
+- opMatrix
 - opStack
 
 - conj
