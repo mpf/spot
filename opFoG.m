@@ -19,7 +19,10 @@ classdef opFoG < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    properties (SetAccess = private)
+        operators = {}; % List of preprocessed operators
+    end
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,11 +59,27 @@ classdef opFoG < opSpot
           if ~compatible
              error('Operators are not compatible in size.');
           end
-          op = op@opSpot('FoG', mA, nB);
+          
+          % Determine size
+          if isscalar(A) || isscalar(B)
+            m = max(mA,mB);
+            n = max(nA,nB);
+          else
+            m = mA;
+            n = nB;
+          end
+          
+          % Construct object
+          op = op@opSpot('FoG', m, n);
           op.cflag    = A.cflag  | B.cflag;
           op.linear   = A.linear | B.linear;
           op.children = {A, B};
           op.precedence = 2;
+
+          % Preprocess operators
+          op.operators = {A,B};
+          if isscalar(A), op.operators{1} = opMatrix(double(A)); end;
+          if isscalar(B), op.operators{2} = opMatrix(double(B)); end;
        end
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,11 +114,11 @@ classdef opFoG < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function z = multiply(op,x,mode)
            if mode == 1
-              y = apply(op.children{2},x,mode);
-              z = apply(op.children{1},y,mode);
+              y = apply(op.operators{2},x,mode);
+              z = apply(op.operators{1},y,mode);
            else
-              y = apply(op.children{1},x,mode);
-              z = apply(op.children{2},y,mode);
+              y = apply(op.operators{1},x,mode);
+              z = apply(op.operators{2},y,mode);
            end
         end
     end % methods

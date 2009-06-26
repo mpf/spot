@@ -25,7 +25,7 @@ classdef opDCT < opSpot
             op = op@opSpot('DCT',m*n,m*n);
         end
         
-    end % methods
+    end % Methods
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - protected
@@ -41,6 +41,6 @@ classdef opDCT < opSpot
             end
         end
       
-    end % methods
+    end % Methods
         
-end % classdef
+end % Classdef

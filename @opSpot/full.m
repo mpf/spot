@@ -9,4 +9,4 @@ function x = full(A)
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id: full.m 39 2009-06-12 20:59:05Z ewout78 $
 
-x = full(A*speye(size(A,2)));
+x = full(double(A));

@@ -1,14 +1,16 @@
-%opCTranspose   Conjugate transpose of an operator.
+%opConj   Take the elementwise conjugate of a complex operator.
 %
-%   opCTranspose(OP)  returns the conjugate tranpose of OP.
+%   opConj(OP) is the elementwise complex conjugate of operator
+%   OP. Applying OPCONJ to conjugate operators returns the original
+%   operator.
 %
-%   See also opTranspose, opConj, opReal, opImag.
+%   See also opImag, opReal.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFoG.m 39 2009-06-12 20:59:05Z ewout78 $
+%   $Id$
 
-classdef opCTranspose < opSpot
+classdef opConj < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -18,7 +20,7 @@ classdef opCTranspose < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
-       function op = opCTranspose(A)
+       function op = opConj(A)
           
           if nargin ~= 1
              error('Exactly one operator must be specified.')
@@ -34,25 +36,13 @@ classdef opCTranspose < opSpot
           
           % Check operator consistency and complexity
           [m, n] = size(A);
-          op = op@opSpot('CTranspose', n, m);
+          op = op@opSpot('Conj', m, n);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-       end
-      
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Display
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       
-       function str = char(op)
-          op1 = op.children{1};
-          str = char(op1);
-          if op1.precedence > op.precedence
-             str = ['(', str, ')'];
-          end
-          str = [str ,''''];
-       end
-       
+       end % Constructor
+
     end % Methods
 
 
@@ -62,9 +52,9 @@ classdef opCTranspose < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
            if mode == 1
-              y = apply(op.children{1},x,2);
+              y = conj(apply(op.children{1},conj(x),1));
            else
-              y = apply(op.children{1},x,1);
+              y = conj(apply(op.children{1},conj(x),2));
            end
        end % Multiply
 
