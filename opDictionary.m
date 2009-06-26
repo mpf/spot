@@ -1,4 +1,4 @@
-%opDictionary  Dictionary of concatenated operators
+%opDictionary   Dictionary of concatenated operators
 %
 %   opDictionary(WEIGHTS,OP1,OP2,...OPn) creates a dictionary
 %   operator consisting of the concatenation of all operators;

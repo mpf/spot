@@ -1,4 +1,4 @@
-%opMatrix  Convert a numeric matrix into a Spot operator.
+%opMatrix   Convert a numeric matrix into a Spot operator.
 %
 %   opMatrix(A,DESCRIPTION) creates an operator that performs
 %   matrix-vector multiplication with matrix A. The optional parameter

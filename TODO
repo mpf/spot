@@ -7,15 +7,9 @@ Check non-decimated wavelet
 [] @opSpot/diag.m; Should this be similar to blkdiag?
 
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
+[] Should we always check number of parameters, i.e., can we ignore additional parameters?
+[] Clean up multiplication implementations, see e.g., opCurvelet
 
-
-- opClass??? Wrapper for classes that support the multiplication function
-
-
-opConvolve.m
-opCurvelet.m
-opDirac.m
-opEye.m
 opFFT.m
 opFunction.m
 opSoftThr.m
@@ -49,8 +43,12 @@ DONE
 - opBlockDiag.m
 - opClass.m
 - opConj
+- opConvolve.m
+- opCurvelet.m
 - opDiag.m
 - opDictionary
+- opDirac.m
+- opEye.m
 - opFoG
 - opHadamard.m
 - opMatrix
@@ -63,8 +61,4 @@ DONE
 - horzcat
 - vertcat
 
-
-opDirac
-opEye
-opFFT
 

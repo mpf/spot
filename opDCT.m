@@ -1,4 +1,4 @@
-%opDCT  One-dimensional discrete cosine transform (DCT)
+%opDCT   One-dimensional discrete cosine transform (DCT)
 %
 %   opDCT(N) creates a one-dimensional discrete cosine transform
 %   operator for vectors of length N.
@@ -39,7 +39,7 @@ classdef opDCT < opSpot
             else
                y = idct(full(x));
             end
-        end
+        end % Multiply
       
     end % Methods
         

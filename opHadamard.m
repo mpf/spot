@@ -1,4 +1,4 @@
-%opHadamard  Hadamard matrix
+%opHadamard   Hadamard matrix
 %
 %    opHadamard(N,NORMALIZED) creates a Hadamard operator for vectors
 %    of length N, where N is a power of two. Multiplication is done

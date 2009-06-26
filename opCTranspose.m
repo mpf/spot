@@ -1,6 +1,6 @@
 %opCTranspose   Conjugate transpose of an operator.
 %
-%   opCTranspose(OP)  returns the conjugate tranpose of OP.
+%   opCTranspose(OP) returns the conjugate tranpose of OP.
 %
 %   See also opTranspose, opConj, opReal, opImag.
 

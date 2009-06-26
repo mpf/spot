@@ -1,4 +1,4 @@
-%OPCLASS  Wrapper for classes
+%OPCLASS   Wrapper for classes
 %
 %   OPCLASS(M,N,OBJ,CFLAG,LINFLAG) creates an M by N wrapper operator
 %   for the class instance OBJ. The only requirement on OBJ is that it
