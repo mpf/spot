@@ -22,9 +22,7 @@ classdef opBernoulli < opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = private)
-        seed   = 0;  % Random state
-        matrix = []; % Explicit matrix form
-        scale  = 1;  % Scaling factor
+       funHandle = []; % Multiplication function
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,20 +54,24 @@ classdef opBernoulli < opSpot
           
           switch mode
              case 0
-                op.matrix  = 2.0 * (randn(m,n) < 0) - 1;
+                A = 2.0 * (randn(m,n) < 0) - 1;
+                fun = @(x,mode) multiplyExplicit(op,A,x,mode);
                
              case 1
-                op.seed = randn('state');
+                seed = randn('state');
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-               
+                fun = @(x,mode) multiplyImplicit(op,seed,1,x,mode);
+
              case 2
-                op.matrix = (2.0 * (randn(m,n) < 0) - 1) / sqrt(m);
+                A = (2.0 * (randn(m,n) < 0) - 1) / sqrt(m);
+                fun = @(x,mode) multiplyExplicit(op,A,x,mode);
               
              case 3
-                op.seed = randn('state');
+                seed = randn('state');
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                op.scale = 1 / sqrt(m);
+                fun = @(x,mode) multiplyImplicit(op,seed,1/sqrt(m),x,mode);
           end
+          op.funHandle = fun;
        end % Constructor
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,43 +92,52 @@ classdef opBernoulli < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          if ~isempty(op.matrix)
-             % Explicit matrix
-             if mode == 1
-                y = op.matrix * x;
-             else
-                y = op.matrix' * x;
+          y = op.funHandle(x,mode);
+       end % Multiply
+    end % Methods
+    
+    
+    methods ( Access = private )
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Multiply - Explicit matrix
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function y = multiplyExplicit(op,A,x,mode)
+          if mode == 1
+             y = A * x;
+          else
+             y = A' * x;
+          end
+       end % Multiply explicit
+
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Multiply -  Implicit
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function y = multiplyImplicit(op,seed,scale,x,mode)
+          % Store current random number generator state
+          seed0 = randn('state');
+          randn('state',seed);
+
+          if mode == 1
+             y = zeros(op.m,1);
+             for i=1:op.n
+                v = 2.0 * (randn(op.m,1) < 0) - 1;
+                y = y + v * x(i);
              end
           else
-             % Store current random number generator state
-             seed0 = randn('state');
-             randn('state',op.seed);
-             m = op.m; n = op.n;
-
-             % Multiply
-             if mode == 1
-                y = zeros(m,1);
-                for i=1:n
-                   v = 2.0 * (randn(m,1) < 0) - 1;
-                   y = y + v * x(i);
-                end
-                y = y * op.scale;
-             else
-               y = zeros(n,1);
-               for i=1:n
-                  v    = 2.0 * (randn(1,m) < 0) - 1;
-                  y(i) = v * x;
-               end
-               y = y * op.scale;
+             y = zeros(op.n,1);
+             for i=1:op.n
+                v    = 2.0 * (randn(1,op.m) < 0) - 1;
+                y(i) = v * x;
              end
-
-             % Restore original random number generator state
-             randn('state',seed0);
           end
-       end % Multiply
+          
+          % Apply scaling
+          if scale ~= 1, y = y * scale; end
 
+          % Restore original random number generator state
+          randn('state',seed0);
+       end % Multiply implicit
+       
     end % Methods
     
 end % Classdef
-    
-
