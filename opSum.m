@@ -52,7 +52,7 @@ classdef opSum < opSpot
           % Determine size
           m = mA; n = nA;
           
-          % Construct object
+          % Construct operator
           op = op@opSpot('Sum', m, n);
           op.cflag      = A.cflag  | B.cflag;
           op.linear     = A.linear | B.linear;
@@ -82,7 +82,8 @@ classdef opSum < opSpot
           
           % Combine
           str = [str1, ' + ', str2];
-       end
+       end % Char
+
     end % Methods
 
 

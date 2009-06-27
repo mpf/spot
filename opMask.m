@@ -35,7 +35,7 @@ classdef opMask < opSpot
            mask = mask(:);
            n    = length(mask);
            
-           % Construct object
+           % Construct operator
            op = op@opSpot('Mask',n,n);
            op.cflag      = true;
            op.linear     = true;

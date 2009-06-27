@@ -110,7 +110,7 @@ classdef opSurfacelet < opSpot
                                               x, mode);
           fun   = @(x,mode) opCurvelet_intrnl(parms{:},x,mode);
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Surfacelet', coefLength, prod(dims));
           op.funHandle = fun;
        end % Constructor

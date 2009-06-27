@@ -97,7 +97,7 @@ classdef opGaussian < opSpot
                 error('Invalid mode.')
           end
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Gaussian', m, n);
           op.funHandle = fun;
        end % Constructor

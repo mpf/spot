@@ -73,7 +73,7 @@ classdef opRestriction < opSpot
              fun = @(x,mode) opRestrictionP_intrnl(n,idx,P,x,mode);
           end
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Restriction', m, n);
           op.funHandle = fun;
        end % Constructor

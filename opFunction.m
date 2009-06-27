@@ -59,12 +59,12 @@ classdef opFunction < opSpot
               error('Invalid function handle specified.');
            end
            
-           % Construct object
+           % Construct operator
            op = op@opSpot('Function',m,n);
            op.cflag  = cflag;
            op.linear = linflag;
            op.funHandle = fun;
-        end
+        end % Constructor
         
     end % Methods
 

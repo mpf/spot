@@ -48,7 +48,7 @@ classdef opKron < opSpot
              m = m * mi; n = n * ni;
           end
           
-          % Construct object
+          % Construct operator
           op = op@opSpot('Kron', m, n);
           op.cflag    = cflag;
           op.linear   = linear;

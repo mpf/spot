@@ -33,9 +33,9 @@ classdef opHadamard < opSpot
               normalized = 0;
            end
            
-           % Construct object
+           % Construct operator
            op = op@opSpot('Hadamard',n,n);
-        end
+        end % Constructor
         
     end % Methods
 

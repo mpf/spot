@@ -248,11 +248,11 @@ classdef opConvolve < opSpot
              end
           end
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Convolve', nRows, nCols);
           op.cflag     = cflag;
           op.funHandle = fun;
-      end
+       end % Constructor
 
     end % Methods
        

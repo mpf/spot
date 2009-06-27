@@ -70,14 +70,14 @@ classdef opWavelet < opSpot
              fun = @(x,mode) opWavelet_intrnl(m,n,family,filter,levels,type,h,x,mode);
           end
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Wavelet', r*m*n, m*n);
           op.funHandle = fun;
           op.family    = family;
           op.filter    = filter;
           op.levels    = levels;
           op.redundant = redundant;
-      end
+       end % Constructor
 
     end % Methods
        

@@ -29,10 +29,10 @@ classdef opHaar < opWavelet
            if (nargin < 3), levels    = 5;     end
            if (nargin < 4), redundant = false; end
        
-           % Construct object
+           % Construct operator
            op = op@opWavelet(m,n,'Haar',1,levels,redundant);
            op.type = 'Haar';
-        end
+        end % Constructor
         
     end % Methods
         

@@ -12,11 +12,13 @@ QUESTIONS
 TODO
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Clean up multiplication implementations, see e.g., opCurvelet
-[] opWavelet.m: Comment
+[] opWavelet.m: Help comment
+[] opToeplitz.m, opToepGauss.m, opToepSign.m: Help comment
 [] Copy correct version of RWT (with 64-bit code problem resolved)
 [] Comments in the @opSpot files
 [] Set ID property in SVN
 [] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.
+[] For each operator, check if complexity, linear flag needs to be set or not
 
 Precedence levels
 1 - Operators that never need brackets, such as opDCT, opPower, opTranspose
@@ -28,11 +30,6 @@ get.m
 isfield.m
 set.m
 
-opToepGauss.m
-opToeplitz.m
-opToepSign.m
-opWindow.m
-opZeros.m
 
 diag.m
 subsasgn.m
@@ -71,12 +68,20 @@ DONE
 - opStack
 - opSum
 - opSurfacelet
+- opToepGauss
+- opToeplitz
+- opToepSign
 - opTranspose
 - opUnaryMinus
 - opWavelet
+- opWindow
+- opZeros
 
 DONE
+- bicg
+- bicgstab
 - blkdiag
+- cgs
 - char
 - conj
 - ctranspose
@@ -85,6 +90,7 @@ DONE
 - double
 - end
 - full
+- gmres
 - horzcat
 - imag
 - inv
@@ -92,27 +98,22 @@ DONE
 - isreal
 - isempty
 - kron
+- lsqr
+- minres
 - minus
 - mldivide
 - mtimes
 - mpower
 - mrdivide
 - ndims
+- pcg
 - plus
+- qmr
 - real
 - size
+- symmlq
 - transpose
 - uminus
 - uplus
 - vertcat
-
-- bicg
-- bicgstab
-- cgs
-- gmres
-- lsqr
-- minres
-- pcg
-- qmr
-- symmlq
 

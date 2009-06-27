@@ -32,7 +32,7 @@ classdef opDiag < opSpot
            d = d(:);
            n = length(d);
            
-           % Construct object
+           % Construct operator
            op = op@opSpot('Diag',n,n);
            op.cflag      = ~isreal(d);
            op.linear     = 1;

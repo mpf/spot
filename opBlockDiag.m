@@ -156,7 +156,7 @@ classdef opBlockDiag < opSpot
              fun = @(x,mode) opBlockDiagRow_intrnl(m,n,-rowOffset,overlap,opList,x,mode);
           end
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('BlockDiag', m, n);
           op.cflag      = cflag;
           op.linear     = linear;
