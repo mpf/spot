@@ -13,8 +13,6 @@ TODO
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Clean up multiplication implementations, see e.g., opCurvelet
 
-
-
 opSoftThr.m
 opHardThr.m
 
@@ -43,21 +41,17 @@ pcg.m
 qmr.m
 symmlq.m
 
-diag.m
 get.m
 isfield.m
+set.m
+
+diag.m
 kron.m
 minus.m
 mpower.m
-ndims.m
 plus.m
-private
-set.m
 subsasgn.m
 subsref.m
-uminus.m
-uplus.m
-vertcat.m
 
 DONE
 - opBernoulli
@@ -105,8 +99,10 @@ DONE
 - mldivide
 - mtimes
 - mrdivide
+- ndims
 - real
 - size
 - transpose
+- uplus
 - vertcat
 
