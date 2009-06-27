@@ -64,7 +64,9 @@ classdef opHadamard < opSpot
               end
               b = b * 2; s = s / 2; n = n / 2;
            end
-        end      
+       
+        end % Multiply
+    
     end % Methods
-        
+       
 end % Classdef

@@ -10,12 +10,9 @@ Check non-decimated wavelet
 [] Should we always check number of parameters, i.e., can we ignore additional parameters?
 [] Clean up multiplication implementations, see e.g., opCurvelet
 
-opFFT.m
-opFunction.m
 opSoftThr.m
 opHardThr.m
-opGaussian.m
-opHaar.m
+
 opHeaviside.m
 opImag.m
 opInverse.m
@@ -31,7 +28,6 @@ opSurfacelet.m
 opToepGauss.m
 opToeplitz.m
 opToepSign.m
-opWavelet.m
 opWindow.m
 opZeros.m
 
@@ -49,10 +45,15 @@ DONE
 - opDictionary
 - opDirac.m
 - opEye.m
+- opFFT.m
 - opFoG
+- opFunction.m
+- opGaussian.m
+- opHaar.m
 - opHadamard.m
 - opMatrix
 - opStack
+- opWavelet.m
 
 - conj
 - isscalar
