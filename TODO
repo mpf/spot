@@ -1,26 +1,28 @@
-Check non-decimated wavelet 
-
+QUESTIONS
 [] opBlockDiag.m; Is the parameter input okay?
-[] opBlockDiag.m; Avoid replicating operator explicitly
+[] opBlockDiag.m; Avoid replicating operator explicitly?
 [] opBlockDiag.m; How to display repeated blocks: opBlockDiag(ones(10,1),opDCT(4))?
-[] opDiag.m; Should this function work like opBlockDiag.m
+[] opDiag.m; Should this function work like opBlockDiag.m?
 [] @opSpot/diag.m; Should this be similar to blkdiag?
-
-[] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Should we always check number of parameters, i.e., can we ignore additional parameters?
+[] opInverse.m: Should we allow operators such as opInverse on non-linear operators?
+[] opInverse.m: Should we base this on spotLSQR, or on Matlab's lsqr (see @opSpot)?
+[] @opSpot/mldivide.m and @opSpot/mrdivide.m correct?
+
+TODO
+[] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Clean up multiplication implementations, see e.g., opCurvelet
+
+
 
 opSoftThr.m
 opHardThr.m
 
-opHeaviside.m
-opImag.m
-opInverse.m
 opKron.m
 opMask.m
 opOnes.m
+opMinus.m
 opPower.m
-opReal.m
 opRestriction.m
 opSparseBinary.m
 opSum.m
@@ -31,35 +33,80 @@ opToepSign.m
 opWindow.m
 opZeros.m
 
+bicg.m
+bicgstab.m
+cgs.m
+gmres.m
+lsqr.m
+minres.m
+pcg.m
+qmr.m
+symmlq.m
 
+diag.m
+get.m
+isfield.m
+kron.m
+minus.m
+mpower.m
+ndims.m
+plus.m
+private
+set.m
+subsasgn.m
+subsref.m
+uminus.m
+uplus.m
+vertcat.m
 
 DONE
 - opBernoulli
 - opBinary
-- opBlockDiag.m
-- opClass.m
+- opBlockDiag
+- opClass
 - opConj
-- opConvolve.m
-- opCurvelet.m
-- opDiag.m
+- opConvolve
+- opCurvelet
+- opDiag
 - opDictionary
-- opDirac.m
-- opEye.m
-- opFFT.m
+- opDirac
+- opEye
+- opFFT
 - opFoG
-- opFunction.m
-- opGaussian.m
-- opHaar.m
-- opHadamard.m
+- opFunction
+- opGaussian
+- opHaar
+- opHadamard
+- opHeaviside
+- opImag
+- opInverse
 - opMatrix
+- opReal
 - opStack
-- opWavelet.m
+- opTranspose
+- opWavelet
 
+DONE
+- blkdiag
+- char
 - conj
+- ctranspose
+- display
+- disp
+- double
+- end
+- full
+- horzcat
+- imag
+- inv
 - isscalar
 - isreal
 - isempty
-- horzcat
+- mldivide
+- mtimes
+- mrdivide
+- real
+- size
+- transpose
 - vertcat
-
 
