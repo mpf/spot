@@ -6,7 +6,7 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFoG.m 39 2009-06-12 20:59:05Z ewout78 $
+%   $Id$
 
 classdef opCTranspose < opSpot
 
@@ -32,14 +32,14 @@ classdef opCTranspose < opSpot
              error('Input operator is not valid.')
           end
           
-          % Check operator consistency and complexity
+          % Construct operator
           [m, n] = size(A);
           op = op@opSpot('CTranspose', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-       end
+       end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
@@ -51,7 +51,7 @@ classdef opCTranspose < opSpot
              str = ['(', str, ')'];
           end
           str = [str ,''''];
-       end
+       end % Char
        
     end % Methods
 

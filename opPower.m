@@ -1,20 +1,17 @@
-%opTranspose   Transpose of an operator.
+%opPower   Raise operator to integer power
 %
-%   opTranspose(OP) returns the tranpose of OP.
-%
-%   See also opCTranspose, opConj, opReal, opImag.
+%   opPower(OP,P) creates the operator OP^P for integer values of
+%   P. When P = 0, the identity matrix is returned. When P < 0 we
+%   reformulate the operator as inv(OP^|P|).
 
-%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFoG.m 39 2009-06-12 20:59:05Z ewout78 $
-
-classdef opTranspose < opSpot
+classdef opPower < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = private)
-       op_intrnl = []; % Internal operator
+       funHandle = []; % Multiplication function
+       exponent  = 1; % Exponent of power operator
     end % Properties
 
 
@@ -26,12 +23,15 @@ classdef opTranspose < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opTranspose(A)
+       function op = opPower(A,p)
           
-          if nargin ~= 1
-             error('Exactly one operator must be specified.')
+          if nargin ~= 2
+             error('Exactly two operators must be specified.')
           end
-           
+          if p ~= round(p)
+             error('Second argument to opPower must be an integer.');
+          end
+          
           % Input matrices are immediately cast as opMatrix's.
           if isa(A,'numeric'), A = opMatrix(A); end
           
@@ -40,26 +40,31 @@ classdef opTranspose < opSpot
              error('Input operator is not valid.')
           end
           
+          % Create function handle
+          if p == 0
+             fun = @(x,mode) x;
+          elseif p > 0
+             fun = @(x,mode) opPower_intrnl(A,p,x,mode);
+          else
+             fun = @(x,mode) apply(inv(A^abs(p)),x,mode);
+          end
+
           % Construct operator
           [m, n] = size(A);
-          op = op@opSpot('Transpose', n, m);
+          op = op@opSpot('Power', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-          op.op_intrnl  = conj(A)';
+          op.exponent   = p;
+          op.funHandle  = fun;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
-          op1 = op.children{1};
-          str = char(op1);
-          if op1.precedence > op.precedence
-             str = ['(', str, ')'];
-          end
-          str = [str ,'.'''];
+          str = [char(op.children{1}),sprintf('^%d',op.exponent)];
        end % Char
        
     end % Methods
@@ -70,9 +75,20 @@ classdef opTranspose < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = apply(op.op_intrnl,x,mode);
+          y = op.funHandle(x,mode);
        end % Multiply
 
     end % Methods
    
 end % Classdef
+
+
+%======================================================================
+
+
+function y = opPower_intrnl(opA,p,x,mode)
+y = x;
+for i=1:p
+   y = apply(opA,y,mode);
+end
+end

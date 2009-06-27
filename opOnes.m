@@ -1,14 +1,13 @@
-%opEye  Identity operator
+%opOnes   Operator equivalent to ones function.
 %
-%   opEye(M,N) creates the identity operator of size M by N. If N is
-%   omitted it is set to M by default. Without any arguments an
-%   operator corresponding to the scalar 1 is created.
+%   opOnes(M,N) creates an operator corresponding to an M by N matrix
+%   of ones. If parameter N is omitted it is set to M.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   $Id: opOnes.m 39 2009-06-12 20:59:05Z ewout78 $
 
-classdef opEye < opSpot
+classdef opOnes < opSpot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -16,11 +15,11 @@ classdef opEye < opSpot
     methods
         
         % Constructor
-        function op = opEye(m,n)
+        function op = opOnes(m,n)
            if nargin < 1, m = 1; end;
            if nargin < 2, n = m; end;
             
-            op = op@opSpot('Eye',m,n);
+            op = op@opSpot('Ones',m,n);
         end % Constructor
         
     end % Methods
@@ -32,19 +31,10 @@ classdef opEye < opSpot
        
         % Multiplication
         function y = multiply(op,x,mode)
-           [m,n] = size(op);
-           if mode == 1
-              if m <= n
-                 y = x(1:m);
-              else
-                  y = [x; zeros(m-n,1)];
-              end   
+           if (mode == 1)
+              y = ones(op.m,1)*sum(x);
            else
-              if n <= m
-                 y = x(1:n);
-              else
-                 y = [x; zeros(n-m,1)];
-              end
+              y = ones(op.n,1)*sum(x);
            end
         end % Multipy
       

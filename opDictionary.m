@@ -84,7 +84,7 @@ classdef opDictionary < opSpot
             end
           end
           
-          % Construct object
+          % Construct operator
           op = op@opSpot('Dictionary', m, n);
           op.cflag      = cflag;
           op.linear     = linear;

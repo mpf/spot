@@ -1,19 +1,14 @@
-%opFoG   Forms the produce of to operators.
+%opSum   Addition of two operators.
 %
-%   opFoG(OP1,OP2) creates an operator that successively applies each
-%   of the operators OP1, OP2 on a given input vector. In non-adjoint
-%   mode this is done in reverse order.
+%   opSum(OP1,OP2) creates a compound operator representing OP1+OP2.
 %
-%   The inputs must be either Spot operators or explicit Matlab matrices
-%   (including scalars).
-%
-%   See also opDictionary, opStack, opSum.
+%   See also opMinus.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFoG.m 39 2009-06-12 20:59:05Z ewout78 $
+%   $Id: opSum.m 39 2009-06-12 20:59:05Z ewout78 $
 
-classdef opFoG < opSpot
+classdef opSum < opSpot
 
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -31,7 +26,7 @@ classdef opFoG < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opFoG(A,B)
+       function op = opSum(A,B)
           
           if nargin ~= 2
              error('Exactly two operators must be specified.')
@@ -46,35 +41,23 @@ classdef opFoG < opSpot
              error('One of the operators is not a valid input.')
           end
           
-          
           % Check operator consistency and complexity
           [mA, nA] = size(A);
           [mB, nB] = size(B);
-          compatible = isscalar(A) || isscalar(B) || nA == mB;
+          compatible = ((mA == mB) && (nA == nB));
           if ~compatible
              error('Operators are not compatible in size.');
           end
           
           % Determine size
-          if isscalar(A) || isscalar(B)
-            m = max(mA,mB);
-            n = max(nA,nB);
-          else
-            m = mA;
-            n = nB;
-          end
+          m = mA; n = nA;
           
-          % Construct operator
-          op = op@opSpot('FoG', m, n);
-          op.cflag    = A.cflag  | B.cflag;
-          op.linear   = A.linear | B.linear;
-          op.children = {A, B};
-          op.precedence = 3;
-
-          % Preprocess operators
-          op.operators = {A,B};
-          if isscalar(A), op.operators{1} = opMatrix(double(A)); end;
-          if isscalar(B), op.operators{2} = opMatrix(double(B)); end;
+          % Construct object
+          op = op@opSpot('Sum', m, n);
+          op.cflag      = A.cflag  | B.cflag;
+          op.linear     = A.linear | B.linear;
+          op.children   = {A, B};
+          op.precedence = 4;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,23 +81,18 @@ classdef opFoG < opSpot
           end
           
           % Combine
-          str = [str1, ' * ', str2];
+          str = [str1, ' + ', str2];
        end
     end % Methods
-       
- 
+
+
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function z = multiply(op,x,mode)
-           if mode == 1
-              y = apply(op.operators{2},x,mode);
-              z = apply(op.operators{1},y,mode);
-           else
-              y = apply(op.operators{1},x,mode);
-              z = apply(op.operators{2},y,mode);
-           end
+       function y = multiply(op,x,mode)
+           y =     apply(op.children{1},x,mode);
+           y = y + apply(op.children{2},x,mode);
         end % Multiply
        
     end % Methods

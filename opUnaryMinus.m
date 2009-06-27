@@ -1,15 +1,14 @@
-%opImag   Complex imaginary part of operator.
+%opUnaryMinus   Negation of an operator.
 %
-%   opImag(OP) is the complex imaginary part of operator OP. Note
-%   that the resulting operator is real.
+%   opUnaryMinus(OP) returns -OP.
 %
-%   See also opConj, opReal.
+%   See also opSum, opMinus.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-classdef opImag < opSpot
+classdef opUnaryMinus < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -19,7 +18,7 @@ classdef opImag < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opImag(A)
+       function op = opUnaryMinus(A)
           
           if nargin ~= 1
              error('Exactly one operator must be specified.')
@@ -33,13 +32,13 @@ classdef opImag < opSpot
              error('Input operator is not valid.')
           end
           
-          % Construct operator
+          % Constuct operator
           [m, n] = size(A);
-          op = op@opSpot('Imag', m, n);
-          op.cflag      = false;
+          op = op@opSpot('UnaryMinus', n, m);
+          op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
+          op.precedence = 2;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,7 +46,11 @@ classdef opImag < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
           op1 = op.children{1};
-          str = ['Imag(', char(op1), ')'];
+          str = char(op1);
+          if op1.precedence > op.precedence
+             str = ['(', str, ')'];
+          end
+          str = ['-', str];
        end % Char
        
     end % Methods
@@ -58,32 +61,7 @@ classdef opImag < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          opA = op.children{1};
-          if mode == 1
-             if isreal(x)
-                % Purely real
-                y = imag(apply(opA,x,mode));
-             elseif isreal(sqrt(-1)*x)
-                % Purely imaginary
-                y = imag(apply(opA,imag(x),mode)) * sqrt(-1);
-             else
-                % Mixed
-                y = imag(apply(opA,real(x),mode)) + ...
-                    imag(apply(opA,imag(x),mode)) * sqrt(-1);
-             end
-          else
-             if isreal(x)
-                % Purely real
-                y = imag(apply(opA,x,mode)) * -1;
-             elseif isreal(sqrt(-1)*x)
-                % Purely imaginary
-                y = imag(apply(opA,imag(x),mode)) * sqrt(-1) * -1;
-             else
-                % Mixed
-                y = imag(apply(opA,real(x),mode)) * -1 + ...
-                    imag(apply(opA,imag(x),mode)) * sqrt(-1) * -1;
-             end
-          end
+           y = -1 * apply(op.children{1},x,mode);
        end % Multiply
 
     end % Methods

@@ -12,44 +12,29 @@ QUESTIONS
 TODO
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Clean up multiplication implementations, see e.g., opCurvelet
+[] opWavelet.m: Comment
+[] Copy correct version of RWT (with 64-bit code problem resolved)
+[] Comments in the @opSpot files
+[] Set ID property in SVN
+[] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.
 
-opSoftThr.m
-opHardThr.m
+Precedence levels
+1 - Operators that never need brackets, such as opDCT, opPower, opTranspose
+2 - Unary minus
+3 - Multiplication
+4 - Subtraction, addition
 
-opKron.m
-opMask.m
-opOnes.m
-opMinus.m
-opPower.m
-opRestriction.m
-opSparseBinary.m
-opSum.m
-opSurfacelet.m
+get.m
+isfield.m
+set.m
+
 opToepGauss.m
 opToeplitz.m
 opToepSign.m
 opWindow.m
 opZeros.m
 
-bicg.m
-bicgstab.m
-cgs.m
-gmres.m
-lsqr.m
-minres.m
-pcg.m
-qmr.m
-symmlq.m
-
-get.m
-isfield.m
-set.m
-
 diag.m
-kron.m
-minus.m
-mpower.m
-plus.m
 subsasgn.m
 subsref.m
 
@@ -74,10 +59,20 @@ DONE
 - opHeaviside
 - opImag
 - opInverse
+- opKron
 - opMatrix
+- opMask
+- opMinus
+- opOnes
+- opPower
 - opReal
+- opRestriction
+- opSparseBinary
 - opStack
+- opSum
+- opSurfacelet
 - opTranspose
+- opUnaryMinus
 - opWavelet
 
 DONE
@@ -96,13 +91,28 @@ DONE
 - isscalar
 - isreal
 - isempty
+- kron
+- minus
 - mldivide
 - mtimes
+- mpower
 - mrdivide
 - ndims
+- plus
 - real
 - size
 - transpose
+- uminus
 - uplus
 - vertcat
+
+- bicg
+- bicgstab
+- cgs
+- gmres
+- lsqr
+- minres
+- pcg
+- qmr
+- symmlq
 

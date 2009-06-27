@@ -34,7 +34,7 @@ classdef opConj < opSpot
              error('Input operator is not valid.')
           end
           
-          % Check operator consistency and complexity
+          % Construct operator
           [m, n] = size(A);
           op = op@opSpot('Conj', m, n);
           op.cflag      = A.cflag;
@@ -43,6 +43,15 @@ classdef opConj < opSpot
           op.precedence = 1;
        end % Constructor
 
+      
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Display
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function str = char(op)
+          op1 = op.children{1};
+          str = ['Conj(', char(op1), ')'];
+       end % Char
+      
     end % Methods
 
 

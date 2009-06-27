@@ -100,7 +100,7 @@ classdef opGaussian < opSpot
           % Construct object
           op = op@opSpot('Gaussian', m, n);
           op.funHandle = fun;
-      end
+       end % Constructor
 
     end % Methods
        

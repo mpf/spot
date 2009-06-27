@@ -89,13 +89,13 @@ classdef opStack < opSpot
             end
           end
           
-          % Construct object
+          % Construct operator
           op = op@opSpot('Stack', m, n);
           op.cflag      = cflag;
           op.linear     = linear;
           op.children   = opListNew;
           op.precedence = 1;
-       end
+       end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display

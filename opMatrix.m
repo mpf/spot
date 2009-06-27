@@ -48,7 +48,7 @@ classdef opMatrix < opSpot
           op = op@opSpot(description, size(A,1), size(A,2));
           op.cflag  = ~isreal(A);
           op.matrix = A;
-       end
+       end % Constructor
 
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,11 +57,11 @@ classdef opMatrix < opSpot
        function str = char(op)
           if isscalar(op)
              v = op.matrix;
-             str = evalc('disp(v)');
+             str = strtrim(evalc('disp(v)'));
           else
              str = char@opSpot(op);
           end          
-       end
+       end % Char
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Double
@@ -83,7 +83,8 @@ classdef opMatrix < opSpot
            else
               y = op.matrix' * x;
            end
-        end
+        end % Multiply
+
     end % methods
    
-end
+end % Classdef

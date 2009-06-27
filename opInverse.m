@@ -49,7 +49,7 @@ classdef opInverse < opSpot
              error('Input operator is not valid.')
           end
           
-          % Check operator consistency and complexity
+          % Construct operator
           [m, n] = size(A);
           op = op@opSpot('Inverse', n, m);
           op.cflag      = A.cflag;

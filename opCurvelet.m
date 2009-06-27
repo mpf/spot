@@ -73,11 +73,11 @@ classdef opCurvelet < opSpot
           parms = {m,n,cn,hdr,finest,nbscales,nbangles,is_real,ttype};
           fun   = @(x,mode) opCurvelet_intrnl(parms{:},x,mode);
 
-          % Construct object
+          % Construct operator
           op = op@opSpot('Curvelet', cn, m*n);
           op.cflag     = ~is_real;
           op.funHandle = fun;
-      end
+       end % Constructor
 
     end % Methods
        

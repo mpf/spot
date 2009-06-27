@@ -32,22 +32,22 @@ classdef opReal < opSpot
              error('Input operator is not valid.')
           end
           
-          % Check operator consistency and complexity
+          % Construct operator
           [m, n] = size(A);
           op = op@opSpot('real', m, n);
           op.cflag      = false;
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-       end
+       end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
           op1 = op.children{1};
-          str = ['real(', char(op1), ')'];
-       end
+          str = ['Real(', char(op1), ')'];
+       end % Char
        
     end % Methods
 
