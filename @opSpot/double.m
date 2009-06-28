@@ -6,6 +6,6 @@ function M = double(A)
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: double.m 39 2009-06-12 20:59:05Z ewout78 $
+%   $Id$
 
 M = A*speye(size(A,2));

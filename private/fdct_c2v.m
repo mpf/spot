@@ -7,7 +7,7 @@ function c = fdct_c2v(x,cn)
 
 %   Copyright 2008, Gilles Hennenfent and Ewout van den Berg
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: fdct_c2v.m 1027 2008-06-24 23:42:28Z ewout78 $
+%   $Id$
 
 % If vector size is not give, determine from coefficients
 if nargin < 2

@@ -18,7 +18,7 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFFT.m 44 2009-06-17 00:33:32Z ewout78 $
+%   $Id$
 
 classdef opFFT < opSpot
 

@@ -2,7 +2,7 @@ function y = mtimes(A,B)
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: mtimes.m 41 2009-06-15 18:45:23Z ewout78 $
+%   $Id$
 
 % Note that either A or B must be belong to the opSpot class because this
 % function gets called for both M*C, C*M, where C is the class and M is a

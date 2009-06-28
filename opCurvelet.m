@@ -16,7 +16,7 @@
 
 %   Copyright 2009, Gilles Hennenfent, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opCurvelet.m 39 2009-06-12 20:59:05Z ewout78 $
+%   $Id$
 
 classdef opCurvelet < opSpot
 

@@ -9,7 +9,7 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opClass.m 16 2008-08-26 01:19:51Z ewout78 $
+%   $Id$
 
 classdef opClass < opSpot
 

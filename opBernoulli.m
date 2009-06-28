@@ -12,7 +12,7 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opBernoulli.m 43 2009-06-16 23:54:10Z ewout78 $
+%   $Id$
 
 
 classdef opBernoulli < opSpot
