@@ -55,10 +55,10 @@ classdef opDCT < opSpot
         end
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % plot. Really only a pedagocial tool, and only practical to
+        % spy. Really only a pedagocial tool, and only practical to
         % execute for DCTs that have less than, say, a dozen columns.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        function plot(op)
+        function spy(op)
     
            colormap('gray');
            mSig = op.inputdims(1);

@@ -43,6 +43,9 @@ classdef opGaussian < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opGaussian(m,n,mode)
+          if nargin < 2 || isempty(n)
+             n = 1;
+          end
           if nargin < 3 || isempty(mode)
              MByte = 2^20;
              reqst = 8*m*n;      % MBytes requested.
