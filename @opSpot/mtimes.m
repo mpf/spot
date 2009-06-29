@@ -58,7 +58,6 @@ elseif isnumeric(B)
       y = zeros(m,q);
    
       % Perform operator*vector on each column of B
-      [m,n,p,q]
       if isempty(A) % Zero rows or columns
          % Nothing to be done, result will be y
       else

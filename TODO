@@ -9,6 +9,7 @@ QUESTIONS
 [] opInverse.m: Should we base this on spotLSQR, or on Matlab's lsqr (see @opSpot)?
 [] @opSpot/mldivide.m and @opSpot/mrdivide.m correct?
 [] Should A(1:end,1) = [] be the same as A(:,1) = []? What should the size of A(:,:) = [] be?
+[] Should we have get.m, isfield.m, and set.m
 
 TODO
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
@@ -20,7 +21,7 @@ TODO
 [] Set ID property in SVN
 [] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.
 [] For each operator, check if complexity, linear flag needs to be set or not
-[] opSubsRef.m, opSubsAsgn.m: Add proper help
+[] opSubsRef.m, opSubsAsgn.m, opExcise.m: Add proper help
 [] Check constructor comment block in each file
 
 
@@ -30,12 +31,6 @@ Precedence levels
 3 - Multiplication
 4 - Subtraction, addition
 
-get.m
-isfield.m
-set.m
-
-diag.m
-opExcise
 
 DONE
 - opBernoulli
@@ -49,6 +44,7 @@ DONE
 - opDictionary
 - opDirac
 - opEmpty
+- opExcise
 - opEye
 - opFFT
 - opFoG

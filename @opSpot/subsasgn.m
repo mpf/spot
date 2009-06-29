@@ -97,10 +97,10 @@ switch s.type
             result = opEmpty(0,0);
          elseif allIndex(1)
             % Excise columns
-            result = opExcise(s.subs{2},'Cols');
+            result = opExcise(op,s.subs{2},'Cols');
          elseif allIndex(2)
             % Excise rows
-            result = opExcise(s.subs{1},'Rows');
+            result = opExcise(op,s.subs{1},'Rows');
          elseif emptyIndex(1) && emptyIndex(2)
             % Assign empty matrix to emtpy subset
             result= op;
