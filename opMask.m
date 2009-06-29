@@ -1,8 +1,7 @@
 %opMask  Selection mask
 %
-%   opMask(MASK) creates an operator that computes the dot-product of
-%   a given vector with the (binary) mask provided by MASK. If MASK is
-%   a matrix it will be vectorized prior to use.
+%   opMask(N,IDX) creates a diagonal N-by-N operator that has ones
+%   only on those locations indicated by IDX.
 %
 %   See also opDiag, opRestriction.
 
@@ -25,21 +24,35 @@ classdef opMask < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
-        % Constructor
-        function op = opMask(mask)
-           if nargin ~= 1
-              error('Invalid number of arguments.');
-           end
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Constructor
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function op = opMask(n,idx)
+          if nargin ~= 2
+             error('Exactly two operators must be specified.')
+          end
            
-           % Vectorize mask and get size
-           mask = mask(:);
-           n    = length(mask);
+          idx = full(idx(:));
+
+          if islogical(idx)
+             if length(idx) > n
+                error('Index exceeds operator dimensions.');
+             end
+          elseif isposintmat(idx) || isempty(idx)
+             if ~isempty(idx) && (max(idx) > n)
+                error('Index exceeds operator dimensions.');
+             end
+          else
+             error('Subscript indices must either be real positive integers or logicals.');
+          end
+           
+           % Set mask
+           mask = zeros(n,1);
+           mask(idx) = 1;
            
            % Construct operator
            op = op@opSpot('Mask',n,n);
-           op.cflag      = true;
-           op.linear     = true;
-           op.mask       = double(mask ~= 0);
+           op.mask = mask;
         end % Constructor
         
     end % Methods

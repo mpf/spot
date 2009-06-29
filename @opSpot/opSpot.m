@@ -52,6 +52,9 @@ classdef opSpot < handle
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods (Access = protected)
        function y = apply(op,x,mode)
+          % Update counter
+          op.counter(mode) = op.counter(mode) + 1;
+
           y = op.multiply(x,mode);
        end
     end % methods - private
@@ -60,7 +63,7 @@ classdef opSpot < handle
     % Abstract methods -- must be implemented by subclass.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods (Abstract, Access = protected)
-        res = multiply(op,x,mode)
+        y = multiply(op,x,mode)
     end % methods - abstract
     
 end % classdef

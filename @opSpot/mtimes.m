@@ -58,9 +58,15 @@ elseif isnumeric(B)
       y = zeros(m,q);
    
       % Perform operator*vector on each column of B
-      for i=1:q
-          y(:,i) = A.apply(B(:,i),1);
+      [m,n,p,q]
+      if isempty(A) % Zero rows or columns
+         % Nothing to be done, result will be y
+      else
+         for i=1:q
+            y(:,i) = A.apply(B(:,i),1);
+         end
       end
+      
    end   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Both args are Spot ops.

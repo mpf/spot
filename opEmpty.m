@@ -1,26 +1,33 @@
-%opZeros   Operator equivalent to zeros function.
+%opEmpty   Operator equivalent to empty matrix.
 %
-%   opZeros(M,N) creates an operator corresponding to an M-by-N matrix
-%   of zeros. If parameter N is omitted it is set to M.
+%   opZeros(M,N) creates an operator corresponding to an empty M-by-N
+%   matrix. At least one of M and N must be zero.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-classdef opZeros < opSpot
+classdef opEmpty < opSpot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
-        % Constructor
-        function op = opZeros(m,n)
-           if nargin < 1, m = 1; end;
-           if nargin < 2, n = m; end;
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Constructor
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function op = opEmpty(m,n)
+          if nargin ~= 2
+             error('Exactly two operators must be specified.')
+          end
+          
+          if ~((m == 0) || (n == 0))
+             error('At least one dimension must be zero.')
+          end
             
-            op = op@opSpot('Zeros',m,n);
-        end % Constructor
+          op = op@opSpot('Empty',m,n);
+       end % Constructor
         
     end % Methods
     
@@ -32,15 +39,9 @@ classdef opZeros < opSpot
         % Multiplication
         function y = multiply(op,x,mode)
            if (mode == 1)
-              s = op.m;
+              y = zeros(op.m,0);
            else
-              s = op.n;
-           end
-   
-           if any(isinf(x) | isnan(x))
-              y = ones(s,1) * NaN;
-           else
-              y = zeros(s,1);
+              y = zeros(op.n,0);
            end
         end % Multipy
       

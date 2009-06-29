@@ -14,7 +14,7 @@ classdef opTranspose < opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = private)
-       op_intrnl = []; % Internal operator
+       opIntrnl = []; % Internal operator
     end % Properties
 
 
@@ -47,7 +47,7 @@ classdef opTranspose < opSpot
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-          op.op_intrnl  = conj(A)';
+          op.opIntrnl  = conj(A)';
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,7 +70,7 @@ classdef opTranspose < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = apply(op.op_intrnl,x,mode);
+          y = apply(op.opIntrnl,x,mode);
        end % Multiply
 
     end % Methods

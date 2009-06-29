@@ -8,6 +8,7 @@ QUESTIONS
 [] opInverse.m: Should we allow operators such as opInverse on non-linear operators?
 [] opInverse.m: Should we base this on spotLSQR, or on Matlab's lsqr (see @opSpot)?
 [] @opSpot/mldivide.m and @opSpot/mrdivide.m correct?
+[] Should A(1:end,1) = [] be the same as A(:,1) = []? What should the size of A(:,:) = [] be?
 
 TODO
 [] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
@@ -19,6 +20,9 @@ TODO
 [] Set ID property in SVN
 [] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.
 [] For each operator, check if complexity, linear flag needs to be set or not
+[] opSubsRef.m, opSubsAsgn.m: Add proper help
+[] Check constructor comment block in each file
+
 
 Precedence levels
 1 - Operators that never need brackets, such as opDCT, opPower, opTranspose
@@ -30,10 +34,8 @@ get.m
 isfield.m
 set.m
 
-
 diag.m
-subsasgn.m
-subsref.m
+opExcise
 
 DONE
 - opBernoulli
@@ -46,6 +48,7 @@ DONE
 - opDiag
 - opDictionary
 - opDirac
+- opEmpty
 - opEye
 - opFFT
 - opFoG
@@ -66,6 +69,8 @@ DONE
 - opRestriction
 - opSparseBinary
 - opStack
+- opSubsAsgn
+- opSubsRef
 - opSum
 - opSurfacelet
 - opToepGauss
@@ -111,6 +116,8 @@ DONE
 - qmr
 - real
 - size
+- subsasgn
+- subsref
 - symmlq
 - transpose
 - uminus
