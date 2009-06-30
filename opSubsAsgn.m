@@ -109,11 +109,10 @@ classdef opSubsAsgn < opSpot
           
           % Check if index and operator dimensions match
           if isscalar(B)
-             B = opOnes(sizeIndex(1),sizeIndex(2))*double(B);
+             B = opFoG(B,opOnes(sizeIndex(1),sizeIndex(2)));
           elseif (sizeIndex(1) ~= size(B,1)) || (sizeIndex(2) ~= size(B,2))
              error('Subscripted assignment dimension mismatch.');
           end
-          
           
           % Determine final operator size
           m = max(maxIndex(1),size(A,1));

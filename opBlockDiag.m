@@ -125,7 +125,7 @@ classdef opBlockDiag < opSpot
         
           % Construct function handle
           if overlap == 0
-             fun = @(x,mode) opBlockDiag_intrnl(m,n,opList,x,mode);
+             fun = @(x,mode) opBlockDiag_intrnl(m,n,opList,weights,x,mode);
           elseif overlap < 0
              % Overlap in columns
              m = 0; n = 0; colOffset = 0; column = 0;
@@ -139,7 +139,7 @@ classdef opBlockDiag < opSpot
                 column    = column + nOp + overlap; % Overlap is negative
              end
              n = n - colOffset;
-             fun = @(x,mode) opBlockDiagCol_intrnl(m,n,-colOffset,-overlap, opList,x,mode);
+             fun = @(x,mode) opBlockDiagCol_intrnl(m,n,-colOffset,-overlap,opList,weights,x,mode);
           else
              % Overlap in rows
              m = 0; n = 0; rowOffset = 0; row = 0;
@@ -153,7 +153,7 @@ classdef opBlockDiag < opSpot
                 row       = row + mOp - overlap; % Overlap is positive
              end
              m = m - rowOffset;
-             fun = @(x,mode) opBlockDiagRow_intrnl(m,n,-rowOffset,overlap,opList,x,mode);
+             fun = @(x,mode) opBlockDiagRow_intrnl(m,n,-rowOffset,overlap,opList,weights,x,mode);
           end
 
           % Construct operator
@@ -203,7 +203,7 @@ end % Classdef
 %=======================================================================
 
 
-function y = opBlockDiag_intrnl(m,n,opList,x,mode)
+function y = opBlockDiag_intrnl(m,n,opList,weights,x,mode)
 
 kx = 0; ky = 0;
 
@@ -212,7 +212,7 @@ if mode == 1
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+mOp) = op * x(kx+1:kx+nOp);
+      y(ky+1:ky+mOp) = weights(i) * op * x(kx+1:kx+nOp);
       kx = kx + nOp;
       ky = ky + mOp;
    end;
@@ -221,7 +221,7 @@ else
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+nOp) = op' * x(kx+1:kx+mOp);
+      y(ky+1:ky+nOp) = conj(weights(i)) * op' * x(kx+1:kx+mOp);
       kx = kx + mOp;
       ky = ky + nOp;
    end
@@ -232,7 +232,7 @@ end
 %=======================================================================
 
 
-function y = opBlockDiagCol_intrnl(m,n,offset,overlap,opList,x,mode)
+function y = opBlockDiagCol_intrnl(m,n,offset,overlap,opList,weights,x,mode)
 
 kx = 0; ky = 0;
 
@@ -241,7 +241,7 @@ if mode == 1
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+mOp) = op * x(kx+1:kx+nOp);
+      y(ky+1:ky+mOp) = weights(i) * (op * x(kx+1:kx+nOp));
       kx = kx + nOp - overlap;
       ky = ky + mOp;
    end
@@ -250,7 +250,7 @@ else
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+nOp) = y(ky+1:ky+nOp) + op' * x(kx+1:kx+mOp);
+      y(ky+1:ky+nOp) = y(ky+1:ky+nOp) + conj(weights(i))*(op' * x(kx+1:kx+mOp));
       kx = kx + mOp;
       ky = ky + nOp - overlap;
    end   
@@ -260,7 +260,7 @@ end
 %=======================================================================
 
 
-function y = opBlockDiagRow_intrnl(m,n,offset,overlap,opList,x,mode)
+function y = opBlockDiagRow_intrnl(m,n,offset,overlap,opList,weights,x,mode)
 
 kx = 0; ky = 0;
 
@@ -269,7 +269,7 @@ if mode == 1
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+mOp) = y(ky+1:ky+mOp) + op * x(kx+1:kx+nOp);
+      y(ky+1:ky+mOp) = y(ky+1:ky+mOp) + weights(i) * (op * x(kx+1:kx+nOp));
       kx = kx + nOp;
       ky = ky + mOp - overlap;
    end
@@ -278,7 +278,7 @@ else
    for i=1:length(opList)
       op = opList{i};
       [mOp,nOp] = size(op);
-      y(ky+1:ky+nOp) = op' * x(kx+1:kx+mOp);
+      y(ky+1:ky+nOp) = conj(weights(i)) * (op' * x(kx+1:kx+mOp));
       kx = kx + mOp - overlap;
       ky = ky + nOp;
    end   

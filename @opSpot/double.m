@@ -8,4 +8,8 @@ function M = double(A)
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-M = A*speye(size(A,2));
+if size(A,1) < size(A,2)
+   M = (A'*speye(size(A,1)))';
+else
+   M = A*speye(size(A,2));
+end

@@ -114,7 +114,7 @@ switch s.type
       % ---------------------------------------------------------------
       % Check if size of indices and b match
       % ---------------------------------------------------------------
-      if ~(size(b,1) == sizeIndex(1)) || ~(size(b,2) == sizeIndex(2))
+      if ~isscalar(b) && (size(b,1) ~= sizeIndex(1) || size(b,2) ~= sizeIndex(2))
          error('Subscripted assignment dimension mismatch.');
       end
 

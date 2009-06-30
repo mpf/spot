@@ -1,18 +1,13 @@
 TODO
-[] opBlockDiag.m; Is the parameter input okay?
-                  Avoid replicating operator explicitly?
+[] opBlockDiag.m; Avoid replicating operator explicitly?
                   How to display repeated blocks: opBlockDiag(ones(10,1),opDCT(4))?
-   DECISION: Fix weights, add to multiplication; make sure help
-   comment mentions weight vector in combination with a single
+   make sure help comment mentions weight vector in combination with a single
    operator as well.
-[] @opSpot/diag.m; Should this be similar to blkdiag? NO, just like
-   matlab's reverse diag.
+[] @opSpot/diag.m; add documentation
 
 [] opInverse.m: Should we allow operators such as opInverse on
    non-linear operators? NO!!! Check linear flag. LIKEWISE for PCG, LSQR, ...
 
-
-[] @opSpot/double.m; Check dimensions and minimize number of matrix-vector products
 [] Clean up multiplication implementations, see e.g., opCurvelet
 [] opWavelet.m: Help comment
 [] opToeplitz.m, opToepGauss.m, opToepSign.m: Help comment
