@@ -37,7 +37,7 @@ switch s.type
    case {'.'}
       % Set properties and flags
       varargout{1} = op.(s.subs);
-        
+
    case {'{}'}
       error('Cell-indexing is not yet supported.');
  

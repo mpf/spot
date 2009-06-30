@@ -5,8 +5,13 @@ function y = mldivide(A,B)
 %   $Id$
 
 if isscalar(A)
-   y = (1/A) * B;
+   y = (1/double(A)) * B;
 else
-   y = opInverse(A) * B;
+   % Check sizes A and B
+   if size(A,2) ~= size(B,1)
+      error('Operator dimensions must agree.');
+   end
+    
+   y = inv(A) * B;
 end
 

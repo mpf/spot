@@ -7,7 +7,12 @@ function y = mrdivide(A,B)
 %   $Id$
 
 if isscalar(B)
-   y = (1/B) * A;
+   y = (1/double(B)) * A;
 else
-   y = (B' \ A')'
+   % Check sizes A and B
+   if size(A,2) ~= size(B,1)
+      error('Operator dimensions must agree.');
+   end
+
+   y = A * inv(B);
 end

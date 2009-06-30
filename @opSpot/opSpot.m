@@ -25,6 +25,7 @@ classdef opSpot < handle
         children = {};    % Constituent operators (for a meta operator)
         precedence = 1;
     end
+    
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Public methods

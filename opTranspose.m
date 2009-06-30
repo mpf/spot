@@ -13,7 +13,7 @@ classdef opTranspose < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
+    properties (Access = private)
        opIntrnl = []; % Internal operator
     end % Properties
 
@@ -39,7 +39,7 @@ classdef opTranspose < opSpot
           if ~isa(A,'opSpot')
              error('Input operator is not valid.')
           end
-          
+
           % Construct operator
           [m, n] = size(A);
           op = op@opSpot('Transpose', n, m);
@@ -47,7 +47,7 @@ classdef opTranspose < opSpot
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-          op.opIntrnl  = conj(A)';
+          op.opIntrnl   = conj(A)';
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
