@@ -1,30 +1,49 @@
 %opBernoulli   Bernoulli-ensemble operator.
 %
-%   opBernoulli(M,N,MODE) creates an M-by-N Bernoulli-ensemble
-%   operator. By setting MODE a number of different types of
-%   ensemble can be generated; MODE = 0 (default) explicitly
-%   creates an unnormalized matrix with random +1 and -1
-%   entries. MODE = 1 generates columns of the unnormalized matrix
-%   as the operator is applied. This allows for much larger
-%   ensembles since the matrix is implicit. For MODE = 2,3 columns
-%   are scaled to have unit Euclidean norm, when MODE = 3 the
-%   matrix is implicit.
+%   opBernoulli(M,N) creates an M-by-N Bernoulli ensemble, a matrix
+%   with iid +1/-1 entries.
+%
+%   opBernoulli(M) creates a square M-by-M Bernoulli ensemble.
+%
+%   opBernoulli(M,N,MODE) is the same as above, except that the
+%   parameter MODE controls the type of ensemble that is generated.
+%   The default is MODE=0 unless the overall memory requred exceeds 50
+%   MBs.
+%
+%   MODE = 0 (default): generates an explicit unnormalized matrix with
+%   random +1/-1 entries. The overall storage is O(M*N).
+%
+%   MODE = 1: generates columns of the unnormalized matrix as the
+%   operator is applied. This allows for much larger ensembles since
+%   the matrix is implicit. The overall storage is O(M).
+%
+%   MODE = 2: generates a scaled explicit matrix with unit-norm
+%   columns.
+%
+%   MODE = 3: same as MODE=2, but the matrix is implicit (see MODE=1).
+%
+%   Available operator properties:
+%   .mode  gives the mode used to create the operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-
 classdef opBernoulli < opSpot
-
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-       funHandle = []; % Multiplication function
+    properties ( Access = private )
+       funHandle      % multiplication function
+       matrix         % storage for explicit matrix (if needed)
     end % Properties
 
+    properties ( SetAccess = private, GetAccess = public )
+       mode           % mode used when operator was created
+       seed           % RNG seed when operator was created
+    end % properties
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,23 +53,23 @@ classdef opBernoulli < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opBernoulli(m,n,mode)
-          
-          if nargin < 2
-             error('At least two argument must be specified.')
+          if nargin < 2 || isempty(n)
+             n = m;
           end
-          if nargin > 3
-             error('At most three arguments can be specified.')
+          if nargin < 3 || isempty(mode)
+             MByte = 2^20;
+             reqst = 8*m*n;      % MBytes requested.
+             if reqst < 10*MByte % If it's less than 10 MB,
+                mode = 0;        % use explicit matrix.
+             else
+                mode = 1;
+             end
           end
-          if nargin < 3, mode = 0; end
 
-          % Check type
-          if ~ismember(mode,[0,1,2,3])
-             error('Invalid Bernoulli type.')
-          end
-         
           % Create object
           op = op@opSpot('Bernoulli', m, n);
-          op.precedence = 1;
+          op.seed = randn('state');
+          op.mode = mode;
           
           switch mode
              case 0
@@ -58,7 +77,7 @@ classdef opBernoulli < opSpot
                 fun = @(x,mode) multiplyExplicit(op,A,x,mode);
                
              case 1
-                seed = randn('state');
+                A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
                 fun = @(x,mode) multiplyImplicit(op,seed,1,x,mode);
 
@@ -67,10 +86,14 @@ classdef opBernoulli < opSpot
                 fun = @(x,mode) multiplyExplicit(op,A,x,mode);
               
              case 3
-                seed = randn('state');
+                A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
                 fun = @(x,mode) multiplyImplicit(op,seed,1/sqrt(m),x,mode);
+                
+            case 4
+                error('Invalid mode.')
           end
+          op.matrix = A;
           op.funHandle = fun;
        end % Constructor
 
@@ -78,10 +101,10 @@ classdef opBernoulli < opSpot
        % Double
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function x = double(op)
-          if ~isempty(op.matrix)
-             x = op.matrix;
-          else
+          if isempty(op.matrix)
              x = double@opSpot(op);
+          else
+             x = op.matrix;
           end
        end % Double
 
@@ -101,32 +124,34 @@ classdef opBernoulli < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply - Explicit matrix
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function y = multiplyExplicit(op,A,x,mode)
+       function y = multiplyExplicit(op,x,mode)
           if mode == 1
-             y = A * x;
+             y = op.matrix * x;
           else
-             y = A' * x;
+             y = op.matrix' * x;
           end
        end % Multiply explicit
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply -  Implicit
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function y = multiplyImplicit(op,seed,scale,x,mode)
+       function y = multiplyImplicit(op,scale,x,mode)
+          m = op.m;
+          n = op.n;
           % Store current random number generator state
           seed0 = randn('state');
-          randn('state',seed);
+          randn('state',op.seed);
 
           if mode == 1
-             y = zeros(op.m,1);
-             for i=1:op.n
-                v = 2.0 * (randn(op.m,1) < 0) - 1;
+             y = zeros(m,1);
+             for i=1:n
+                v = 2.0 * (randn(m,1) < 0) - 1;
                 y = y + v * x(i);
              end
           else
-             y = zeros(op.n,1);
-             for i=1:op.n
-                v    = 2.0 * (randn(1,op.m) < 0) - 1;
+             y = zeros(n,1);
+             for i=1:n
+                v    = 2.0 * (randn(1,m) < 0) - 1;
                 y(i) = v * x;
              end
           end

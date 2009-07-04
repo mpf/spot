@@ -1,8 +1,8 @@
 %opFunction   Wrapper for functions
 %
-%   opFunction(M,N,FUN,CFLAG,LINFLAG) creates a wrapper for
-%   function FUN, which corresponds to an M by N operator. The FUN
-%   parameter can be one of two types:
+%   opFunction(M,N,FUN,CFLAG,LINFLAG) creates a wrapper for function
+%   FUN, which corresponds to an M-by-N operator. The FUN parameter
+%   can be one of two types:
 %
 %   1) A handle to a function of the form FUN(X,MODE), where the
 %      operator is applied to X when MODE = 1, and the transpose is
@@ -23,10 +23,9 @@ classdef opFunction < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-       funHandle = {}; % Function handles
+    properties ( SetAccess = private )
+       funHandle  % Function handles
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -34,29 +33,34 @@ classdef opFunction < opSpot
     methods
         
         % Constructor
-        function op = opFunnction(m,n,funhandle,cflag,linflag)
-           if nargin < 5, linflag = 1; end;
-           if nargin < 4, cflag   = 0; end;
+        function op = opFunction(m,n,funhandle,cflag,linflag)
 
            if nargin < 3
               error('opFunction requires at least three parameters.');
            end
-
+           if nargin < 4 || isempty(cflag)
+              cflag = 0;
+           end
+           if nargin < 5 || isempty(linflag)
+              linflag = 1;
+           end
            if ~isposintscalar(m) || ~isposintscalar(n)
               error('Dimensions of operator must be positive integers.');
            end
-
+           
            if iscell(funhandle) && length(funhandle) == 2
               if ~isa(funhandle{1},'function_handle') || ...
                  ~isa(funhandle{2},'function_handle')
                  error('Invalid function handle specified.');
               end
-  
               fun = @(x,mode) opFunction_intrnl(funhandle,x,mode);
+              
            elseif isa(funhandle,'function_handle')
               fun = @(x,mode) funhandle(x,mode);
+              
            else
               error('Invalid function handle specified.');
+              
            end
            
            % Construct operator
@@ -82,9 +86,7 @@ classdef opFunction < opSpot
         
 end % Classdef
 
-
 %======================================================================
-
 
 function y = opFunction_intrnl(funhandle,x,mode)
 if mode == 1

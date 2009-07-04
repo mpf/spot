@@ -1,14 +1,13 @@
 %opBlockDiag   Operator-diagonal operator
 %
-%   B = opBlockDiag(OP1, OP2,...,OPN,OVERLAP) creates a compound
-%   block operator with the input operators OP1, OP2,... on the
-%   diagonal of B, e.g., B = DIAG([OP1 OP2 ... OPN]). When OVERLAP
-%   is a positive integer the blocks will be offset OVERLAP rows
-%   relative to the previous operator, when OVERLAP is negative the
-%   operators are offset by the absolute value of OVERLAP in
-%   columns. Note that when choosing OVERLAP larger than the
-%   operator size may cause the matrix to become block
-%   antidiagonal.
+%   B = opBlockDiag(OP1, OP2,...,OPN,OVERLAP) creates a compound block
+%   operator with the input operators OP1, OP2,... on the diagonal of
+%   B, e.g., B = DIAG([OP1 OP2 ... OPN]). When OVERLAP is a positive
+%   integer the blocks will be offset OVERLAP rows relative to the
+%   previous operator, when OVERLAP is negative the operators are
+%   offset by the absolute value of OVERLAP in columns. Note that
+%   choosing OVERLAP larger than the operator size may cause the
+%   matrix to become block antidiagonal.
 %
 %   B = opBlockDiag(WEIGHT,OP1,...,OPN,OVERLAP) additionally
 %   weights each block by the elements of the vector WEIGHT. If
@@ -33,7 +32,6 @@ classdef opBlockDiag < opSpot
     properties (SetAccess = private)
        funHandle = []; % Multiplication function
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

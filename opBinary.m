@@ -1,11 +1,20 @@
 %opBinary   Binary (0/1) ensemble
 %
-%   OP = opBinary(M,N,MODE) creates an M by N binary ensemble
-%   operator. When choosing MODE = 0 an explicit binary matrix is
-%   formed and used when applying the operator. Choosing MODE = 1
-%   causes the operator to generate the above matrix on the fly,
-%   each time the operator is used. This mode can be used when
-%   dealing with very large matrices.
+%   opBinary(M,N) creates an M-by-N binary-ensemble operator.
+%
+%   opBinary(M) creates a square M-by-B binary-ensemble.
+%
+%   opGaussian(M,N,MODE) is the same as above, except that the
+%   parameter MODE controls the type of ensemble that is generated.
+%   The default is MODE=0 unless the overall memory requred exceeds 50
+%   MBs.
+%
+%   MODE = 0 (default): generates an explicit matrix with O(M*N)
+%   storage.
+%
+%   MODE = 1: generates columns of the matrix as the operator is
+%   applied. This allows for much larger ensembles because the matrix
+%   is stored implicitly. The overall storage is O(M).
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
@@ -14,15 +23,19 @@
 
 classdef opBinary < opSpot
 
-   
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-        seed   = 0;  % Random state
-        matrix = []; % Explicit matrix form
-    end % Properties
+    properties ( Access = private )
+       funHandle      % multiplication function
+       matrix         % storage for explicit matrix (if needed)
+    end % properties
 
+    properties ( SetAccess = private, GetAccess = public )
+       mode           % Mode used when operator was created
+       seed           % RNG seed when operator was created
+    end % properties
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,22 +46,22 @@ classdef opBinary < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opBinary(m,n,mode)
           
-          if nargin < 2
-             error('At least two argument must be specified.')
+          if nargin < 2 || isempty(n)
+             n = m;
           end
-          if nargin > 3
-             error('At most three arguments can be specified.')
-          end
-          if nargin < 3, mode = 0; end
-
-          % Check type
-          if ~ismember(mode,[0,1])
-             error('Invalid Binary type.')
+          if nargin < 3 || isempty(mode)
+             MByte = 2^20;
+             reqst = 8*m*n;      % MBytes requested.
+             if reqst < 10*MByte % If it's less than 10 MB,
+                mode = 0;        % use explicit matrix.
+             else
+                mode = 1;
+             end
           end
          
           % Create object
           op = op@opSpot('Binary', m, n);
-          op.precedence = 1;
+          op.mode = mode;
 
           switch mode
              case 0
@@ -57,6 +70,9 @@ classdef opBinary < opSpot
              case 1
                 op.seed = randn('state');
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
+                
+            otherwise
+                error('Invalid mode.')
           end
        end % Constructor
 
@@ -64,10 +80,10 @@ classdef opBinary < opSpot
        % Double
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function x = double(op)
-          if ~isempty(op.matrix)
-             x = op.matrix;
-          else
+          if isempty(op.matrix)
              x = double@opSpot(op);
+          else
+             x = op.matrix;
           end          
        end % Double
 
