@@ -12,7 +12,6 @@
 %   $Id$
 
 classdef opClass < opSpot
-
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -38,8 +37,8 @@ classdef opClass < opSpot
               error('opClass requires at least three parameters.');
            end
 
-           if ~isposintscalar(m) || ~isposintscalar(n)
-              error('Dimensions of operator must be positive integers.');
+           if round(m) ~= m || round(n) ~= n
+              error('Size parameters must be integer.');
            end
            
            if ~isobject(obj)
@@ -55,7 +54,6 @@ classdef opClass < opSpot
           op = op@opSpot(description, m, n);
           op.cflag      = cflag;
           op.linear     = linflag;
-          op.precedence = 1;
           op.obj        = obj;
        end
 

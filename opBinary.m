@@ -62,6 +62,7 @@ classdef opBinary < opSpot
           % Create object
           op = op@opSpot('Binary', m, n);
           op.mode = mode;
+          [m,n] = size(op);
 
           switch mode
              case 0

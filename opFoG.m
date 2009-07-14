@@ -14,7 +14,6 @@
 %   $Id$
 
 classdef opFoG < opSpot
-
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -45,7 +44,6 @@ classdef opFoG < opSpot
           if ~( isa(A,'opSpot') && isa(B,'opSpot') )
              error('One of the operators is not a valid input.')
           end
-          
           
           % Check operator consistency and complexity
           [mA, nA] = size(A);

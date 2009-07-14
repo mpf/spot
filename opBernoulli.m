@@ -70,6 +70,7 @@ classdef opBernoulli < opSpot
           op = op@opSpot('Bernoulli', m, n);
           op.seed = randn('state');
           op.mode = mode;
+          [m,n] = size(op);
           
           switch mode
              case 0

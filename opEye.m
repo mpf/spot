@@ -17,10 +17,9 @@ classdef opEye < opSpot
         
         % Constructor
         function op = opEye(m,n)
-           if nargin < 1, m = 1; end;
-           if nargin < 2, n = m; end;
-            
-            op = op@opSpot('Eye',m,n);
+           if nargin < 1, m = 1; end
+           if nargin < 2, n = m; end
+           op = op@opSpot('Eye',m,n);
         end % Constructor
         
     end % Methods

@@ -25,8 +25,7 @@ classdef opSpot < handle
         children = {};    % Constituent operators (for a meta operator)
         precedence = 1;
     end
-    
-        
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,6 +37,13 @@ classdef opSpot < handle
                % Relax -- empty constructor.
             
             elseif nargin == 3
+                m = max(0,m);
+                n = max(0,n);
+                if round(m) ~= m || round(n) ~= n
+                    warning('Size parameters are not integer.');
+                    m = floor(m);
+                    n = floor(n);
+                end
                 op.type = type;
                 op.m    = m;
                 op.n    = n;

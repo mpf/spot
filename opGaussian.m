@@ -71,6 +71,7 @@ classdef opGaussian < opSpot
           op = op@opSpot('Gaussian', m, n);
           op.seed = randn('state');
           op.mode = mode;
+          [m,n] = size(op);
           
           % Construct the internal representation
           switch mode

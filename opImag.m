@@ -39,7 +39,6 @@ classdef opImag < opSpot
           op.cflag      = false;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,7 +50,6 @@ classdef opImag < opSpot
        end % Char
        
     end % Methods
-
 
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

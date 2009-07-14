@@ -17,10 +17,13 @@ classdef opFFT2 < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
+    properties ( SetAccess = private )
        funHandle = []; % Multiplication function
     end % Properties
 
+    properties ( SetAccess = private, GetAccess = public )
+       centered = false;
+    end % properties
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -32,19 +35,19 @@ classdef opFFT2 < opSpot
            if nargin < 2 || nargin > 3
               error('Invalid number of arguments to opFFT2.');
            end
-           if nargin < 3, centered = false; end;
-
+           if nargin == 3 && islogical(centered)
+              centered = true;
+           end
            if  ~isscalar(m) || m~=round(m) || m <= 0
               error('First argument to opFFT2 has to be a positive integer.');
            end
-           
            if  ~isscalar(n) || n~=round(n) || n <= 0
               error('Second argument to opFFT2 has to be a positive integer.');
            end
 
-           if ~(isscalar(centered))
-              error('Third argument to opFFT2 must be a scalar.');
-           end
+           op = op@opSpot('FFT2',m*n,m*n);
+           op.centered  = centered;
+           op.cflag     = true;
 
            % Initialize function handle
            if centered
@@ -52,9 +55,6 @@ classdef opFFT2 < opSpot
            else
               fun = @(x,mode) opFFT2d_intrnl(m,n,x,mode);
            end
-           
-           op = op@opSpot('FFT2',m*n,m*n);
-           op.cflag     = true;
            op.funHandle = fun;
         end
         

@@ -17,10 +17,13 @@ classdef opFFT < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
+    properties ( SetAccess = private )
        funHandle = []; % Multiplication function
     end % Properties
 
+    properties ( SetAccess = private, GetAccess = public )
+       centered = false;
+    end % properties
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -32,25 +35,26 @@ classdef opFFT < opSpot
            if nargin < 1 || nargin > 2
               error('Invalid number of arguments to opFFT.');
            end
-           if nargin < 2, centered = false; end;
-
+           if nargin == 2 && islogical(centered)
+              centered = true;
+           end
            if  ~isscalar(m) || m~=round(m) || m <= 0
               error('First argument to opFFT has to be a positive integer.');
            end
-
            if ~(isscalar(centered))
               error('Second argument to opFFT must be a scalar.');
            end
  
+           op = op@opSpot('FFT',m,m);
+           op.centered = centered;
+           op.cflag    = true;
+
            % Create function handle
            if centered
-              fun = @(x,mode) opFFT_centered_intrnl(m,x,mode);
+              fun = @(x,mode) opFFT_centered_intrnl(op,x,mode);
            else
-              fun = @(x,mode) opFFT_intrnl(m,x,mode);
-           end
-           
-           op = op@opSpot('FFT',m,m);
-           op.cflag     = true;
+              fun = @(x,mode) opFFT_intrnl(op,x,mode);
+           end 
            op.funHandle = fun;
         end
         
@@ -67,31 +71,35 @@ classdef opFFT < opSpot
         end % Multiply
       
     end % Methods
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Methods - private
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    methods( Access = private )
         
+        function y = opFFT_intrnl(op,x,mode)
+           % One-dimensional DFT
+           n = op.n;
+           if mode == 1
+               % Analysis
+               y = fft(full(x)) / sqrt(n);
+           else
+               % Synthesis
+               y = ifft(full(x)) * sqrt(n);
+           end
+        end
+
+        function y = opFFT_centered_intrnl(n,x,mode)
+           % One-dimensional DFT - Centered
+           n = op.n;
+           if mode == 1
+               y = fftshift(fft(full(x))) / sqrt(n);
+           else
+               y = ifft(ifftshift(full(x))) * sqrt(n);
+           end
+        end
+           
+   end % Methods
+    
 end % Classdef
 
-
-%======================================================================
-
-
-% One-dimensional DFT
-function y = opFFT_intrnl(n,x,mode)
-if mode == 1
-   % Analysis
-   y = fft(full(x)) / sqrt(n);
-else
-   % Synthesis
-   y = ifft(full(x)) * sqrt(n);
-end
-end
-
-%======================================================================
-
-% One-dimensional DFT - Centered
-function y = opFFT_centered_intrnl(n,x,mode)
-if mode == 1
-   y = fftshift(fft(full(x))) / sqrt(n);
-else
-   y = ifft(ifftshift(full(x))) * sqrt(n);
-end
-end

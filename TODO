@@ -1,24 +1,43 @@
 TODO 
 
+[] opHadamard: normalized flag not being used.
+
+[] opFFT: should this be unnormalized so that it mimics Matlab's
+          built-in fft? In other words, should we expect fft(y) ==
+          opFFT*y?
+
+[] sparse vectors: will operators work on mat-sparse-vecs?
+
+[] opSpot class: move funhandle and matrix props, which are def'd in
+   many (most?!) of the subclasses, into opSpot. (These are used too
+   often.) Then can have opSpot/double.m do a simple check if
+   ~isempty(op.matrix).
+
+[] isposintmat lives in both private and @opSpot/private -- is this
+really neces sary!
+
 [] Read the Rice Vector Library manual.
 
 [] Method for generating random elements (ie, vectors) from domain and
-range of operator. Note: special cases such as real FFT. Useful for
-dot-tests.
+   range of operator. Note: special cases such as real FFT. Useful for
+   dot-tests.
 
-[] opGaussian (and related implicit random matrices): Not sure if
-the RNG advancement is being done consistently.  If the "internal"
-routines are allocating random m-vectors column-by-column, shouldn't
-the advancement also be done column-by-column?
+[] opGaussian (and related implicit random matrices): Not sure if the
+   RNG advancement is being done consistently.  If the "internal"
+   routines are allocating random m-vectors column-by-column,
+   shouldn't the advancement also be done column-by-column?
 
-[] opBlockDiag.m; Avoid replicating operator explicitly?
-                  How to display repeated blocks: opBlockDiag(ones(10,1),opDCT(4))?
-   make sure help comment mentions weight vector in combination with a single
-   operator as well.
+[] opBlockDiag.m: Avoid replicating operator explicitly?  How to
+                  display repeated blocks:
+                  opBlockDiag(ones(10,1),opDCT(4))?  make sure help
+                  comment mentions weight vector in combination with a
+                  single operator as well.
+
 [] @opSpot/diag.m; add documentation
 
 [] opInverse.m: Should we allow operators such as opInverse on
-   non-linear operators? NO!!! Check linear flag. LIKEWISE for PCG, LSQR, ...
+   non-linear operators? NO!!! Check linear flag. LIKEWISE for PCG,
+   LSQR, ...
 
 [] Clean up multiplication implementations, see e.g., opCurvelet
 [] opWavelet.m: Help comment
