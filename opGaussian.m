@@ -24,7 +24,8 @@
 %   This mode requires M <= N.
 %
 %   Available operator properties:
-%   .mode  gives the mode used to create the operator.
+%   .mode  is the mode used to create the operator.
+%   .seed  is the seed used to initialize the RNG.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco

@@ -59,6 +59,13 @@ Precedence levels
 3 - Multiplication
 4 - Subtraction, addition
 
+DOCUMENTATION
+-------------
+
+[] Note that the random operators depend on old-style calls to
+randn('state'). These are not compatible with the latest stream-based
+calls. Need to document this.
+
 
 DONE
 - opBernoulli
