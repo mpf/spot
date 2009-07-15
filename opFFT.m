@@ -37,12 +37,11 @@ classdef opFFT < opSpot
            end
            if nargin == 2 && islogical(centered)
               centered = true;
+           else
+              centered = false;
            end
            if  ~isscalar(m) || m~=round(m) || m <= 0
               error('First argument to opFFT has to be a positive integer.');
-           end
-           if ~(isscalar(centered))
-              error('Second argument to opFFT must be a scalar.');
            end
  
            op = op@opSpot('FFT',m,m);
