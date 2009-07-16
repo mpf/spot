@@ -1,6 +1,7 @@
-function btIsEmpty(A)
+function test_IsEmpty(data)
 %btIsEmpty(A) Unit test for isempty
 %this test assumes double is implemented correctly.
+A=data.operator;
 
     B = double(A);
     assertEqual(isempty(A),isempty(B));

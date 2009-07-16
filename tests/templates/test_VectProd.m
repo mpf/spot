@@ -1,4 +1,4 @@
-function btVectProd(A,tol)
+function test_VectProd(data)
 %btLeftNRightProd(A,tol) Unit test for basic spot operators. 
 %B=double(A)
 %A*x is compared with B*x
@@ -7,7 +7,8 @@ function btVectProd(A,tol)
 %y*A*x is compared with y*B*x
 %x'*A'*y' is compared with x'*B'*y'
 %y*A*x is compared with x'*A'*y'
-
+A=data.operator;
+tol=data.relativeTol;
 
 debug = false;
 if nargin < 2
@@ -56,3 +57,5 @@ assertElementsAlmostEqual(x'*A', x'*B', 'relative', tol)
 assertElementsAlmostEqual(x'*A'*y', x'*B'*y', 'relative', tol);
 
 end
+
+%endoftemplate

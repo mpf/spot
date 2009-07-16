@@ -1,6 +1,8 @@
-function btNormEst(A, tol)
+function test_NormEst(data)
 %btNormEst(A, tol) Unit test for normest
 %this test assumes double is implemented correctly.
+A=data.operator;
+tol=data.relativeTol;
 
 a = normest(A);
 b = normest(double(A));
