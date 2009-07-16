@@ -18,11 +18,6 @@ really neces sary!
    range of operator. Note: special cases such as real FFT. Useful for
    dot-tests.
 
-[] opGaussian (and related implicit random matrices): Not sure if the
-   RNG advancement is being done consistently.  If the "internal"
-   routines are allocating random m-vectors column-by-column,
-   shouldn't the advancement also be done column-by-column?
-
 [] opBlockDiag.m: Avoid replicating operator explicitly?  How to
                   display repeated blocks:
                   opBlockDiag(ones(10,1),opDCT(4))?  make sure help
