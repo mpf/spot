@@ -1,0 +1,34 @@
+What are these funny ".mhelp" files?!
+-------------------------------------
+
+Some users of Matlab 7.0.4 have reported that the Rice Wavelet Toolbox
+MEX interfaces aren't being found.  Instead, the .m files (which only
+contain the help text) are taking precedence, and function calls to
+these routines cause an error.
+
+A simple workaround is to move these .m help files so that Matlab
+doesn't have to choose between them and the MEX versions.  We've
+renamed these files:
+
+mdwt.m    to  mdwt.mhelp
+midwt.m   to  midwt.mhelpm
+mirdwt.m  to  mirdwt.mhelpm
+mrdwt.dll to  mrdwt.mhelpm
+
+What's up with 64-bit Matlab?
+-----------------------------
+
+Round about Matlab R2008a, Mathworks introduced the derived types
+mwSize and mwIndex for use in MEX interfaces. These new types replace
+"int" declarations that are used for sizing and indexing arrays, and
+are there for compatability between 32-bit and 64-bit Matlab.
+
+We've adjusted the c-source files as necessary so that the RWT now
+compiles and runs correctly on a 64-bit version of Matlab. However, we
+haven't tested these routines for large 64-bit arrays.
+
+
+-- The Sparco development team
+   (Michael P. Friedlander and Ewout van den Berg)
+$Id: README.sparco 1391 2009-06-06 21:23:14Z mpf $
+

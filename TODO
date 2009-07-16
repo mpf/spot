@@ -1,6 +1,4 @@
-TODO 
-
-[] opHadamard: normalized flag not being used.
+TODO ($Id$)
 
 [] sparse vectors: will operators work on mat-sparse-vecs?
 
@@ -33,7 +31,6 @@ really neces sary!
 [] Clean up multiplication implementations, see e.g., opCurvelet
 [] opWavelet.m: Help comment
 [] opToeplitz.m, opToepGauss.m, opToepSign.m: Help comment
-[] Copy correct version of RWT (with 64-bit code problem resolved)
 [] Comments in the @opSpot files
 [] Set ID property in SVN
 [] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.

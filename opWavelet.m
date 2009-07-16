@@ -1,35 +1,35 @@
 %opWavelet   Wavelet operator
 %
-%   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) creates a
-%   wavelet operator of given FAMILY, for M by N matrices. The wavelet
-%   transformation is computed using the Rice Wavelet Toolbox.  The
-%   values supported for FAMILY are 'Daubechies' and 'Haar'.
+%   opWavelet(M,N,FAMILY) creates a wavelet operator of given FAMILY, for
+%   M-by-N matrices. The wavelet transformation is computed using the Rice
+%   Wavelet Toolbox.  The values supported for FAMILY are 'Daubechies' and
+%   'Haar'.
 %
-%   The remaining four parameters are optional. FILTER (= 8) specifies
-%   the filter length and must be even. LEVELS (= 5) gives the number
-%   of levels in the transformation. Both M and N must be divisible by
-%   2^LEVELS. The Boolean field REDUNDANT (= false) indicates whether
-%   the wavelet is redundant. TYPE (= 'min') indictates what type of
-%   solution is desired; 'min' for minimum phase, 'max' for maximum
-%   phase, and 'mid' for mid-phase solutions.
+%   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
+%   additional parameters: FILTER (default 8) specifies the filter length,
+%   which must be even. LEVELS (default 5) gives the number of levels in
+%   the transformation. Both M and N must be divisible by 2^LEVELS. The
+%   Boolean field REDUNDANT (default false) indicates whether the wavelet
+%   is redundant. TYPE (default 'min') indictates what type of solution is
+%   desired; 'min' for minimum phase, 'max' for maximum phase, and 'mid'
+%   for mid-phase solutions.
 
-%   Copyright 2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
+%   Copyright 2007-2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
 classdef opWavelet < opSpot
-
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
+    properties( SetAccess = private, GetAccess = public )
        family    = ''; % Wavelet family
        filter    = 0;  % Filter length
        levels    = 0;  % Number of levels
        redundant = 0;  % Redundant flag
        funHandle = []; % Multiplication function
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -40,22 +40,22 @@ classdef opWavelet < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opWavelet(m,n,family,filter,levels,redundant,type)
-          if (nargin < 3), family    = 'Daubechies'; end;
-          if (nargin < 4), filter    = 8;            end;
-          if (nargin < 5), levels    = 5;            end;
-          if (nargin < 6), redundant = false;        end;
-          if (nargin < 7), type      = 'min';        end;
+          if nargin < 3, family    = 'Daubechies'; end
+          if nargin < 4, filter    = 8;            end
+          if nargin < 5, levels    = 5;            end
+          if nargin < 6, redundant = false;        end
+          if nargin < 7, type      = 'min';        end
 
           family = lower(family);
 
           switch family
              case {'daubechies'}
                 family = 'Daubechies';
-                h = daubcqf(filter);
+                h = rwt.daubcqf(filter);
     
              case {'haar'}
                 family = 'Haar';
-                h = daubcqf(0);
+                h = rwt.daubcqf(0);
     
              otherwise
                 error('Wavelet family %s is unknown.', family);
@@ -80,9 +80,8 @@ classdef opWavelet < opSpot
        end % Constructor
 
     end % Methods
-       
- 
-    methods ( Access = protected )
+    
+    methods( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,20 +100,20 @@ end % Classdef
 function y = opWavelet_intrnl(m,n,family,filter,levels,type,h,x,mode)
 if mode == 1
    if isreal(x)
-      [y,l] = mdwt(reshape(x,[m,n]), h, levels);
+      y = rwt.mdwt(reshape(x,[m,n]), h, levels);
    else
-      [y1,l] = mdwt(reshape(real(x),[m,n]), h, levels);
-      [y2,l] = mdwt(reshape(imag(x),[m,n]), h, levels);
-     y = y1 + sqrt(-1) * y2;    
+      y1 = rwt.mdwt(reshape(real(x),[m,n]), h, levels);
+      y2 = rwt.mdwt(reshape(imag(x),[m,n]), h, levels);
+      y = y1 + sqrt(-1) * y2;
    end   
    y = reshape(y,[m*n,1]);
 else
    if isreal(x)
-     [y,l] = midwt(reshape(x,[m,n]), h, levels);
+      y = rwt.midwt(reshape(x,[m,n]), h, levels);
    else
-     [y1,l] = midwt(reshape(real(x),[m,n]), h, levels);
-     [y2,l] = midwt(reshape(imag(x),[m,n]), h, levels);
-     y = y1 + sqrt(-1) * y2;    
+      y1 = rwt.midwt(reshape(real(x),[m,n]), h, levels);
+      y2 = rwt.midwt(reshape(imag(x),[m,n]), h, levels);
+      y  = y1 + sqrt(-1) * y2;
    end
    y = reshape(y,[m*n,1]);
 end
