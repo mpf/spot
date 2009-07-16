@@ -4,10 +4,8 @@ initTestSuite;
 end
 
 function test_char_elementaryops
-list = opBasic();
-
-for i=1:length(list)
-    assertEqual(1,1)
-end
-
+   m = 2; n = 2;
+   assertEqual( char(opBernoulli(m,n)),'Bernoulli(2,2)' )
+   assertEqual( char(opBinary(m,n))   ,'Binary(2,2)' )
+   % 15 Jul 09, MPF: Need to add asserts for other elementary ops.   
 end

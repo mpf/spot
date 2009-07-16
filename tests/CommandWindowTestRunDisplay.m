@@ -36,6 +36,9 @@ classdef CommandWindowTestRunDisplay < TestRunMonitor
         %InitialTic - Out of tic at beginning of test run
         InitialTic
         
+        %ComponentTic - Time for a particular test
+        ComponentTic
+        
         %InitialComponent First test component executed
         %   InitialComponent is set to the first test component executed in the
         %   test run.  This component is saved so that the end of the test run
@@ -56,6 +59,7 @@ classdef CommandWindowTestRunDisplay < TestRunMonitor
                 self.InitialComponent = component;
                 self.testRunStarted(component);
             end
+            self.ComponentTic = tic;
         end    
             
         function testComponentFinished(self, component, did_pass)
@@ -73,13 +77,9 @@ classdef CommandWindowTestRunDisplay < TestRunMonitor
                 if did_pass
                    fprintf('[pass]');
                 else
-                    fprintf('[fail]');
+                   fprintf('[fail]');
                 end
-                fprintf('\n');
-                %line_length = 20;
-                %if mod(self.TestCaseCount, line_length) == 0
-                %    fprintf('\n');
-                %end
+                fprintf('%7.2f sec\n',toc(self.ComponentTic))
             end
             
             if isequal(component, self.InitialComponent)
