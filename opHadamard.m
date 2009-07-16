@@ -1,41 +1,44 @@
 %opHadamard   Hadamard matrix
 %
-%    opHadamard(N,NORMALIZED) creates a Hadamard operator for vectors
-%    of length N, where N is a power of two. Multiplication is done
-%    using a fast routine. When the normalized flag is set, the
-%    columns of the Hadamard matrix are scaled to unit two-norm. By
-%    default the NORMALIZED flag is set to 0.
+%   opHadamard(N) creates a Hadamard operator for vectors of length
+%   N, where N is a power of two. Multiplication is done using a fast
+%   routine.
+%
+%   opHadamard(N,NORMALIZED) is the same as above, except that the
+%   columns are scaled to unit two-norm. By default, the NORMALIZED
+%   flag is set to FALSE.
+
+%   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
+%   http://www.cs.ubc.ca/labs/scl/sparco
+%   $Id$
 
 classdef opHadamard < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-       diag = []; % Diagonal entries
-    end % Properties
-
-
+    properties( SetAccess = private, GetAccess = public )
+       normalized = false
+    end
+       
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
-        
-        % Constructor
-        function op = opHadamard(n,normalized)
-           if (nargin < 1) || (nargin > 2)
-              error('Invalid number of arguments.');
-           end
-           if n ~= power(2,round(log2(n)))
-              error('Dimension has to be power of two.')
-           end
-           if (nargin < 2)
-              normalized = 0;
-           end
-           
-           % Construct operator
-           op = op@opSpot('Hadamard',n,n);
-        end % Constructor
+       
+       function op = opHadamard(n,normalized)
+          %opHadamard Constructor
+          if nargin < 1  ||  nargin > 2
+             error('Invalid number of arguments.');
+          end
+          if n ~= power(2,round(log2(n)))
+             error('Dimension must be a power of two.')
+          end
+          op = op@opSpot('Hadamard',n,n);
+          if nargin == 2 && normalized
+             op.normalized = true;
+          end
+       end % Constructor
         
     end % Methods
 
@@ -64,7 +67,9 @@ classdef opHadamard < opSpot
               end
               b = b * 2; s = s / 2; n = n / 2;
            end
-       
+           if op.normalized
+              y = y / sqrt(op.n);
+           end
         end % Multiply
     
     end % Methods
