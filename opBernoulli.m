@@ -75,21 +75,21 @@ classdef opBernoulli < opSpot
           switch mode
              case 0
                 A = 2.0 * (randn(m,n) < 0) - 1;
-                fun = @(x,mode) multiplyExplicit(op,A,x,mode);
+                fun = @(x,mode) multiplyExplicit(op,x,mode);
                
              case 1
                 A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                fun = @(x,mode) multiplyImplicit(op,seed,1,x,mode);
+                fun = @(x,mode) multiplyImplicit(op,1,x,mode);
 
              case 2
                 A = (2.0 * (randn(m,n) < 0) - 1) / sqrt(m);
-                fun = @(x,mode) multiplyExplicit(op,A,x,mode);
+                fun = @(x,mode) multiplyExplicit(op,x,mode);
               
              case 3
                 A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                fun = @(x,mode) multiplyImplicit(op,seed,1/sqrt(m),x,mode);
+                fun = @(x,mode) multiplyImplicit(op,1/sqrt(m),x,mode);
                 
             case 4
                 error('Invalid mode.')

@@ -2,10 +2,6 @@ TODO
 
 [] opHadamard: normalized flag not being used.
 
-[] opFFT: should this be unnormalized so that it mimics Matlab's
-          built-in fft? In other words, should we expect fft(y) ==
-          opFFT*y?
-
 [] sparse vectors: will operators work on mat-sparse-vecs?
 
 [] opSpot class: move funhandle and matrix props, which are def'd in
@@ -155,3 +151,8 @@ DONE
 - uplus
 - vertcat
 
+[] opFFT: should this be unnormalized so that it mimics Matlab's
+          built-in fft? In other words, should we expect fft(y) ==
+          opFFT*y?
+
+   NO! Normalizing makes it an orthogonal matrix.
