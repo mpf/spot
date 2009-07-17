@@ -1,7 +1,5 @@
 TODO ($Id$)
 
-[] sparse vectors: will operators work on mat-sparse-vecs?
-
 [] opSpot class: move funhandle and matrix props, which are def'd in
    many (most?!) of the subclasses, into opSpot. (These are used too
    often.) Then can have opSpot/double.m do a simple check if
