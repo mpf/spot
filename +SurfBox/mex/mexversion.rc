@@ -1,0 +1,37 @@
+//  Copyright 1997-2004 The MathWorks, Inc.
+//  $Revision: 1.6.4.2 $  $Date: 2004/08/17 21:22:27 $
+//
+//	Mex versioning resource file
+//  this should be compiled with the V5_COMPAT and ARRAY_ACCESS_INLINING
+//  defines if they apply.
+//
+//  DO NOT EDIT	- this is for MATLAB use only
+
+/////////////////////////////////////////////////////////////////////////////
+//  Define strings,
+// ML_VERSION is the version of Matlab that the mex file is built against.
+// INLINING determines in inlining was switched on or not.
+
+#define ML_VERSION 	 100
+#define INLINING     101 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+#ifdef V5_COMPAT
+    ML_VERSION,             "MATLAB 5 compatible"
+#else
+	ML_VERSION,             "MATLAB R14 native"
+#endif
+#ifdef ARRAY_ACCESS_INLINING
+	INLINING,               "inlined"
+#else
+    INLINING,               "not inlined"
+#endif
+END
+
+

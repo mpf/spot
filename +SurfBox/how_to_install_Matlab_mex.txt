@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////
+//
+//	SurfBox (c)
+//	
+//	A set of C++ and Matlab routines implementing the surfacelet transform
+//	
+//	in arbitrary N-dimensions (N >= 2)
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//	Yue M. Lu and Minh N. Do
+//
+//	Department of Electrical and Computer Engineering
+//	Coordinated Science Laboratory
+//	University of Illinois at Urbana-Champaign
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//	This software is provided "as-is", without any express or implied
+//	warranty. In no event will the authors be held liable for any 
+//	damages arising from the use of this software.
+//
+//////////////////////////////////////////////////////////////////////////
+
+Version: December 2008
+
+The SurfBox package can run either in pure Matlab mode or with accelerated mex files. The mex option (default) is highly recommended, due to its substantial improvement in running speed and memory efficiency.
+
+In order to compile and install the necessary mex files, you will need to customize and run mexcompile.m, which can be found in root directory of the SurfBox package. 
+
+Comments and suggestions are welcome and should be addressed to
+
+Yue M. Lu (yue.lu@epfl.ch).

@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mexSurfaceletDec", "mexSurfaceletDec.vcproj", "{E0E58FB4-1667-4C5E-B838-42EA85B6DE77}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{E0E58FB4-1667-4C5E-B838-42EA85B6DE77}.Debug.ActiveCfg = Debug|Win32
+		{E0E58FB4-1667-4C5E-B838-42EA85B6DE77}.Debug.Build.0 = Debug|Win32
+		{E0E58FB4-1667-4C5E-B838-42EA85B6DE77}.Release.ActiveCfg = Release|Win32
+		{E0E58FB4-1667-4C5E-B838-42EA85B6DE77}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

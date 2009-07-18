@@ -1,0 +1,25 @@
+Follow the five steps below to compile and use the SurfBox-C++ code.
+
+(1) Obtain and install the precompiled FFTW 3.1.1 windows dLLs.
+
+    - Following the instructions on http://www.fftw.org/install/windows.html.
+    - Be sure to copy the FFTW dlls to a directory that is on the system search path.
+
+    It is also possible to directly compile the source files of FFTW and link them as a static library, but this is out of the scope of this guide.
+
+    In the following steps, we use C:\home\fftw-3.1 to denote the directory in which you put the FFTW lib definition files. You should modify it according to your settings.
+
+
+(2) Create a VC++ solution (project) containing all the SurfBox c++ and h files.
+    You can use the included test_surfacelet project as a starting point.
+
+(3) Specify the necessary header files for the FFTW package
+
+    In VC - Project Properties - C/C++ - General - Additional Include Directories, add the directory info C:\home\fftw-3.1
+
+(4) In VC - Project Properties - Linker - General - Additional Library Directories, add the directory info C:\home\fftw-3.1
+
+(5) In VC - Project Properties - Linker - Input - Additional Dependencies, add libfftw3-3.lib
+
+
+Questions/comments are welcome and please contact Yue Lu (yuelu@uiuc.edu).
