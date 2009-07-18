@@ -1,35 +1,39 @@
-%OPHAAR   Haar wavelet
+%opHaar   Haar wavelet
 %
-%   OPHAAR(M) creates a Haar wavelet operator for 1-D signals of
+%   opHaar(N) creates a Haar wavelet operator for 1-D signals of
 %   length M using 5 levels. M must be a power of 2.
 %
-%   OPHAAR(M,N) creates a Haar wavelet operator for 2-D signals of
-%   size M-by-N, again using 5 levels. Both M and N must be powers of 2.
-%
-%   OPHAAR(M,N,LEVELS) optionally allows the number of LEVELS to be
+%   opHaar(N,LEVELS) optionally allows the number of LEVELS to be
 %   specified.
 %
-%   See also opWavelet
+%   opHaar(N,LEVELS,REDUNDANT) optionally specifies the boolean field
+%   REDUNDANT (default false).
+%
+%   See also opWavelet.
 
-%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
 classdef opHaar < opWavelet
-
+   
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
         % Constructor
-        function op = opHaar(m,n,levels,redundant)
+        function op = opHaar(n,levels,redundant)
 
-           if (nargin < 2), n         = 1;     end
-           if (nargin < 3), levels    = 5;     end
-           if (nargin < 4), redundant = false; end
+           if nargin < 2, levels    = 5;     end
+           if nargin < 3, redundant = false; end
            
-           op = op@opWavelet(m,n,'Haar',1,levels,redundant);
+           % n must be a multiple of 2^(levels)
+           if rem(n,2^levels)
+              error('N must be a multiple of 2^(%i)',levels)
+           end
+           
+           op = op@opWavelet(n,1,'Haar',1,levels,redundant);
            
         end % Constructor
         
