@@ -1,10 +1,11 @@
 function test_suite = test_opGaussian
-%testGaussian  Unit tests for the Gaussian operator
+%test_opGaussian  Unit tests for the Gaussian operator
 initTestSuite;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
+   randn('state',0);
    seed = randn('state');
 end
 
