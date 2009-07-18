@@ -1,4 +1,4 @@
-function test_char
+function test_suite = test_char
 %test_char  Unit tests for the char method
 initTestSuite;
 end
