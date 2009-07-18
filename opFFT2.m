@@ -35,14 +35,16 @@ classdef opFFT2 < opSpot
            if nargin < 2 || nargin > 3
               error('Invalid number of arguments to opFFT2.');
            end
-           if nargin == 3 && islogical(centered)
+           if nargin >= 3 && islogical(centered)
               centered = true;
+           else
+              centered = false;
            end
            if  ~isscalar(m) || m~=round(m) || m <= 0
-              error('First argument to opFFT2 has to be a positive integer.');
+              error('First argument to opFFT2 must be positive integer.');
            end
            if  ~isscalar(n) || n~=round(n) || n <= 0
-              error('Second argument to opFFT2 has to be a positive integer.');
+              error('Second argument to opFFT2 must be positive integer.');
            end
 
            op = op@opSpot('FFT2',m*n,m*n);
