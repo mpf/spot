@@ -1,14 +1,14 @@
 %opWavelet   Wavelet operator
 %
-%   opWavelet(M,N,FAMILY) creates a wavelet operator of given FAMILY, for
-%   M-by-N matrices. The wavelet transformation is computed using the Rice
+%   opWavelet(P,Q,FAMILY) creates a wavelet operator of given FAMILY, for
+%   P-by-Q matrices. The wavelet transformation is computed using the Rice
 %   Wavelet Toolbox.  The values supported for FAMILY are 'Daubechies' and
 %   'Haar'.
 %
 %   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
 %   additional parameters: FILTER (default 8) specifies the filter length,
 %   which must be even. LEVELS (default 5) gives the number of levels in
-%   the transformation. Both M and N must be divisible by 2^LEVELS. The
+%   the transformation. Both P and Q must be divisible by 2^LEVELS. The
 %   Boolean field REDUNDANT (default false) indicates whether the wavelet
 %   is redundant. TYPE (default 'min') indictates what type of solution is
 %   desired; 'min' for minimum phase, 'max' for maximum phase, and 'mid'
@@ -24,11 +24,16 @@ classdef opWavelet < opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = private, GetAccess = public )
-       family    = ''; % Wavelet family
-       filter    = 0;  % Filter length
-       levels    = 0;  % Number of levels
-       redundant = 0;  % Redundant flag
-       funHandle = []; % Multiplication function
+       family     = 'Daubechies';   % Wavelet family
+       lenFilter  = 8;              % Filter length
+       filter                       % Filter computed by daubcqf
+       levels     = 5;              % Number of levels
+       typeFilter = 'min'
+       redundant  = 0;              % Redundant flag
+       nseg
+       p                            % Rows in input image
+       q                            % Cols in input image
+       funHandle                    % Multiplication function
     end % Properties
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,45 +44,57 @@ classdef opWavelet < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opWavelet(m,n,family,filter,levels,redundant,type)
-          if nargin < 3, family    = 'Daubechies'; end
-          if nargin < 4, filter    = 8;            end
-          if nargin < 5, levels    = 5;            end
-          if nargin < 6, redundant = false;        end
-          if nargin < 7, type      = 'min';        end
+       function op = opWavelet(p,q,family,lenFilter,levels,redundant,typeFilter)
 
-          family = lower(family);
-
-          switch family
+          if nargin < 5 || isempty(levels)
+             levels = 5;
+          end
+          if nargin >= 6 && redundant
+             if p == 1 || q == 1
+                nseg =   levels + 1;
+             else
+                nseg = 3*levels + 1;
+             end
+             redundant = true;
+          else
+             nseg = nan;
+             redundant = false;
+          end
+          
+          op = op@opSpot('Wavelet', nseg*p*q, p*q);
+          op.p = p;
+          op.q = q;
+          op.levels = levels;
+          op.redundant = redundant;
+          op.nseg = nseg;
+          
+          if nargin >= 4 && ~isempty(lenFilter)
+             op.lenFilter = lenFilter;
+          end
+          if nargin >= 7 && ischar(typeFilter)
+             op.typeFilter  = typeFilter;
+          end
+          switch lower(family)
              case {'daubechies'}
-                family = 'Daubechies';
-                h = rwt.daubcqf(filter);
+                op.family = 'Daubechies';
+                op.filter = rwt.daubcqf(lenFilter,typeFilter);
     
              case {'haar'}
-                family = 'Haar';
-                h = rwt.daubcqf(0);
-    
+                op.family = 'Haar';
+                op.filter = rwt.daubcqf(0);
+                
              otherwise
                 error('Wavelet family %s is unknown.', family);
           end
 
           % Initialize function handle
           if redundant
-             r   = 3*levels + 1;
-             fun = @(x,mode) opWaveletRedundant_intrnl(m,n,family,filter,levels,type,h,x,mode);
+             op.funHandle = @matvec_redundant;
           else
-             r   = 1;
-             fun = @(x,mode) opWavelet_intrnl(m,n,family,filter,levels,type,h,x,mode);
+             op.funHandle = @matvec;
           end
-
-          % Construct operator
-          op = op@opSpot('Wavelet', r*m*n, m*n);
-          op.funHandle = fun;
-          op.family    = family;
-          op.filter    = filter;
-          op.levels    = levels;
-          op.redundant = redundant;
-       end % Constructor
+          
+       end % function opWavelet
 
     end % Methods
     
@@ -86,62 +103,68 @@ classdef opWavelet < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = op.funHandle(x,mode);
-       end % Multiply          
+          y = op.funHandle(op,x,mode);
+       end % function multiply          
 
+       function y = matvec(op,x,mode)
+          p = op.p; q = op.q; levels = op.levels; filter = op.filter;
+          if issparse(x), x = full(x); end
+          Xmat = reshape(x,p,q);
+          if mode == 1
+             if isreal(x)
+                y  = rwt.mdwt(Xmat, filter, levels);
+             else
+                y1 = rwt.mdwt(real(Xmat), filter, levels);
+                y2 = rwt.mdwt(imag(Xmat), filter, levels);
+                y  = y1 + sqrt(-1) * y2;
+             end
+             y = y(:);
+          else
+             if isreal(x)
+                y = rwt.midwt(Xmat, filter, levels);
+             else
+                y1 = rwt.midwt(real(Xmat), filter, levels);
+                y2 = rwt.midwt(imag(Xmat), filter, levels);
+                y  = y1 + sqrt(-1) * y2;
+             end
+             y = y(:);
+          end
+       end
+       
+       function y = matvec_redundant(op,x,mode)
+          p = op.p; q = op.q; levels = op.levels; filter = op.filter;
+          if issparse(x), x = full(x); end
+          if p == 1 || q == 1
+             nseg =   levels + 1;
+          else
+             nseg = 3*levels + 1;
+          end
+             
+          if mode == 1
+             Xmat = reshape(x,p,q);
+             if isreal(x)
+                [yl,yh] = rwt.mrdwt(Xmat, filter, levels);
+                y = [yl,yh];
+             else
+                [yl1,yh1] = rwt.mrdwt(real(Xmat), filter, levels);
+                [yl2,yh2] = rwt.mrdwt(imag(Xmat), filter, levels);
+                y = [yl1,yh1] + sqrt(-1) * [yl2,yh2];
+             end
+             y = y(:);
+          else
+             xl = reshape(x(1:p*q),p,q);
+             xh = reshape(x(p*q+1:end),p,(nseg-1)*q);
+             if isreal(x)
+                y = rwt.mirdwt(xl, xh, filter, levels);
+             else
+                y1 = rwt.mirdwt(real(xl), real(xh), filter, levels);
+                y2 = rwt.mirdwt(imag(xl), imag(xh), filter, levels);
+                y = y1 + sqrt(-1) * y2;
+             end
+             y = y(:);
+          end
+       end
+       
     end % Methods
-   
+
 end % Classdef
-
-
-%=======================================================================
-
-
-function y = opWavelet_intrnl(m,n,family,filter,levels,type,h,x,mode)
-if mode == 1
-   if isreal(x)
-      y = rwt.mdwt(reshape(x,[m,n]), h, levels);
-   else
-      y1 = rwt.mdwt(reshape(real(x),[m,n]), h, levels);
-      y2 = rwt.mdwt(reshape(imag(x),[m,n]), h, levels);
-      y = y1 + sqrt(-1) * y2;
-   end   
-   y = reshape(y,[m*n,1]);
-else
-   if isreal(x)
-      y = rwt.midwt(reshape(x,[m,n]), h, levels);
-   else
-      y1 = rwt.midwt(reshape(real(x),[m,n]), h, levels);
-      y2 = rwt.midwt(reshape(imag(x),[m,n]), h, levels);
-      y  = y1 + sqrt(-1) * y2;
-   end
-   y = reshape(y,[m*n,1]);
-end
-end
-
-%=======================================================================
-
-function y = opWaveletRedundant_intrnl(m,n,family,filter,levels,type,h,x,mode)
-if mode == 1
-   if isreal(x)
-      [yl,yh,l] = mrdwt(reshape(x,[m,n]), h, levels);
-      y = [yl,yh];
-   else
-      [yl1,yh1,l] = mrdwt(reshape(real(x),[m,n]), h, levels);
-      [yl2,yh2,l] = mrdwt(reshape(imag(x),[m,n]), h, levels);
-      y = [yl1,yh1] + sqrt(-1) * [yl2,yh2];
-   end   
-   y = reshape(y,[(3*levels+1)*m*n,1]);
-else
-   xl = reshape(x(1:m*n),m,n);
-   xh = reshape(x(m*n+1:end),m,3*levels*n);
-   if isreal(x)
-     [y,l] = mirdwt(xl, xh, h, levels);
-   else
-     [y1,l] = mirdwt(real(xl), real(xh), h, levels);
-     [y2,l] = mirdwt(imag(xl), imag(xh), h, levels);
-     y = y1 + sqrt(-1) * y2;    
-   end
-   y = reshape(y,[m*n,1]);
-end
-end
