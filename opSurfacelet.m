@@ -46,7 +46,7 @@
 %       Banks and Surfacelets, IEEE Transactions on Image
 %       Processing, vol. 16, no. 4, April 2007.
 
-%   Copyright 2009, Evgeniy Lebed, Ewout van den Berg and Michael P. Friedlander
+%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
@@ -98,10 +98,12 @@ classdef opSurfacelet < opSpot
           end
 
           % Apply the decomposition operator once to get recInfo
-          [dummy,recInfo] = Surfdec(zeros(dims),pyramidMode,levelArray,HRGfilter,options{:});
+          [dummy,recInfo] = ...
+              SurfBox.Matlab.Surfdec...
+              (zeros(dims),pyramidMode,levelArray,HRGfilter,options{:});
 
           % Get structure of dummy
-          [dummy, structureInfo] = surf_coeff2vec(dummy);
+          [dummy, structureInfo] = SurfBox.Matlab.surf_coeff2vec(dummy);
           coefLength = length(dummy);
 
           % Create operator
@@ -142,26 +144,26 @@ if mode == 1
    % Apply analysis operator
    x = reshape(x,dims);
    if ~isreal(x)
-      z1 = Surfdec(real(x),pyramidMode,levelArray,HRGfilter,options{:});
-      z1 = surf_coeff2vec(z1);
-      z2 = Surfdec(imag(x),pyramidMode,levelArray,HRGfilter, options{:});
-      z2 = surf_coeff2vec(z2);
+      z1 = SurfBox.Matlab.Surfdec(real(x),pyramidMode,levelArray,HRGfilter,options{:});
+      z1 = SurfBox.Matlab.surf_coeff2vec(z1);
+      z2 = SurfBox.Matlab.Surfdec(imag(x),pyramidMode,levelArray,HRGfilter, options{:});
+      z2 = sufracelet.surf_coeff2vec(z2);
       y  = z1 + sqrt(-1) * z2;
    else
-      y  = Surfdec(x,pyramidMode,levelArray,HRGfilter,options{:});
-      y  = surf_coeff2vec(y);
+      y  = SurfBox.Matlab.Surfdec(x,pyramidMode,levelArray,HRGfilter,options{:});
+      y  = SurfBox.Matlab.surf_coeff2vec(y);
    end
 else
    % Apply synthesis operator
    if ~isreal(x)
      z1 = surf_vec2coeff(real(x), structureInfo);
-     z1 = Surfrec(z1,recInfo);
+     z1 = SurfBox.Matlab.Surfrec(z1,recInfo);
      z2 = surf_vec2coeff(imag(x), structureInfo);
-     z2 = Surfrec(z2,recInfo);
+     z2 = SurfBox.Matlab.Surfrec(z2,recInfo);
      y  = z1 + sqrt(-1) * z2;
    else
      y  = surf_vec2coeff(x, structureInfo);
-     y  = Surfrec(y,recInfo);
+     y  = SurfBox.Matlab.Surfrec(y,recInfo);
    end
    y = reshape(y,prod(dims),1);
 end
