@@ -1,12 +1,11 @@
 %opFFT  Fast Fourier transform (FFT).
 %
-%   opFFT(M) create a normalized one-dimensional Fourier transform
-%   operator for vectors of length M.
+%   opFFT(M) create a unitary one-dimensional discrete Fourier
+%   transform (DFT) for vectors of length M.
 %
-%   opFFT(M,CENTERED) creates a normalized one-dimensional Fourier
-%   transform. If the CENTERED flag is set to true the components are
-%   shifted to have to zero-frequency component in the center of the
-%   spectrum. 
+%   opFFT(M,CENTERED), with the CENTERED flag set to true, creates a
+%   unitary DFT that shifts the zero-frequency component to the center
+%   of the spectrum.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
