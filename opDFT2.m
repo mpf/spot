@@ -1,18 +1,18 @@
-%opFFT2  Two-dimensional fast Fourier transform (FFT).
+%opDFT2  Two-dimensional fast Fourier transform (DFT).
 %
-%   opFFT2(M,N) creates a two-dimensional normalized Fourier transform
+%   opDFT2(M,N) creates a two-dimensional normalized Fourier transform
 %   operator for matrices of size M by N. Input and output of the
 %   matrices is done in vectorized form.
 %
-%   opFFT2(M,N,CENTERED) just like opFFT2(M,N), but with components
+%   opDFT2(M,N,CENTERED) just like opDFT2(M,N), but with components
 %   shifted to have to zero-frequency component in the center of the
 %   spectrum, if the CENTERED flag is set to true.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opFFT.m 13 2009-06-28 02:56:46Z mpf $
+%   $Id: opDFT.m 13 2009-06-28 02:56:46Z mpf $
 
-classdef opFFT2 < opSpot
+classdef opDFT2 < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -31,9 +31,9 @@ classdef opFFT2 < opSpot
     methods
         
         % Constructor
-        function op = opFFT2(m,n,centered)
+        function op = opDFT2(m,n,centered)
            if nargin < 2 || nargin > 3
-              error('Invalid number of arguments to opFFT2.');
+              error('Invalid number of arguments to opDFT2.');
            end
            if nargin >= 3 && islogical(centered)
               centered = true;
@@ -41,21 +41,21 @@ classdef opFFT2 < opSpot
               centered = false;
            end
            if  ~isscalar(m) || m~=round(m) || m <= 0
-              error('First argument to opFFT2 must be positive integer.');
+              error('First argument to opDFT2 must be positive integer.');
            end
            if  ~isscalar(n) || n~=round(n) || n <= 0
-              error('Second argument to opFFT2 must be positive integer.');
+              error('Second argument to opDFT2 must be positive integer.');
            end
 
-           op = op@opSpot('FFT2',m*n,m*n);
+           op = op@opSpot('DFT2',m*n,m*n);
            op.centered  = centered;
            op.cflag     = true;
 
            % Initialize function handle
            if centered
-              fun = @(x,mode) opFFT2d_centered_intrnl(m,n,x,mode);
+              fun = @(x,mode) opDFT2d_centered_intrnl(m,n,x,mode);
            else
-              fun = @(x,mode) opFFT2d_intrnl(m,n,x,mode);
+              fun = @(x,mode) opDFT2d_intrnl(m,n,x,mode);
            end
            op.funHandle = fun;
         end
@@ -80,7 +80,7 @@ end % Classdef
 %======================================================================
 
 % Two-dimensional DFT
-function y = opFFT2d_intrnl(m,n,x,mode)
+function y = opDFT2d_intrnl(m,n,x,mode)
 if mode == 1
    y = reshape( fft2(reshape(full(x),m,n)) / sqrt(m*n), m*n, 1);
 else
@@ -91,7 +91,7 @@ end
 %======================================================================
 
 % Two-dimensional DFT - Centered
-function y = opFFT2d_centered_intrnl(m,n,x,mode)
+function y = opDFT2d_centered_intrnl(m,n,x,mode)
 if mode == 1
    y = fftshift(fft2(reshape(full(x),m,n))) / sqrt(m*n);
    y = reshape(y,m*n,1);

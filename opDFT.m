@@ -1,9 +1,9 @@
-%opFFT  Fast Fourier transform (FFT).
+%opDFT  Fast Fourier transform (DFT).
 %
-%   opFFT(M) create a unitary one-dimensional discrete Fourier
+%   opDFT(M) create a unitary one-dimensional discrete Fourier
 %   transform (DFT) for vectors of length M.
 %
-%   opFFT(M,CENTERED), with the CENTERED flag set to true, creates a
+%   opDFT(M,CENTERED), with the CENTERED flag set to true, creates a
 %   unitary DFT that shifts the zero-frequency component to the center
 %   of the spectrum.
 
@@ -11,7 +11,7 @@
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-classdef opFFT < opSpot
+classdef opDFT < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -30,9 +30,9 @@ classdef opFFT < opSpot
     methods
         
         % Constructor
-        function op = opFFT(m,centered)
+        function op = opDFT(m,centered)
            if nargin < 1 || nargin > 2
-              error('Invalid number of arguments to opFFT.');
+              error('Invalid number of arguments to opDFT.');
            end
            if nargin == 2 && islogical(centered)
               centered = true;
@@ -40,18 +40,18 @@ classdef opFFT < opSpot
               centered = false;
            end
            if  ~isscalar(m) || m~=round(m) || m <= 0
-              error('First argument to opFFT has to be a positive integer.');
+              error('First argument to opDFT has to be a positive integer.');
            end
  
-           op = op@opSpot('FFT',m,m);
+           op = op@opSpot('DFT',m,m);
            op.centered = centered;
            op.cflag    = true;
 
            % Create function handle
            if centered
-              fun = @(x,mode) opFFT_centered_intrnl(op,x,mode);
+              fun = @(x,mode) opDFT_centered_intrnl(op,x,mode);
            else
-              fun = @(x,mode) opFFT_intrnl(op,x,mode);
+              fun = @(x,mode) opDFT_intrnl(op,x,mode);
            end 
            op.funHandle = fun;
         end
@@ -75,7 +75,7 @@ classdef opFFT < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = private )
         
-        function y = opFFT_intrnl(op,x,mode)
+        function y = opDFT_intrnl(op,x,mode)
            % One-dimensional DFT
            n = op.n;
            if mode == 1
@@ -87,7 +87,7 @@ classdef opFFT < opSpot
            end
         end
 
-        function y = opFFT_centered_intrnl(n,x,mode)
+        function y = opDFT_centered_intrnl(n,x,mode)
            % One-dimensional DFT - Centered
            n = op.n;
            if mode == 1

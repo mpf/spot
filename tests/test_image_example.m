@@ -1,5 +1,5 @@
 function test_suite = test_image_example
-%test_image_example  Unit tests for the FFT operator.
+%test_image_example  Unit tests for the DFT operator.
 initTestSuite;
 end
 
@@ -21,21 +21,21 @@ Y  = X(1:m,1:n);              % nicely-shaped version of the original image
 y  = vec(Y);                  % vectorized version of image
 A1 = circshift(P,1-c);       % first col of blurring operator A
 
-% Using Matlab's built-in FFTs.
+% Using Matlab's built-in DFTs.
 S  = fft2( A1 );             % spectrum of A
 B  = ifft2( S.* fft2(Y));    % b = A*x; blurred image
 B  = real(B);
 
-%figure(h(1)); imagesc(B); axis image; colormap gray; title('Built-in FFT');
+%figure(h(1)); imagesc(B); axis image; colormap gray; title('Built-in DFT');
 
 % Using Spot.
-F  = opFFT2(m,n);
+F  = opDFT2(m,n);
 s  = sqrt(N) * F  * vec(A1); % F*a1 = 1/sqrt(N) evals of A
 b  = F' * (s .* (F*y));      % b = F'*S*F*y
 b  = real(b);
 B2 = reshape(b,m,n);         % Reshape into a matrix.
 
-%figure(h(2)); imagesc(B2); axis image; colormap gray; title('Spot''s FFT');
+%figure(h(2)); imagesc(B2); axis image; colormap gray; title('Spot''s DFT');
 
 assertElementsAlmostEqual(B,B2,'relative',sqrt(eps));
 
