@@ -1,3 +1,21 @@
+%opBlockOp   Blockwise application of operator on matrices
+%
+%   B = opBlockOp(M,N,OPIN,BR1,BC1,BR2,BC2) creates an operator that
+%   applies the given OPIN operator on two-dimensional data in a
+%   blockwise fashion. In the forward mode this means that the input
+%   vector is reshaped into an M-by-N matrix, which is then divided
+%   into blocks of size BR1-by-BC1. Next, we apply OPIN to each
+%   (vectorized) block and reshape the output to BR2-by-BC2
+%   blocks. These blocks are gathered in a matrix which is vectorized
+%   to give the final output. In transpose mode, the input vector is
+%   reshaped into a matrix with M/BR1-by-N/BC1 blocks of size
+%   BR2-by-BC2, and the conjugate transpose of OPIN is applied to each
+%   block as described above to give BR1-by-BC1 blocks. These form an
+%   M-by-N matrix which is vectorized for output.
+
+%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   http://www.cs.ubc.ca/labs/scl/sparco
+%   $Id$
 
 classdef opBlockOp < opSpot
     
