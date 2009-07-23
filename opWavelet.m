@@ -1,9 +1,9 @@
 %opWavelet   Wavelet operator
 %
-%   opWavelet(P,Q,FAMILY) creates a wavelet operator of given FAMILY, for
-%   P-by-Q matrices. The wavelet transformation is computed using the Rice
-%   Wavelet Toolbox.  The values supported for FAMILY are 'Daubechies' and
-%   'Haar'.
+%   opWavelet(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
+%   signals of size M-by-N. The wavelet transformation is computed using
+%   the Rice Wavelet Toolbox.  The values supported for FAMILY are
+%   'Daubechies' and 'Haar'.
 %
 %   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
 %   additional parameters: FILTER (default 8) specifies the filter length,
@@ -29,10 +29,9 @@ classdef opWavelet < opSpot
        filter                       % Filter computed by daubcqf
        levels     = 5;              % Number of levels
        typeFilter = 'min'
-       redundant  = 0;              % Redundant flag
+       redundant  = false;          % Redundant flag
        nseg
-       p                            % Rows in input image
-       q                            % Cols in input image
+       signal_dims                  % Dimensions of the signal domain
        funHandle                    % Multiplication function
     end % Properties
 
@@ -55,15 +54,18 @@ classdef opWavelet < opSpot
              else
                 nseg = 3*levels + 1;
              end
+             m = p*q*nseg;
+             n = p*q;
              redundant = true;
           else
-             nseg = nan;
+             nseg = [];
+             m = p*q;
+             n = p*q;
              redundant = false;
           end
           
-          op = op@opSpot('Wavelet', nseg*p*q, p*q);
-          op.p = p;
-          op.q = q;
+          op = op@opSpot('Wavelet', m, n);
+          op.signal_dims = [p, q];
           op.levels = levels;
           op.redundant = redundant;
           op.nseg = nseg;
@@ -77,7 +79,7 @@ classdef opWavelet < opSpot
           switch lower(family)
              case {'daubechies'}
                 op.family = 'Daubechies';
-                op.filter = rwt.daubcqf(lenFilter,typeFilter);
+                op.filter = rwt.daubcqf(op.lenFilter,op.typeFilter);
     
              case {'haar'}
                 op.family = 'Haar';
@@ -107,7 +109,9 @@ classdef opWavelet < opSpot
        end % function multiply          
 
        function y = matvec(op,x,mode)
-          p = op.p; q = op.q; levels = op.levels; filter = op.filter;
+          p = op.signal_dims(1);
+          q = op.signal_dims(2);
+          levels = op.levels; filter = op.filter;
           if issparse(x), x = full(x); end
           Xmat = reshape(x,p,q);
           if mode == 1
@@ -132,14 +136,11 @@ classdef opWavelet < opSpot
        end
        
        function y = matvec_redundant(op,x,mode)
-          p = op.p; q = op.q; levels = op.levels; filter = op.filter;
+          p = op.signal_dims(1);
+          q = op.signal_dims(2);
+          nseg = op.nseg;
+          levels = op.levels; filter = op.filter;
           if issparse(x), x = full(x); end
-          if p == 1 || q == 1
-             nseg =   levels + 1;
-          else
-             nseg = 3*levels + 1;
-          end
-             
           if mode == 1
              Xmat = reshape(x,p,q);
              if isreal(x)

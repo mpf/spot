@@ -1,13 +1,14 @@
 %opHaar   Haar wavelet
 %
-%   opHaar(N) creates a Haar wavelet operator for 1-D signals of
+%   opHaar(N) creates a Haar Wavelet operator for 1-D signals of
 %   length M using 5 levels. M must be a power of 2.
 %
 %   opHaar(N,LEVELS) optionally allows the number of LEVELS to be
 %   specified.
 %
 %   opHaar(N,LEVELS,REDUNDANT) optionally specifies the boolean field
-%   REDUNDANT (default false).
+%   REDUNDANT (default false).  (See opWavelet for a description of this
+%   option.)
 %
 %   See also opWavelet.
 
@@ -34,6 +35,7 @@ classdef opHaar < opWavelet
            end
            
            op = op@opWavelet(n,1,'Haar',1,levels,redundant);
+           op.type = 'Haar';
            
         end % Constructor
         
