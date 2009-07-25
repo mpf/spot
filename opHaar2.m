@@ -1,12 +1,12 @@
-%opHaar2D   2-D Haar Wavelet
+%opHaar2   2-D Haar Wavelet
 %
-%   opHaar2D(M,N) creates a Haar Wavelet operator for 2-D signals of
+%   opHaar2(M,N) creates a Haar Wavelet operator for 2-D signals of
 %   size M-by-N using 5 levels. M*N must be a power of 2.
 %
-%   opHaar2D(M,N,LEVELS) optionally allows the number of LEVELS to be
+%   opHaar2(M,N,LEVELS) optionally allows the number of LEVELS to be
 %   specified.
 %
-%   opHaar2D(M,N,LEVELS,REDUNDANT) optionally specifies the boolean field
+%   opHaar2(M,N,LEVELS,REDUNDANT) optionally specifies the boolean field
 %   REDUNDANT (default false).  (See opWavelet for a description of this
 %   option.)
 %
@@ -16,7 +16,7 @@
 %   http://www.cs.ubc.ca/labs/scl/sparco
 %   $Id$
 
-classdef opHaar2D < opWavelet
+classdef opHaar2 < opWavelet
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -24,7 +24,7 @@ classdef opHaar2D < opWavelet
     methods
         
         % Constructor
-        function op = opHaar2D(m,n,levels,redundant)
+        function op = opHaar2(m,n,levels,redundant)
 
            if nargin < 2, error('At least two arguments required.'); end
            if nargin < 3, levels    = 5;     end
@@ -36,7 +36,7 @@ classdef opHaar2D < opWavelet
            end
            
            op = op@opWavelet(m,n,'Haar',1,levels,redundant);
-           op.type = 'Haar2D';
+           op.type = 'Haar2';
            
         end % Constructor
         
