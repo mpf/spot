@@ -5,7 +5,7 @@ function test_sparsevecs
 % (should) internally do a full(x) before applying x. This script makes
 % certain that's the case.
 
-randn('state',0);
+randn('state',0); rand('state',0)
 
 m = randi(100);
 n = randi(100);
@@ -22,7 +22,7 @@ n = randi(100);
 [A,xs,xf] = generate(opGaussian(m,n));   assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opHaar(64));        assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opHaar(64,5,1));    assertEqual( A*xs, A*xf );
-[A,xs,xf] = generate(opHaar2D(64,128));  assertEqual( A*xs, A*xf );
+[A,xs,xf] = generate(opHaar2(64,128));   assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opHadamard(256));   assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opHadamard(256,1)); assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opHeaviside(n));    assertEqual( A*xs, A*xf );
@@ -40,8 +40,6 @@ n = randi(100);
 [A,xs,xf] = generate(opToepSign(m,n,'circular'));  assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opToepSign(m,n,'toeplitz',1));assertEqual( A*xs, A*xf );
 [A,xs,xf] = generate(opToepSign(m,n,'circular',1));assertEqual( A*xs, A*xf );
-
-
 
 end
 
