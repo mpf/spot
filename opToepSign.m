@@ -42,19 +42,25 @@ classdef opToepSign < opToeplitz
            switch lower(type)
               case 'circular'
                  % Generate the entries of the matrix
-                 k  = max(m,n);
-                 v  = (2*double(randn(k,1) >= 0)-1);
+                 if m < n
+                    r = 2*double(randn(n,1) >= 0) - 1;
+                    c = [r(1); r(end:-1:end-m+2)];
+                 else
+                    c = 2 * double(randn(m,1) >= 0) - 1;
+                    r = [c(1); c(end:-1:end-n+2)];
+                 end
 
               case 'toeplitz'
                  % Generate the entries of the matrix
-                 v  = (2*double(randn(m+n-1,1) >= 0)-1);
+                 c = 2*double(randn(m,1) >= 0) - 1;
+                 r = [c(1); 2*double(randn(n-1,1) >= 0)-1];
 
               otherwise
                  error('Unrecognized type parameter.');
            end
 
            % Construct operator
-           op = op@opToeplitz(m,n,v,type,normalized);
+           op = op@opToeplitz(c,r,normalized);
            op.type = 'ToepSign';
         end % Constructor
         

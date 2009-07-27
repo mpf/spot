@@ -42,19 +42,25 @@ classdef opToepGauss < opToeplitz
            switch lower(type)
               case 'circular'
                  % Generate the entries of the matrix
-                 k  = max(m,n);
-                 v  = randn(k,1);
+                 if m < n
+                    r = randn(n,1);
+                    c = [r(1); r(end:-1:end-m+2)];
+                 else
+                    c = randn(m,1);
+                    r = [c(1); c(end:-1:end-n+2)];
+                 end
        
               case 'toeplitz'
                  % Generate the entries of the matrix
-                 v  = randn(m+n-1,1);
+                 c = randn(m,1);
+                 r = [c(1); randn(n-1,1)];
 
               otherwise
                  error('Unrecognized type parameter.');
            end
 
            % Construct operator
-           op = op@opToeplitz(m,n,v,type,normalized);
+           op = op@opToeplitz(c,r,normalized);
            op.type = 'ToepGauss';
         end % Constructor
         

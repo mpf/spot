@@ -1,14 +1,20 @@
 %opToeplitz   Toeplitz matrix
 %
-%   OP = opToeplitz(M,N,V,TYPE,NORMALIZED) creates an M by N Toeplitz
-%   matrix with entries generated using V. TYPE can either be
-%   'toeplitz' or 'circular'. For the 'toeplitz' type matrix, the
-%   length of V should be m+n-1, whereas for the 'circular' matrix,
-%   only max(m,n) generating entries are needed. When the TYPE field
-%   is empty [], or not specified 'toeplitz' is chosen by
-%   default. Setting the NORMALIZED flag scales the columns of the
-%   Toeplitz matrix to unit norm. Multiplication is implemented using
-%   the fast Fourier transform
+%   OP = opToeplitz(R,NORMALIZED) creates an N-by-N circular Toeplitz
+%   operator where N is the length R. The entries of R prescribe the
+%   first row of the operator. The optional NORMALIZED parameter
+%   specifies whether the columns of the operator should be scaled to
+%   unit Euclidean length.
+%
+%   OP = opToeplitz(C,R,NORMALIZED) creates an M-by-M Toeplitz
+%   operator where M = length(C) and M = length(R). The entries of C
+%   defined the first column of the operator, and likewise, R
+%   prescribes the first row. The optional NORMALIZED parameter
+%   determines the column scaling. Whenever either C or R is the empty
+%   vector [], the resulting operator will be symmetric.
+
+%   Multiplication in either mode is implemented using the fast
+%   Fourier transform
 %
 %   See also opToepGauss, opToepSign.
 
@@ -34,67 +40,94 @@ classdef opToeplitz < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opToeplitz(m,n,v,type,normalized)
+       function op = opToeplitz(varargin)
 
-          if nargin < 4 || isempty(type)
-             type = 'Toeplitz';
-          end
-          if nargin < 5
-             normalized = 0;
+          if nargin < 1
+             error('Not enough input arguments.');
+          elseif nargin > 3
+              error('Too many input arguments.');
           end
 
+          % Extract parameters
+          if nargin == 1
+             r = varargin{1};
+             normalized = false;
+             type = 'circular';
+          elseif nargin == 2
+             if isscalar(varargin{2})
+                c = varargin{1};
+                normalized = varargin{2};
+                type = 'circular';
+             else
+                c = varargin{1};
+                r = varargin{2};
+                normalized = false;
+                type = 'toeplitz';
+             end             
+          elseif nargin == 3
+             c = varargin{1};
+             r = varargin{2};
+             normalized = varargin{3};
+             type = 'toeplitz';
+          end
+
+          % Set row or column vector for symmetric Toeplitz
+          if strcmp(type,'toeplitz')
+             if isempty(c), c = r; end;
+             if isempty(r), r = c; end;
+          end
+          
+
+          % Set up the operator
           switch lower(type)
-             case {'circular','cyclic'}
-                % Check length of generating vector
-                k = max(m,n); v = v(:);
-                if length(v) ~= k
-                   error('Mismatch in operator size and generating vector length.');
-                end
-                d = v;
-                df = fft(d);
+             case {'circular'}
+                r  = r(:);
+                m  = length(r);
+                n  = m;
+                df = fft([r(1); r(end:-1:2)]);
 
                 if normalized
-                   if m == n
-                      s = 1 / norm(d);
-                   else
-                      s = zeros(n,1);
-                      for i=1:n
-                         idx = [1:m-i+1,k-i+2:k-max(0,i-m-1)];
-                         s(i) = 1 / sqrt(sum(abs(d(idx)).^2));
-                      end    
-                   end
+                   s = 1 / norm(r);
                 else
                    s = 1;
                 end
 
-                if isreal(d)       
-                   fun = @(x,mode) opToeplitzCircular_intrnl(df,s,m,n,x,mode);
+                if isreal(r)
+                   fun = @(x,mode) opToeplitzCircular_intrnl(df,s,x,mode);
                    cflag = false;
                 else
-                   fun = @(x,mode) opToeplitzCircular_complex_intrnl(df,s,m,n,x,mode);
+                   fun = @(x,mode) opToeplitzCircular_complex_intrnl(df,s,x,mode);
                    cflag = true;
                 end
 
              case 'toeplitz'
-                % Generate the entries of the matrix
-                k  = max(m,n); v = v(:);
-                if length(v) ~= m+n-1
-                   error('Mismatch in operator size and generating vector length.');
+                % Check compatibility of R and C
+                if c(1) ~= r(1)
+                   warning(sprintf(['First element of input column does not ',...
+                                    'match first element of input row.\n',...
+                                    '         Column wins diagonal conflict.']));
+                   r(1) = c(1); % Not really needed
                 end
-                d  = zeros(2*k,1); d(1:m) = v(1:m); d(end-n+2:end) = v(m+1:end);
-                df = fft(d);
+          
+                r = r(:); c = c(:);
+                m = length(c);
+                n = length(r);
+                
+                % Generate the entries of the matrix
+                v  = [c;r(end:-1:2)];
+                df = fft(v);
 
                 if normalized
-                   s = zeros(n,1); k = length(d);
+                   v = [c(end:-1:1);r(2:end)];
+                   s = zeros(n,1);
                    for i=1:n
-                      idx = [1:m-i+1,k-i+2:k-max(0,i-m-1)];
-                      s(i) = 1 / sqrt(sum(abs(d(idx)).^2));
+                      s(i) = 1 / sqrt(sum(abs(v(i:i+m-1)).^2));
                    end
                 else
                    s = 1;
                 end
 
-                if isreal(d)
+                if isreal(v)
                    fun = @(x,mode) opToeplitz_intrnl(df,s,m,n,x,mode);
                    cflag = false;
                 else
@@ -132,12 +165,10 @@ end % Classdef
 
 function y = opToeplitz_intrnl(df,s,m,n,x,mode)
 if mode == 1
-    k = max(m,n);
-    y = opToeplitzCircular_intrnl(df,1,2*k,2*k,[s.*full(x);zeros(2*k-n,1)],mode);
+    y = opToeplitzCircular_intrnl(df,1,[s.*full(x);zeros(m-1,1)],mode);
     y = y(1:m);
 else
-    k = max(m,n);
-    y = opToeplitzCircular_intrnl(df,1,2*k,2*k,[full(x);zeros(2*k-m,1)],mode);
+    y = opToeplitzCircular_intrnl(df,1,[full(x);zeros(n-1,1)],mode);
     y = s.*y(1:n);  
 end
 end
@@ -146,26 +177,23 @@ end
 
 function y = opToeplitz_complex_intrnl(df,s,m,n,x,mode)
 if mode == 1
-    k = max(m,n);
-    y = opToeplitzCircular_complex_intrnl(df,1,2*k,2*k,[s.*full(x);zeros(2*k-n,1)],mode);
+    y = opToeplitzCircular_complex_intrnl(df,1,[s.*full(x);zeros(m-1,1)],mode);
     y = y(1:m);
 else
-    k = max(m,n);
-    y = opToeplitzCircular_complex_intrnl(df,1,2*k,2*k,[full(x);zeros(2*k-m,1)],mode);
+    y = opToeplitzCircular_complex_intrnl(df,1,[full(x);zeros(n-1,1)],mode);
     y = s.*y(1:n);  
 end
 end
 
 %======================================================================
 
-function y = opToeplitzCircular_intrnl(df,s,m,n,x,mode)
+function y = opToeplitzCircular_intrnl(df,s,x,mode)
 if mode == 1
-    y = ifft(df.*fft([s.*full(x);zeros(max(m,n)-n,1)]));
-    y = y(1:m);
+    y = ifft(df.*fft(s.*full(x)));
     if isreal(x), y = real(y); end;
 else
-    y = ifft(conj(df).*fft([full(x);zeros(max(m,n)-m,1)]));
-    y = s.*y(1:n);
+    y = ifft(conj(df).*fft(full(x)));
+    y = s.*y;
     if isreal(x), y = real(y); end;
 end
 end
@@ -174,10 +202,9 @@ end
 
 function y = opToeplitzCircular_complex_intrnl(df,s,m,n,x,mode)
 if mode == 1
-    y = ifft(df.*fft([s.*full(x);zeros(max(m,n)-n,1)]));
-    y = y(1:m);
+    y = ifft(df.*fft(s.*full(x)));
 else
-    y = ifft(conj(df).*fft([full(x);zeros(max(m,n)-m,1)]));
-    y = s.*y(1:n);
+    y = ifft(conj(df).*fft(full(x)));
+    y = s.*y;
 end
 end
