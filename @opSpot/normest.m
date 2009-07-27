@@ -10,9 +10,15 @@ function [e,cnt] = normest(S,tol)
 
 if nargin < 2, tol = 1.e-6; end
 maxiter = 100; % should never take this many iterations. 
-n = size(S,2);
-x = rand(n,1);
+[m,n] = size(S);
 cnt = 0;
+
+% Generate random vector of +/-1s:
+v = ones(m,1);
+v(randn(m,1) < 0) = -1;
+
+% Our "estimate" of the absolute-value column sums.
+x = S'*v;
 e = norm(x);
 if e == 0, return, end
 x = x/e;
