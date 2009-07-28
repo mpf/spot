@@ -1,13 +1,19 @@
 function varargout = gmres(A,b,varargin)
 %GMRES   Generalized Minimum Residual Method.
 %
-%   See help of GMRES function provided by Matlab.
+%   X = GMRES(A,B) attempts to solve the square linear system A*X=B via
+%   the GMRES method.
+%
+%   This routine is simply a wrapper to Matlab's own GMRES routine,
+%   and the argument list variations described in Matlab's GMRES
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-if (size(A,1) ~= size(A,2)) || norm(abs(A*b-A'*b),inf) > 1e-14*norm(b,inf)
+if size(A,1) ~= size(A,2)
    error('Operator A must be symmetric.');
 end
 

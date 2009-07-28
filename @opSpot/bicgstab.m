@@ -1,13 +1,17 @@
 function varargout = bicgstab(A,b,varargin)
 %BICGSTAB   BiConjugate Gradients Stabilized Method.
 %
-%   X = BICGSTAB(A,B), or any of the other variants allowed by
-%   Matlab's own BICGSTAB routine.  The usage is identical to Matlab's
-%   default version, except that the first argument must be a Spot
-%   operator. (The remaining arguments are as usual.)
+%   X = BICGSTAB(A,B) attempts to solve the linear system A*X=B via
+%   the BICGSTAB method.
+%
+%   This routine is simply a wrapper to Matlab's own BICGSTAB routine,
+%   and the argument list variations described in Matlab's BICGSTAB
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % Check if A is square
 if size(A,1) ~= size(A,2)

@@ -1,16 +1,22 @@
 function varargout = pcg(A,b,varargin)
 %PCG   Preconditioned Conjugate Gradients Method.
 %
-%   See help of PCG function provided by Matlab.
+%   X = PCG(A,B) attempts to solve the symmetric positive-definite
+%   linear system A*X=B via the PCG method.
+%
+%   This routine is simply a wrapper to Matlab's own PCG routine,
+%   and the argument list variations described in Matlab's PCG
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-if (size(A,1) ~= size(A,2)) || norm(abs(A*b-A'*b),inf) > 1e-14*norm(b,inf)
-   error('Operator A must be symmetric positive definite.');
+if size(A,1) ~= size(A,2)
+   error('Operator A must be square.')
 end
-
+   
 % Set up multiplication function
 fun = @(x) (A*x);
 

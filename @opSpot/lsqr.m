@@ -1,22 +1,18 @@
 function varargout = lsqr(A,b,varargin)
 %LSQR   LSQR Method.
 %
-%   See help of LSQR function provided by Matlab.
+%   X = LSQR(A,B) attempts to solve the least-squares problem
+%
+%       minimize  || A*X - B ||_2
+%
+%   This routine is simply a wrapper to Matlab's own LSQR routine,
+%   and the argument list variations described in Matlab's LSQR
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-
-% Because of a bug in Matlab's LSQR code we need to set the maximum
-% number of iterations manually
-if isempty(varargin)
-   varargin{1} = 1e-6; % Tolerance
-end
-
-if length(varargin) < 2
-   varargin{2} = min([size(A,1),size(A,2),20]); % Maxit
-end
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % Set function handle
 fun = @(x,mode) lsqr_intrnl(A,x,mode);

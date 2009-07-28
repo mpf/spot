@@ -1,11 +1,17 @@
 function varargout = cgs(A,b,varargin)
 %CGS   Conjugate Gradients Squared Method.
 %
-%   See help of CGS function provided by Matlab.
+%   X = CGS(A,B) attempts to solve the square linear system A*X=B via
+%   the CGS method.
+%
+%   This routine is simply a wrapper to Matlab's own CGS routine,
+%   and the argument list variations described in Matlab's CGS
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % Check if A is square
 if size(A,1) ~= size(A,2)
@@ -22,13 +28,4 @@ elseif nargout <= 5
    [varargout{:}] = cgs(fun,b,varargin{:});
 else
    error('Too many output arguments.');
-end
-
-% ======================================================================
-
-function y = bicgstab_intrnl(A,x,mode)
-if strcmp(mode,'notransp')
-   y = A * x;
-else
-   y = A' * x;
 end
