@@ -1,16 +1,16 @@
 function test_products
 %test_op_products  Unit tests for operator products
 
-   seed = randn('state');
+   randn('state',0); rand('state',0);
 
    % Set up matrices and operators for problems
-   A  = randn(2,2) + sqrt(-1) * randn(2,2);
+   A  = randn(2,2) + 1i * randn(2,2);
    B  = opMatrix(A);
-   c  = randn(1,1) + sqrt(-1) * randn(1,1);
+   c  = randn(1,1) + 1i * randn(1,1);
    A  = A * c;
    B  = B * c;
    xr = randn(2,2);
-   xi = sqrt(-1) * randn(2,2);
+   xi = randn(2,2) *1i;
    x  = xr + xi;
 
    % Check operator products

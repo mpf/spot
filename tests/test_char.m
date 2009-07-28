@@ -3,9 +3,28 @@ function test_suite = test_char
 initTestSuite;
 end
 
-function test_char_elementaryops
+function test_char_elementary_ops
    m = 2; n = 2;
-   assertEqual( char(opBernoulli(m,n)),'Bernoulli(2,2)' )
-   assertEqual( char(opBinary(m,n))   ,'Binary(2,2)' )
-   % 15 Jul 09, MPF: Need to add asserts for other elementary ops.   
+   check( opBernoulli(m,n), 'Bernoulli', m, n )
+   check( opBinary(m,n),    'Binary',    m, n )
+   check( opDCT(m),         'DCT',       m, m )
+   check( opDCT2(m,n),      'DCT2',      m*n, m*n)
+   check( opDFT(m),         'DFT',       m, n )
+   check( opDFT2(m,n),      'DFT2',      m*n, m*n)
+   check( opDirac(m),       'Dirac',     m, m )
+   check( opEmpty(m,0),     'Empty',     m, 0 )
+   check( opEye(m),         'Eye',       m, m )   
+   check( opEye(m,n),       'Eye',       m, n )
+   check( opGaussian(m,n),  'Gaussian',  m, n )
+   check( opHaar(m*2^5),    'Haar',      m*2^5, m*2^5 )
+   check( opHaar2(64,32),   'Haar2',   64*32, 64*32)
+   check( opHadamard(n),    'Hadamard',  n, n )
+   check( opHeaviside(n),   'Heaviside', n, n )
+   check( opOnes(m,n),      'Ones',      m, n )
+   check( opWavelet(m,n,'Daubechies'),'Wavelet', m*n, m*n )
+   check( opZeros(m,n),     'Zeros',     m, n )
+end
+
+function check(op,name,m,n)
+   assertEqual( char(op), sprintf('%s(%i,%i)',name,m,n) )
 end

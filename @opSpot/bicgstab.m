@@ -1,11 +1,17 @@
 function varargout = bicgstab(A,b,varargin)
 %BICGSTAB   BiConjugate Gradients Stabilized Method.
 %
-%   See help of BICGSTAB function provided by Matlab.
+%   X = BICGSTAB(A,B) attempts to solve the linear system A*X=B via
+%   the BICGSTAB method.
+%
+%   This routine is simply a wrapper to Matlab's own BICGSTAB routine,
+%   and the argument list variations described in Matlab's BICGSTAB
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % Check if A is square
 if size(A,1) ~= size(A,2)
@@ -22,13 +28,4 @@ elseif nargout <= 5
    [varargout{:}] = bicgstab(fun,b,varargin{:});
 else
    error('Too many output arguments.');
-end
-
-% ======================================================================
-
-function y = bicgstab_intrnl(A,x,mode)
-if strcmp(mode,'notransp')
-   y = A * x;
-else
-   y = A' * x;
 end

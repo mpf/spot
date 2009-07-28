@@ -1,7 +1,7 @@
 function test_ctranspose
 %test_ctranspos  Unit tests for operator transpose
 
-   seed = randn('state');
+   randn('state',0); rand('state',0);
    
    % Set up matrices and operators for problems
    A  = randn(2,3) + sqrt(-1) * randn(2,3);

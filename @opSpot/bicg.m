@@ -1,11 +1,17 @@
 function varargout = bicg(A,b,varargin)
 %BICG   BiConjugate Gradients Method.
 %
-%   See help of BICG function provided by Matlab.
+%   X = BICG(A,B) attempts to solve the linear system A*X=B via the
+%   BICG method.
+%
+%   This routine is simply a wrapper to Matlab's own BICGS routine,
+%   and the argument list variations described in Matlab's BICG
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % Check if A is square
 if size(A,1) ~= size(A,2)

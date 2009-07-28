@@ -160,13 +160,15 @@ classdef CommandWindowTestRunDisplay < TestRunMonitor
             %    test error to the command window.
             for k = 1:numel(self.Faults)
                 faultData = self.Faults(k);
+                message = regexp(faultData.Exception.message,'\n','split');
+                [tmp,file] = fileparts(faultData.TestCase.Location);
                 if strcmp(faultData.Type, 'failure')
                     str = 'Failure';
                 else
                     str = 'Error';
                 end
-                fprintf('\n===== Test Case %s =====\nLocation: %s\nName:     %s\n\n', str, ...
-                    faultData.TestCase.Location, faultData.TestCase.Name);
+                fprintf('\n%8s: %20s (in %20s): %s\n',...
+                   str, file, faultData.TestCase.Name, message{1});
                 displayStack(filterStack(faultData.Exception.stack));
                 %fprintf('\n%s\n', faultData.Exception.message);
                 %                keyboard
@@ -187,7 +189,7 @@ for k = 1:numel(stack)
     filename = stack(k).file;
     linenumber = stack(k).line;
     href = sprintf('matlab: opentoline(''%s'',%d)', filename, linenumber);
-    fprintf('%s at <a href="%s">line %d</a>\n', filename, href, linenumber);
+    fprintf('    %s at <a href="%s">line %d</a>\n', filename, href, linenumber);
 end
 end
 
