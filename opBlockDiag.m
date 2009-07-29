@@ -65,7 +65,7 @@ classdef opBlockDiag < opSpot
           end
 
           % Check overlap parameter
-          if ~isposintscalar(abs(overlap)+1)
+          if ~spot.utils.isposintscalar(abs(overlap)+1)
              error('Overlap must be an integer scalar.');
           end
 
@@ -79,7 +79,7 @@ classdef opBlockDiag < opSpot
           % Set weights
           if isempty(weights)
              weights = ones(length(opList),1);
-          elseif isposintscalar(weights) && length(opList) == 1
+          elseif spot.utils.isposintscalar(weights) && length(opList) == 1
              weights = ones(weights,1);
           end;
        

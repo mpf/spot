@@ -89,7 +89,7 @@ classdef opInverse < opSpot
           end
 
            % Call LSQR
-           y = spotLSQR(m,n, A, x, damp,atol,btol,conlim,itnlim,show);
+           y = spot.solvers.lsqr(m,n,A,x,damp,atol,btol,conlim,itnlim,show);
         end % Multiply
 
     end % Methods

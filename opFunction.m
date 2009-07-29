@@ -34,7 +34,7 @@ classdef opFunction < opSpot
         
         % Constructor
         function op = opFunction(m,n,funhandle,cflag,linflag)
-
+           import spot.utils.*
            if nargin < 3
               error('opFunction requires at least three parameters.');
            end

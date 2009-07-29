@@ -62,7 +62,7 @@ classdef opExcise < opSpot
              if (length(idx) > size(A,dimIdx))
                 error('Index exceeds operator dimensions.');
              end
-          elseif isposintmat(idx)
+          elseif spot.utils.isposintmat(idx)
              if (max(idx) > size(A,dimIdx))
                 error('Index exceeds operator dimensions.');
              end

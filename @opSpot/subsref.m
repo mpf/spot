@@ -68,7 +68,7 @@ switch s.type
             result = double(op);
             result = result(:);
            
-         elseif isposintmat(idx)
+         elseif spot.utils.isposintmat(idx)
             % Check index range
             if any(idx > m*n)
                error('Index out of bounds.');
@@ -180,7 +180,7 @@ switch s.type
                 if (length(idx) > dims(i))
                    error('Index exceeds operator dimensions.');
                 end
-             elseif isposintmat(idx)
+             elseif spot.utils.isposintmat(idx)
                 if (max(idx) > dims(i))
                    error('Index exceeds operator dimensions.');
                 end

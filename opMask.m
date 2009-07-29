@@ -37,7 +37,7 @@ classdef opMask < opSpot
              if length(idx) > n
                 error('Index exceeds operator dimensions.');
              end
-          elseif isposintmat(idx) || isempty(idx)
+          elseif spot.utils.isposintmat(idx) || isempty(idx)
              if ~isempty(idx) && (max(idx) > n)
                 error('Index exceeds operator dimensions.');
              end

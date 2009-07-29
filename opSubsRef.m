@@ -57,7 +57,7 @@ classdef opSubsRef < opSpot
                 if (length(idx) > dims(i))
                    error('Index exceeds operator dimensions.');
                 end
-             elseif isposintmat(idx)
+             elseif spot.utils.isposintmat(idx)
                 if (max(idx) > dims(i))
                    error('Index exceeds operator dimensions.');
                 end
