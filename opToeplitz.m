@@ -55,7 +55,7 @@ classdef opToeplitz < opSpot
              type = 'circular';
           elseif nargin == 2
              if isscalar(varargin{2})
-                c = varargin{1};
+                r = varargin{1};
                 normalized = varargin{2};
                 type = 'circular';
              else
@@ -73,8 +73,8 @@ classdef opToeplitz < opSpot
 
           % Set row or column vector for symmetric Toeplitz
           if strcmp(type,'toeplitz')
-             if isempty(c), c = r; end;
-             if isempty(r), r = c; end;
+             if isempty(c), c = conj(r); c(1) = r(1); end;
+             if isempty(r), r = conj(c); r(1) = c(1); end;
           end
           
 
@@ -200,7 +200,7 @@ end
 
 %======================================================================
 
-function y = opToeplitzCircular_complex_intrnl(df,s,m,n,x,mode)
+function y = opToeplitzCircular_complex_intrnl(df,s,x,mode)
 if mode == 1
     y = ifft(df.*fft(s.*full(x)));
 else
