@@ -38,6 +38,8 @@ really neces sary!
 [] DCT, DCT2, FFT, FFT2, HAAR, HAAR2, WAVELET, WAVELET2; THESE ARE
 DERIVED FROM opOrthogonal.
 [] Redundant wavelet transform: RWavelet, RWavelet2.
+[] Is there anything we can to for printing opBlockDiag(20,opOnes(4,4),2)
+   nicely?
 
 Precedence levels
 1 - Operators that never need brackets, such as opDCT, opPower, opTranspose
