@@ -60,9 +60,9 @@ classdef opDCT < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
           if mode == 1
-             y = dct(full(x));
+             y = spot.utils.dct(full(x));
           else
-             y = idct(full(x));
+             y = spot.utils.idct(full(x));
           end
        end % function multiply
 

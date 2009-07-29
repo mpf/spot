@@ -81,12 +81,12 @@ classdef opDCT2 < opSpot
           m = op.inputdims(1);
           n = op.inputdims(2);
           if mode == 1
-             y = dct(full(reshape(x,m,n)));
-             y = dct(y')';
+             y = spot.utils.dct(full(reshape(x,m,n)));
+             y = spot.utils.dct(y')';
              y = y(:);
           else
-             y = idct(full(reshape(x,m,n)));
-             y = idct(y')';
+             y = spot.utils.idct(full(reshape(x,m,n)));
+             y = spot.utils.idct(y')';
              y = y(:);
           end
        end % function multiply

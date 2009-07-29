@@ -129,7 +129,7 @@ if (nargin == 1) && (isnumeric(varargin{1}) || issparse(varargin{1}))
    d      = varargin{1};
    d      = d(:); % Ensure d is a column vector
    N      = length(d);
-elseif (nargin >= 2) && (ischar(varargin{2}) && isposintscalar(varargin{1}))
+elseif (nargin >= 2) && (ischar(varargin{2}) && spot.utils.isposintscalar(varargin{1}))
    family = varargin{2};
    N = varargin{1};
    d = zeros(N,1);

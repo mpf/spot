@@ -87,7 +87,7 @@ classdef opSubsAsgn < opSpot
                     allIndex(i) =1;
                 end
                 
-             elseif isposintmat(idx)
+             elseif spot.utils.isposintmat(idx)
                 sizeIndex(i) = length(idx);
                 minIndex(i)  = min(idx);
                 maxIndex(i)  = max(idx);

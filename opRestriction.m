@@ -34,7 +34,6 @@ classdef opRestriction < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opRestriction(n,idx)
-       
           if nargin ~= 2
              error('Exactly two operators must be specified.')
           end
@@ -47,7 +46,7 @@ classdef opRestriction < opSpot
              else
                 m = sum(idx);
              end
-          elseif isposintmat(idx) || isempty(idx)
+          elseif spot.utils.isposintmat(idx) || isempty(idx)
              if ~isempty(idx) && (max(idx) > n)
                 error('Index exceeds operator dimensions.');
              else
