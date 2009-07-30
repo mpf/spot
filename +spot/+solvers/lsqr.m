@@ -1,5 +1,5 @@
 function [ x, istop, itn, r1norm, r2norm, anorm, acond, arnorm, xnorm, var ]...
-  = spotLSQR( m, n, A, b, damp, atol, btol, conlim, itnlim, show )
+  = lsqr( m, n, A, b, damp, atol, btol, conlim, itnlim, show )
 %
 %        [ x, istop, itn, r1norm, r2norm, anorm, acond, arnorm, xnorm, var ]...
 % = spotLSQR( m, n, A, b, damp, atol, btol, conlim, itnlim, show );

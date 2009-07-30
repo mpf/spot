@@ -1,25 +1,9 @@
 %opInverse   (Pseudo) inverse of operator
 %
-%   OP = opInverse(A) creates the (pseudo) inverse of M x N
-%   operator A. When applied, as in x = A * b, it calls the LSQR
-%   algorithm by Paige and Saunders to solve:
+%   Ainv = opInverse(A) creates the (pseudo) inverse of a M-by-N
+%   operator A. The product Ainv*b is then equivalent to A\b.
 %
-%                  minimize ||Ax - b||_2.
-%
-%   When the inverses below exist, the operator is equivalent to
-%
-%      M = N,  OP = (A)^-1
-%      M < N,  OP = A' * (A * A')^-1
-%      M > N,  OP = (A' * A)^-1 * A'
-
-%   For more information see:
-%
-%   [1] C. C. Paige and M. A. Saunders (1982a), LSQR: An algorithm
-%       for sparse linear equations and sparse least squares, ACM
-%       TOMS 8(1), 43-71.
-%   [2] C. C. Paige and M. A. Saunders (1982b), Algorithm 583.
-%       LSQR: Sparse linear equations and least squares problems,
-%       ACM TOMS 8(2), 195-209.
+%   See also @opSpot/mldivide.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
@@ -72,24 +56,13 @@ classdef opInverse < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          % Set paramters for LSQR call
           opA    = op.children{1};
-          damp   = 0;
-          atol   = 1e-9;
-          btol   = 1e-9;
-          conlim = 1e7;
-          itnlim = min([20,size(opA,1),size(opA,2)]);
-          show   = 0;
-
-          % Set the function used for multiplication
           if mode == 1
-             A = opA;  [m,n] = size(A);
+             A = opA;
           else
-             A = opA'; [m,n] = size(A);
+             A = opA';
           end
-
-           % Call LSQR
-           y = spot.solvers.lsqr(m,n,A,x,damp,atol,btol,conlim,itnlim,show);
+           y = A\x;
         end % Multiply
 
     end % Methods

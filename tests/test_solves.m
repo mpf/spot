@@ -3,16 +3,40 @@ function test_suite = test_solves
 initTestSuite;
 end
 
+function test_solves_mrdivide
+   
+   n = 3; A = magic(n); b = (1:n)';
+   x1 = b'/A;
+   
+   spotparams('cgtol',1e-8,'cgitsfact',3,'cgshow',0);
+   Aop = opMatrix(A);
+   x2 = b'/Aop;
+   
+   assertElementsAlmostEqual(x1,x2)
+   
+end
+
+function test_solves_mldivide
+   
+   n  = 100; on = ones(n,1); A = spdiags([-2*on 4*on -on],-1:1,n,n);
+   b  = sum(A,2); tol = 1e-8; maxit = 60;
+   [x1,flag1] = lsqr(A,b,tol,maxit);
+   
+   spotparams('cgtol',1e-8,'cgitsfact',3,'cgshow',0);
+   Aop = opFunction(n,n,@(x,mode)afun_diff(x,n,mode));
+   x2 = Aop\b;
+   
+   assertElementsAlmostEqual(x1,x2)
+   
+end
+
 function test_solves_opInverse
 
    n = 21; A = gallery('moler',n);  b = A*ones(n,1);
-   tol = 1e-9;  maxit = 15;  M = diag([10:-1:1 1 1:10]);
    Aop = opMatrix(A);
-   
-   x1 = opInverse(Aop)*b;   
-   [x2,ff2,rr2,it2,rv2] = pcg(Aop,b,tol,maxit,M);
-   
-   assertElementsAlmostEqual(x1,x2)
+   x = opInverse(Aop)*b;
+   r = b - Aop*x;
+   assertTrue(norm(r)/norm(b)<1e-6)
    
 end
 
