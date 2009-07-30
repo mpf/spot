@@ -4,8 +4,7 @@
 %   matrix. At least one of M and N must be zero.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opEmpty < opSpot
     
@@ -28,7 +27,14 @@ classdef opEmpty < opSpot
             
           op = op@opSpot('Empty',m,n);
        end % Constructor
-        
+
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = [];          
+       end       
+       
     end % Methods
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

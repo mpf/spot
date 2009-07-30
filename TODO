@@ -1,18 +1,9 @@
-TODO ($Id$)
+TODO
 
 [] opSpot class: move funhandle and matrix props, which are def'd in
    many (most?!) of the subclasses, into opSpot. (These are used too
    often.) Then can have opSpot/double.m do a simple check if
    ~isempty(op.matrix).
-
-[] isposintmat lives in both private and @opSpot/private -- is this
-really neces sary!
-
-[] Read the Rice Vector Library manual.
-
-[] Method for generating random elements (ie, vectors) from domain and
-   range of operator. Note: special cases such as real FFT. Useful for
-   dot-tests.
 
 [] opBlockDiag.m: Avoid replicating operator explicitly?  How to
                   display repeated blocks:
@@ -30,7 +21,6 @@ really neces sary!
 [] opWavelet.m: Help comment
 [] opToeplitz.m, opToepGauss.m, opToepSign.m: Help comment
 [] Comments in the @opSpot files
-[] Set ID property in SVN
 [] opSurfacelet.m: Haven't got a clue about how to use? Still have to test.
 [] For each operator, check if complexity, linear flag needs to be set or not
 [] opSubsRef.m, opSubsAsgn.m, opExcise.m: Add proper help
@@ -55,96 +45,3 @@ randn('state'). These are not compatible with the latest stream-based
 calls. Need to document this.
 
 
-DONE
-- opBernoulli
-- opBinary
-- opBlockDiag
-- opClass
-- opConj
-- opConvolve
-- opCurvelet
-- opDiag
-- opDictionary
-- opDirac
-- opEmpty
-- opExcise
-- opEye
-- opFFT
-- opFoG
-- opFunction
-- opGaussian
-- opHaar
-- opHadamard
-- opHeaviside
-- opImag
-- opInverse
-- opKron
-- opMatrix
-- opMask
-- opMinus
-- opOnes
-- opPower
-- opReal
-- opRestriction
-- opSparseBinary
-- opStack
-- opSubsAsgn
-- opSubsRef
-- opSum
-- opSurfacelet
-- opToepGauss
-- opToeplitz
-- opToepSign
-- opTranspose
-- opUnaryMinus
-- opWavelet
-- opWindow
-- opZeros
-
-DONE
-- bicg
-- bicgstab
-- blkdiag
-- cgs
-- char
-- conj
-- ctranspose
-- display
-- disp
-- double
-- end
-- full
-- gmres
-- horzcat
-- imag
-- inv
-- isscalar
-- isreal
-- isempty
-- kron
-- lsqr
-- minres
-- minus
-- mldivide
-- mtimes
-- mpower
-- mrdivide
-- ndims
-- pcg
-- plus
-- qmr
-- real
-- size
-- subsasgn
-- subsref
-- symmlq
-- transpose
-- uminus
-- uplus
-- vertcat
-
-[] opFFT: should this be unnormalized so that it mimics Matlab's
-          built-in fft? In other words, should we expect fft(y) ==
-          opFFT*y?
-
-   NO! Normalizing makes it an orthogonal matrix.

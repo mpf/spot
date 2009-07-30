@@ -83,7 +83,14 @@ classdef opSum < opSpot
           % Combine
           str = [str1, ' + ', str2];
        end % Char
-
+             
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = double(op.children{1}) + double(op.children{2});
+       end
+       
     end % Methods
 
 

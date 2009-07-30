@@ -10,8 +10,7 @@
 %   See also opDictionary, opStack, opSum.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opFoG < opSpot
    
@@ -71,10 +70,19 @@ classdef opFoG < opSpot
 
           % Preprocess operators
           op.operators = {A,B};
-          if isscalar(A), op.operators{1} = opMatrix(double(A)); end;
-          if isscalar(B), op.operators{2} = opMatrix(double(B)); end;
+          if isscalar(A), op.operators{1} = opMatrix(double(A)); end
+          if isscalar(B), op.operators{2} = opMatrix(double(B)); end
        end % Constructor
-      
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          C1 = op.children{1};
+          C2 = op.children{2};
+          A  = double(C1)*double(C2);
+       end
+       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

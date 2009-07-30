@@ -1,4 +1,4 @@
-classdef CommandWindowTestRunDisplay < TestRunMonitor
+classdef SpotTestRunDisplay < TestRunMonitor
 %CommandWindowTestRunDisplay Print test suite execution results to Command Window.
 %   CommandWindowTestRunDisplay is a subclass of TestRunMonitor.  If a
 %   CommandWindowTestRunDisplay object is passed to the run method of a
@@ -73,7 +73,7 @@ classdef CommandWindowTestRunDisplay < TestRunMonitor
             
             if isa(component, 'TestCase')
                 self.TestCaseCount = self.TestCaseCount + 1;
-                fprintf('Test %3i: %-30s\t\t',self.TestCaseCount,component.Name);
+                fprintf(' %3i: %-40s\t\t',self.TestCaseCount,component.Name);
                 if did_pass
                    fprintf('[pass]');
                 else

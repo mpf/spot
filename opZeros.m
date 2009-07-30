@@ -4,8 +4,7 @@
 %   of zeros. If parameter N is omitted it is set to M.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opZeros < opSpot
     
@@ -14,14 +13,22 @@ classdef opZeros < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
-        % Constructor
-        function op = opZeros(m,n)
-           if nargin < 1, m = 1; end;
-           if nargin < 2, n = m; end;
-            
-            op = op@opSpot('Zeros',m,n);
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Constructor
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function op = opZeros(m,n)
+          if nargin < 1, m = 1; end
+          if nargin < 2, n = m; end
+          op = op@opSpot('Zeros',m,n);
         end % Constructor
         
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = zeros(size(op));
+       end
+       
     end % Methods
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

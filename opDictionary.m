@@ -1,20 +1,17 @@
 %opDictionary   Dictionary of concatenated operators
 %
-%   opDictionary(WEIGHTS,OP1,OP2,...OPn) creates a dictionary
-%   operator consisting of the concatenation of all operators;
-%   [WEIGHT1*OP1 | WEIGHT2*OP2 | ... WEIGHTn*OPn]. Vector WEIGHTS
-%   can be of size nx1 or 1xn. If the same weight is to be applied
-%   to each operator, set WEIGHTS to a scalar. When WEIGHTS is
-%   empty [], it is set to  one. The WEIGHT parameter can be
-%   omitted as long as OP1 is not a vector of length (n-1); in
-%   which case there is no way to decide whether it is a weight
-%   vector or operator.
-% 
-%   See also opFoG, opStack, opSum.
+%   D = opDictionary(OP1,OP2,...OPn) creates a dictionary
+%   operator consisting of the concatenation of all operators, i.e.,
+%   
+%       D = [ OP1, OP2, ..., OPn ].
+%
+%   In general, it's best to use Matlab's horizonal concatenation
+%   operations instead of calling opDictionary. (The two are equivalent.)
+%
+%   See also opFoG, opStack, opSum, @opSpot/horzcat.
 
-%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opDictionary < opSpot
 
@@ -27,33 +24,16 @@ classdef opDictionary < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opDictionary(varargin)
-          % Checks weights parameter
-          if ~isnumeric(varargin{1})
-             weights = ones(nargin,1);
-             opList = varargin;
-          else
-             weights = varargin{1};
-             if isempty(weights), weights = 1; end;
-             [m,n] = size(weights);
-             if (((m == 1) && (n == nargin-1)) || ...
-                 ((n == 1) && (m == nargin-1)) || ...
-                 ((m == 1) && (n == 1)))
-               weights = ones(nargin-1,1).*weights(:); 
-               opList = varargin(2:end);
-             else
-               weights = ones(nargin,1);
-               opList = varargin;
-             end
-          end
 
           % Check number of operators
-          if (length(opList) < 1)
-            error('At least one operator must be specified.');
+          opList = varargin;
+          if isempty(opList)
+             error('At least one operator must be specified.');
           end
 
           % Convert all arguments to operators
           for i=1:length(opList)
-             if ~isa(opList{i},'opSpot') 
+             if ~isa(opList{i},'opSpot')
                 opList{i} = opMatrix(opList{i});
              end
           end
@@ -110,6 +90,20 @@ classdef opDictionary < opSpot
           
           str = [str, ']'];
        end % Display
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = zeros(size(op));
+          k = 0;
+          for i=1:length(op.children)
+             child = op.children{i};
+             n = size(child,2);
+             A(:,k+1:k+n) = double(child);
+             k = k + n;
+          end
+       end % double
 
     end % Methods
        

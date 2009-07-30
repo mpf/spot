@@ -4,8 +4,7 @@
 %   diagonal matrix with D on its diagonal.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opDiag < opSpot
 
@@ -13,32 +12,40 @@ classdef opDiag < opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = private)
-       diag = []; % Diagonal entries
+       diag     % Diagonal entries
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
-        % Constructor
-        function op = opDiag(d)
-           if nargin ~= 1
-              error('Invalid number of arguments.');
-           end
-           
-           % Vectorize d and get size
-           d = d(:);
-           n = length(d);
-           
-           % Construct operator
-           op = op@opSpot('Diag',n,n);
-           op.cflag      = ~isreal(d);
-           op.linear     = 1;
-           op.diag       = d;
-           op.precedence = 1;
-        end % Constructor
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Constructor
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function op = opDiag(d)
+          if nargin ~= 1
+             error('Invalid number of arguments.');
+          end
+          
+          % Vectorize d and get size
+          d = d(:);
+          n = length(d);
+          
+          % Construct operator
+          op = op@opSpot('Diag',n,n);
+          op.cflag      = ~isreal(d);
+          op.linear     = 1;
+          op.diag       = d;
+          op.precedence = 1;
+       end % Constructor
+
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % double
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = diag(op.diag);
+       end % double
         
     end % Methods
 
