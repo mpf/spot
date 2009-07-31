@@ -16,28 +16,28 @@ classdef opHaar2 < opWavelet
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Methods - Public
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods
-        
-        % Constructor
-        function op = opHaar2(m,n,levels,redundant)
-
-           if nargin < 2, error('At least two arguments required.'); end
-           if nargin < 3, levels    = 5;     end
-           if nargin < 4, redundant = false; end
-           
-           % n must be a multiple of 2^(levels)
-           if rem(m*n,2^levels)
-              error('N must be a multiple of 2^(%i)',levels)
-           end
-           
-           op = op@opWavelet(m,n,'Haar',1,levels,redundant);
-           op.type = 'Haar2';
-           
-        end % function opHaar2
-        
-    end % methods - public
-        
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - Public
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods
+      
+      % Constructor
+      function op = opHaar2(m,n,levels,redundant)
+         %opHaar  constructor
+         if nargin < 2, n = m; end
+         if nargin < 3, levels = 5; end
+         if nargin < 4, redundant = false; end
+         
+         % n must be a multiple of 2^(levels)
+         if rem(m*n,2^levels)
+            error('N must be a multiple of 2^(%i)',levels)
+         end
+         
+         op = op@opWavelet(m,n,'Haar',1,levels,redundant);
+         op.type = 'Haar2';
+         
+      end % function opHaar2
+      
+   end % methods - public
+   
 end % classdef

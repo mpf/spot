@@ -34,8 +34,10 @@ classdef opDFT2 < opOrthogonal
       % opDFT2. Constructor.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function op = opDFT2(m,n,centered)
-         if nargin < 2 || nargin > 3
+         if nargin < 1 || nargin > 3
             error('Invalid number of arguments to opDFT2.');
+         elseif nargin == 1
+            n = m;
          end
          if nargin >= 3 && islogical(centered)
             centered = true;
