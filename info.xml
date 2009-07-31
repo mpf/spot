@@ -1,0 +1,22 @@
+<productinfo
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="optional">
+<?xml-stylesheet type="text/xsl" href="optional"?>
+
+<matlabrelease>R2008b</matlabrelease>
+<name>Spot</name>
+<type>toolbox</type>
+<icon>$docroot/techdoc/matlab_env/examples/specsimicon.gif</icon>
+<help_location></help_location>
+
+<list>
+
+<listitem>
+<label>Spot Web Site</label>
+<callback>web http://www.cs.ubc.ca/labs/scl -browser;</callback>
+<icon>$docroot/techdoc/matlab_env/examples/webicon.gif</icon>
+</listitem>
+
+</list>
+
+</productinfo>
