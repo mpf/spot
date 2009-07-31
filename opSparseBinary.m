@@ -1,6 +1,6 @@
 %opSparseBinary   Random sparse binary matrix
 %
-%   opSparseBinary(M,N) creates an M by N sparse binary matrix with
+%   opSparseBinary(M,N) creates an M-by-N sparse binary matrix with
 %   min(M,8) nonzeros in each column.
 %
 %   opSparseBinary(M,N,D) is the same as above, except that each
@@ -15,9 +15,8 @@
 %
 %   See also RAND, RANDPERM, SPARSE
 
-%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opSparseBinary < opSpot
 
@@ -27,7 +26,6 @@ classdef opSparseBinary < opSpot
     properties (SetAccess = private)
        matrix = []; % Sparse matrix representation
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -69,9 +67,8 @@ classdef opSparseBinary < opSpot
           op = op@opSpot('SparseBinary', m, n);
           op.matrix = A;
        end % Constructor
-       
+                 
     end % Methods
-
 
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

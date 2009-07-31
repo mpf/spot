@@ -1,26 +1,30 @@
 %opToeplitz   Toeplitz matrix
 %
-%   OP = opToeplitz(R,NORMALIZED) creates an N-by-N circular Toeplitz
-%   operator where N is the length R. The entries of R prescribe the
-%   first row of the operator. The optional NORMALIZED parameter
-%   specifies whether the columns of the operator should be scaled to
-%   unit Euclidean length.
+%   OP = opToeplitz(R) creates an N-by-N circular Toeplitz
+%   operator from the N-vector R. The entries of R prescribe the
+%   first row of the operator.
 %
-%   OP = opToeplitz(C,R,NORMALIZED) creates an M-by-M Toeplitz
+%   OP = opToeplitz(C,R) creates an symmetric M-by-M Toeplitz
 %   operator where M = length(C) and M = length(R). The entries of C
-%   defined the first column of the operator, and likewise, R
-%   prescribes the first row. The optional NORMALIZED parameter
-%   determines the column scaling. Whenever either C or R is the empty
-%   vector [], the resulting operator will be symmetric.
-
+%   prescribe the first column of the operator, and likewise, R
+%   prescribes the first row.
+%
+%   The above calls are nearly idential to Matlab's built-in TOEPLITZ
+%   function.
+%
+%   Additionally, each call above accepts an optional logical flag that
+%   indicates if the column are scaled to have unit 2-norm length:
+%
+%   OP = opToeplitz(R,NORMALIZED)
+%   OP = opToeplitz(C,R,NORMALIZED)
+%
 %   Multiplication in either mode is implemented using the fast
 %   Fourier transform
 %
-%   See also opToepGauss, opToepSign.
+%   See also teoplitz, opToepGauss, opToepSign.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 classdef opToeplitz < opSpot
 
@@ -30,7 +34,6 @@ classdef opToeplitz < opSpot
     properties (SetAccess = private)
        funHandle = []; % Multiplication function
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

@@ -53,6 +53,13 @@ classdef opUnaryMinus < opSpot
           str = ['-', str];
        end % Char
        
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Display
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = double(op)
+          A = -double(op.children{1});
+       end % double
+       
     end % Methods
 
 
