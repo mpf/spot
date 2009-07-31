@@ -11,7 +11,8 @@
 %   reshaped into a matrix with M/BR1-by-N/BC1 blocks of size
 %   BR2-by-BC2, and the conjugate transpose of OPIN is applied to each
 %   block as described above to give BR1-by-BC1 blocks. These form an
-%   M-by-N matrix which is vectorized for output.
+%   M-by-N matrix which is vectorized for output. When omitted, BR2
+%   and BC2 are respectively set to BR1 and BC1 by default.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
@@ -39,8 +40,12 @@ classdef opBlockOp < opSpot
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function op = opBlockOp(m,n,A,br1,bc1,br2,bc2)
            
-           nbr = m / br1;
-           nbc = n / bc1;
+           nbr = m / br1; % Number of blocks in row direction
+           nbc = n / bc1; % Number of blocks in column direction
+
+           if ~exist('br2','var'), br2 = br1; end;
+           if ~exist('bc2','var'), bc2 = bc1; end;
+           
            if nbr ~= round(nbr) || nbc ~= round(nbc)
               error('Block size must divide data dimensions.');
            end

@@ -17,6 +17,7 @@ TODO
    non-linear operators? NO!!! Check linear flag. LIKEWISE for PCG,
    LSQR, ...
 
+[] Add inverse implementation for opBlockOp
 [] Clean up multiplication implementations, see e.g., opCurvelet
 [] opWavelet.m: Help comment
 [] opToeplitz.m, opToepGauss.m, opToepSign.m: Help comment

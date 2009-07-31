@@ -1,5 +1,4 @@
 function test_suite = test_opToeplitz
-%test_opGaussian  Unit tests for the Gaussian operator
 initTestSuite;
 end
 

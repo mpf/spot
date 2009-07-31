@@ -2,7 +2,8 @@
 %
 %   opDCT2(M,N) creates a two-dimensional discrete cosine transform
 %   operator for matrices of size M-by-N. Input and output of the
-%   matrices is done in vectorized form.
+%   matrices is done in vectorized form. When N is omitted it is set
+%   to M by default.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/sparco
@@ -27,9 +28,12 @@ classdef opDCT2 < opSpot
         % Constructor
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function op = opDCT2(m,n)
-           if nargin ~= 2
+           if nargin < 1 || nargin > 2
               error('Invalid number of arguments.');
            end
+           
+           if nargin == 1, n = m; end;
+
            if ~isscalar(m) || m~=round(m) || m <= 0
               error('First argument to opDCT2 must be a positive integer.');
            end
