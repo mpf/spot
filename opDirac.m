@@ -1,3 +1,4 @@
+classdef opDirac < opOrthogonal    
 %opDirac  Dirac basis
 %
 %   opDirac(N) creates the square N-by-N identity operator. Without
@@ -7,36 +8,33 @@
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opDirac < opSpot
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Methods - Public
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods
-        
-        % Constructor
-        function op = opDirac(n)
-            if nargin < 1, n = 1; end;
-            
-            op = op@opSpot('Dirac',n,n);
-        end
-        
-        function A = double(op)
-           A = eye(size(op));
-        end
-        
-    end % Methods
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Methods - protected
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods( Access = protected )
-       
-        % Multiplication
-        function y = multiply(op,x,mode)
-           y = x;
-        end % Multiply
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - public
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods
       
-    end % Methods
-        
-end % Classdef
+      % Constructor
+      function op = opDirac(n)
+         if nargin < 1, n = 1; end
+         op = op@opOrthogonal('Dirac',n,n);
+      end
+      
+      function A = double(op)
+         A = eye(size(op));
+      end
+      
+   end % methods - public
+   
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - protected
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods( Access = protected )
+      
+      % Multiplication
+      function y = multiply(op,x,mode)
+         y = x;
+      end
+      
+   end % methods - protected
+   
+end % classdef

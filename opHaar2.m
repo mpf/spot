@@ -1,3 +1,4 @@
+classdef opHaar2 < opWavelet
 %opHaar2   2-D Haar Wavelet
 %
 %   opHaar2(M,N) creates a Haar Wavelet operator for 2-D signals of
@@ -13,10 +14,7 @@
 %   See also opHaar, opWavelet.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opHaar2 < opWavelet
+%   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -38,8 +36,8 @@ classdef opHaar2 < opWavelet
            op = op@opWavelet(m,n,'Haar',1,levels,redundant);
            op.type = 'Haar2';
            
-        end % Constructor
+        end % function opHaar2
         
-    end % Methods
+    end % methods - public
         
-end % Classdef
+end % classdef

@@ -1,3 +1,5 @@
+classdef opDFT2 < opOrthogonal
+
 %opDFT2  Two-dimensional fast Fourier transform (DFT).
 %
 %   opDFT2(M,N) creates a two-dimensional normalized Fourier transform
@@ -9,94 +11,98 @@
 %   spectrum, if the CENTERED flag is set to true.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opDFT.m 13 2009-06-28 02:56:46Z mpf $
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opDFT2 < opSpot
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Properties
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties ( SetAccess = private )
-       funHandle = []; % Multiplication function
-    end % Properties
-
-    properties ( SetAccess = private, GetAccess = public )
-       centered = false;
-    end % properties
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Methods - Public
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods
-        
-        % Constructor
-        function op = opDFT2(m,n,centered)
-           if nargin < 2 || nargin > 3
-              error('Invalid number of arguments to opDFT2.');
-           end
-           if nargin >= 3 && islogical(centered)
-              centered = true;
-           else
-              centered = false;
-           end
-           if  ~isscalar(m) || m~=round(m) || m <= 0
-              error('First argument to opDFT2 must be positive integer.');
-           end
-           if  ~isscalar(n) || n~=round(n) || n <= 0
-              error('Second argument to opDFT2 must be positive integer.');
-           end
-
-           op = op@opSpot('DFT2',m*n,m*n);
-           op.centered  = centered;
-           op.cflag     = true;
-
-           % Initialize function handle
-           if centered
-              fun = @(x,mode) opDFT2d_centered_intrnl(m,n,x,mode);
-           else
-              fun = @(x,mode) opDFT2d_intrnl(m,n,x,mode);
-           end
-           op.funHandle = fun;
-        end
-        
-    end % Methods
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Methods - protected
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods( Access = protected )
-       
-        % Multiplication
-        function y = multiply(op,x,mode)
-           y = op.funHandle(x,mode);
-        end % Multiply
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Properties
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   properties ( SetAccess = private )
+      funHandle = []; % Multiplication function
+   end % properties
+   
+   properties ( SetAccess = private, GetAccess = public )
+      inputdims         % Dimensions of the input
+      centered          % Flag if operator created with center flag
+   end % properties
+   
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - Public
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods
       
-    end % Methods
-        
-end % Classdef
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      % opDFT2. Constructor.
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      function op = opDFT2(m,n,centered)
+         if nargin < 2 || nargin > 3
+            error('Invalid number of arguments to opDFT2.');
+         end
+         if nargin >= 3 && islogical(centered)
+            centered = true;
+         else
+            centered = false;
+         end
+         if  ~isscalar(m) || m~=round(m) || m <= 0
+            error('First argument to opDFT2 must be positive integer.');
+         end
+         if  ~isscalar(n) || n~=round(n) || n <= 0
+            error('Second argument to opDFT2 must be positive integer.');
+         end
+         
+         op = op@opOrthogonal('DFT2',m*n,m*n);
+         op.centered  = centered;
+         op.cflag     = true;
+         op.inputdims = [m,n];
+         
+         % Initialize function handle
+         if centered
+            op.funHandle = @opDFT2d_centered_intrnl;
+         else
+            op.funHandle = @opDFT2d_intrnl;
+         end
+      end % function opDFT2
+      
+   end % methods - public
+   
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - protected
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods( Access = protected )
+      
+      function y = multiply(op,x,mode)
+         y = op.funHandle(op,x,mode);
+      end % function multiply
+      
+   end % methods - protected
 
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Methods - private
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   methods( Access = private )
 
-%======================================================================
+      function y = opDFT2d_intrnl(op,x,mode)
+         m = op.inputdims(1);
+         n = op.inputdims(2);
+         if mode == 1
+            y = reshape( fft2(reshape(full(x),m,n)) / sqrt(m*n), m*n, 1);
+         else
+            y = reshape(ifft2(reshape(full(x),m,n)) * sqrt(m*n), m*n, 1);
+         end
+      end % function opDFT2d_intrnl
+      
+      % Two-dimensional DFT - Centered
+      function y = opDFT2d_centered_intrnl(op,x,mode)
+         m = op.inputdims(1);
+         n = op.inputdims(2);
+         if mode == 1
+            y = fftshift(fft2(reshape(full(x),m,n))) / sqrt(m*n);
+            y = reshape(y,m*n,1);
+         else
+            y = ifft2(ifftshift(reshape(full(x),m,n))) * sqrt(m*n);
+            y = reshape(y,m*n,1);
+         end
+      end % function opDFT2d_centered_intrnl
 
-% Two-dimensional DFT
-function y = opDFT2d_intrnl(m,n,x,mode)
-if mode == 1
-   y = reshape( fft2(reshape(full(x),m,n)) / sqrt(m*n), m*n, 1);
-else
-   y = reshape(ifft2(reshape(full(x),m,n)) * sqrt(m*n), m*n, 1);
-end
-end
-
-%======================================================================
-
-% Two-dimensional DFT - Centered
-function y = opDFT2d_centered_intrnl(m,n,x,mode)
-if mode == 1
-   y = fftshift(fft2(reshape(full(x),m,n))) / sqrt(m*n);
-   y = reshape(y,m*n,1);
-else
-   y = ifft2(ifftshift(reshape(full(x),m,n))) * sqrt(m*n);
-   y = reshape(y,m*n,1);
-end
-end
+   end % methods - private
+   
+end % classdef
