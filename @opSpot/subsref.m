@@ -68,47 +68,6 @@ switch s.type
             result = double(op);
             result = result(:);
            
-         elseif spot.utils.isposintmat(idx)
-            % Check index range
-            if any(idx > m*n)
-               error('Index out of bounds.');
-            end
-            
-            % Create matrix version of operator, restricted to the
-            % rows or columns accessed (this reduces the number of
-            % operator applications needed to generate the explicit
-            % matrix)
-            colIdx  = floor((idx+m-0.5)/m);
-            rowIdx  = mod(idx-1,m) + 1;
-            columns = unique(colIdx);
-            rows    = unique(rowIdx);
-            
-            if length(rows) < length(columns)
-               rowMap =  zeros(max(rows),1);
-               rowMap(rows) = 0:length(rows)-1;
-               
-               % Prepare ssub structure (cannot use (rows,:) in call)
-               ssub = struct();
-               ssub.subs = {rows,':'};
-               ssub.type = '()';
-               
-               matrix  = double(subsref(op,ssub)');
-               matrix  = matrix(:);
-               result  = reshape(matrix(colIdx + rowMap(rowIdx)*n), p,q);
-            else
-               colMap = zeros(max(columns),1);
-               colMap(columns) = 0:length(columns)-1;
-
-               % Prepare ssub structure (cannot use (:,columns))
-               ssub = struct();
-               ssub.subs = {':',columns};
-               ssub.type = '()';
-            
-               matrix  = double(subsref(op,ssub));
-               matrix  = matrix(:);
-               result  = reshape(matrix(rowIdx + colMap(colIdx)*m), p,q);
-            end
-            
          elseif islogical(idx)
             % Check index range
             if (numel(idx) > m*n) ...
@@ -155,12 +114,55 @@ switch s.type
                result  = matrix(idx);
             end
                         
-            if p == 1, result = result'; end;            
+            if p == 1, result = result'; end
+            
+         elseif spot.utils.isposintmat(idx)
+            % Check index range
+            if any(idx > m*n)
+               error('Index out of bounds.');
+            end
+            
+            % Create matrix version of operator, restricted to the
+            % rows or columns accessed (this reduces the number of
+            % operator applications needed to generate the explicit
+            % matrix)
+            colIdx  = floor((idx+m-0.5)/m);
+            rowIdx  = mod(idx-1,m) + 1;
+            columns = unique(colIdx);
+            rows    = unique(rowIdx);
+            
+            if length(rows) < length(columns)
+               rowMap =  zeros(max(rows),1);
+               rowMap(rows) = 0:length(rows)-1;
+               
+               % Prepare ssub structure (cannot use (rows,:) in call)
+               ssub = struct();
+               ssub.subs = {rows,':'};
+               ssub.type = '()';
+               
+               matrix  = double(subsref(op,ssub)');
+               matrix  = matrix(:);
+               result  = reshape(matrix(colIdx + rowMap(rowIdx)*n), p,q);
+            else
+               colMap = zeros(max(columns),1);
+               colMap(columns) = 0:length(columns)-1;
+
+               % Prepare ssub structure (cannot use (:,columns))
+               ssub = struct();
+               ssub.subs = {':',columns};
+               ssub.type = '()';
+            
+               matrix  = double(subsref(op,ssub));
+               matrix  = matrix(:);
+               result  = reshape(matrix(rowIdx + colMap(colIdx)*m), p,q);
+            end
+            
          else
             error('Invalid data type used for indexing.');
          end
          
          varargout{1} = result; % Numerical result
+         
       else
          % --------------------------------------------------
          % Higher-dimensional indexing -- create sub-operator
