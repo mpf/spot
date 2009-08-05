@@ -26,7 +26,7 @@ if isnumeric(A)
        % s*C (mode 3)
        y = opFoG(A,B);
     else
-       % M*C (mode 1) or ((M-by-1)*scalar)'
+       % M*C (mode 1)
        y = (B' * A')';
     end
     
