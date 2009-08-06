@@ -1,3 +1,4 @@
+classdef opTranspose < opSpot
 %opTranspose   Transpose of an operator.
 %
 %   opTranspose(OP) returns the tranpose of OP.
@@ -5,18 +6,14 @@
 %   See also opCTranspose, opConj, opReal, opImag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opTranspose < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (Access = private)
        opIntrnl = []; % Internal operator
-    end % Properties
-
+    end % properties
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -46,9 +43,8 @@ classdef opTranspose < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
           op.opIntrnl   = conj(A)';
-       end % Constructor
+       end % function opTranspose
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
@@ -60,9 +56,23 @@ classdef opTranspose < opSpot
              str = ['(', str, ')'];
           end
           str = [str ,'.'''];
-       end % Char
+       end % function char
        
-    end % Methods
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Conj
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = conj(op)
+          opOut = ctranspose(op.children{1});
+       end % function conj
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Transpose
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = transpose(op)
+          opOut = op.children{1};
+       end % function transpose
+    
+    end % methods - public
 
 
     methods ( Access = protected )
@@ -71,8 +81,8 @@ classdef opTranspose < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
           y = apply(op.opIntrnl,x,mode);
-       end % Multiply
+       end % function multiply
 
-    end % Methods
+    end % methods - protected
    
-end % Classdef
+end % classdef
