@@ -55,11 +55,13 @@ elseif isnumeric(B)
       end
    
       % Preallocate y
-      y = zeros(m,q);
-   
+      if q > 1 || issparse(B)
+         y = zeros(m,q);
+      end
+      
       % Perform operator*vector on each column of B
-      if isempty(A) % Zero rows or columns
-         % Nothing to be done, result will be y
+      if isempty(A)
+         y = zeros(m,q);
       else
          for i=1:q
             y(:,i) = A.apply(B(:,i),1);
