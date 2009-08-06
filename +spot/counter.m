@@ -6,11 +6,6 @@ classdef counter < handle
    methods
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      function c = counter()
-      %counter  Constructor
-      end
-
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function varargout = subsref(obj,s)
       %subsref  Subscribed reference
          switch s.type
