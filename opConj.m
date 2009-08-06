@@ -1,3 +1,4 @@
+classdef opConj < opSpot
 %opConj   Take the elementwise conjugate of a complex operator.
 %
 %   opConj(OP) is the elementwise complex conjugate of operator
@@ -7,10 +8,8 @@
 %   See also opImag, opReal.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opConj < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -40,8 +39,7 @@ classdef opConj < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
-       end % Constructor
+       end % function opConj
 
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,9 +48,23 @@ classdef opConj < opSpot
        function str = char(op)
           op1 = op.children{1};
           str = ['Conj(', char(op1), ')'];
-       end % Char
+       end % function char
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Conj
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = conj(op)
+          opOut = op.children{1};
+       end % function conj
       
-    end % Methods
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Transpose
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = transpose(op)
+          opOut = ctranspose(op.children{1});
+       end % function transpose
+
+    end % methods - public
 
 
     methods ( Access = protected )
@@ -65,10 +77,10 @@ classdef opConj < opSpot
            else
               y = conj(apply(op.children{1},conj(x),2));
            end
-       end % Multiply
+       end % function multiply
 
-    end % Methods
+    end % methods - protected
    
-end % Classdef
+end % classdef
     
 
