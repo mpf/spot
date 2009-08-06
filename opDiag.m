@@ -43,7 +43,7 @@ classdef opDiag < opSpot
       % mldivide
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function x = mldivide(op,B)
-         n = op.n;
+         n = size(op,1);
          if size(B,1) ~= n
             error('Matrix dimensions must agree')
          end
