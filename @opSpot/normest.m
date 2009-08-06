@@ -18,7 +18,7 @@ v = ones(m,1);
 v(randn(m,1) < 0) = -1;
 
 % Our "estimate" of the absolute-value column sums.
-x = S'*v;
+x = abs(S'*v);
 e = norm(x);
 if e == 0, return, end
 x = x/e;
