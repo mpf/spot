@@ -1,3 +1,4 @@
+classdef opClass < opSpot
 %OPCLASS   Wrapper for classes
 %
 %   OPCLASS(M,N,OBJ,CFLAG,LINFLAG) creates an M by N wrapper operator
@@ -8,11 +9,8 @@
 %   CFLAG=0, LINFLAG=1.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opClass < opSpot
-   
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,5 +72,3 @@ classdef opClass < opSpot
     end % methods
    
 end
-    
-

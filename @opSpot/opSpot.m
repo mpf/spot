@@ -14,15 +14,19 @@ classdef opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = protected)
-        linear   = 1;
-        counter  = spot.counter();
-        m        = 0;
-        n        = 0;
-        type     = '';
-        cflag    = false; % Complexity of underlying operator
-        children = {};    % Constituent operators (for a meta operator)
-        precedence = 1;
+    properties( SetAccess = protected )
+       linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+       counter
+       m        = 0;     % No. of rows
+       n        = 0;     % No. of columns
+       type     = '';
+       cflag    = false; % Complexity of underlying operator
+       children = {};    % Constituent operators (for a meta operator)
+       precedence = 1;
+    end
+    
+    properties( Dependent = true, SetAccess = private )
+       nprods
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,8 +34,8 @@ classdef opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
-        % Constructor.
         function op = opSpot(type,m,n)
+        %opSpot  Constructor.
             if nargin == 0
                % Relax -- empty constructor.
             
@@ -39,27 +43,34 @@ classdef opSpot
                 m = max(0,m);
                 n = max(0,n);
                 if round(m) ~= m || round(n) ~= n
-                    warning('Size parameters are not integer.');
+                    warning('SPOT:ambiguousParams',...
+                       'Size parameters are not integer.');
                     m = floor(m);
                     n = floor(n);
                 end
                 op.type = type;
                 op.m    = m;
                 op.n    = n;
-                
+                op.counter = spot.counter();
             else
                 error('Unsupported use of Spot constructor.');
             end
-        end
+        end % function opSpot
+        
+        function nprods = get.nprods(op)
+        %get.nprods  Get a count of the produts with the operator.
+           nprods = [op.counter.mode1, op.counter.mode2];
+        end % function get.Nprods
+        
     end % methods - public
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods (Access = protected)
+    methods( Access = protected )
        function y = apply(op,x,mode)
           % Update counter
-          op.counter(mode) = op.counter(mode) + 1;
+          op.counter.plus1(mode);
           y = op.multiply(x,mode);
        end
     end % methods - private
@@ -67,7 +78,7 @@ classdef opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    methods (Abstract, Access = protected)
+    methods( Abstract, Access = protected )
         y = multiply(op,x,mode)
     end % methods - abstract
     

@@ -1,3 +1,4 @@
+classdef opExcise < opSpot
 %opExcise   Excise rows or columsn of an operator.
 %
 %   opExcise(OP,IDX,TYPE) excises the entries in the rows or columns
@@ -6,10 +7,8 @@
 %   See also opRestrict.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opTranspose.m 13 2009-06-28 02:56:46Z mpf $
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opExcise < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -19,7 +18,6 @@ classdef opExcise < opSpot
        indices    = []; % Indices
        rowExcise  = false;
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -92,7 +90,6 @@ classdef opExcise < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
           op.opIntrnl   = opIntrnl;
           op.indices    = idx;
           op.rowExcise  = rowExcise;

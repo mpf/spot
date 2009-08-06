@@ -1,3 +1,4 @@
+classdef opCTranspose < opSpot
 %opCTranspose   Conjugate transpose of an operator.
 %
 %   opCTranspose(OP) returns the conjugate tranpose of OP.
@@ -5,10 +6,7 @@
 %   See also opTranspose, opConj, opReal, opImag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opCTranspose < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -38,7 +36,6 @@ classdef opCTranspose < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,10 +50,9 @@ classdef opCTranspose < opSpot
           str = [str ,''''];
        end % Char
        
-    end % Methods
+    end % methods - public
 
-
-    methods ( Access = protected )
+    methods( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,8 +62,8 @@ classdef opCTranspose < opSpot
            else
               y = apply(op.children{1},x,1);
            end
-       end % Multiply
+       end % function multiply
 
-    end % Methods
+    end % methods - private
    
-end % Classdef
+end % classdef

@@ -1,3 +1,4 @@
+classdef opConvolve < opSpot
 %opConvolve   One and two dimensional convolution operator
 %
 %   opConvolve(M,N,KERNEL,OFFSET,MODE) creates an operator for one or
@@ -26,16 +27,13 @@
 %   operators, is in vector form.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opConvolve < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = private)
-       funHandle = []; % Multiplication function
+       funHandle     % Multiplication function
     end % Properties
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

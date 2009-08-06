@@ -1,3 +1,4 @@
+classdef opBlockDiag < opSpot
 %opBlockDiag   Operator-diagonal operator
 %
 %   B = opBlockDiag(OP1, OP2,...,OPN,OVERLAP) creates a compound block
@@ -21,17 +22,14 @@
 %   See also opFoG, opKron, opDictionary.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opBlockDiag < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-       funHandle = []; % Multiplication function
-    end % Properties
+    properties( SetAccess = private )
+       funHandle     % Multiplication function
+    end % properties
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -159,7 +157,6 @@ classdef opBlockDiag < opSpot
           op.cflag      = cflag;
           op.linear     = linear;
           op.children   = opList;
-          op.precedence = 1;
           op.funHandle  = fun;
       end
       

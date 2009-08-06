@@ -1,3 +1,4 @@
+classdef opCurvelet < opSpot
 %opCurvelet  Two-dimensional curvelet operator
 %
 %   opCurvelet(M,N,NBSCALES,NBANGLES,TTYPE) creates a two-dimensional
@@ -15,10 +16,7 @@
 %   See also CURVELAB.
 
 %   Copyright 2009, Gilles Hennenfent, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opCurvelet < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
@@ -26,7 +24,6 @@ classdef opCurvelet < opSpot
     properties (SetAccess = private)
        funHandle = []; % Multiplication function
     end % Properties
-
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

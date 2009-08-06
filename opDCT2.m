@@ -1,5 +1,4 @@
 classdef opDCT2 < opOrthogonal
-    
 %opDCT2  Two-dimensional discrete cosine transform (DCT)
 %
 %   opDCT2(M,N) creates a two-dimensional discrete cosine transform
@@ -8,13 +7,12 @@ classdef opDCT2 < opOrthogonal
 %   to M by default.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
+%   http://www.cs.ubc.ca/labs/scl/spot
     
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Properties
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    properties( SetAccess = private )
-      funHandle;    % Multiplication function
       inputdims;    % Dimensions of the input
    end % properties - private
    

@@ -1,3 +1,4 @@
+classdef opBlockOp < opSpot
 %opBlockOp   Blockwise application of operator on matrices
 %
 %   B = opBlockOp(M,N,OPIN,BR1,BC1,BR2,BC2) creates an operator that
@@ -15,11 +16,8 @@
 %   and BC2 are respectively set to BR1 and BC1 by default.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opBlockOp < opSpot
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

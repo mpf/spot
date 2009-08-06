@@ -1,3 +1,4 @@
+classdef opFunction < opSpot
 %opFunction   Wrapper for functions
 %
 %   opFunction(M,N,FUN,CFLAG,LINFLAG) creates a wrapper for function
@@ -15,10 +16,7 @@
 %   is linear or not. The default values are CFLAG=0, LINFLAG=1.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opFunction < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

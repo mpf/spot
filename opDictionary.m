@@ -1,3 +1,4 @@
+classdef opDictionary < opSpot
 %opDictionary   Dictionary of concatenated operators
 %
 %   D = opDictionary(OP1,OP2,...OPn) creates a dictionary
@@ -12,8 +13,6 @@
 
 %   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
-
-classdef opDictionary < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

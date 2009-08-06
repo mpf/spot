@@ -16,8 +16,8 @@ classdef opDFT2 < opOrthogonal
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Properties
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   properties ( SetAccess = private )
-      funHandle = []; % Multiplication function
+   properties ( Access = private )
+      funHandle         % Multiplication function
    end % properties
    
    properties ( SetAccess = private, GetAccess = public )

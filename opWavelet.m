@@ -89,9 +89,9 @@ classdef opWavelet < opOrthogonal
          
          % Initialize function handle
          if redundant
-            op.funHandle = @matvec_redundant;
+            op.funHandle = @multiply_redundant_intrnl;
          else
-            op.funHandle = @matvec;
+            op.funHandle = @multiply_intrnl;
          end
          
       end % function opWavelet
@@ -103,7 +103,7 @@ classdef opWavelet < opOrthogonal
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % matvec.  Application of Wavlet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      function y = matvec(op,x,mode)
+      function y = multiply_intrnl(op,x,mode)
          p = op.signal_dims(1);
          q = op.signal_dims(2);
          levels = op.levels; filter = op.filter;
@@ -133,7 +133,7 @@ classdef opWavelet < opOrthogonal
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % matvec_redundant.  Application of redundant Wavlet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      function y = matvec_redundant(op,x,mode)
+      function y = multiply_redundant_intrnl(op,x,mode)
          p = op.signal_dims(1);
          q = op.signal_dims(2);
          nseg = op.nseg;

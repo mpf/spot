@@ -1,3 +1,4 @@
+classdef opBernoulli < opSpot
 %opBernoulli   Bernoulli-ensemble operator.
 %
 %   opBernoulli(M,N) creates an M-by-N Bernoulli ensemble, a matrix
@@ -26,22 +27,20 @@
 %   .mode  gives the mode used to create the operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opBernoulli < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties ( Access = private )
+    properties( Access = public )
        funHandle      % multiplication function
        matrix         % storage for explicit matrix (if needed)
-    end % Properties
+    end % properties
 
-    properties ( SetAccess = private, GetAccess = public )
+    properties( SetAccess = private, GetAccess = public )
        mode           % mode used when operator was created
        seed           % RNG seed when operator was created
+       scale          % used for normalization
     end % properties
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,21 +74,23 @@ classdef opBernoulli < opSpot
           switch mode
              case 0
                 A = 2.0 * (randn(m,n) < 0) - 1;
-                fun = @(x,mode) multiplyExplicit(op,x,mode);
+                fun = @multiplyExplicit;
                
              case 1
                 A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                fun = @(x,mode) multiplyImplicit(op,1,x,mode);
+                op.scale = 1;
+                fun = @multiplyImplicit;
 
              case 2
                 A = (2.0 * (randn(m,n) < 0) - 1) / sqrt(m);
-                fun = @(x,mode) multiplyExplicit(op,x,mode);
+                fun = @multiplyExplicit;
               
              case 3
                 A = [];
+                op.scale = 1/sqrt(m);
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                fun = @(x,mode) multiplyImplicit(op,1/sqrt(m),x,mode);
+                fun = @multiplyImplicit;
                 
             case 4
                 error('Invalid mode.')
@@ -107,7 +108,7 @@ classdef opBernoulli < opSpot
           else
              x = op.matrix;
           end
-       end % Double
+       end % function double
 
     end % Methods
 
@@ -116,11 +117,10 @@ classdef opBernoulli < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = op.funHandle(x,mode);
-       end % Multiply
-    end % Methods
-    
-    
+          y = op.funHandle(op,x,mode);
+       end % function multiply
+    end % methods - protected
+        
     methods ( Access = private )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply - Explicit matrix
@@ -131,12 +131,12 @@ classdef opBernoulli < opSpot
           else
              y = op.matrix' * x;
           end
-       end % Multiply explicit
+       end % function multiplyExplicit
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply -  Implicit
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function y = multiplyImplicit(op,scale,x,mode)
+       function y = multiplyImplicit(op,x,mode)
           m = op.m;
           n = op.n;
           % Store current random number generator state
@@ -158,12 +158,12 @@ classdef opBernoulli < opSpot
           end
           
           % Apply scaling
-          if scale ~= 1, y = y * scale; end
+          if op.scale ~= 1, y = y * op.scale; end
 
           % Restore original random number generator state
           randn('state',seed0);
-       end % Multiply implicit
+       end % function multiplyImplicit
        
-    end % Methods
+    end % methods - private
     
-end % Classdef
+end % classdef

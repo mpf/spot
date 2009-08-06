@@ -1,3 +1,4 @@
+classdef opGaussian < opSpot
 %opGaussian   Gaussian ensemble
 %
 %   opGaussian(M,N) creates an M-by-N Gaussian-ensemble operator.
@@ -28,17 +29,15 @@
 %   .seed  is the seed used to initialize the RNG.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opGaussian < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties ( Access = private )
+    properties ( Access = public )
        funHandle      % multiplication function
        matrix         % storage for explicit matrix (if needed)
+       scale
     end % properties
 
     properties ( SetAccess = private, GetAccess = public )
@@ -78,26 +77,26 @@ classdef opGaussian < opSpot
           switch mode
              case 0
                 A = randn(m,n);
-                fun = @(x,mode) multiplyExplicit(op,x,mode);
+                fun = @multiplyExplicit;
 
              case 1
                 A = [];
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
-                fun = @(x,mode) multiplyImplicit(op,x,mode);
+                fun = @multiplyImplicit;
 
              case 2
                 A  = randn(m,n);
                 A  = A * spdiags((1./sqrt(sum(A.*A)))',0,n,n);
-                fun = @(x,mode) multiplyExplicit(op,x,mode);
+                fun = @multiplyExplicit;
 
               case 3
                 A = [];
-                scale = zeros(1,n);
+                op.scale = zeros(1,n);
                 for i=1:n
                    v = randn(m,1);
-                   scale(i) = 1 / sqrt(v'*v);
+                   op.scale(i) = 1 / sqrt(v'*v);
                 end
-                fun = @(x,mode) multiplyImplicitScaled(op,scale,x,mode);
+                fun = @multiplyImplicitScaled;
 
              case 4
                 if m > n
@@ -106,7 +105,7 @@ classdef opGaussian < opSpot
                 A = randn(n,m);   % NB: dimensions are reversed
                 [Q,R] = qr(A,0);
                 A = Q';           % Now A has the correct shape
-                fun = @(x,mode) multiplyExplicit(op,x,mode);
+                fun = @multiplyExplicit;
 
              case 5 % Not documented.
                if m > n
@@ -114,7 +113,7 @@ classdef opGaussian < opSpot
                end;
                A  = randn(m,n);
                A  = orth(A')';
-               fun = @(x,mode) multiplyImplicit(op,x,mode);
+               fun = @multiplyImplicit;
 
              otherwise
                error('Invalid mode.')
@@ -141,7 +140,7 @@ classdef opGaussian < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = op.funHandle(x,mode);
+          y = op.funHandle(op,x,mode);
        end % Multiply
 
     end % Methods
@@ -187,7 +186,8 @@ classdef opGaussian < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply -  Implicit (scaled)
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function y = multiplyImplicitScaled(op,scale,x,mode)
+       function y = multiplyImplicitScaled(op,x,mode)
+          scale = op.scale;
           m = op.m;
           n = op.n;
           % Store current random number generator state

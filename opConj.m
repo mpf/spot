@@ -1,3 +1,4 @@
+classdef opConj < opSpot
 %opConj   Take the elementwise conjugate of a complex operator.
 %
 %   opConj(OP) is the elementwise complex conjugate of operator
@@ -7,10 +8,7 @@
 %   See also opImag, opReal.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opConj < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -40,9 +38,7 @@ classdef opConj < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-          op.precedence = 1;
        end % Constructor
-
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
@@ -55,7 +51,7 @@ classdef opConj < opSpot
     end % Methods
 
 
-    methods ( Access = protected )
+    methods( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

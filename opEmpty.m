@@ -1,3 +1,4 @@
+classdef opEmpty < opSpot
 %opEmpty   Operator equivalent to empty matrix.
 %
 %   opZeros(M,N) creates an operator corresponding to an empty M-by-N
@@ -5,8 +6,6 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
-
-classdef opEmpty < opSpot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public

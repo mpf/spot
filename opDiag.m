@@ -1,3 +1,4 @@
+classdef opDiag < opSpot
 %opDiag   Diagonal matrix.
 %
 %   opDiag(D) creates an operator for multiplication by the
@@ -6,14 +7,12 @@
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opDiag < opSpot
-
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
+    properties( SetAccess = private )
        diag     % Diagonal entries
-    end % Properties
+    end % properties - private
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -35,17 +34,15 @@ classdef opDiag < opSpot
           % Construct operator
           op = op@opSpot('Diag',n,n);
           op.cflag      = ~isreal(d);
-          op.linear     = 1;
           op.diag       = d;
-          op.precedence = 1;
-       end % Constructor
+       end % function opDiag
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % double
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function A = double(op)
           A = diag(op.diag);
-       end % double
+       end % function double
         
     end % Methods
 
@@ -61,8 +58,8 @@ classdef opDiag < opSpot
             else
                y = conj(op.diag).*x;
             end
-        end % Multiply
+        end % function multiply
       
-    end % Methods
+    end % methods - public
         
-end % Classdef
+end % classdef

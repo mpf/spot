@@ -1,3 +1,4 @@
+classdef opBinary < opSpot
 %opBinary   Binary (0/1) ensemble
 %
 %   opBinary(M,N) creates an M-by-N binary-ensemble operator.
@@ -17,21 +18,16 @@
 %   is stored implicitly. The overall storage is O(M).
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-
-classdef opBinary < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties ( Access = private )
-       funHandle      % multiplication function
+    properties( Access = private )
        matrix         % storage for explicit matrix (if needed)
     end % properties
 
-    properties ( SetAccess = private, GetAccess = public )
+    properties( SetAccess = private, GetAccess = public )
        mode           % Mode used when operator was created
        seed           % RNG seed when operator was created
     end % properties
@@ -88,7 +84,7 @@ classdef opBinary < opSpot
           end          
        end % Double
 
-    end % Methods
+    end % methods - public
 
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,6 +124,6 @@ classdef opBinary < opSpot
           end
        end % Multiply
 
-    end % methods
+    end % methods - protected
    
-end % Classdef
+end % classdef
