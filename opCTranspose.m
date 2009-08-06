@@ -1,3 +1,4 @@
+classdef opCTranspose < opSpot
 %opCTranspose   Conjugate transpose of an operator.
 %
 %   opCTranspose(OP) returns the conjugate tranpose of OP.
@@ -5,10 +6,7 @@
 %   See also opTranspose, opConj, opReal, opImag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opCTranspose < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -39,7 +37,7 @@ classdef opCTranspose < opSpot
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 1;
-       end % Constructor
+       end % function opCTranspose
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
@@ -51,10 +49,23 @@ classdef opCTranspose < opSpot
              str = ['(', str, ')'];
           end
           str = [str ,''''];
-       end % Char
+       end % function char
        
-    end % Methods
-
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % CTranspose function
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = ctranspose(op)
+          opOut = op.children{1};
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Transpose function
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = transpose(op)
+          opOut = conj(op.children{1});
+       end
+       
+    end % methods - public
 
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,8 +77,8 @@ classdef opCTranspose < opSpot
            else
               y = apply(op.children{1},x,1);
            end
-       end % Multiply
+       end % function multiply
 
-    end % Methods
+    end % methods - protected
    
 end % Classdef
