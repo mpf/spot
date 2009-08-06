@@ -1,3 +1,4 @@
+classdef opSpot
 %opSpot  Spot operator super class.
 %
 %   A = opSpot  creates an empty Spot operator.
@@ -8,16 +9,14 @@
 %   (string) and additional data for printing.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-classdef opSpot < handle
-    
+%   http://www.cs.ubc.ca/labs/scl/spot
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties (SetAccess = protected)
         linear   = 1;
-        counter  = [0, 0];
+        counter  = spot.counter();
         m        = 0;
         n        = 0;
         type     = '';
@@ -61,7 +60,6 @@ classdef opSpot < handle
        function y = apply(op,x,mode)
           % Update counter
           op.counter(mode) = op.counter(mode) + 1;
-
           y = op.multiply(x,mode);
        end
     end % methods - private
