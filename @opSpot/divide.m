@@ -1,4 +1,4 @@
-function x = mldivideSpot(op,b,mode)
+function x = divide(op,b,mode)
 %\  Backslash or left matrix divide.
    
 %   X = A\B is similar to Matlab's backslash operator, except that A

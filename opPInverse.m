@@ -1,8 +1,8 @@
-classdef opInverse < opSpot
-%opInverse   (Pseudo) inverse of operator
+classdef opPInverse < opSpot
+%opPInverse   Pseudo inverse of operator
 %
-%   Ainv = opInverse(A) creates the (pseudo) inverse of a square operator.
-%   The product Ainv*b is then equivalent to A\b.
+%   Apinv = opPInverse(A) creates the pseudo inverse of a M-by-N
+%   operator A. The product Apinv*b is then equivalent to A\b.
 %
 %   See also @opSpot/mldivide.
 
@@ -18,12 +18,12 @@ classdef opInverse < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opInverse(A)
+       function op = opPInverse(A)
           
           if nargin ~= 1
              error('Exactly one operator must be specified.')
           end
- 
+           
           % Input matrices are immediately cast as opMatrix's.
           if isa(A,'numeric'), A = opMatrix(A); end
           
@@ -31,33 +31,28 @@ classdef opInverse < opSpot
           if ~isa(A,'opSpot')
              error('Input operator is not valid.')
           end
- 
-          % Check operator size
-          [m, n] = size(A);
-          if m ~= n
-             error('Operator must be square.');
-          end
           
           % Construct operator
-          op = op@opSpot('Inverse', n, m);
+          [m, n] = size(A);
+          op = op@opSpot('PInverse', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-       end % function opInverse
+       end % function opPInverse
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
-          str = ['inv(', char(op.children{1}) ,')'];
+          str = ['pinv(', char(op.children{1}) ,')'];
        end % function char
        
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Inv
+       % PInv
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function opOut = inv(op)
+       function opOut = pinv(op)
           opOut = op.children{1};
-       end % function inv
+       end % function pinv
        
     end % methods - public
 

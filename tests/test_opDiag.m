@@ -1,16 +1,17 @@
-function test_suite = test_diagonal
-%test_diagonal  Unit tests for the diagonal operators
+function test_suite = test_opDiag
+%test_opDiag  Unit tests for the opDiag operator
 initTestSuite;
 end
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   seed = randn('state');
+   randn('state',0);
+   rand('state',0);
+   seed = [];
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_diagonal_opSpot(seed)
+function test_opDiag_diag(seed)
    n = randi(100); k = randi(10);
 
    b = randn(n,k);
@@ -22,8 +23,19 @@ function test_diagonal_opSpot(seed)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_diagonal_diag(seed)
+function test_opDiag_class(seed)
    n = randi(100);
    d = randn(n,1);
    assertEqual( double(diag(d)), double(opDiag(d)) ) 
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opDiag_divide(seed)
+   n = randi(100);
+   d = randn(n,1) + 1i*randn(n,1);
+   b = randn(n,1) + 1i*randn(n,1);
+   D = opDiag(d);
+   assertEqual( D\b,  d.\b ) 
+   assertEqual( D'\b, conj(d).\b )
+   assertEqual( D.'\b, d.\b ) 
 end
