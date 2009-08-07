@@ -36,7 +36,7 @@ classdef opCTranspose < opSpot
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-       end % Constructor
+       end % function opCTranspose
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Display
@@ -48,7 +48,28 @@ classdef opCTranspose < opSpot
              str = ['(', str, ')'];
           end
           str = [str ,''''];
-       end % Char
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Conj
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = conj(op)
+          opOut = transpose(op.children{1});
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % CTranspose
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = ctranspose(op)
+          opOut = op.children{1};
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Transpose
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function opOut = transpose(op)
+          opOut = conj(op.children{1});
+       end
        
     end % methods - public
 
@@ -57,13 +78,26 @@ classdef opCTranspose < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
+           A = op.children{1};
            if mode == 1
-              y = apply(op.children{1},x,2);
+              y = apply(A,x,2);
            else
-              y = apply(op.children{1},x,1);
+              y = apply(A,x,1);
            end
        end % function multiply
 
-    end % methods - private
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % Divide
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function y = divide(op,x,mode)
+          A = op.children{1};
+          if mode == 1
+             y = applyDivide(A,x,2);
+          else
+             y = applyDivide(A,x,1);
+          end
+       end % function divide
+
+    end % methods - protected
    
 end % classdef

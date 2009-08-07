@@ -68,12 +68,20 @@ classdef opSpot
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
+
+       % FIXME: rename apply to "applyMultiply", here and elsewhere.
        function y = apply(op,x,mode)
-          % Update counter
           op.counter.plus1(mode);
           y = op.multiply(x,mode);
        end
-    end % methods - private
+       
+       function y = applyDivide(op,x,mode)
+          y = op.divide(x,mode);
+       end
+       
+       % Signature of external protected functions
+       y = divide(op,x,mode);
+    end % methods - protected
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
@@ -81,5 +89,5 @@ classdef opSpot
     methods( Abstract, Access = protected )
         y = multiply(op,x,mode)
     end % methods - abstract
-    
+
 end % classdef

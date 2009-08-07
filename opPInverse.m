@@ -1,14 +1,14 @@
-classdef opConj < opSpot
-%opConj   Take the elementwise conjugate of a complex operator.
+classdef opPInverse < opSpot
+%opPInverse   Pseudo inverse of operator
 %
-%   opConj(OP) is the elementwise complex conjugate of operator
-%   OP. Applying OPCONJ to conjugate operators returns the original
-%   operator.
+%   Apinv = opPInverse(A) creates the pseudo inverse of a M-by-N
+%   operator A. The product Apinv*b is then equivalent to A\b.
 %
-%   See also opImag, opReal.
+%   See also @opSpot/mldivide.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
+
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -18,7 +18,7 @@ classdef opConj < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opConj(A)
+       function op = opPInverse(A)
           
           if nargin ~= 1
              error('Exactly one operator must be specified.')
@@ -34,59 +34,43 @@ classdef opConj < opSpot
           
           % Construct operator
           [m, n] = size(A);
-          op = op@opSpot('Conj', m, n);
+          op = op@opSpot('PInverse', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
-
-       end % function opConj
-
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Char
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function str = char(op)
-          op1 = op.children{1};
-          str = ['Conj(', char(op1), ')'];
-       end
-       
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Conj
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function opOut = conj(op)
-          opOut = op.children{1};
-       end
+       end % function opPInverse
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % CTranspose
+       % Display
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function opOut = ctranspose(op)
-          opOut = transpose(op.children{1});
-       end
-
+       function str = char(op)
+          str = ['pinv(', char(op.children{1}) ,')'];
+       end % function char
+       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Transpose
+       % PInv
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function opOut = transpose(op)
-          opOut = ctranspose(op.children{1});
-       end
-
+       function opOut = pinv(op)
+          opOut = op.children{1};
+       end % function pinv
+       
     end % methods - public
 
-    methods( Access = protected )
 
+    methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-           if mode == 1
-              y = conj(apply(op.children{1},conj(x),1));
-           else
-              y = conj(apply(op.children{1},conj(x),2));
-           end
-       end % function multiply
+          opA    = op.children{1};
+          if mode == 1
+             A = opA;
+          else
+             A = opA';
+          end
+           y = A\x;
+        end % function multiply
 
     end % methods - protected
    
 end % classdef
-    
-
