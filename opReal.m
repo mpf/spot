@@ -1,3 +1,4 @@
+classdef opReal < opSpot
 %opReal   Complex real part of operator.
 %
 %   opReal(OP) is the real part of operator OP.
@@ -5,10 +6,7 @@
 %   See also opConj, opImag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opReal < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

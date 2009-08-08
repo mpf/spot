@@ -1,3 +1,4 @@
+classdef opSurfacelet < opSpot
 %opSurfacelet  Surfacelet transformation
 %
 %   OP = opSurfacelet(DIMS,PYRAMIDMODE,LEVELARRAY,HRGFILTER,OPTIONS...)
@@ -47,10 +48,7 @@
 %       Processing, vol. 16, no. 4, April 2007.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opSurfacelet < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

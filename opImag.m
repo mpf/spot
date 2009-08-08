@@ -1,3 +1,4 @@
+classdef opImag < opSpot
 %opImag   Complex imaginary part of operator.
 %
 %   opImag(OP) is the complex imaginary part of operator OP. Note
@@ -6,10 +7,7 @@
 %   See also opConj, opReal.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opImag < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

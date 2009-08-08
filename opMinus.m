@@ -1,3 +1,4 @@
+classdef opMinus < opSpot
 %opMinus   Difference of two operators.
 %
 %   opMinus(OP1,OP2) creates a compound operator representing OP1-OP2.
@@ -5,11 +6,7 @@
 %   See also opSum.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opMinus < opSpot
-
+%   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

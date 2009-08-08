@@ -1,3 +1,4 @@
+classdef opUnaryMinus < opSpot
 %opUnaryMinus   Negation of an operator.
 %
 %   opUnaryMinus(OP) returns -OP.
@@ -5,10 +6,7 @@
 %   See also opSum, opMinus.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opUnaryMinus < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods

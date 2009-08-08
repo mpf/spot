@@ -1,3 +1,4 @@
+classdef opSubsAsgn < opSpot
 %opSubsAsgn   Redefine rectangular subset of operator.
 %
 %   opSubsAsign(A,ROWIDX,COLIDX,B), index = ':' is valid. Size of B
@@ -7,10 +8,7 @@
 %   See also opRestrict, opSubsRef.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opTranspose.m 13 2009-06-28 02:56:46Z mpf $
-
-classdef opSubsAsgn < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

@@ -1,3 +1,4 @@
+classdef opRestriction < opSpot
 %opRestriction   Restriction operator
 %
 %   opRestriction(N,IDX) creates a restriction operator that selects
@@ -12,10 +13,7 @@
 %   See also opMask.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opRestriction < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

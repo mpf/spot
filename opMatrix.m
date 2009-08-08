@@ -1,3 +1,4 @@
+classdef opMatrix < opSpot
 %opMatrix   Convert a numeric matrix into a Spot operator.
 %
 %   opMatrix(A,DESCRIPTION) creates an operator that performs
@@ -6,11 +7,7 @@
 %   printed.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opMatrix < opSpot
-
+%   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

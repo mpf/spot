@@ -1,3 +1,4 @@
+classdef opHeaviside < opSpot
 %opHeaviside   Heaviside operator
 %
 %   opHeaviside(N,NORMALIZED) creates an operator for multiplication
@@ -7,10 +8,7 @@
 %   norm. By default the columns are unnormalized.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opHeaviside < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

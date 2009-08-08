@@ -1,7 +1,8 @@
 function varargout = subsref(op,s)
+%SUBSREF   Subscripted reference.
+   
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: subsref.m 39 2009-06-12 20:59:05Z ewout78 $
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 if length(s) > 1
    result = op;

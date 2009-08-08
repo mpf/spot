@@ -1,3 +1,4 @@
+classdef opSubsRef < opSpot
 %opSubsRef   Extract rectangular subset of operator entries.
 %
 %   opSubsRef(OP,ROWIDX,COLIDX) returns subset of entries indicated by
@@ -7,10 +8,7 @@
 %   See also opRestrict.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: opTranspose.m 13 2009-06-28 02:56:46Z mpf $
-
-classdef opSubsRef < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

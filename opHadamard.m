@@ -1,3 +1,4 @@
+classdef opHadamard < opSpot
 %opHadamard   Hadamard matrix
 %
 %   opHadamard(N) creates a Hadamard operator for vectors of length
@@ -9,10 +10,7 @@
 %   flag is set to FALSE.
 
 %   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opHadamard < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

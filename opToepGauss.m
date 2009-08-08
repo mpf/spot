@@ -1,3 +1,4 @@
+classdef opToepGauss < opToeplitz
 %opToepGauss  Toeplitz matrix with Gaussian entries
 %
 %   OP = opToepGauss(M,N,TYPE,NORMALIZED) creates an M by N Toeplitz
@@ -19,10 +20,7 @@
 %   See also opToeplitz, opToepSign.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opToepGauss < opToeplitz
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public

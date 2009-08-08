@@ -1,7 +1,8 @@
 function result = subsasgn(op,s,b)
+%SUBSASGN   Subscribed assignment.
+%
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: subsasgn.m 39 2009-06-12 20:59:05Z ewout78 $
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 switch s.type
    case {'.'}
@@ -93,7 +94,7 @@ switch s.type
       if ((size(b,1) == 0) && (size(b,2) == 0))
          % Both dimensions fully specified
          if allIndex(1) && allIndex(2)
-            % Empty Sparco operator
+            % Empty operator
             result = opEmpty(0,0);
          elseif allIndex(1)
             % Excise columns

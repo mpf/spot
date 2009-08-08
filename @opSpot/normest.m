@@ -35,7 +35,7 @@ while abs(e-e0) > tol*e
    x = x/normx;
    cnt = cnt+1;
    if cnt > maxiter
-      warning('MATLAB:normest:notconverge', '%s%d%s%g', ...
+      warning('SPOT:normest:notconverge', '%s%d%s%g', ...
               'NORMEST did not converge for ', maxiter, ' iterations with tolerance ', tol);
       break;
    end

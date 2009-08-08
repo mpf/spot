@@ -1,3 +1,4 @@
+classdef opWindow < opSpot
 %opWindow   Diagonal window matrix.
 %
 %   opWindow(D) creates an operator for multiplication by the
@@ -42,8 +43,7 @@
 %   See also opDiag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % See also
 % [1] Harris, F. J. "On the Use of Windows for Harmonic Analysis
@@ -53,8 +53,6 @@
 % [2] Gade, Svend and H. Herlufsen, "Use of Weighting Functions in
 %     DFT/FFT Analysis (Part I)," Bruel & Kjaer, Windows to FFT
 %     Analysis, (Part I) Technical Review, No. 3, 1987, pp. 19-21.
-
-classdef opWindow < opSpot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

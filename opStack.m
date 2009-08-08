@@ -1,3 +1,4 @@
+classdef opStack < opSpot
 %opStack  Stack of vertically concatenated operators
 %
 %   opStack(WEIGHTS, OP1, OP2, ...) creates a stacked
@@ -18,10 +19,7 @@
 %   See also opDictionary, opFoG, opSum.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
-
-classdef opStack < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
