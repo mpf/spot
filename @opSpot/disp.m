@@ -28,7 +28,7 @@ function disp(A,name)
    end
    fprintf('  Spot operator: %s\n',char(A));
    if detailed
-      fprintf('    rows: %6d    complex: %3s\n',m,cflag);
-      fprintf('    cols: %6d    type:    %3s\n',m,A.type);
+      fprintf('    rows: %6d    complex: %-10s\n',m,cflag);
+      fprintf('    cols: %6d    type:    %-10s\n',n,A.type);
    end
 end
