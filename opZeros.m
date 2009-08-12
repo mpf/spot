@@ -1,3 +1,4 @@
+classdef opZeros < opSpot
 %opZeros   Operator equivalent to zeros function.
 %
 %   opZeros(M,N) creates an operator corresponding to an M-by-N matrix
@@ -5,8 +6,6 @@
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
-
-classdef opZeros < opSpot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
@@ -14,13 +13,27 @@ classdef opZeros < opSpot
     methods
         
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Constructor
+       % opZeros  constructor.
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opZeros(m,n)
-          if nargin < 1, m = 1; end
-          if nargin < 2, n = m; end
+       function op = opZeros(varargin)
+           if nargin == 0
+              m = 1; n = 1;
+           elseif nargin == 1
+              if length(varargin{1}) == 2
+                 m = varargin{1}(1);
+                 n = varargin{1}(2);
+              else
+                 m = varargin{1};
+                 n = m;
+              end
+           elseif nargin == 2
+              m = varargin{1};
+              n = varargin{2};
+           else
+              error('Too many input arguments.');
+           end
           op = op@opSpot('Zeros',m,n);
-        end % Constructor
+        end % function opZeros
         
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Double
@@ -29,7 +42,7 @@ classdef opZeros < opSpot
           A = zeros(size(op));
        end
        
-    end % Methods
+    end % methods - public
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - protected
@@ -49,8 +62,8 @@ classdef opZeros < opSpot
            else
               y = zeros(s,1);
            end
-        end % Multipy
+        end % function multipy
       
-    end % Methods
+    end % methods - protected
         
-end % Classdef
+end % classdef

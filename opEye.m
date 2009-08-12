@@ -1,25 +1,40 @@
+classdef opEye < opSpot
 %opEye  Identity operator
 %
 %   opEye(M,N) creates the identity operator of size M-by-N. If N is
 %   omitted it is set to M by default. Without any arguments an
 %   operator corresponding to the scalar 1 is created.
+%
+%   opEye([M N]) is the same as the above.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opEye < opSpot
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
         % Constructor
-        function op = opEye(m,n)
-           if nargin < 1, m = 1; end
-           if nargin < 2, n = m; end
+        function op = opEye(varargin)
+           if nargin == 0
+              m = 1; n = 1;
+           elseif nargin == 1
+              if length(varargin{1}) == 2
+                 m = varargin{1}(1);
+                 n = varargin{1}(2);
+              else
+                 m = varargin{1};
+                 n = m;
+              end
+           elseif nargin == 2
+              m = varargin{1};
+              n = varargin{2};
+           else
+              error('Too many input arguments.');
+           end
            op = op@opSpot('Eye',m,n);
-        end % Constructor
+        end % function opEye
 
         function A = double(op)
            A = eye(size(op));
