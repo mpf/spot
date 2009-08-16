@@ -1,2 +1,0 @@
-LIBRARY	mexSurfaceletRec
-EXPORTS mexFunction

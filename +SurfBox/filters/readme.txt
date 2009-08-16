@@ -1,1 +1,0 @@
-This folder contains the filter coefficients files of the 2-D checkerboard filters used in the surfacelet filter bank.

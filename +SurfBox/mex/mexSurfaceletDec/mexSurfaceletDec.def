@@ -1,2 +1,0 @@
-LIBRARY	mexSurfaceletDec
-EXPORTS mexFunction
