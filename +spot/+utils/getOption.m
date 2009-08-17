@@ -6,8 +6,10 @@ function v = getOption(opts, field, default)
 %   returned.
 
 %   Copyright 2008, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id: getOption.m 1402 2009-06-18 23:35:43Z mpf $
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
 
    import spot.utils.*
 

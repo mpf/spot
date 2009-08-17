@@ -8,17 +8,16 @@ function [e,cnt] = normest(S,tol)
 %
 %   See also NORM, COND, RCOND, CONDEST.
 
-if nargin < 2, tol = 1.e-6; end
-maxiter = 100; % should never take this many iterations. 
+if nargin < 2, tol = 1.0e-6; end
+maxiter = 100;
 [m,n] = size(S);
 cnt = 0;
 
-% Generate random vector of +/-1s:
+% Compute an "estimate" of the ab-val column sums.
 v = ones(m,1);
 v(randn(m,1) < 0) = -1;
-
-% Our "estimate" of the absolute-value column sums.
 x = abs(S'*v);
+
 e = norm(x);
 if e == 0, return, end
 x = x/e;

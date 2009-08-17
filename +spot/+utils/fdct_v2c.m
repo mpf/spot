@@ -7,9 +7,11 @@ function v = fdct_v2c(x,hdr,ac,nba)
 %   level, the treatment of the finest level (e.g. AC=2 for
 %   wavelets), and the number of angles.
 
-%   Copyright 2008, Gilles Hennenfent and Ewout van den Berg
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   Copyright 2008, Gilles Hennenfent and Ewout van den Berg, Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 k = prod(hdr{1}{1});
 v{1}{1} = reshape(x(1:k),hdr{1}{1});

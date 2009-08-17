@@ -1,17 +1,18 @@
 function [opts,args] = parseOptions(args, flagFields, optsFields)
-   %parseOptions  Parse options
-   %
-   %   [OPTS,ARGS] = parseOptions(ARGS,FLAGFIELDS,OPTSFIELDS) goes
-   %   throught parameter list ARGS and looks for all flag strings
-   %   indicated by FLAGFIELDS and keyword-value pairs with keywords
-   %   given by OPTSFIELDS. All flag fields and encountered
-   %   keyword-value pairs are stored in OPTS. The remaining arguments
-   %   are returned in ARGS.
-   
-   %   29 Jul 09: Imported from the Sparco project.
-   
-   %   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
-   %   http://www.cs.ubc.ca/labs/scl/spot
+%parseOptions  Parse options
+%
+%   [OPTS,ARGS] = parseOptions(ARGS,FLAGFIELDS,OPTSFIELDS) goes
+%   throught parameter list ARGS and looks for all flag strings
+%   indicated by FLAGFIELDS and keyword-value pairs with keywords
+%   given by OPTSFIELDS. All flag fields and encountered
+%   keyword-value pairs are stored in OPTS. The remaining arguments
+%   are returned in ARGS.
+
+%   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
    
    import spot.utils.*
    

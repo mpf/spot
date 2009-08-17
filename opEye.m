@@ -1,13 +1,18 @@
 classdef opEye < opSpot
 %opEye  Identity operator
 %
-%   opEye(M,N) creates the identity operator of size M-by-N. If N is
-%   omitted it is set to M by default. Without any arguments an
-%   operator corresponding to the scalar 1 is created.
+%   opEye(M) creates the M-by-M identity operator.
+%
+%   opEye(M,N) creates the M-by-N identity operator. If N is omitted
+%   it is set to M by default. Without any arguments an operator
+%   corresponding to the scalar 1 is created.
 %
 %   opEye([M N]) is the same as the above.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

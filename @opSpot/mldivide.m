@@ -1,6 +1,6 @@
 function x = mldivide(A,B)
 %\  Backslash or left matrix divide.
-
+%
 %   X = A\B is similar to Matlab's backslash operator. If A is a Spot
 %   operator and B is a vector, then in general X is computed as the solution to the
 %   least-squares problem
@@ -20,6 +20,9 @@ function x = mldivide(A,B)
 %   See also mldivide, @opSpot/mrdivide, opFoG, opPInverse, spotparams.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+   
 %   http://www.cs.ubc.ca/labs/scl/spot
 
 % Note that either A or B must be belong to the opSpot class because this

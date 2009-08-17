@@ -1,15 +1,18 @@
 classdef opOrthogonal < opSpot
 %opOrthogonal   Abstract class for orthogonal operators
 %
-%  opOrthogonal methods:
+%   opOrthogonal methods:
 %     opOrthogonal - constructor
 %     mldivide     - solves Ax=b  via  x=A'b.
 
-%  NOTE: There's no reason to overload @opSpot/mrdivide because it's simply
-%  a wrapper to mldivide.
+%   NOTE: There's no reason to overload @opSpot/mrdivide because it's simply
+%   a wrapper to mldivide.
 
-%  Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%  http://www.cs.ubc.ca/labs/scl/spot
+%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
     
    methods
       

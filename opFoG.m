@@ -1,3 +1,4 @@
+classdef opFoG < opSpot
 %opFoG   Forms the produce of to operators.
 %
 %   opFoG(OP1,OP2) creates an operator that successively applies each
@@ -10,10 +11,11 @@
 %   See also opDictionary, opStack, opSum.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-classdef opFoG < opSpot
-   
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

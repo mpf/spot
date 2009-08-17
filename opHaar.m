@@ -2,7 +2,7 @@ classdef opHaar < opWavelet
 %opHaar   Haar wavelet
 %
 %   opHaar(N) creates a Haar Wavelet operator for 1-D signals of
-%   length M using 5 levels. M must be a power of 2.
+%   length N using 5 levels. N must be a power of 2.
 %
 %   opHaar(N,LEVELS) optionally allows the number of LEVELS to be
 %   specified.
@@ -14,8 +14,10 @@ classdef opHaar < opWavelet
 %   See also opWavelet.
 
 %   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/spot
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
 
+%   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods - Public

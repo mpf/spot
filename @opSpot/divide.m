@@ -13,6 +13,9 @@ function x = divide(op,b,mode)
 %   See also mldivide, @opSpot/mrdivide, opFoG, opInverse, opPInverse, spotparams.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
    
    if mode == 1

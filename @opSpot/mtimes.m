@@ -1,6 +1,14 @@
 function y = mtimes(A,B)
+%*   Product of two operators.
+%
+%   A*B  returns an operator that is the product of two operators.
+%
+%   See also opFoG.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+   
 %   http://www.cs.ubc.ca/labs/scl/spot
 
 % Note that either A or B must be belong to the opSpot class because this

@@ -1,3 +1,4 @@
+classdef opToeplitz < opSpot
 %opToeplitz   Toeplitz matrix
 %
 %   OP = opToeplitz(R) creates an N-by-N circular Toeplitz
@@ -24,9 +25,10 @@
 %   See also teoplitz, opToepGauss, opToepSign.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/spot
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
 
-classdef opToeplitz < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

@@ -5,6 +5,9 @@ classdef opKron < opSpot
 %   tensor product of OP1, OP2, ..., OPn.
 
 %   Copyright 2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

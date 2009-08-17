@@ -5,6 +5,9 @@ classdef opZeros < opSpot
 %   of zeros. If parameter N is omitted it is set to M.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,22 +19,22 @@ classdef opZeros < opSpot
        % opZeros  constructor.
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opZeros(varargin)
-           if nargin == 0
-              m = 1; n = 1;
-           elseif nargin == 1
-              if length(varargin{1}) == 2
-                 m = varargin{1}(1);
-                 n = varargin{1}(2);
-              else
-                 m = varargin{1};
-                 n = m;
-              end
-           elseif nargin == 2
-              m = varargin{1};
-              n = varargin{2};
-           else
-              error('Too many input arguments.');
-           end
+          if nargin == 0
+             m = 1; n = 1;
+          elseif nargin == 1
+             if length(varargin{1}) == 2
+                m = varargin{1}(1);
+                n = varargin{1}(2);
+             else
+                m = varargin{1};
+                n = m;
+             end
+          elseif nargin == 2
+             m = varargin{1};
+             n = varargin{2};
+          else
+             error('Too many input arguments.');
+          end
           op = op@opSpot('Zeros',m,n);
         end % function opZeros
         

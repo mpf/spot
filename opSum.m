@@ -1,11 +1,14 @@
 classdef opSum < opSpot
 %opSum   Addition of two operators.
 %
-%   opSum(OP1,OP2) creates a compound operator representing OP1+OP2.
+%   opSum(A,B) creates a compound operator representing (A + B).
 %
 %   See also opMinus.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

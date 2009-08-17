@@ -5,9 +5,11 @@ function c = fdct_c2v(x,cn)
 %   the curvelet coefficients contained in X. When parameter
 %   CN is omitted the vector length is determined from X.
 
-%   Copyright 2008, Gilles Hennenfent and Ewout van den Berg
-%   http://www.cs.ubc.ca/labs/scl/sparco
-%   $Id$
+%   Copyright 2008, Gilles Hennenfent, Ewout van den Berg, Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
 
 % If vector size is not give, determine from coefficients
 if nargin < 2

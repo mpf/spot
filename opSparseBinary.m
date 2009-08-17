@@ -1,3 +1,4 @@
+classdef opSparseBinary < opSpot
 %opSparseBinary   Random sparse binary matrix
 %
 %   opSparseBinary(M,N) creates an M-by-N sparse binary matrix with
@@ -16,9 +17,10 @@
 %   See also RAND, RANDPERM, SPARSE
 
 %   Copyright 2008-2009, Ewout van den Berg and Michael P. Friedlander
-%   http://www.cs.ubc.ca/labs/scl/spot
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
 
-classdef opSparseBinary < opSpot
+%   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties

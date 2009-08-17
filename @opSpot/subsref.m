@@ -2,6 +2,9 @@ function varargout = subsref(op,s)
 %SUBSREF   Subscripted reference.
    
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
 
 if length(s) > 1

@@ -12,25 +12,30 @@ function varargout = lsqr(A,b,varargin)
 %   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-% Set function handle
-fun = @(x,mode) lsqr_intrnl(A,x,mode);
+    fun = @(x,mode) lsqr_intrnl(A,x,mode);
 
-if nargout == 0
-   lsqr(fun,b,varargin{:});
-elseif nargout <= 6
-   varargout = cell(1,nargout);
-   [varargout{:}] = lsqr(fun,b,varargin{:});
-else
-   error('Too many output arguments.');
-end
-
+    if nargout == 0
+       lsqr(fun,b,varargin{:});
+    elseif nargout <= 6
+       varargout = cell(1,nargout);
+       [varargout{:}] = lsqr(fun,b,varargin{:});
+    else
+       error('Too many output arguments.');
+    end
+end % function lsqr
+    
 % ======================================================================
-
+% Private function
+% ======================================================================
 function y = lsqr_intrnl(A,x,mode)
-if strcmp(mode,'notransp')
-   y = A * x;
-else
-   y = A' * x;
-end
+   if strcmp(mode,'notransp')
+      y = A * x;
+   else
+      y = A' * x;
+   end
+end % function lsqr_intrnl
