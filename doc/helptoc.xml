@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!-- $Revision: 1.1.6.2 $ $Date: 2007/09/18 01:15:51 $ -->
+
+<toc version="1.0">
+
+<tocitem target="specsim_top_example.html">SpecSim (Example) Toolbox
+
+<tocitem target="specsim_about_example.html" image="$toolbox/matlab/icons/greencircleicon.gif">Getting Started with the SpecSim (Example) Toolbox
+    <tocitem target="specsim_reqts_example.html#12903">System Requirements (Example)
+    </tocitem>
+    <tocitem target="specsim_features_example.html#18043">Features (Example)
+        <tocitem target="specsim_limitations_example.html#10187">Limitations (Example)</tocitem>       
+    </tocitem>    
+</tocitem>
+
+<tocitem target="specsim_gui_example.html" image="$help/techdoc/matlab_env/examples/specsimicon.gif">SpecSim (Example) GUI    
+</tocitem>
+
+<tocitem target="http://www.specsim_example.com" image="$toolbox/matlab/icons/webicon.gif">SpecSim (Example) Web Site</tocitem>
+
+</tocitem>
+</toc>

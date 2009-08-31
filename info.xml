@@ -3,18 +3,24 @@
   xsi:noNamespaceSchemaLocation="optional">
 <?xml-stylesheet type="text/xsl" href="optional"?>
 
-<matlabrelease>R2008b</matlabrelease>
-<name>Spot</name>
+<matlabrelease>R2009a</matlabrelease>
+<name>Spot Operator</name>
 <type>toolbox</type>
-<icon>$docroot/techdoc/matlab_env/examples/specsimicon.gif</icon>
-<help_location></help_location>
+<icon>$toolbox/matlab/icons/HDF_object01.gif</icon>
+<help_location>doc/</help_location>
 
 <list>
 
 <listitem>
-<label>Spot Web Site</label>
-<callback>web http://www.cs.ubc.ca/labs/scl -browser;</callback>
-<icon>$docroot/techdoc/matlab_env/examples/webicon.gif</icon>
+<label>Help</label>
+<callback>doc spot</callback>
+<icon>$toolbox/matlab/icons/book_mat.gif</icon>
+</listitem>
+
+<listitem>
+<label>Spot Web Page</label>
+<callback>web http://www.cs.ubc.ca/~mpf/spot -browser;</callback>
+<icon>$toolbox/matlab/icons/webicon.gif</icon>
 </listitem>
 
 </list>
