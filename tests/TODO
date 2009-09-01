@@ -1,7 +1,0 @@
-Observed abnormalities:
--diag(opEye(m,1)) & diag(opEye(1,n)) are different from the one from matlab
--normest(opZeros(m,n)) gives out NaN
--opDCT only takes one input, manual needs to be updated.
--opHaar(32,32,1) does not work
--opToeplitz(m,n,vect) where length(vect)=max(m,n) doesn't work
--opFFT(n) doesn't work
