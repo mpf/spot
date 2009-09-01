@@ -25,10 +25,8 @@ classdef opMatrix < opSpot
     methods
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Constructor
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opMatrix(A,description)
-          
+       %opMatrix  Constructor.
           if nargin < 1
              error('At least one argument must be specified.')
           end
@@ -48,43 +46,54 @@ classdef opMatrix < opSpot
           op = op@opSpot(description, size(A,1), size(A,2));
           op.cflag  = ~isreal(A);
           op.matrix = A;
-       end % Constructor
-
+       end % function opMatrix
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Display
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function str = char(op)
+       %char  Create character array from operator.
           if isscalar(op)
              v = op.matrix;
              str = strtrim(evalc('disp(v)'));
           else
              str = char@opSpot(op);
           end          
-       end % Char
+       end % function char
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Double
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function x = double(op)
+       %double  Convert operator to a double.
           x = op.matrix;
        end
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     end % Methods
 
 
     methods ( Access = protected )
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Multiply
+       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-           if mode == 1
+       %multiply  Multiply operator with a vector.
+          if mode == 1
               y = op.matrix * x;
            else
               y = op.matrix' * x;
            end
-        end % Multiply
+       end % function multiply
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function x = divide(op,b,mode)
+       %divide  Solve a linear system with the operator.
+          if mode == 1
+             x = op.matrix \ b;
+          else
+             x = op.matrix' \ b;
+          end
+       end % function divide
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    end % methods
+end % methods
    
 end % Classdef
