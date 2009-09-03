@@ -2,10 +2,10 @@
 
 <toc version="1.0">
 
-<tocitem target="specsim_top_example.html">Spot Linear Operator Toolbox
-    <tocitem target="html/gettingStarted.html"
+<tocitem target="spot_main_page.html">Spot Linear Operator Toolbox
+    <tocitem target="html/circulant.html"
              image="$toolbox/matlab/icons/greencircleicon.gif">
-             Getting Started
+             Getting started: A first example
     </tocitem>
     <tocitem target="html/examples.html"
              image="$toolbox/matlab/icons/demoicon.gif">
