@@ -7,9 +7,25 @@
              image="$toolbox/matlab/icons/greencircleicon.gif">
              Getting started: A first example
     </tocitem>
-    <tocitem target="html/examples.html"
-             image="$toolbox/matlab/icons/demoicon.gif">
-             Examples
+    <tocitem target="html/operators.html"
+             image="$toolbox/matlab/icons/pagesicon.gif">
+             Operators
+             <tocitem target="html/elementary_operators.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Elementary operators
+             </tocitem>
+             <tocitem target="html/container_operators.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Containers
+             </tocitem>
+             <tocitem target="html/fast_operators.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Fast transforms
+             </tocitem>
+             <tocitem target="html/random_ensembles.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Random ensembles
+             </tocitem>
     </tocitem>
 </tocitem>
 

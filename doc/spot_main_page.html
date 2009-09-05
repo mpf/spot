@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<title>Spot: A Linear-Operator Toolbox</title>
+</head>
+<body>
+<div id="layout-content">
+<div id="toptitle">
+<h1>Spot: A Linear-Operator Toolbox</h1>
+<div id="subtitle">Ewout van den Berg and <a href="http://www.cs.ubc.ca/~mpf">Michael P Friedlander</a></div>
+</div>
+<p>Linear operators are at the core of many of the most basic algorithms
+for signal and image processing. Matlab&rsquo;s high-level, matrix-based
+language allows us to naturally express many of the underlying matrix
+operations (e.g., computation of matrix-vector products and
+manipulation of matrices) and is thus a powerful platform on which to
+develop concrete implementations of these algorithms. Many of the most
+useful operators, however, do not lend themselves to the explicit
+matrix representations that Matlab provides. The aim of the Spot
+Toolbox is to bring the expressiveness of Matlab&rsquo;s built-in matrix
+notation to problems for which explicit matrices are not practical.</p>
+<p>Please visit the <a href="http://www.cs.ubc.ca/labs/spot">Spot website</a> to
+download the latest version of the toolbox.</p>
+<h2>Installation</h2>
+<h3>System requirements</h3>
+<p>The Spot toolbox requires Matlab version <b>R2008a or later</b>.  In
+particular, Spot makes extensive use of the &ldquo;new&rdquo; object-oriented
+features (defined by the &ldquo;classdef&rdquo; keyword) that were introduced in
+the first quarter of 2008 later. It&rsquo;s been extensively tested against
+R2009a and R2009b. Please make sure to email one of the authors if you
+notice some incompatibility.</p>
+<h3>Basic installation</h3>
+<p>Spot is prepackaged with all of its required dependencies, and
+the core functionality will work out-of-the-box.  The first step
+is to add the &ldquo;spot&rdquo; directory to your Matlab path:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+addpath /path/to/spot/directory
+</pre></div></div>
+<p>See
+the <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html">MATLAB documentation for setting the search path</a>.</p>
+<h3>MEX file compilation</h3>
+<p>Spot includes several Wavelet operators via the
+<a href="http://dsp.rice.edu/software/rice-wavelet-toolbox">Rice Wavelet
+Toolbox</a> (RWT) provides the backend. Spot includes precompiled MEX
+interfaces to the RWT for various platforms. If the included MEX
+binaries are not compatible with your system, however, then use the
+command <tt>spotSetup</tt> at the Matlab prompt. This will compile the RWT
+MEX interfaces for the current system. If no errors are displayed,
+then the compilation was successful; otherwise, send us a bug report.</p>
+<h2>Getting Started</h2>
+<ol>
+<li><p><a href="html/circulant.html">A first example: building a circulant operator</a></p>
+</li>
+</ol>
+<p><b>Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander</b></p>
+<div id="footer">
+<div id="footer-text">
+Page generated 2009-09-03 18:52:03 PDT, by <a href="http://jemdoc.jaboc.net/">jemdoc</a>.
+</div>
+</div>
+</div>
+</body>
+</html>
