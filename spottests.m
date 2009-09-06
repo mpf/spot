@@ -61,7 +61,7 @@ function out = spottests(varargin)
 %   Copyright 2009 The MathWorks, Inc.
 
 % Make sure that xUnit is on the path.
-if exist('TestSuite',file)
+if exist('TestSuite','file')
    % Relax. Found it.
 else
    try
@@ -85,7 +85,7 @@ else
     end
 end
 
-did_pass = suite.run(SpotTestRunDisplay());
+did_pass = suite.run(spot.utils.SpotTestRunDisplay());
 
 if nargout > 0
     out = did_pass;
