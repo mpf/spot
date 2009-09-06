@@ -7,11 +7,10 @@
 %
 % $$
 % C =  \pmatrix{
-%        c_1   & c_{n}          & c_{n\ ^\_ \ 1} & \ldots & c_2
-%    \cr c_2   & c_1            & c_n            &        & c_3
-%    \cr c_3   & c_2            & c_1            & c_n    & c_4
-%    \cr \vdots&                & \ddots         &        & \vdots
-%    \cr c_n   & \ldots         &                & c_2    & c_1
+%        c_1   & c_{n}      & \ldots & c_2
+%    \cr c_2   & c_1        & \ldots & \vdots
+%    \cr \vdots& \ddots     & \ddots & c_n
+%    \cr c_n   & \ldots     & c_2    & c_1
 %     }.
 % $$
 %

@@ -7,13 +7,10 @@ function gpl()
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-    parts = regexp(mfilename('fullpath'),filesep,'split');
-    spotpath = [filesep fullfile(parts{1:end-2})];
-    
     fprintf('\n');
     fprintf('  Full copyright information for the Spot Toolbox\n');
     fprintf('  can be found in\n\n');
-    fprintf('  %s%s%s\n',spotpath,filesep,'COPYING.txt');
+    fprintf('  %s%s%s\n',spot.path,filesep,'COPYING.txt');
     fprintf('\n');
     
 end % function gpl

@@ -1,6 +1,6 @@
-function out = runtests(varargin)
-%runtests Run unit tests
-%   runtests runs all the test cases that can be found in the current directory
+function out = spottests(varargin)
+%spottests Run unit tests in Spot tests directory
+%   spottests runs all the test cases that can be found in the current directory
 %   and summarizes the results in the Command Window.
 %
 %   Test cases can be found in the following places in the current directory:
@@ -28,36 +28,51 @@ function out = runtests(varargin)
 %
 %   Examples
 %   --------
-%   Find and run all the test cases in the current directory.
+%   Find and run all the test cases in the Spot test directory:
 %
-%       runtests
+%       spottests
 %
-%   Find and run all the test cases contained in the M-file myfunc.
+%   Find and run all the test cases contained in the M-file myfunc:
 %
-%       runtests myfunc
+%       spottests myfunc
 %
 %   Find and run all the test cases contained in the TestCase subclass
-%   MyTestCase.
+%   MyTestCase:
 %
-%       runtests MyTestCase
+%       spottests MyTestCase
 %
-%   Run the test case named 'testFeature' contained in the M-file myfunc.
+%   Run the test case named 'testFeature' contained in the M-file myfunc:
 %
-%       runtests myfunc:testFeature
+%       spottests myfunc:testFeature
 %
-%   Run all the tests in a specific directory.
+%   Run all the tests in a specific directory:
 %
-%       runtests c:\Work\MyProject\tests
+%       spottests c:\Work\MyProject\tests
 %
-%   Run all the tests in two directories.
+%   Run all the tests in two directories:
 %
-%       runtests c:\Work\MyProject\tests c:\Work\Book\tests
+%       spottests c:\Work\MyProject\tests c:\Work\Book\tests
+
+%   06 Sep 2009 (Michael P. Friedlander): File originally belonged to xUnit
+%   (see copyright below.) Renamed from "runtests" to "spottests" to avoid
+%   conflict with "runtests" found in the xUnit toolbox.
 
 %   Steven L. Eddins
 %   Copyright 2009 The MathWorks, Inc.
 
+% Make sure that xUnit is on the path.
+if exist('TestSuite',file)
+   % Relax. Found it.
+else
+   try
+      addpath(fullfile(spot.path,'tests','xunit'))
+   catch ME
+      error('Can''t find xunit toolbox.')
+   end
+end
+      
 if nargin < 1
-    suite = TestSuite.fromPwd();
+    suite = TestSuite.fromName(fullfile(spot.path,'tests'));
 else
     name_list = getInputNames(varargin{:});
     if numel(name_list) == 1
@@ -86,4 +101,3 @@ for k = 1:numel(varargin)
         name_list{end+1} = name;
     end
 end
-    
