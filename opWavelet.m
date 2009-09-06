@@ -80,11 +80,11 @@ classdef opWavelet < opOrthogonal
          switch lower(family)
             case {'daubechies'}
                op.family = 'Daubechies';
-               op.filter = rwt.daubcqf(op.lenFilter,op.typeFilter);
+               op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
                
             case {'haar'}
                op.family = 'Haar';
-               op.filter = rwt.daubcqf(0);
+               op.filter = spot.rwt.daubcqf(0);
                
             otherwise
                error('Wavelet family %s is unknown.', family);
@@ -114,19 +114,19 @@ classdef opWavelet < opOrthogonal
          Xmat = reshape(x,p,q);
          if mode == 1
             if isreal(x)
-               y  = rwt.mdwt(Xmat, filter, levels);
+               y  = spot.rwt.mdwt(Xmat, filter, levels);
             else
-               y1 = rwt.mdwt(real(Xmat), filter, levels);
-               y2 = rwt.mdwt(imag(Xmat), filter, levels);
+               y1 = spot.rwt.mdwt(real(Xmat), filter, levels);
+               y2 = spot.rwt.mdwt(imag(Xmat), filter, levels);
                y  = y1 + sqrt(-1) * y2;
             end
             y = y(:);
          else
             if isreal(x)
-               y = rwt.midwt(Xmat, filter, levels);
+               y = spot.rwt.midwt(Xmat, filter, levels);
             else
-               y1 = rwt.midwt(real(Xmat), filter, levels);
-               y2 = rwt.midwt(imag(Xmat), filter, levels);
+               y1 = spot.rwt.midwt(real(Xmat), filter, levels);
+               y2 = spot.rwt.midwt(imag(Xmat), filter, levels);
                y  = y1 + sqrt(-1) * y2;
             end
             y = y(:);
@@ -145,11 +145,11 @@ classdef opWavelet < opOrthogonal
          if mode == 1
             Xmat = reshape(x,p,q);
             if isreal(x)
-               [yl,yh] = rwt.mrdwt(Xmat, filter, levels);
+               [yl,yh] = spot.rwt.mrdwt(Xmat, filter, levels);
                y = [yl,yh];
             else
-               [yl1,yh1] = rwt.mrdwt(real(Xmat), filter, levels);
-               [yl2,yh2] = rwt.mrdwt(imag(Xmat), filter, levels);
+               [yl1,yh1] = spot.rwt.mrdwt(real(Xmat), filter, levels);
+               [yl2,yh2] = spot.rwt.mrdwt(imag(Xmat), filter, levels);
                y = [yl1,yh1] + sqrt(-1) * [yl2,yh2];
             end
             y = y(:);
@@ -157,10 +157,10 @@ classdef opWavelet < opOrthogonal
             xl = reshape(x(1:p*q),p,q);
             xh = reshape(x(p*q+1:end),p,(nseg-1)*q);
             if isreal(x)
-               y = rwt.mirdwt(xl, xh, filter, levels);
+               y = spot.rwt.mirdwt(xl, xh, filter, levels);
             else
-               y1 = rwt.mirdwt(real(xl), real(xh), filter, levels);
-               y2 = rwt.mirdwt(imag(xl), imag(xh), filter, levels);
+               y1 = spot.rwt.mirdwt(real(xl), real(xh), filter, levels);
+               y2 = spot.rwt.mirdwt(imag(xl), imag(xh), filter, levels);
                y = y1 + sqrt(-1) * y2;
             end
             y = y(:);
