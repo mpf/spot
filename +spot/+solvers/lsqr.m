@@ -88,7 +88,7 @@ msg=['The exact solution is  x = 0                              '
      'The least-squares solution is good enough for this machine'
      'Cond(Abar) seems to be too large for this machine         '
      'The iteration limit has been reached                      '];
-
+explicit = isnumeric(A) | issparse(A) | ismethod(A,'mtimes');
 wantvar= nargout >= 6;
 if wantvar, var = zeros(n,1); end
 
@@ -241,8 +241,7 @@ while itn < itnlim
 %     some of which will be small near a solution.
 
       test1   =   rnorm / bnorm;
-      test2   =   arnorm / arnorm0;
-%     test2   =   arnorm/( anorm * rnorm );
+      test2   =   arnorm/( anorm * rnorm );
       test3   =       1 / acond;
       t1      =   test1 / (1    +  anorm * xnorm / bnorm);
       rtol    =   btol  +  atol *  anorm * xnorm / bnorm;
@@ -262,7 +261,7 @@ while itn < itnlim
 
       if  test3 <= ctol,  istop = 3; end
       if  test2 <= atol,  istop = 2; end
-%     if  test1 <= rtol,  istop = 1; end
+      if  test1 <= rtol,  istop = 1; end
 
 %     See if it is time to print something.
 
@@ -273,7 +272,7 @@ while itn < itnlim
       if rem(itn,10) == 0  , prnt = 1; end
       if test3 <=  2*ctol  , prnt = 1; end
       if test2 <= 10*atol  , prnt = 1; end
-%     if test1 <= 10*rtol  , prnt = 1; end
+      if test1 <= 10*rtol  , prnt = 1; end
       if istop ~=  0       , prnt = 1; end
 
       if prnt == 1
@@ -309,11 +308,7 @@ end
 % End of lsqr.m
 %-----------------------------------------------------------------------
 
-
-
 function z = Aprod(x,mode)
-   explicit = isnumeric(A) | issparse(A) | ismethod(A,'mtimes');
-
    if mode == 1
       if explicit, z = A*x;
       else         z = A(x,1);

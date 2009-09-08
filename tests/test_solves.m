@@ -26,7 +26,7 @@ function test_solves_mldivide
    Aop = opFunction(n,n,@(x,mode)afun_diff(x,n,mode));
    x2 = Aop\b;
    
-   assertElementsAlmostEqual(x1,x2)
+   assertElementsAlmostEqual(x1,x2,'relative',1e-6)
    
 end
 
