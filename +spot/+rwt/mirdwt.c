@@ -115,8 +115,10 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   x = mxGetPr(plhs[0]);
-  plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
-  Lr = mxGetPr(plhs[1]);
-  *Lr = L;
+  if (nrhs < 4){
+      plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
+      Lr = mxGetPr(plhs[1]);
+      *Lr = L;
+  }
   MIRDWT(x, m, n, h, lh, L, yl, yh);
 }

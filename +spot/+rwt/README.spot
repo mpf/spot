@@ -27,8 +27,17 @@ We've adjusted the c-source files as necessary so that the RWT now
 compiles and runs correctly on a 64-bit version of Matlab. However, we
 haven't tested these routines for large 64-bit arrays.
 
+Redundant transforms (eg, mrdwt and mirdwt)
+-------------------------------------------
 
--- The Sparco development team
-   (Michael P. Friedlander and Ewout van den Berg)
-$Id: README.sparco 1391 2009-06-06 21:23:14Z mpf $
+Windows MEX interfaces are especially tricky. At least on Linux and
+the Mac, it's possible to exclude the last LHS argument (ie, the
+parameter L) for these functions. The mex interfaces have been
+modified so that this last parameter is required if and only if it
+doesn't appear on the RHS.
+
+
+-- The Spot development team
+   Michael P. Friedlander and Ewout van den Berg
+   8 Sept 2009.
 
