@@ -208,8 +208,9 @@ kx = 0; ky = 0;
 if mode == 1
    y  = zeros(m,1);
    for i=1:length(opList)
-      op = opList{i};
-      [mOp,nOp] = size(op);
+      op  = opList{i};
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+mOp) = weights(i) * op * x(kx+1:kx+nOp);
       kx = kx + nOp;
       ky = ky + mOp;
@@ -218,7 +219,8 @@ else
    y  = zeros(n,1);
    for i=1:length(opList)
       op = opList{i};
-      [mOp,nOp] = size(op);
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+nOp) = conj(weights(i)) * op' * x(kx+1:kx+mOp);
       kx = kx + mOp;
       ky = ky + nOp;
@@ -238,7 +240,8 @@ if mode == 1
    kx = offset; y  = zeros(m,1);
    for i=1:length(opList)
       op = opList{i};
-      [mOp,nOp] = size(op);
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+mOp) = weights(i) * (op * x(kx+1:kx+nOp));
       kx = kx + nOp - overlap;
       ky = ky + mOp;
@@ -247,7 +250,8 @@ else
    ky = offset; y  = zeros(n,1);
    for i=1:length(opList)
       op = opList{i};
-      [mOp,nOp] = size(op);
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+nOp) = y(ky+1:ky+nOp) + conj(weights(i))*(op' * x(kx+1:kx+mOp));
       kx = kx + mOp;
       ky = ky + nOp - overlap;
@@ -266,7 +270,8 @@ if mode == 1
    ky = offset; y  = zeros(m,1);
    for i=1:length(opList)
       op = opList{i};
-      [mOp,nOp] = size(op);
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+mOp) = y(ky+1:ky+mOp) + weights(i) * (op * x(kx+1:kx+nOp));
       kx = kx + nOp;
       ky = ky + mOp - overlap;
@@ -275,7 +280,8 @@ else
    kx = offset; y  = zeros(n,1);
    for i=1:length(opList)
       op = opList{i};
-      [mOp,nOp] = size(op);
+      mOp = op.m;
+      nOp = op.n;
       y(ky+1:ky+nOp) = conj(weights(i)) * (op' * x(kx+1:kx+mOp));
       kx = kx + mOp - overlap;
       ky = ky + nOp;

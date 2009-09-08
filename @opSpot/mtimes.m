@@ -29,7 +29,7 @@ function y = mtimes(A,B)
 %               a call to the "usual" matrix-vector product.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if isnumeric(A)
-    if isscalar(A) && (size(B,1) ~= 1)
+    if isscalar(A) && (B.m ~= 1)
        % s*C (mode 3)
        y = opFoG(A,B);
     else
@@ -45,14 +45,15 @@ if isnumeric(A)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 elseif isnumeric(B)
    if isscalar(B)
-      if size(A,2) ~= 1
+      if A.n ~= 1
          % C*s (mode 4)
          y = opFoG(A,B);
       else
          y = A.apply(B,1);  % A is a column "vector".
       end
    else
-      [m,n] = size(A);
+      m = A.m;
+      n = A.n;
       [p,q] = size(B);
    
       % Raise an error when the matrices do not commute

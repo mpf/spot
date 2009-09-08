@@ -7,8 +7,7 @@ function result = isscalar(A)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-[m,n] = size(A);
-if (m == 1) && (n == 1)
+if (A.m == 1) && (A.n == 1)
    result = true;
 else
    result = false;

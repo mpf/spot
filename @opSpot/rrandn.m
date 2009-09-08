@@ -11,10 +11,10 @@ function x = rrandn(A)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-m = size(A,1);
+m = A.m;
 
 if isreal(A)
    x = randn(m,1);
 else
-   x = randn(m,1) + i*randn(m,1);
+   x = randn(m,1) + 1i*randn(m,1);
 end

@@ -1,39 +1,61 @@
-function test_dottests
+function test_suite = test_dottests
 %test_dottests  Unit tests on operator-(sparse)matrix products.
 % All linear operators should pass the "dottest".
+initTestSuite;
+end
 
-randn('state',0); rand('state',0)
+function seed = setup
+   randn('state',0);
+   rand('state',0);
+   seed = [];
+end
 
-m = randi(100);
-n = randi(100);
+function test_dottests_elementary(seed)
+   m = randi(100); n = randi(100);
+   assertFalse(dottest(opEmpty(m,0)));      
+   assertFalse(dottest(opEye(n)));          
+   assertFalse(dottest(opOnes(m,n)));
+   assertFalse(dottest(opZeros(m,n)));
+end
 
-assertFalse(dottest(opBernoulli(m,n)));  
-assertFalse(dottest(opBinary(m,n)));     
-assertFalse(dottest(opDCT(n)));          
-assertFalse(dottest(opDCT2(m,n)));       
-assertFalse(dottest(opDirac(n)));        
-assertFalse(dottest(opEmpty(m,0)));      
-assertFalse(dottest(opEye(n)));          
-assertFalse(dottest(opDFT(n)));
-assertFalse(dottest(opDFT2(m,n)));
-assertFalse(dottest(opGaussian(m,n)));
-assertFalse(dottest(opHaar(64)));
-%assertFalse(dottest(opHaar(64,5,1)));
-assertFalse(dottest(opHaar2(64,128)));
-assertFalse(dottest(opHadamard(256)));
-assertFalse(dottest(opHadamard(256,1)));
-assertFalse(dottest(opHeaviside(n)));
-assertFalse(dottest(opHeaviside(n,1)));
-assertFalse(dottest(opOnes(m,n)));
+function test_dottest_ensembles(seed) 
+   m = randi(100); n = randi(100);
+   assertFalse(dottest(opBernoulli(m,n)));  
+   assertFalse(dottest(opBinary(m,n)));     
+   assertFalse(dottest(opGaussian(m,n)));  
+end
 
-%assertFalse(dottest(opSurfacelet([m,n],1)));assertEqual( A*xs, A*xf ));
+function test_dottest_fast(seed)
+   m = randi(100); n = randi(100);
+   assertFalse(dottest(opDCT(n)));          
+   assertFalse(dottest(opDCT2(m,n)));       
+   assertFalse(dottest(opDFT(n)));
+   assertFalse(dottest(opDFT2(m,n)));
+   assertFalse(dottest(opDirac(n)));
+   assertFalse(dottest(opHaar(64)));
+   %assertFalse(dottest(opHaar(64,5,1)));
+   assertFalse(dottest(opHaar2(64,128)));
+   assertFalse(dottest(opHadamard(256)));
+   assertFalse(dottest(opHadamard(256,1)));
+   assertFalse(dottest(opHeaviside(n)));
+   assertFalse(dottest(opHeaviside(n,1)));
+   
+   %assertFalse(dottest(opSurfacelet([m,n],1)));assertEqual( A*xs, A*xf ));
+  
+   assertFalse(dottest(opToepGauss(m,n)));             
+   assertFalse(dottest(opToepGauss(m,n,'circular')));  
+   assertFalse(dottest(opToepGauss(m,n,'toeplitz',1)));
+   assertFalse(dottest(opToepGauss(m,n,'circular',1)));
+   
+   assertFalse(dottest(opToepSign(m,n)));             
+   assertFalse(dottest(opToepSign(m,n,'circular')));  
+   assertFalse(dottest(opToepSign(m,n,'toeplitz',1)));
+   assertFalse(dottest(opToepSign(m,n,'circular',1)));   
+end
 
-assertFalse(dottest(opToepGauss(m,n)));             
-assertFalse(dottest(opToepGauss(m,n,'circular')));  
-assertFalse(dottest(opToepGauss(m,n,'toeplitz',1)));
-assertFalse(dottest(opToepGauss(m,n,'circular',1)));
-
-assertFalse(dottest(opToepSign(m,n)));             
-assertFalse(dottest(opToepSign(m,n,'circular')));  
-assertFalse(dottest(opToepSign(m,n,'toeplitz',1)));
-assertFalse(dottest(opToepSign(m,n,'circular',1)));
+function test_dottest_meta(seed)
+   m = randi(100); n = randi(100);
+   A = opMatrix(randn(m,n));
+   B = opMatrix(randn(m,n));
+   assertFalse(dottest(opBlockDiag(A,B)))
+end

@@ -7,9 +7,7 @@ function result = isempty(A)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-[m,n] = size(A);
-
-if (m == 0) || (n == 0)
+if (A.m == 0) || (A.n == 0)
    result = true;
 else
    result = false;
