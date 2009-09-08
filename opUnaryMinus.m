@@ -35,7 +35,7 @@ classdef opUnaryMinus < opSpot
           
           % Constuct operator
           [m, n] = size(A);
-          op = op@opSpot('UnaryMinus', n, m);
+          op = op@opSpot('UnaryMinus', m, n);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
           op.children   = {A};
