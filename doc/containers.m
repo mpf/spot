@@ -31,7 +31,7 @@ double(B)                 % print the elements of B
 %% Matrix containers
 % Spot's default behavior when multiplying operators with matrices is to
 % apply the operator to each column of the matrix.  For example, this next
-% command scales the columns o the Heaviside operator:
+% command scales the columns of the Heaviside operator:
 
 C = A * diag(1:m)
 

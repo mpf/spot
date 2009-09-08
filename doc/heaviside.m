@@ -1,5 +1,5 @@
 function y = heaviside(x,mode)
-%heaviside  The discrete Heaviside function.
+%heaviside  The discrete Heaviside transform.
   if mode == 1
      y = cumsum(x);
   else
