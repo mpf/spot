@@ -4,6 +4,9 @@ classdef opMask < opSpot
 %   opMask(N,IDX) creates a diagonal N-by-N operator that has ones
 %   only on those locations indicated by IDX.
 %
+%   opMask(IDX) is the same as opMask(numel(IDX),IDX) when parameter
+%   IDX is logical.
+%
 %   See also opDiag, opRestriction.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
@@ -27,9 +30,16 @@ classdef opMask < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opMask(n,idx)
-          if nargin ~= 2
-             error('Exactly two operators must be specified.')
+       function op = opMask(varargin)
+           
+          if nargin == 1 && islogical(varargin{1})
+             idx = varargin{1};
+             n   = numel(idx);
+          elseif nargin == 2
+             n   = varargin{1};
+             idx = varargin{2};
+          else
+             error('Invalid number of parameters specified.')
           end
            
           idx = full(idx(:));
