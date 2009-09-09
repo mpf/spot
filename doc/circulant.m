@@ -31,7 +31,7 @@ c = (1:n)';  % make sure c is a column vector
 
 %% Instantiating a simple Spot operator
 % Our very first Spot command will create the required DFT operator.
-% We ommit the semicolon so that Matlab will display details of the
+% We omit the semicolon so that Matlab will display details of the
 % resulting operator:
 
 F = opDFT(n)
@@ -95,7 +95,7 @@ F.nprods
 % case, we see that |F| acted on a vector a total of 4 times---3
 % with |F| itself, and once with its adjoint. Where did these 4
 % products come from? The first is clear, and happened in the
-% command |d = sqrt(n)*F*c|. Another multipication with |F|
+% command |d = sqrt(n)*F*c|. Another multiplication with |F|
 % occurred in the command |double( F(:,1) )|, which extracted the
 % first column from |F|. Then two more multiplications, one with
 % |F| and another with |F'| occurred when we applied |C*e|.
