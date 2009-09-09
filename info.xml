@@ -19,7 +19,7 @@
 
 <listitem>
 <label>Spot Web Page</label>
-<callback>web http://www.cs.ubc.ca/~mpf/spot -browser;</callback>
+<callback>web http://www.cs.ubc.ca/labs/scl/spot -browser;</callback>
 <icon>$toolbox/matlab/icons/webicon.gif</icon>
 </listitem>
 

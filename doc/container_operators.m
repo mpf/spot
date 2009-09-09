@@ -1,5 +1,5 @@
 %% Containers
-% Spot provides a numer of containers that allow existing operators in the
+% Spot provides a number of containers that allow existing operators in the
 % form of classes, functions, or matrices to be used in combination with
 % Spot.
 %
