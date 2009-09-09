@@ -8,5 +8,5 @@ function spotpath = dir
 %   http://www.cs.ubc.ca/labs/scl/spot
 
    parts = regexp(mfilename('fullpath'),filesep,'split');
-   spotpath = [filesep fullfile(parts{1:end-2})];
+   spotpath = fullfile(parts{1:end-2});
 end

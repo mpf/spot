@@ -17,4 +17,6 @@ function spotpublish
    publish('container_operators.m',opts);
    publish('circulant.m',opts);
    
+   system('jemdoc spot_main_page')
+   
 end % function spotpublish

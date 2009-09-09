@@ -30,10 +30,10 @@ notice some incompatibility.
 
 Spot is prepackaged with all of its required dependencies, and
 the core functionality will work out-of-the-box.  The first step
-is to add the "spot" directory to your Matlab path:
+is to add the "spotbox" directory to your Matlab path:
 ~~~
 {}{}
-addpath /path/to/spot/directory
+addpath /path/to/spotbox/directory
 ~~~
 See
 the [http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html

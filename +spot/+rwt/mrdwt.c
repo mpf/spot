@@ -102,8 +102,10 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   else
     plhs[1] = mxCreateDoubleMatrix(m,3*L*n,mxREAL);
   yh = mxGetPr(plhs[1]);
-  plhs[2] = mxCreateDoubleMatrix(1,1,mxREAL);
-  Lr = mxGetPr(plhs[2]);
-  *Lr = L;
+  if (nrhs < 3){
+      plhs[2] = mxCreateDoubleMatrix(1,1,mxREAL);
+      Lr = mxGetPr(plhs[2]);
+      *Lr = L;
+  }
   MRDWT(x, m, n, h, lh, L, yl, yh);
 }
