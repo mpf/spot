@@ -7,7 +7,12 @@ function spotpublish(tag)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
+   if nargin < 1 || isempty(tag)
+      error('tag required')
+   end
+
    % Documentation pages
+   cd(fullfile(spot.path,'doc'))
    format short g
    opts.format = 'html';
    opts.outputDir = 'html';
@@ -18,12 +23,17 @@ function spotpublish(tag)
    publish('fast_operators.m',opts);
    publish('random_ensembles.m',opts);
    publish('guide_circulant.m',opts);
-   
-   % Main page
-   system('jemdoc spot_main_page')
+   publish('spot_main_page.m',opts);
    
    % Export to zip file.
-   cmd = sprintf('git archive --format=zip %s --prefix=spotbox-%s/ > /tmp/spotbox-%s.zip',tag);
+   cd(spot.path)
+   cmd = sprintf('git archive --format=zip %s --prefix=spotbox-%s/ > /tmp/spotbox-%s.zip',...
+      tag,tag,tag);
+   system(cmd);
+   
+   % Add html dir to zip archive.
+   htmldir = fullfile(spot.path,'doc','html');
+   cmd = sprintf('zip -u /tmp/spotbox-%s.zip %s/*',tag,htmldir);
    system(cmd);
    
 end % function spotpublish
