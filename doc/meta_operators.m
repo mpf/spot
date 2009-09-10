@@ -1,6 +1,7 @@
 %% Meta operators
 % * <matlab:doc('opBlockDiag') opBlockDiag>    - Operator-diagonal operator
 % * <matlab:doc('opBlockOp') opBlockOp>      - Blockwise application of operator on matrices
+% * <matlab:doc('opConj') opConj>         - Take the elementwise conjugate of a complex operator
 % * <matlab:doc('opDiag') opDiag>         - Diagonal operator
 % * <matlab:doc('opCTranspose') opCTranspose>   - Conjugate transpose of an operator
 % * <matlab:doc('opDictionary') opDictionary>   - Dictionary of concatenated operators

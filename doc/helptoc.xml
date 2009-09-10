@@ -2,12 +2,12 @@
 
 <toc version="1.0">
 
-<tocitem target="spot_main_page.html">Spot Linear Operator Toolbox
-    <tocitem target="html/circulant.html"
+<tocitem target="html/spot_main_page.html">Spot Linear Operator Toolbox
+    <tocitem target="html/guide_circulant.html"
              image="$toolbox/matlab/icons/greencircleicon.gif">
              Getting started: A first example
     </tocitem>
-    <tocitem target="html/operators.html"
+    <tocitem target="html/spot_operators.html"
              image="$toolbox/matlab/icons/pagesicon.gif">
              Operators
              <tocitem target="html/elementary_operators.html"
