@@ -11,8 +11,25 @@ function spotpublish(tag)
       error('tag required')
    end
 
-   % Documentation pages
-   cd(fullfile(spot.path,'doc'))
+   % Export to zip file.
+   cd(spot.path)
+   cmd = sprintf('git archive %s --prefix=spotbox-%s/ | tar -x -C /tmp',tag,tag);
+   system(cmd);
+   
+   % Generate HTML files
+   cd(sprintf('/tmp/spotbox-%s/doc',tag));
+   generatehtml;
+   
+   % Create archive
+   cd(sprintf('/tmp',tag));
+   cmd = sprintf('zip -r spotbox-%s.zip spotbox-%s',tag,tag);
+   system(cmd);
+   cd(spot.path)
+      
+end % function spotpublish
+
+function generatehtml
+   %generatehtml  Generage HTML documentation
    format short g
    opts.format = 'html';
    opts.outputDir = 'html';
@@ -24,16 +41,4 @@ function spotpublish(tag)
    publish('random_ensembles.m',opts);
    publish('guide_circulant.m',opts);
    publish('spot_main_page.m',opts);
-   
-   % Export to zip file.
-   cd(spot.path)
-   cmd = sprintf('git archive --format=zip %s --prefix=spotbox-%s/ > /tmp/spotbox-%s.zip',...
-      tag,tag,tag);
-   system(cmd);
-   
-   % Add html dir to zip archive.
-   htmldir = fullfile(spot.path,'doc','html');
-   cmd = sprintf('zip -u /tmp/spotbox-%s.zip %s/*',tag,htmldir);
-   system(cmd);
-   
-end % function spotpublish
+end % function generatehtml   
