@@ -4,6 +4,5 @@
 % Spot.
 %
 % * <matlab:doc('opClass') opClass>        - Wrapper for classes
-% * <matlab:doc('opConj') opConj>         - Take the elementwise conjugate of a complex operator
 % * <matlab:doc('opFunction') opFunction>     - opFunction   Wrapper for functions
 % * <matlab:doc('opMatrix') opMatrix>       - Convert a numeric matrix into a Spot operator
