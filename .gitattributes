@@ -1,2 +1,3 @@
 spotpublish.m  export-ignore
 doc/*.jemdoc   export-ignore
+.git*          export-ignore
