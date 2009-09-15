@@ -18,18 +18,21 @@ classdef opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = protected )
+       cflag    = false; % Complexity of underlying operator
+       type     = '';    % Name of the operator
+    end
+    
+    properties( Access = protected )
+       children = {};    % Constituent operators (for a meta operator)
+       counter           % Pointer to counter handle
        linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
-       counter
        m        = 0;     % No. of rows
        n        = 0;     % No. of columns
-       type     = '';
-       cflag    = false; % Complexity of underlying operator
-       children = {};    % Constituent operators (for a meta operator)
-       precedence = 1;
+       precedence = 1;   % Precedence level used for display
     end
     
     properties( Dependent = true, SetAccess = private )
-       nprods
+       nprods            % No. of multiplies with operator and adjoint
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
