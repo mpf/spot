@@ -1,5 +1,5 @@
 classdef opDictionary < opSpot
-%opDictionary   Dictionary of concatenated operators
+%OPDICTIONARY   Dictionary of concatenated operators.
 %
 %   D = opDictionary(OP1,OP2,...OPn) creates a dictionary
 %   operator consisting of the concatenation of all operators, i.e.,

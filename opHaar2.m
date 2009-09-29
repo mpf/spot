@@ -1,5 +1,5 @@
 classdef opHaar2 < opWavelet
-%opHaar2   2-D Haar Wavelet
+%OPHAAR2   2-D Haar Wavelet.
 %
 %   opHaar2(M,N) creates a Haar Wavelet operator for 2-D signals of
 %   size M-by-N using 5 levels. M*N must be a power of 2.

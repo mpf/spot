@@ -1,5 +1,5 @@
 classdef opSum < opSpot
-%opSum   Addition of two operators.
+%OPSUM   Addition of two operators.
 %
 %   opSum(A,B) creates a compound operator representing (A + B).
 %

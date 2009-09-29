@@ -1,5 +1,5 @@
 classdef opInverse < opSpot
-%opInverse   (Pseudo) inverse of operator
+%OPINVERSE   (Pseudo) inverse of operator.
 %
 %   Ainv = opInverse(A) creates the (pseudo) inverse of a square operator.
 %   The product Ainv*b is then equivalent to A\b.

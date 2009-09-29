@@ -1,5 +1,5 @@
 classdef opMask < opSpot
-%opMask  Selection mask
+%OPMASK  Selection mask.
 %
 %   opMask(N,IDX) creates a diagonal N-by-N operator that has ones
 %   only on those locations indicated by IDX.

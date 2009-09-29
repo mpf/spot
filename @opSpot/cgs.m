@@ -1,7 +1,7 @@
 function varargout = cgs(A,b,varargin)
 %CGS   Conjugate Gradients Squared Method.
 %
-%   X = CGS(A,B) attempts to solve the square linear system A*X=B via
+%   X = cgs(A,B) attempts to solve the square linear system A*X=B via
 %   the CGS method.
 %
 %   This routine is simply a wrapper to Matlab's own CGS routine,

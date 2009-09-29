@@ -3,7 +3,7 @@ function y = vertcat(varargin)
 %
 %   [A; B] is the vertical concatenation of the operators A and B.
 %
-%   See also horzcat, opStack.
+%   See also opSpot.horzcat, opStack.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

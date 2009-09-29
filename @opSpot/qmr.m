@@ -1,7 +1,7 @@
 function varargout = qmr(A,b,varargin)
 %QMR   Quasi-Minimal Residual Method.
 %
-%   X = QMR(A,B) attempts to solve the square linear system A*X=B via
+%   X = qmr(A,B) attempts to solve the square linear system A*X=B via
 %   the QMR method.
 %
 %   This routine is simply a wrapper to Matlab's own QMR routine,

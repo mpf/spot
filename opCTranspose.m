@@ -1,5 +1,5 @@
 classdef opCTranspose < opSpot
-%opCTranspose   Conjugate transpose of an operator.
+%OPCTRANSPOSE   Conjugate transpose of an operator.
 %
 %   opCTranspose(OP) returns the conjugate tranpose of OP.
 %

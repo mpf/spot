@@ -1,5 +1,5 @@
 classdef opToepGauss < opToeplitz
-%opToepGauss  Toeplitz matrix with Gaussian entries
+%OPTOEPGAUSS  Toeplitz matrix with Gaussian entries.
 %
 %   OP = opToepGauss(M,N,TYPE,NORMALIZED) creates an M by N Toeplitz
 %   matrix with Gaussian entries. TYPE can either be 'toeplitz' or

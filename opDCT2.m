@@ -1,5 +1,5 @@
 classdef opDCT2 < opOrthogonal
-%opDCT2  Two-dimensional discrete cosine transform (DCT)
+%OPDCT2  Two-dimensional discrete cosine transform (DCT).
 %
 %   opDCT2(M,N) creates a two-dimensional discrete cosine transform
 %   operator for matrices of size M-by-N. Input and output of the

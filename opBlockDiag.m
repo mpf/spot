@@ -1,5 +1,5 @@
 classdef opBlockDiag < opSpot
-%opBlockDiag   Operator-diagonal operator
+%OPBLOCKDIAG   Operator-diagonal operator.
 %
 %   B = opBlockDiag(OP1, OP2,...,OPN,OVERLAP) creates a compound block
 %   operator with the input operators OP1, OP2,... on the diagonal of

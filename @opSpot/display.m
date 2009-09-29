@@ -1,7 +1,7 @@
 function display(A)
 %DISPLAY  Display an operator.
 %
-%   DISPLAY(A) displays an operator.
+%   display(A) displays an operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

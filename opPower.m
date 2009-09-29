@@ -1,5 +1,5 @@
 classdef opPower < opSpot
-%opPower   Raise operator to integer power
+%OPPOWER   Raise operator to integer power.
 %
 %   opPower(OP,P) creates the operator OP^P for integer values of
 %   P. When P = 0, the identity matrix is returned. When P < 0 we

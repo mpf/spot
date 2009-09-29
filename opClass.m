@@ -1,7 +1,7 @@
 classdef opClass < opSpot
-%OPCLASS   Wrapper for classes
+%OPCLASS   Wrapper for classes.
 %
-%   OPCLASS(M,N,OBJ,CFLAG,LINFLAG) creates an M by N wrapper operator
+%   opClass(M,N,OBJ,CFLAG,LINFLAG) creates an M by N wrapper operator
 %   for the class instance OBJ. The only requirement on OBJ is that it
 %   implements the `mtimes' method. Optional arguments CFLAG and LINFLAG
 %   indicate whether the class implements a complex or real operator and

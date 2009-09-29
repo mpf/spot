@@ -1,5 +1,5 @@
 classdef opFunction < opSpot
-%opFunction   Wrapper for functions
+%OPFUNCTION   Wrapper for functions.
 %
 %   opFunction(M,N,FUN,CFLAG,LINFLAG) creates a wrapper for function
 %   FUN, which corresponds to an M-by-N operator. The FUN parameter

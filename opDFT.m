@@ -1,5 +1,5 @@
 classdef opDFT < opOrthogonal
-%opDFT  Fast Fourier transform (DFT).
+%OPDFT  Fast Fourier transform (DFT).
 %
 %   opDFT(M) create a unitary one-dimensional discrete Fourier
 %   transform (DFT) for vectors of length M.

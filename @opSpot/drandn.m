@@ -1,7 +1,7 @@
 function x = drandn(A)
 %DRANDN  Normally distributed pseudorandom vector in the operator domain.
 %
-%   x = DRANDN(A) returns a pseudorandom vector in the domain of A.
+%   drandn(A) returns a pseudorandom vector in the domain of A.
 %
 %   See also opSpot.rrandn, randn.
 

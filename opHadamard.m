@@ -1,5 +1,5 @@
 classdef opHadamard < opSpot
-%opHadamard   Hadamard matrix
+%OPHADAMARD   Hadamard matrix.
 %
 %   opHadamard(N) creates a Hadamard operator for vectors of length
 %   N, where N is a power of two. Multiplication is done using a fast

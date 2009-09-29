@@ -1,5 +1,5 @@
 classdef opZeros < opSpot
-%opZeros   Operator equivalent to zeros function.
+%OPZEROS   Operator equivalent to zeros function.
 %
 %   opZeros(M,N) creates an operator corresponding to an M-by-N matrix
 %   of zeros. If parameter N is omitted it is set to M.

@@ -1,7 +1,7 @@
 function e = end(A,k,idxcount)
 %END   returns maximum index
 %
-%   E = END(OP,K,IDXCOUNT) returns the maximum index of operator
+%   end(OP,K,IDXCOUNT) returns the maximum index of operator
 %   OP in dimension K. When IDXCOUNT equals one argument K is
 %   ignored and the product of number of rows and columns of OP is
 %   returned.

@@ -1,5 +1,5 @@
 classdef opHeaviside < opSpot
-%opHeaviside   Heaviside operator
+%OPHEAVISIDE   Heaviside operator.
 %
 %   opHeaviside(N,NORMALIZED) creates an operator for multiplication
 %   by an N by N Heaviside matrix. These matrices have ones below and

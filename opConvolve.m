@@ -1,5 +1,5 @@
 classdef opConvolve < opSpot
-%opConvolve   One and two dimensional convolution operator
+%OPCONVOLVE   One and two dimensional convolution operator.
 %
 %   opConvolve(M,N,KERNEL,OFFSET,MODE) creates an operator for one or
 %   two-dimensional convolution, depending on the size of the KERNEL,

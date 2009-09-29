@@ -1,5 +1,5 @@
 classdef opReal < opSpot
-%opReal   Real part of operator.
+%OPREAL   Real part of operator.
 %
 %   opReal(OP) is the real part of operator OP.
 %

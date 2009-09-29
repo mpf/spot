@@ -1,7 +1,7 @@
 function A = uplus(A)
 %+   Unary plus.
 %
-%    B = UPLUS(A), or B = +A, simply returns the operator A.
+%    B = uplus(A), or B = +A, simply returns the operator A.
 
 % Intentionally left empty, which results in immediate return of A.
 

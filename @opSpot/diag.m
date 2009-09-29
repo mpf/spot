@@ -1,7 +1,7 @@
 function d = diag(A)
 %DIAG  Diagonal operator and diagonals of an operator.
 %
-%   DIAG(OP) is the main diagonal of the Spot operator OP.
+%   diag(OP) is the main diagonal of the Spot operator OP.
 %
 %   See also opDiag.
 

@@ -1,5 +1,5 @@
 classdef opBlockOp < opSpot
-%opBlockOp   Blockwise application of operator on matrices
+%OPBLOCKOP   Blockwise application of operator on matrices.
 %
 %   B = opBlockOp(M,N,OPIN,BR1,BC1,BR2,BC2) creates an operator that
 %   applies the given OPIN operator on two-dimensional data in a

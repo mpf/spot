@@ -1,5 +1,5 @@
 classdef opTranspose < opSpot
-%opTranspose   Transpose of an operator.
+%OPTRANSPOSE   Transpose of an operator.
 %
 %   opTranspose(OP) returns the tranpose of OP.
 %

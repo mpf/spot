@@ -1,5 +1,5 @@
 classdef opWavelet < opOrthogonal
-%opWavelet   Wavelet operator
+%OPWAVELET   Wavelet operator.
 %
 %   opWavelet(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
 %   signals of size M-by-N. The wavelet transformation is computed using

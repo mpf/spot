@@ -1,7 +1,7 @@
 function varargout = pcg(A,b,varargin)
 %PCG   Preconditioned Conjugate Gradients Method.
 %
-%   X = PCG(A,B) attempts to solve the symmetric positive-definite
+%   X = pcg(A,B) attempts to solve the symmetric positive-definite
 %   linear system A*X=B via the PCG method.
 %
 %   This routine is simply a wrapper to Matlab's own PCG routine,

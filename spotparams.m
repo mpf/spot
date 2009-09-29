@@ -1,5 +1,5 @@
 function p = spotparams(varargin)
-%spotparams  Get or set default Spot parameters
+%SPOTPARAMS  Get or set default Spot parameters.
    
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

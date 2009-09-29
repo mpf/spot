@@ -1,5 +1,5 @@
 classdef opOrthogonal < opSpot
-%opOrthogonal   Abstract class for orthogonal operators
+%OPORTHOGONAL   Abstract class for orthogonal operators.
 %
 %   opOrthogonal methods:
 %     opOrthogonal - constructor

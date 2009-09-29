@@ -1,5 +1,5 @@
 classdef opSubsRef < opSpot
-%opSubsRef   Extract rectangular subset of operator entries.
+%OPSUBSREF   Extract rectangular subset of operator entries.
 %
 %   opSubsRef(OP,ROWIDX,COLIDX) returns subset of entries indicated by
 %   the ROWIDX and COLIDX. The indices are either integer or logical

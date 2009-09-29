@@ -1,5 +1,5 @@
 classdef opStack < opSpot
-%opStack  Stack of vertically concatenated operators
+%OPSTACK  Stack of vertically concatenated operators.
 %
 %   opStack(WEIGHTS, OP1, OP2, ...) creates a stacked
 %   operator consisting of the vertical concatenation of all

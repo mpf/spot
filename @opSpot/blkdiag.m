@@ -8,7 +8,7 @@ function y = blkdiag(varargin)
 %            [           ...      ]
 %            [                OPN ]
 %
-%   See also opBlockDiag.
+%   See also opSpot.diag, opBlockDiag.
 %   
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

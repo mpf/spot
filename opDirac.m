@@ -1,5 +1,5 @@
 classdef opDirac < opOrthogonal    
-%opDirac  Dirac basis
+%OPDIRAC  Dirac basis.
 %
 %   opDirac(N) creates the square N-by-N identity operator. Without
 %   any arguments an operator corresponding to the scalar 1 is

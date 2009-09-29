@@ -1,5 +1,5 @@
 classdef opDiag < opSpot
-%opDiag   Diagonal operator.
+%OPDIAG   Diagonal operator.
 %
 %   opDiag(D) creates an operator for multiplication by the
 %   diagonal matrix that has a vector D on its diagonal.

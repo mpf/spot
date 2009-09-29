@@ -1,5 +1,5 @@
 function str = char(A)
-%char  Create a string representation of a Spot operator.
+%CHAR  Create a string representation of a Spot operator.
 %
 %   char(A) converts the Spot operator into a string representation.
 

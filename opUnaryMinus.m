@@ -1,5 +1,5 @@
 classdef opUnaryMinus < opSpot
-%opUnaryMinus   Negation of an operator.
+%OPUNARYMINUS   Negation of an operator.
 %
 %   opUnaryMinus(OP) returns -OP.
 %

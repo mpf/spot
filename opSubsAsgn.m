@@ -1,5 +1,5 @@
 classdef opSubsAsgn < opSpot
-%opSubsAsgn   Redefine rectangular subset of operator.
+%OPSUBSASGN   Redefine rectangular subset of operator.
 %
 %   opSubsAsign(A,ROWIDX,COLIDX,B), index = ':' is valid. Size of B
 %   must match that of rowidx and colidx. THe indices can exceed the

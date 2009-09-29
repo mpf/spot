@@ -1,7 +1,7 @@
 function varargout = eigs(varargin)
 %EIGS   Find a few eigenvalues and eigenvectors of an operator using ARPACK.
 %
-%   EIGS(A) returns six of the largest eigenvalues of an operator.
+%   eigs(A) returns six of the largest eigenvalues of an operator.
 %
 %   This routine is simply a wrapper to Matlab's own EIGS routine, and
 %   most of the argument-list variations described in Matlab's EIGS

@@ -1,7 +1,7 @@
 function varargout = bicgstab(A,b,varargin)
 %BICGSTAB   BiConjugate Gradients Stabilized Method.
 %
-%   X = BICGSTAB(A,B) attempts to solve the linear system A*X=B via
+%   X = bicgstab(A,B) attempts to solve the linear system A*X=B via
 %   the BICGSTAB method.
 %
 %   This routine is simply a wrapper to Matlab's own BICGSTAB routine,

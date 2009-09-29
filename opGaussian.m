@@ -1,5 +1,5 @@
 classdef opGaussian < opSpot
-%opGaussian   Gaussian ensemble
+%OPGAUSSIAN   Gaussian ensemble.
 %
 %   opGaussian(M,N) creates an M-by-N Gaussian-ensemble operator.
 %

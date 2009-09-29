@@ -1,7 +1,9 @@
 function A = real(A)
 %REAL  Complex real part.
 %
-%   See also opReal.
+%   opReal(A) returns an operator comprised of the real part of A.
+%
+%   See also opReal, opSpot.imag.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

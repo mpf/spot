@@ -1,5 +1,9 @@
 function result = isreal(A)
-%isreal  True for real operator.
+%ISREAL  True for real operator.
+%
+%   isreal(A) returns true if A is a real operator.
+%
+%   See also opSpot.real.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

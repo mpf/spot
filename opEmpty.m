@@ -1,5 +1,5 @@
 classdef opEmpty < opSpot
-%opEmpty   Operator equivalent to empty matrix.
+%OPEMPTY   Operator equivalent to empty matrix.
 %
 %   opZeros(M,N) creates an operator corresponding to an empty M-by-N
 %   matrix. At least one of M and N must be zero.

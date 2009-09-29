@@ -1,7 +1,7 @@
 function varargout = lsqr(A,b,varargin)
 %LSQR   LSQR Method.
 %
-%   X = LSQR(A,B) attempts to solve the least-squares problem
+%   X = lsqr(A,B) attempts to solve the least-squares problem
 %
 %       minimize  || A*X - B ||_2
 %

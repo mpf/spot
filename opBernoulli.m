@@ -1,5 +1,5 @@
 classdef opBernoulli < opSpot
-%opBernoulli   Bernoulli-ensemble operator.
+%OPBERNOULLI   Bernoulli-ensemble operator.
 %
 %   opBernoulli(M,N) creates an M-by-N Bernoulli ensemble, a matrix
 %   with iid +1/-1 entries.

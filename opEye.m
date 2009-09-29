@@ -1,5 +1,5 @@
 classdef opEye < opSpot
-%opEye  Identity operator
+%OPEYE  Identity operator.
 %
 %   opEye(M) creates the M-by-M identity operator.
 %

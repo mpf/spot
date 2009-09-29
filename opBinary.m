@@ -1,5 +1,5 @@
 classdef opBinary < opSpot
-%opBinary   Binary (0/1) ensemble
+%OPBINARY   Binary (0/1) ensemble.
 %
 %   opBinary(M,N) creates an M-by-N binary-ensemble operator.
 %

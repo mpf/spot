@@ -1,5 +1,9 @@
 function result = isempty(A)
-%isempty  True for empty operator.
+%ISEMPTY  True for empty operator.
+%
+%   isempty(A) returns true if A is an empty operator.
+%
+%   See also opEmpty.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

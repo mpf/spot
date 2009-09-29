@@ -1,5 +1,5 @@
 classdef opRestriction < opSpot
-%opRestriction   Restriction operator
+%OPRESTRICTION   Restriction operator.
 %
 %   opRestriction(N,IDX) creates a restriction operator that selects
 %   the entries listed in the index vector IDX from an input vector of

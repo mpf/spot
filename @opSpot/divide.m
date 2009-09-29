@@ -10,7 +10,7 @@ function x = divide(op,b,mode)
 %   The least-squares problem (*) is solved using LSQR with default
 %   parameters specified by spotparams.
 %
-%   See also mldivide, @opSpot/mrdivide, opFoG, opInverse, opPInverse, spotparams.
+%   See also mldivide, opSpot.mrdivide, opFoG, opInverse, opPInverse, spotparams.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

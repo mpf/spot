@@ -1,5 +1,5 @@
 classdef opPInverse < opSpot
-%opPInverse   Pseudo inverse of operator
+%OPPINVERSE   Pseudo inverse of operator.
 %
 %   Apinv = opPInverse(A) creates the pseudo inverse of a M-by-N
 %   operator A. The product Apinv*b is then equivalent to A\b.

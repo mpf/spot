@@ -1,5 +1,5 @@
 classdef opWindow < opSpot
-%opWindow   Diagonal window matrix.
+%OPWINDOW   Diagonal window matrix.
 %
 %   opWindow(D) creates an operator for multiplication by the
 %   diagonal matrix with D on its diagonal.

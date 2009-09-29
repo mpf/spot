@@ -1,5 +1,5 @@
 function out = spottests(varargin)
-%spottests Run unit tests in Spot tests directory
+%SPOTTESTS Run unit tests in Spot tests directory.
 %   spottests runs all the test cases that can be found in the current directory
 %   and summarizes the results in the Command Window.
 %

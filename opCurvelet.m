@@ -1,5 +1,5 @@
 classdef opCurvelet < opSpot
-%opCurvelet  Two-dimensional curvelet operator
+%OPCURVELET  Two-dimensional curvelet operator.
 %
 %   opCurvelet(M,N,NBSCALES,NBANGLES,TTYPE) creates a two-dimensional
 %   curvelet operator for M by N matrices. The curvelet transform is

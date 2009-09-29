@@ -1,5 +1,5 @@
 function y = kron(A,B)
-%kron   Kronecker tensor product of operators.
+%kRON   Kronecker tensor product of operators.
 %
 %   kron(A,B) is the Kornekar tensor product of A and B.
 %

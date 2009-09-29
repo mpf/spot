@@ -1,5 +1,5 @@
 classdef opDCT < opOrthogonal
-%opDCT  Discrete cosine transform (DCT)
+%OPDCT  Discrete cosine transform (DCT).
 %
 %   opDCT(M) creates a one-dimensional discrete cosine transform
 %   operator for vectors of length M.

@@ -1,5 +1,5 @@
 classdef opToeplitz < opSpot
-%opToeplitz   Toeplitz matrix
+%OPTOEPLITZ   Toeplitz matrix.
 %
 %   OP = opToeplitz(R) creates an N-by-N circular Toeplitz
 %   operator from the N-vector R. The entries of R prescribe the

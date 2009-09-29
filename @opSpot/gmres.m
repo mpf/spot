@@ -1,7 +1,7 @@
 function varargout = gmres(A,b,varargin)
 %GMRES   Generalized Minimum Residual Method.
 %
-%   X = GMRES(A,B) attempts to solve the square linear system A*X=B via
+%   X = gmres(A,B) attempts to solve the square linear system A*X=B via
 %   the GMRES method.
 %
 %   This routine is simply a wrapper to Matlab's own GMRES routine,

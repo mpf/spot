@@ -1,5 +1,5 @@
 classdef opOnes < opSpot
-%opOnes   Operator equivalent to ones function.
+%OPONES   Operator equivalent to ones function.
 %
 %   opOnes(M,N) creates an operator corresponding to an M by N matrix
 %   of ones. If parameter N is omitted it is set to M.

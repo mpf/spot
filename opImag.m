@@ -1,5 +1,5 @@
 classdef opImag < opSpot
-%opImag   Complex imaginary part of operator.
+%OPIMAG   Complex imaginary part of operator.
 %
 %   opImag(OP) is the complex imaginary part of operator OP. Note
 %   that the resulting operator is real.

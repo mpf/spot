@@ -1,7 +1,7 @@
 function x = rrandn(A)
 %RRANDN  Normally distributed pseudorandom vector in the operator range.
 %
-%   RRANDN(A) returns a pseudorandom vector in the range of A.
+%   rrandn(A) returns a pseudorandom vector in the range of A.
 %
 %   See also opSpot.drandn, randn.
 

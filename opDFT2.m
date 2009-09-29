@@ -1,6 +1,5 @@
 classdef opDFT2 < opOrthogonal
-
-%opDFT2  Two-dimensional fast Fourier transform (DFT).
+%OPDFT2  Two-dimensional fast Fourier transform (DFT).
 %
 %   opDFT2(M,N) creates a two-dimensional normalized Fourier transform
 %   operator for matrices of size M by N. Input and output of the

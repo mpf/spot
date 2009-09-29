@@ -1,7 +1,7 @@
 function varargout = bicg(A,b,varargin)
 %BICG   BiConjugate Gradients Method.
 %
-%   X = BICG(A,B) attempts to solve the linear system A*X=B via the
+%   X = bicg(A,B) attempts to solve the linear system A*X=B via the
 %   BICG method.
 %
 %   This routine is simply a wrapper to Matlab's own BICGS routine,

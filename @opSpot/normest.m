@@ -1,8 +1,11 @@
 function [e,cnt] = normest(S,tol)
 %NORMEST Estimate the matrix 2-norm.
-%   NORMEST(S) is an estimate of the 2-norm of the matrix S.
-%   NORMEST(S,tol) uses relative error tol instead of 1e-6.
-%   [nrm,cnt] = NORMEST(..) also gives the number of iterations used.
+%
+%   normest(S) is an estimate of the 2-norm of the matrix S.
+%
+%   normest(S,tol) uses relative error tol instead of 1e-6.
+%
+%   [nrm,cnt] = normest(..) also gives the number of iterations used.
 %
 %   This function is a minor adaptation of Matlab's built-in NORMEST.
 %

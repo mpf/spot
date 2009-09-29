@@ -1,5 +1,5 @@
 classdef opKron < opSpot
-%opKron   Kronecker tensor product
+%OPKRON   Kronecker tensor product.
 %
 %   opKron(OP1,OP2,...OPn) creates an operator that is the Kronecker
 %   tensor product of OP1, OP2, ..., OPn.

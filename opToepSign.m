@@ -1,5 +1,5 @@
 classdef opToepSign < opToeplitz
-%opToepSign  Toeplitz matrix with random sign entries
+%OPTOEPSIGN  Toeplitz matrix with random sign entries.
 %
 %   OP = opToepSign(M,N,TYPE,NORMALIZED) creates an M by N Toeplitz
 %   matrix with random +1 and -1 entries. TYPE can either be

@@ -1,7 +1,7 @@
 function varargout = minres(A,b,varargin)
 %MINRES   Minimum Residual Method.
 %
-%   X = MINRES(A,B) attempts to find a minimum-norm residual solution
+%   X = minres(A,B) attempts to find a minimum-norm residual solution
 %   X to the symmetric linear system A*X=B via the MINRES method.
 %
 %   This routine is simply a wrapper to Matlab's own MINRES routine,

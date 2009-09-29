@@ -1,7 +1,14 @@
 function varargout = symmlq(A,b,varargin)
 %SYMMLQ   Symetric LQ Method.
 %
-%   See help of SYMMLQ function provided by Matlab.
+%   X = symmlq(A,B) attempts to solve the system of linear equations A*X=B
+%   for X, where A is symmetric.
+%
+%   This routine is simply a wrapper to Matlab's own MINRES routine,
+%   and the argument list variations described in Matlab's MINRES
+%   documentation are also allowed here.  The usage is identical to
+%   Matlab's default version, except that the first argument must be a
+%   Spot operator.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

@@ -1,5 +1,5 @@
 classdef opConj < opSpot
-%opConj   Take the elementwise conjugate of a complex operator.
+%OPCONJ   Take the elementwise conjugate of a complex operator.
 %
 %   opConj(OP) is the elementwise complex conjugate of operator
 %   OP. Applying OPCONJ to conjugate operators returns the original

@@ -1,5 +1,5 @@
 classdef opSparseBinary < opSpot
-%opSparseBinary   Random sparse binary matrix
+%OPSPARSEBINARY   Random sparse binary matrix.
 %
 %   opSparseBinary(M,N) creates an M-by-N sparse binary matrix with
 %   min(M,8) nonzeros in each column.

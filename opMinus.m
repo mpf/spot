@@ -1,5 +1,5 @@
 classdef opMinus < opSpot
-%opMinus   Difference of two operators.
+%OPMINUS   Difference of two operators.
 %
 %   opMinus(OP1,OP2) creates a compound operator representing OP1-OP2.
 %
