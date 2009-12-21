@@ -1,0 +1,5 @@
+2009-12-21  Michael P. Friedlander  <mpf@cs.ubc.ca>
+
+	* kron, opKron: allow for multiple (ie, >2) arguments, as
+	described in the documentation.  Pointed out by <EOtnes@slb.com>.
+
