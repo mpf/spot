@@ -1,7 +1,9 @@
-function y = kron(A,B)
-%kRON   Kronecker tensor product of operators.
+function y = kron(varargin)
+%KRON   Kronecker tensor product of operators.
 %
-%   kron(A,B) is the Kornekar tensor product of A and B.
+%   kron(A,B) is the Kroneker tensor product of A and B.
+%
+%   kron(A,B,C,...) is the Kroneker product of A,B,C,...
 %
 %   See also opKron.
 
@@ -11,7 +13,9 @@ function y = kron(A,B)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-if nargin ~= 2
-   error('Exactly two operators must be specified.')
+if nargin < 2
+    error('At least two operators must be specified.')
 end
-y = opKron(A,B);
+y = opKron(varargin{:});
+
+end % function kron

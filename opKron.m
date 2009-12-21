@@ -16,26 +16,26 @@ classdef opKron < opSpot
     methods
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Constructor
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opKron(A,B)
-          
-          if nargin ~= 2
-             error('Exactly two operators must be specified.')
+       function op = opKron(varargin)
+          %opKron  Constructor
+
+          if nargin < 2
+             error('At least two operators must be specified.')
           end
-           
-          % Input matrices are immediately cast as opMatrix's.
-          if isa(A,'numeric'), A = opMatrix(A); end
-          if isa(B,'numeric'), B = opMatrix(B); end
-          
-          % Check that the input operators are valid.
-          if ~( isa(A,'opSpot') && isa(B,'opSpot') )
-             error('One of the operators is not a valid input.')
+
+          opList = cell(1,nargin);
+          for i = 1:nargin
+              A = varargin{i};              
+              if isa(A,'numeric')
+                  % A matrix input is immediately cast as opMatrix
+                  A = opMatrix(A);
+              elseif ~isa(A,'opSpot') && isa(B,'opSpot')
+                  error('One of the operators is not a valid input.')
+              end              
+              opList{i} = A;
           end
           
-          % Determine operator size and complexity (this code is
-          % general for any number of operators)
-          opList = {A,B};
+          % Determine operator size and complexity
           opA    = opList{1};
           [m,n]  = size(opA);
           cflag  = opA.cflag;
@@ -53,22 +53,23 @@ classdef opKron < opSpot
           op.cflag    = cflag;
           op.linear   = linear;
           op.children = opList;
-       end % Constructor
-
+       end % function opKron
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       % Display
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       
        function str = char(op)
-          % Get operators
-          op1 = op.children{1};
-          op2 = op.children{2};
-          str = ['Kron(',char(op1),', ',char(op2),')'];
-       end % Char
+          %char  Construct operator string representation
+          str = 'Kron(';
+          for i=1:length(op.children)
+              A = op.children{i};
+              str = strcat(str,char(A),',');
+          end
+          str = str(1:end-1);    % delete superfluous comma
+          str = strcat(str,')');
+       end % function char
       
     end % Methods
        
- 
     methods ( Access = protected )
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
