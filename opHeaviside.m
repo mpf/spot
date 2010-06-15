@@ -40,7 +40,9 @@ classdef opHeaviside < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
        
-        % Multiplication
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % multiply
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function y = multiply(op,x,mode)
            if mode == 1
               % Scale if normalized columns requested
@@ -61,7 +63,26 @@ classdef opHeaviside < opSpot
               end
            end
         end % Multipy
-      
+   
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % divide
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function x = divide(op,b,mode)
+           if op.normalized
+              v = sqrt(op.n:-1:1)';
+           else
+              v = ones(op.n,1);
+           end
+
+           if mode == 1
+              x = b.*v;
+              x(2:end) = x(2:end) - b(1:end-1).*v(2:end);
+           else
+              x = b.*v;
+              x(1:end-1) = x(1:end-1) - b(2:end).*v(2:end);
+           end
+        end % function divide
+   
     end % Methods
         
 end % Classdef

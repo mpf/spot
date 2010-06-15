@@ -108,14 +108,14 @@ if mode == 1
       y = fdct_wrapping_mex(m,n,nbs,nba,ac,reshape(x,m,n));
       y = fdct_wrapping_c2r(y);
    end
-   y = fdct_c2v(y,cn);
+   y = spot.utils.fdct_c2v(y,cn);
 else
    % Synthesis mode  
    if strcmp(ttype,'ME')
       x = mefdct_v2c(x,hdr,nba);
       y = meicv2(x,m,n,nbs,nba);
    else
-      x = fdct_v2c(x,hdr,ac,nba);
+      x = spot.utils.fdct_v2c(x,hdr,ac,nba);
       x = fdct_wrapping_r2c(x);
       y = ifdct_wrapping_mex(m,n,nbs,nba,ac,x);
    end

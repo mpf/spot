@@ -5,10 +5,10 @@ classdef opToeplitz < opSpot
 %   operator from the N-vector R. The entries of R prescribe the
 %   first row of the operator.
 %
-%   OP = opToeplitz(C,R) creates an symmetric M-by-M Toeplitz
-%   operator where M = length(C) and M = length(R). The entries of C
-%   prescribe the first column of the operator, and likewise, R
-%   prescribes the first row.
+%   OP = opToeplitz(C,R) creates an M-by-N Toeplitz operator where
+%   M = length(C) and N = length(R). The entries of C prescribe the
+%   first column of the operator, and likewise, R prescribes the
+%   first row.
 %
 %   The above calls are nearly idential to Matlab's built-in TOEPLITZ
 %   function.

@@ -9,11 +9,12 @@ classdef opWavelet < opOrthogonal
 %   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
 %   additional parameters: FILTER (default 8) specifies the filter length,
 %   which must be even. LEVELS (default 5) gives the number of levels in
-%   the transformation. Both P and Q must be divisible by 2^LEVELS. The
-%   Boolean field REDUNDANT (default false) indicates whether the wavelet
-%   is redundant. TYPE (default 'min') indictates what type of solution is
-%   desired; 'min' for minimum phase, 'max' for maximum phase, and 'mid'
-%   for mid-phase solutions.
+%   the transformation. Alternatively, a vector of filter coefficient can
+%   be given in the FILTER field. Both P and Q must be divisible by
+%   2^LEVELS. The Boolean field REDUNDANT (default false) indicates whether
+%   the wavelet is redundant. TYPE (default 'min') indictates what type of
+%   solution is desired; 'min' for minimum phase, 'max' for maximum phase,
+%   and 'mid' for mid-phase solutions. 
 
 %   Copyright 2007-2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.
@@ -77,17 +78,23 @@ classdef opWavelet < opOrthogonal
          if nargin >= 7 && ischar(typeFilter)
             op.typeFilter  = typeFilter;
          end
-         switch lower(family)
-            case {'daubechies'}
-               op.family = 'Daubechies';
-               op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
+         
+         if length(lenFilter) > 1
+            op.family = family;
+            op.filter = lenFilter;
+         else
+            switch lower(family)
+               case {'daubechies'}
+                  op.family = 'Daubechies';
+                  op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
                
-            case {'haar'}
-               op.family = 'Haar';
-               op.filter = spot.rwt.daubcqf(0);
+               case {'haar'}
+                  op.family = 'Haar';
+                  op.filter = spot.rwt.daubcqf(0);
                
-            otherwise
-               error('Wavelet family %s is unknown.', family);
+               otherwise
+                  error('Wavelet family %s is unknown.', family);
+            end
          end
          
          % Initialize function handle
