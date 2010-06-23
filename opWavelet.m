@@ -79,9 +79,10 @@ classdef opWavelet < opOrthogonal
             op.typeFilter  = typeFilter;
          end
          
-         if length(lenFilter) > 1
-            op.family = family;
-            op.filter = lenFilter;
+         if length(op.lenFilter) > 1
+            op.family    = family;
+            op.filter    = op.lenFilter;
+            op.lenFilter = length(op.filter);
          else
             switch lower(family)
                case {'daubechies'}
