@@ -4,7 +4,7 @@ classdef opWavelet < opOrthogonal
 %   opWavelet(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
 %   signals of size M-by-N. The wavelet transformation is computed using
 %   the Rice Wavelet Toolbox.  The values supported for FAMILY are
-%   'Daubechies' and 'Haar'.
+%   'Daubechies' and 'Haar'. When omitted, FAMILY is set to 'Daubechies'.
 %
 %   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
 %   additional parameters: FILTER (default 8) specifies the filter length,
@@ -68,10 +68,13 @@ classdef opWavelet < opOrthogonal
          
          op = op@opOrthogonal('Wavelet', m, n);
          op.signal_dims = [p, q];
-         op.levels = levels;
-         op.redundant = redundant;
-         op.nseg = nseg;
+         op.levels      = levels;
+         op.redundant   = redundant;
+         op.nseg        = nseg;
          
+         if nargin >= 3 && ~isempty(family)
+            op.family = family;
+         end
          if nargin >= 4 && ~isempty(lenFilter)
             op.lenFilter = lenFilter;
          end
@@ -84,7 +87,7 @@ classdef opWavelet < opOrthogonal
             op.filter    = op.lenFilter;
             op.lenFilter = length(op.filter);
          else
-            switch lower(family)
+            switch lower(op.family)
                case {'daubechies'}
                   op.family = 'Daubechies';
                   op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
