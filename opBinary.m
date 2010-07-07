@@ -3,7 +3,7 @@ classdef opBinary < opSpot
 %
 %   opBinary(M,N) creates an M-by-N binary-ensemble operator.
 %
-%   opBinary(M) creates a square M-by-B binary-ensemble.
+%   opBinary(M) creates a square M-by-M binary-ensemble.
 %
 %   opGaussian(M,N,MODE) is the same as above, except that the
 %   parameter MODE controls the type of ensemble that is generated.
