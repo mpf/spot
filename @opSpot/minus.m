@@ -12,4 +12,10 @@ function y = minus(A,B)
 if nargin ~= 2
    error('Exactly two operators must be specified.')
 end
+if isscalar(A)
+   A = A*opOnes(size(B));
+end
+if isscalar(B)
+   B = B*opOnes(size(A));
+end
 y = opMinus(A,B);
