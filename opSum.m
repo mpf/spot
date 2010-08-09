@@ -1,4 +1,4 @@
-classdef opSum < opSpot
+classdef opSum < opSpot & opSweep
 %OPSUM   Addition of two operators.
 %
 %   opSum(A,B) creates a compound operator representing (A + B).
@@ -99,8 +99,8 @@ classdef opSum < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-           y =     apply(op.children{1},x,mode);
-           y = y + apply(op.children{2},x,mode);
+           y =     applyMultiply(op.children{1},x,mode);
+           y = y + applyMultiply(op.children{2},x,mode);
         end % Multiply
        
     end % Methods

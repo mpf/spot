@@ -1,4 +1,4 @@
-classdef opReal < opSpot
+classdef opReal < opSpot & opSweep
 %OPREAL   Real part of operator.
 %
 %   opReal(OP) is the real part of operator OP.
@@ -61,14 +61,14 @@ classdef opReal < opSpot
           opA = op.children{1};
           if isreal(x)
              % Purely real
-             y = real(apply(opA,x,mode));
+             y = real(applyMultiply(opA,x,mode));
           elseif isreal(sqrt(-1)*x)
              % Purely imaginary
-             y = real(apply(opA,imag(x),mode)) * sqrt(-1);
+             y = real(applyMultiply(opA,imag(x),mode)) * sqrt(-1);
           else
              % Mixed
-             y = real(apply(opA,real(x),mode)) + ...
-                 real(apply(opA,imag(x),mode)) * sqrt(-1);
+             y = real(applyMultiply(opA,real(x),mode)) + ...
+                 real(applyMultiply(opA,imag(x),mode)) * sqrt(-1);
           end
        end % Multiply
 

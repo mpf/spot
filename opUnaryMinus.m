@@ -69,7 +69,7 @@ classdef opUnaryMinus < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-           y = -1 * apply(op.children{1},x,mode);
+           y = -1 * applyMultiply(op.children{1},x,mode);
        end % Multiply
 
     end % Methods

@@ -1,4 +1,4 @@
-classdef opDirac < opOrthogonal    
+classdef opDirac < opOrthogonal   
 %OPDIRAC  Dirac basis.
 %
 %   opDirac(N) creates the square N-by-N identity operator. Without

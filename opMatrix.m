@@ -1,4 +1,4 @@
-classdef opMatrix < opSpot
+classdef opMatrix < opSpot & opSweep
 %OPMATRIX   Convert a numeric matrix into a Spot operator.
 %
 %   opMatrix(A,DESCRIPTION) creates an operator that performs

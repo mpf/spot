@@ -131,7 +131,7 @@ classdef opStack < opSpot
              for i=1:length(op.children)
                 child      = op.children{i};
                 s          = size(child,1);
-                y(k+(1:s)) = apply(child, x, 1);
+                y(k+(1:s)) = applyMultiply(child, x, 1);
                 k          = k + s;
              end;
           else
@@ -140,7 +140,7 @@ classdef opStack < opSpot
              for i=1:length(op.children)
                 child = op.children{i};
                 s     = size(child,1);
-                y     = y + apply(child, x(k+1:k+s), 2);
+                y     = y + applyMultiply(child, x(k+1:k+s), 2);
                 k     = k + s;
              end
           end

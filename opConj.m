@@ -1,4 +1,4 @@
-classdef opConj < opSpot
+classdef opConj < opSpot & opSweep
 %OPCONJ   Take the elementwise conjugate of a complex operator.
 %
 %   opConj(OP) is the elementwise complex conjugate of operator
@@ -82,9 +82,9 @@ classdef opConj < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
            if mode == 1
-              y = conj(apply(op.children{1},conj(x),1));
+              y = conj(applyMultiply(op.children{1},conj(x),1));
            else
-              y = conj(apply(op.children{1},conj(x),2));
+              y = conj(applyMultiply(op.children{1},conj(x),2));
            end
        end % function multiply
 

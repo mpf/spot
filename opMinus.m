@@ -1,4 +1,4 @@
-classdef opMinus < opSpot
+classdef opMinus < opSpot & opSweep
 %OPMINUS   Difference of two operators.
 %
 %   opMinus(OP1,OP2) creates a compound operator representing OP1-OP2.
@@ -84,8 +84,8 @@ classdef opMinus < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-           y =     apply(op.children{1},x,mode);
-           y = y - apply(op.children{2},x,mode);
+           y =     applyMultiply(op.children{1},x,mode);
+           y = y - applyMultiply(op.children{2},x,mode);
         end % Multiply
        
     end % Methods

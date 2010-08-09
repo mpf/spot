@@ -52,7 +52,7 @@ classdef opPower < opSpot
           elseif p > 0
              fun = @opPower_intrnl;
           else
-             fun = @(op,x,mode) apply(inv(A^abs(p)),x,mode);
+             fun = @(op,x,mode) applyMultiply(inv(A^abs(p)),x,mode);
           end
           op.funHandle  = fun;
        end % function opPower
@@ -85,7 +85,7 @@ classdef opPower < opSpot
           A = op.children{1};
           y = x;
           for i=1:p
-             y = apply(A,y,mode);
+             y = applyMultiply(A,y,mode);
           end
        end % function opPower_intrnl
 

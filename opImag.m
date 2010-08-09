@@ -1,4 +1,4 @@
-classdef opImag < opSpot
+classdef opImag < opSpot & opSweep
 %OPIMAG   Complex imaginary part of operator.
 %
 %   opImag(OP) is the complex imaginary part of operator OP. Note
@@ -61,26 +61,26 @@ classdef opImag < opSpot
           if mode == 1
              if isreal(x)
                 % Purely real
-                y = imag(apply(opA,x,mode));
+                y = imag(applyMultiply(opA,x,mode));
              elseif isreal(sqrt(-1)*x)
                 % Purely imaginary
-                y = imag(apply(opA,imag(x),mode)) * sqrt(-1);
+                y = imag(applyMultiply(opA,imag(x),mode)) * sqrt(-1);
              else
                 % Mixed
-                y = imag(apply(opA,real(x),mode)) + ...
-                    imag(apply(opA,imag(x),mode)) * sqrt(-1);
+                y = imag(applyMultiply(opA,real(x),mode)) + ...
+                    imag(applyMultiply(opA,imag(x),mode)) * sqrt(-1);
              end
           else
              if isreal(x)
                 % Purely real
-                y = imag(apply(opA,x,mode)) * -1;
+                y = imag(applyMultiply(opA,x,mode)) * -1;
              elseif isreal(sqrt(-1)*x)
                 % Purely imaginary
-                y = imag(apply(opA,imag(x),mode)) * sqrt(-1) * -1;
+                y = imag(applyMultiply(opA,imag(x),mode)) * sqrt(-1) * -1;
              else
                 % Mixed
-                y = imag(apply(opA,real(x),mode)) * -1 + ...
-                    imag(apply(opA,imag(x),mode)) * sqrt(-1) * -1;
+                y = imag(applyMultiply(opA,real(x),mode)) * -1 + ...
+                    imag(applyMultiply(opA,imag(x),mode)) * sqrt(-1) * -1;
              end
           end
        end % Multiply

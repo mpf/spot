@@ -1,4 +1,4 @@
-classdef opZeros < opSpot
+classdef opZeros < opSpot & opSweep
 %OPZEROS   Operator equivalent to zeros function.
 %
 %   opZeros(M,N) creates an operator corresponding to an M-by-N matrix

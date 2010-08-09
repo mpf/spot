@@ -1,4 +1,4 @@
-classdef opTranspose < opSpot
+classdef opTranspose < opSpot & opSweep
 %OPTRANSPOSE   Transpose of an operator.
 %
 %   opTranspose(OP) returns the tranpose of OP.
@@ -90,7 +90,7 @@ classdef opTranspose < opSpot
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function y = multiply(op,x,mode)
-          y = apply(op.opIntrnl,x,mode);
+          y = applyMultiply(op.opIntrnl,x,mode);
        end % function multiply
 
     end % methods - protected

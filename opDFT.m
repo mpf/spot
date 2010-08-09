@@ -1,4 +1,4 @@
-classdef opDFT < opOrthogonal
+classdef opDFT < opOrthogonal & opSweep
 %OPDFT  Fast Fourier transform (DFT).
 %
 %   opDFT(M) create a unitary one-dimensional discrete Fourier

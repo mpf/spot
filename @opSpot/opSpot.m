@@ -1,56 +1,53 @@
 classdef opSpot
-%opSpot  Spot operator super class.
-%
-%   A = opSpot  creates an empty Spot operator.
-%
-%   A = opSpot(type,m,n)  creates a Spot operator named TYPE, of size
-%   M-by-N. CFLAG is set when the operator is
-%   complex. The TYPE and DATA fields provide the type of the operator
-%   (string) and additional data for printing.
-
-%   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
-%   See the file COPYING.txt for full copyright information.
-%   Use the command 'spot.gpl' to locate this file.
-
-%   http://www.cs.ubc.ca/labs/scl/spot
-
+    %opSpot  Spot operator super class.
+    %
+    %   A = opSpot  creates an empty Spot operator.
+    %
+    %   A = opSpot(type,m,n)  creates a Spot operator named TYPE, of size
+    %   M-by-N. CFLAG is set when the operator is
+    %   complex. The TYPE and DATA fields provide the type of the operator
+    %   (string) and additional data for printing.
+    
+    %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
+    %   See the file COPYING.txt for full copyright information.
+    %   Use the command 'spot.gpl' to locate this file.
+    
+    %   http://www.cs.ubc.ca/labs/scl/spot
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = protected )
-       cflag    = false; % Complexity of underlying operator
-       type     = '';    % Name of the operator
-    end
-    
-    properties( Access = protected )
-       children = {};    % Constituent operators (for a meta operator)
-       counter           % Pointer to counter handle
-       linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
-       m        = 0;     % No. of rows
-       n        = 0;     % No. of columns
-       precedence = 1;   % Precedence level used for display
+        linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+        counter
+        m        = 0;     % No. of rows
+        n        = 0;     % No. of columns
+        type     = '';
+        cflag    = false; % Complexity of underlying operator
+        children = {};    % Constituent operators (for a meta operator)
+        precedence = 1;
     end
     
     properties( Dependent = true, SetAccess = private )
-       nprods            % No. of multiplies with operator and adjoint
+        nprods
     end
-
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
         
         function op = opSpot(type,m,n)
-        %opSpot  Constructor.
+            %opSpot  Constructor.
             if nargin == 0
-               % Relax -- empty constructor.
-            
+                % Relax -- empty constructor.
+                
             elseif nargin == 3
                 m = max(0,m);
                 n = max(0,n);
                 if round(m) ~= m || round(n) ~= n
                     warning('SPOT:ambiguousParams',...
-                       'Size parameters are not integer.');
+                        'Size parameters are not integer.');
                     m = floor(m);
                     n = floor(n);
                 end
@@ -64,8 +61,8 @@ classdef opSpot
         end % function opSpot
         
         function nprods = get.nprods(op)
-        %get.nprods  Get a count of the produts with the operator.
-           nprods = [op.counter.mode1, op.counter.mode2];
+            %get.nprods  Get a count of the produts with the operator.
+            nprods = [op.counter.mode1, op.counter.mode2];
         end % function get.Nprods
         
     end % methods - public
@@ -74,19 +71,38 @@ classdef opSpot
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
-
-       % FIXME: rename apply to "applyMultiply", here and elsewhere.
-       function y = apply(op,x,mode)
-          op.counter.plus1(mode);
-          y = op.multiply(x,mode);
-       end
-       
-       function y = applyDivide(op,x,mode)
-          y = op.divide(x,mode);
-       end
-       
-       % Signature of external protected functions
-       y = divide(op,x,mode);
+        
+        function y = applyMultiply(op,x,mode)
+            op.counter.plus1(mode);
+            if isa(op,'opSweep')
+                y = op.multiply(x,mode);
+            else
+                q = size(x,2);
+                
+                % Preallocate y
+                if q > 1
+                   if isscalar(op)
+                      % special case: allocate result size of x
+                      y = zeros(size(x));
+                   elseif mode==1
+                      y = zeros(op.m,q);
+                   else
+                      y = zeros(op.n,q);
+                   end
+                end
+                
+                for i=1:q
+                    y(:,i) = op.multiply(x(:,i),mode);
+                end
+            end
+        end
+        
+        function y = applyDivide(op,x,mode)
+            y = op.divide(x,mode);
+        end
+        
+        % Signature of external protected functions
+        y = divide(op,x,mode);
     end % methods - protected
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,5 +111,5 @@ classdef opSpot
     methods( Abstract, Access = protected )
         y = multiply(op,x,mode)
     end % methods - abstract
-
+    
 end % classdef

@@ -1,4 +1,4 @@
-classdef opFoG < opSpot
+classdef opFoG < opSpot & opSweep
 %OPFOG   Forms the product of to operators.
 %
 %   opFoG(OP1,OP2) creates an operator that successively applies each
@@ -117,11 +117,11 @@ classdef opFoG < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function z = multiply(op,x,mode)
            if mode == 1
-              y = apply(op.operators{2},x,mode);
-              z = apply(op.operators{1},y,mode);
+              y = applyMultiply(op.operators{2},x,mode);
+              z = applyMultiply(op.operators{1},y,mode);
            else
-              y = apply(op.operators{1},x,mode);
-              z = apply(op.operators{2},y,mode);
+              y = applyMultiply(op.operators{1},x,mode);
+              z = applyMultiply(op.operators{2},y,mode);
            end
         end % Multiply
        

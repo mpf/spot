@@ -49,31 +49,28 @@ elseif isnumeric(B)
          % C*s (mode 4)
          y = opFoG(A,B);
       else
-         y = A.apply(B,1);  % A is a column "vector".
+         y = A.applyMultiply(B,1);  % A is a column "vector".
       end
    else
-      m = A.m;
-      n = A.n;
-      [p,q] = size(B);
+      p = size(B,1);
    
-      % Raise an error when the matrices do not commute
-      if n ~= p
-         error('Matrix dimensions must agree when multiplying by %s.', ...
-             char(A));
-      end
-   
-      % Preallocate y
-      if q > 1 || issparse(B)
-         y = zeros(m,q);
-      end
-      
-      % Perform operator*vector on each column of B
-      if isempty(A)
-         y = zeros(m,q);
-      else
-         for i=1:q
-            y(:,i) = A.apply(B(:,i),1);
+      % Raise an error when the matrices do not commute. We make an
+      % exception for 1-by-1 operators.
+      if A.n ~= p
+         if A.m == 1 && A.n == 1
+            % relax
+         else
+            error(...
+               'Matrix dimensions must agree when multiplying by %s.',...
+               char(A));
          end
+      end
+   
+      % Perform operator*matrix
+      if isempty(A)
+         y = zeros(A.m,size(B,2));
+      else
+         y = A.applyMultiply(B,1);
       end
       
    end   

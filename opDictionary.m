@@ -121,7 +121,7 @@ classdef opDictionary < opSpot
              for i=1:length(op.children)
                 child = op.children{i};
                 s = size(child,2);
-                y = y + apply(child, x(k+1:k+s), 1);
+                y = y + applyMultiply(child, x(k+1:k+s), 1);
                 k = k + s;
              end
           else
@@ -130,7 +130,7 @@ classdef opDictionary < opSpot
              for i=1:length(op.children)
                 child = op.children{i};
                 s          = size(child,2);
-                y(k+1:k+s) = apply(child, x, 2);
+                y(k+1:k+s) = applyMultiply(child, x, 2);
                 k          = k + s;
              end
           end

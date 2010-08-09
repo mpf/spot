@@ -1,4 +1,4 @@
-classdef opInverse < opSpot
+classdef opInverse < opSpot & opSweep
 %OPINVERSE   (Pseudo) inverse of operator.
 %
 %   Ainv = opInverse(A) creates the (pseudo) inverse of a square operator.

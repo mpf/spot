@@ -1,4 +1,4 @@
-classdef opCTranspose < opSpot
+classdef opCTranspose < opSpot & opSweep
 %OPCTRANSPOSE   Conjugate transpose of an operator.
 %
 %   opCTranspose(OP) returns the conjugate tranpose of OP.
@@ -83,9 +83,9 @@ classdef opCTranspose < opSpot
        function y = multiply(op,x,mode)
            A = op.children{1};
            if mode == 1
-              y = apply(A,x,2);
+              y = applyMultiply(A,x,2);
            else
-              y = apply(A,x,1);
+              y = applyMultiply(A,x,1);
            end
        end % function multiply
 

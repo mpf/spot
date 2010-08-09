@@ -1,4 +1,4 @@
-classdef opDiag < opSpot
+classdef opDiag < opSpot & opSweep
 %OPDIAG   Diagonal operator.
 %
 %   opDiag(D) creates an operator for multiplication by the

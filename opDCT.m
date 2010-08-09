@@ -1,4 +1,4 @@
-classdef opDCT < opOrthogonal
+classdef opDCT < opOrthogonal & opSweep
 %OPDCT  Discrete cosine transform (DCT).
 %
 %   opDCT(M) creates a one-dimensional discrete cosine transform

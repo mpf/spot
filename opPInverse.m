@@ -1,4 +1,4 @@
-classdef opPInverse < opSpot
+classdef opPInverse < opSpot & opSweep
 %OPPINVERSE   Pseudo inverse of operator.
 %
 %   Apinv = opPInverse(A) creates the pseudo inverse of a M-by-N
