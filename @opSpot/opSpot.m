@@ -18,6 +18,7 @@ classdef opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = protected )
+<<<<<<< HEAD
         linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
         counter
         m        = 0;     % No. of rows
@@ -30,6 +31,20 @@ classdef opSpot
     
     properties( Dependent = true, SetAccess = private )
         nprods
+=======
+       linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+       counter
+       m        = 0;     % No. of rows
+       n        = 0;     % No. of columns
+       type     = '';
+       cflag    = false; % Complexity of underlying operator
+       children = {};    % Constituent operators (for a meta operator)
+       precedence = 1;
+    end
+    
+    properties( Dependent = true, SetAccess = private )
+       nprods
+>>>>>>> "Initial import of spot optimized toolbox"
     end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,6 +86,7 @@ classdef opSpot
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
+<<<<<<< HEAD
         
         function y = applyMultiply(op,x,mode)
             op.counter.plus1(mode);
@@ -103,6 +119,23 @@ classdef opSpot
         
         % Signature of external protected functions
         y = divide(op,x,mode);
+=======
+
+        function y = applyMultiply(op,x,mode)
+          %op.counter.plus1(mode);
+          %The previous line can be used to count the number of
+          %multiplications (mode1 & mode2) so as to compare
+          %algorithms.
+          y=op.multiply(x,mode);
+       end
+       
+       function y = applyDivide(op,x,mode)
+          y = op.divide(x,mode);
+       end
+       
+       % Signature of external protected functions
+       y = divide(op,x,mode);
+>>>>>>> "Initial import of spot optimized toolbox"
     end % methods - protected
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
