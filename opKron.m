@@ -178,7 +178,7 @@ classdef opKron < opSpot & opSweep
                     %(I(a) kron A kron I(b)) * x;
                     
                     t=reshape(reshape(x,b,a*c).',c,a*b);
-                    t=reshape(spot_multiply(opList{index},t,1)',a,r*b)';
+                    t=reshape(applyMultiply(opList{index},t,1)',a,r*b)';
                     x=t(:);
                 end
                 y = reshape(x,m,ncol);
@@ -224,7 +224,7 @@ classdef opKron < opSpot & opSweep
                     %(I(a) kron A kron I(b)) * x;
                     
                     t=reshape(reshape(x,b,a*c).',c,a*b);
-                    t=reshape(spot_multiply(opList{index},t,2)',a,r*b)';
+                    t=reshape(applyMultiply(opList{index},t,2)',a,r*b)';
                     x=t(:);
                 end
                 y=reshape(x,n,ncol);

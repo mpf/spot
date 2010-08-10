@@ -19,6 +19,9 @@ classdef opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = protected )
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> "spot_multiplied removed and for loop placed inside applyMultiply. Supplementary test on the size of 'op' for pre-allocation when the for loop is needed."
         linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
         counter
         m        = 0;     % No. of rows
@@ -27,6 +30,7 @@ classdef opSpot
         cflag    = false; % Complexity of underlying operator
         children = {};    % Constituent operators (for a meta operator)
         precedence = 1;
+<<<<<<< HEAD
     end
     
     properties( Dependent = true, SetAccess = private )
@@ -45,6 +49,12 @@ classdef opSpot
     properties( Dependent = true, SetAccess = private )
        nprods
 >>>>>>> "Initial import of spot optimized toolbox"
+=======
+    end
+    
+    properties( Dependent = true, SetAccess = private )
+        nprods
+>>>>>>> "spot_multiplied removed and for loop placed inside applyMultiply. Supplementary test on the size of 'op' for pre-allocation when the for loop is needed."
     end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,6 +96,7 @@ classdef opSpot
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
+<<<<<<< HEAD
 <<<<<<< HEAD
         
         function y = applyMultiply(op,x,mode)
@@ -136,6 +147,43 @@ classdef opSpot
        % Signature of external protected functions
        y = divide(op,x,mode);
 >>>>>>> "Initial import of spot optimized toolbox"
+=======
+        
+        function y = applyMultiply(op,x,mode)
+            %op.counter.plus1(mode);
+            %The previous line can be used to count the number of
+            %multiplications (mode1 & mode2) so as to compare
+            %algorithms.
+            if isa(op,'opSweep')
+                y = op.multiply(x,mode);
+            else
+                q=size(x,2);
+                
+                height=op.m;
+                width=op.n;
+                
+                % Preallocate y
+                if (q > 1 || issparse(x))&& height>1 && width>1
+                    if mode==1
+                        y = zeros(op.m,q);
+                    else
+                        y = zeros(op.n,q);
+                    end
+                end
+                
+                for i=1:q
+                    y(:,i) = op.multiply(x(:,i),mode);
+                end
+            end
+        end
+        
+        function y = applyDivide(op,x,mode)
+            y = op.divide(x,mode);
+        end
+        
+        % Signature of external protected functions
+        y = divide(op,x,mode);
+>>>>>>> "spot_multiplied removed and for loop placed inside applyMultiply. Supplementary test on the size of 'op' for pre-allocation when the for loop is needed."
     end % methods - protected
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
