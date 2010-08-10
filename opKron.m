@@ -30,12 +30,20 @@ classdef opKron < opSpot & opSweep
         % Constructor
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function op = opKron(varargin)
-            if nargin < 2
+            narg=nargin;
+            
+            %Test the case where varargin is a list
+            if narg == 1
+                narg=length(varargin{1});
+                varargin=varargin{1};
+            end
+            
+            if narg < 2
                 error('At least two operators must be specified')
             end
             
             % Input matrices are immediately cast to opMatrix.
-            for i=1:nargin
+            for i=1:narg
                 if isa(varargin{i},'numeric'), varargin{i} = opMatrix(varargin{i});
                 elseif ~isa(varargin{i},'opSpot')
                     error('One of the operators is not a valid input.')
@@ -49,7 +57,7 @@ classdef opKron < opSpot & opSweep
             cflag  = opA.cflag;
             linear = opA.linear;
             
-            for i=2:nargin
+            for i=2:narg
                 opA    = varargin{i};
                 cflag  = cflag  | opA.cflag;
                 linear = linear & opA.linear;
@@ -62,7 +70,7 @@ classdef opKron < opSpot & opSweep
             op.cflag    = cflag;
             op.linear   = linear;
             op.children = varargin;
-            op.permutation=(1:length(varargin));
+            op.permutation=(1:narg);
             
             %Evaluate the best permutation to use when a multiplication is
             %applied
@@ -216,7 +224,7 @@ classdef opKron < opSpot & opSweep
                     %(I(a) kron A kron I(b)) * x;
                     
                     t=reshape(reshape(x,b,a*c).',c,a*b);
-                    t=reshape(spot_multiply(opList{index}',t,1)',a,r*b)';
+                    t=reshape(spot_multiply(opList{index},t,2)',a,r*b)';
                     x=t(:);
                 end
                 y=reshape(x,n,ncol);
