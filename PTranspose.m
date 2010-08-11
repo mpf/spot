@@ -11,8 +11,7 @@ function OUT = PTranspose(Data, dim1, dim2, dist)
 %              5  6                  7  8
 % dustributed along 3rd dimension
 
-%TO DO - add comments!!
-%TO DO - do transpose in place
+%check input arguments
 error(nargchk(3, 4, nargin))
 if nargin == 3,    dist = -1;   end
 if numlabs ~= 1
@@ -41,29 +40,6 @@ perm = 1:ndims(Data);
 perm(dim1) = dim2;
 perm(dim2) = dim1;
 
-spmd
-    codistr = getCodistributor(Data);
-    dimdist = codistr.Dimension;
-    
-    %incase the distributed dimension is involved in the transpose
-    dimdist = perm(dimdist);
-    if dist > 0,   dist = perm(dist);
-    %incase dist wasn't specified
-    else    dist = ndims(Data);   end
-    
-    %do the transpose locally on each lab and then build the codistributed
-    %array again
-    d = permute(getLocalPart(Data), perm);
-    codistr = codistributor1d( dimdist, ...
-        codistributor1d.unsetPartition, dims);
-    Data = codistributed.build(d, codistr);
-    
-    %if the dimension of distribution changed
-    if dimdist ~= dist
-        codistr = codistributor1d(dist);
-        Data = redistribute( Data, codistr);
-    end
-end
-OUT = Data;
+OUT = DistPermute(Data,perm,dist,'internalcall',dims);
 
 end
