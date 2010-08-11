@@ -6,10 +6,10 @@ function OUT = DistPermute(Data, perm, dist, varargin)
 %its last dimension.
 
 numdims = ndims(Data);
-error(nargchk(2,5, nargin))
 if ~(nargin == 5 && ischar( varargin{1} ) && ...
         strcmp( varargin{1}, 'internalcall' ))
     %no need to check inputs for internal calls
+    error(nargchk(2,3, nargin))
     if nargin == 2,     dist = -1;  end
     if numlabs ~= 1
         error('This function is not meant to be called from an spmd block')
@@ -41,8 +41,8 @@ spmd
     dimdist = codistr.Dimension;
     
     %incase the distributed dimension is involved in the permute
-    dimdist = perm(dimdist);
-    if dist > 0,    dist = perm(dist);
+    dimdist = find(perm == dimdist);
+    if dist > 0,    dist = find(perm == dist);
         %incase dist wasn't specified
     else            dist = numdims;   end
     
