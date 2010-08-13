@@ -17,7 +17,6 @@ for i = 3:5
         b1 = permute(a1,p(j,:));
         b2 = DistPermute(a2,p(j,:),d);
         assertEqual(b1,gather(b2));
-        %fprintf('%i of %i permutations complete\n', j, length(p))
     end
     fprintf('%i dimensions complete\n', i)
 end
