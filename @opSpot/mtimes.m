@@ -49,8 +49,6 @@ elseif isnumeric(B)
          % C*s (mode 4)
          y = opFoG(A,B);
       else
-<<<<<<< HEAD
-<<<<<<< HEAD
          y = A.applyMultiply(B,1);  % A is a column "vector".
       end
    else
@@ -66,35 +64,13 @@ elseif isnumeric(B)
                'Matrix dimensions must agree when multiplying by %s.',...
                char(A));
          end
-=======
-         y = A.spot_multiply(B,1);  % A is a column "vector".
-=======
-         y = A.applyMultiply(B,1);  % A is a column "vector".
->>>>>>> "spot_multiplied removed and for loop placed inside applyMultiply. Supplementary test on the size of 'op' for pre-allocation when the for loop is needed."
-      end
-   else
-      p= size(B,1);
-   
-      % Raise an error when the matrices do not commute
-      if A.n ~= p
-         error('Matrix dimensions must agree when multiplying by %s.', ...
-             char(A));
->>>>>>> "Initial import of spot optimized toolbox"
       end
    
       % Perform operator*matrix
       if isempty(A)
          y = zeros(A.m,size(B,2));
       else
-<<<<<<< HEAD
-<<<<<<< HEAD
          y = A.applyMultiply(B,1);
-=======
-         y = A.spot_multiply(B,1);
->>>>>>> "Initial import of spot optimized toolbox"
-=======
-         y = A.applyMultiply(B,1);
->>>>>>> "spot_multiplied removed and for loop placed inside applyMultiply. Supplementary test on the size of 'op' for pre-allocation when the for loop is needed."
       end
       
    end   
