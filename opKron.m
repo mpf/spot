@@ -119,13 +119,6 @@ classdef opKron < opSpot & opSweep
             ncol = size(x,2); %Number of columns of 'x'
             nbr_children = length(opList); %Number of children
             
-            %If 'x' has several columns, the KP will be obtained using 'x'
-            %collapsed. That avoid to use a for loop on the columns of 'x'
-            %to calculate the multiplication.
-            if ncol>1
-                x=x(:);
-            end
-            
             %Pre-registering of the sizes of opKron's children
             sizes=zeros(nbr_children,2);
             for i=1:nbr_children
