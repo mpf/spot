@@ -108,7 +108,7 @@ classdef opKron < opSpot & opSweep
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function y = multiply(op,x,mode)
             
-            %The Kronecker Product (KP) is applied to the right-hand matrix
+            %The Kronecker product (KP) is applied to the right-hand matrix
             %taking in account the best order to apply the operators.
             %That necessitates to decompose the KP in successive matrix
             %products with terms of type I(a) kron A kron I(b).
@@ -177,8 +177,7 @@ classdef opKron < opSpot & opSweep
                     
                     %(I(a) kron A kron I(b)) * x;
                     t=reshape(reshape(x,b,a*c).',c,a*b);
-                    t=reshape(applyMultiply(opList{index},t,1)',a,r*b)';
-                    x=t(:);
+                    x=reshape(applyMultiply(opList{index},t,1)',a,r*b)';
                 end
                 y = reshape(x,m,ncol);
                 
@@ -229,8 +228,7 @@ classdef opKron < opSpot & opSweep
                     
                     %(I(a) kron A kron I(b)) * x;
                     t=reshape(reshape(x,b,a*c).',c,a*b);
-                    t=reshape(applyMultiply(opList{index},t,2)',a,r*b)';
-                    x=t(:);
+                    x=reshape(applyMultiply(opList{index},t,2)',a,r*b)';
                 end
                 y=reshape(x,n,ncol);
             end
