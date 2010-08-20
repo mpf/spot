@@ -44,6 +44,7 @@ classdef op2DTransform < opKron & opSweep
         % multiplication
         function y=mtimes(op,x)
             [m,n]=size(x);
+            assert(length(x) == cA*cB, 'size of x does not agree with dimensions of operators')
             if ~(m == size(op.children{2},2) && n == size(op.children{1},2))
                 error(['The distributed matrix must match the columns',...
                     ' of the transform operators applied to it'])
