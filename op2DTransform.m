@@ -44,7 +44,6 @@ classdef op2DTransform < opKron & opSweep
         % multiplication
         function y=mtimes(op,x)
             [m,n]=size(x);
-            assert(length(x) == cA*cB, 'size of x does not agree with dimensions of operators')
             if ~(m == size(op.children{2},2) && n == size(op.children{1},2))
                 error(['The distributed matrix must match the columns',...
                     ' of the transform operators applied to it'])
@@ -92,7 +91,7 @@ classdef op2DTransform < opKron & opSweep
                     local_part=getLocalPart(x);
                     local_part_width=size(local_part,2);
                     assert( mod(local_part_width,1) == 0, ['x must be'...
-                       ' distributed along columns before vec'])
+                       ' distributed along columns'])
                     partition = codistributed.build(local_part_width, ...
                         codistributor1d(2,codistributor1d.unsetPartition,...
                         [1,numlabs]));
@@ -116,7 +115,7 @@ classdef op2DTransform < opKron & opSweep
                     local_part=getLocalPart(x);
                     local_part_width=size(local_part,2);
                     assert( mod(local_part_width,1) == 0, ['x must be'...
-                       ' distributed along columns before vec'])
+                       ' distributed along columns'])
                     partition = codistributed.build(local_part_width, ...
                         codistributor1d(2,codistributor1d.unsetPartition,...
                         [1,numlabs]));
