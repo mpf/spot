@@ -1,7 +1,7 @@
 classdef (InferiorClasses = {?opKron})opDistributed2D < opClass
-	%opDistributed2D extends from opClass and wraps a distributed matrix 
-    %stored in its property 'obj' (property of the upper class). The matrix 
-    %is distributed along the columns. Its function 'mtimes' is called in 
+    %opDistributed2D extends from opClass and wraps a distributed matrix
+    %stored in its property 'obj' (property of the upper class). The matrix
+    %is distributed along the columns. Its function 'mtimes' is called in
     %priority when opDistributed2D is multiplied by an opKron.
     
     %fixme : all other opSpot objects should be inferior to opDistributed2D
@@ -23,16 +23,25 @@ classdef (InferiorClasses = {?opKron})opDistributed2D < opClass
             y=op.obj;
         end
         
-        %This function is called in priority when an opSpot multiplies an
-        %'opDistributed' object. Only left multiplication is enabled.
+        %This function is called in priority when an opKron multiplies an
+        %'opDistributed' object.
         function y=mtimes(A,B)
             if isa(B,'opDistributed2D')
                 obj=B.obj;
                 spmd
-                    y=A*getLocalPart(obj);
+                    local_part=getLocalPart(obj);
+                    if ~isempty(local_part)
+                        y=applyMultiply(A,local_part,1);
+                    end
                 end
             elseif isa(A,'opDistributed2D')
-                error('Data of opDistributed2D do not enable right multiplication.')
+                obj=A.obj;
+                spmd,
+                    local_part=getLocalPart(obj)';
+                    if ~isempty(local_part)
+                        y=applyMultiply(B,local_part,2)';
+                    end
+                end
             end
         end
     end
