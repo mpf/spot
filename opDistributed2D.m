@@ -47,4 +47,11 @@ classdef (InferiorClasses = {?opKron})opDistributed2D < opClass
             end
         end
     end
+    methods ( Access = protected )
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Multiply
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        function y = multiply(op,x,mode)
+        end
+    end % methods
 end
