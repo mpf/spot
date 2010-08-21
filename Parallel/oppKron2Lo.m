@@ -8,6 +8,14 @@ classdef op2DTransform < opKron & opSweep
     %X must be distributed. The calculation is done in parallel.
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Properties
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    properties
+        tflag = 0;
+    end
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Public methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -43,18 +51,34 @@ classdef op2DTransform < opKron & opSweep
         % For the moment mtimes is only implemented for right
         % multiplication
         function y=mtimes(op,x)
-            [m,n]=size(x);
-            if ~(m == size(op.children{2},2) && n == size(op.children{1},2))
-                error(['The distributed matrix must match the columns',...
-                    ' of the transform operators applied to it'])
-            elseif ~isa(op,'op2DTransform')
+            assert( isa(x,'distributed') && size(x,2) == 1, ...
+                'Please, use a vected distributed matrix')
+            if ~isa(op,'op2DTransform')
                 error('Left multiplication not taken in account')
             elseif ~isa(x,'distributed')
                 error('Please, multiply with a distributed matrix')
             else
-                y=op.multiply(x,1);
+                y=op.multiply(x, op.tflag + 1 );
             end
         end
+        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % transpose
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % transpose is overloaded to avoid wrapping the operator in an
+        % opTranspose.
+        function y = transpose(op)
+            [m,n] = size(op);
+            op.m = n;
+            op.n = m;
+            op.tflag =  ~op.tflag;
+            op.permutation = op.permutation(end:-1:1);
+            y = op;
+        end
+        function y = ctranspose(op)
+            y = transpose(op);
+        end
+    
     end % Methods
     
     
@@ -78,6 +102,11 @@ classdef op2DTransform < opKron & opSweep
             A=op.children{1};
             B=op.children{2};
             
+            if mode == 2
+                A = A';
+                B = B';
+            end
+            
             %Size of the operators
             [rA,cA]=size(A);
             [rB,cB]=size(B);
@@ -88,51 +117,57 @@ classdef op2DTransform < opKron & opSweep
             
             if perm(1)==2 %Classic multiplication order
                 spmd
-                    local_part=getLocalPart(x);
-                    local_part_width=size(local_part,2);
-                    assert( mod(local_part_width,1) == 0, ['x must be'...
-                       ' distributed along columns'])
-                    partition = codistributed.build(local_part_width, ...
+                    x=getLocalPart(x);
+                    local_width=length(x)/cB;
+                    assert( mod(local_width,1) == 0, ...
+                        ' x must be distributed along columns before vec')
+                    x = reshape(x,cB,local_width);
+                    partition = codistributed.build(local_width, ...
                         codistributor1d(2,codistributor1d.unsetPartition,...
                         [1,numlabs]));
                     
-                    local_part=B*local_part;
-                    local_part=local_part.';
+                    x=B*x;
+                    x=x.';
                     
-                    x = codistributed.build(local_part, codistributor1d...
+                    x = codistributed.build(x, codistributor1d...
                         (1,partition,[cA,rB]));
                     x = redistribute(x,codistributor1d(2));
                     
-                    local_part = getLocalPart(x);
-                    local_part=A*local_part;
-                    local_part=local_part.';
-                    x=codistributed.build(local_part,codistributor1d(1,...
+                    x = getLocalPart(x);
+                    x=A*x;
+                    x=x.';
+                    x=codistributed.build(x,codistributor1d(1,...
                         codistributor1d.unsetPartition,[rB,rA]));
-                    y=redistribute(x,codistributor1d(2));
+                    x=redistribute(x,codistributor1d(2));
+                    y = x(:);
                 end
-            else  %Inverted multiplication order (to implement)
+            else  %Inverted multiplication order 
                 spmd
-                    local_part=getLocalPart(x);
-                    local_part_width=size(local_part,2);
-                    assert( mod(local_part_width,1) == 0, ['x must be'...
-                       ' distributed along columns'])
-                    partition = codistributed.build(local_part_width, ...
+                    x=getLocalPart(x);
+                    local_width=length(x)/cB;
+                    assert( mod(local_width,1) == 0, ...
+                        ' x must be distributed along columns before vec')
+                    x = reshape(x,cB,local_width);
+                    partition = codistributed.build(local_width, ...
                         codistributor1d(2,codistributor1d.unsetPartition,...
                         [1,numlabs]));
                     
-                    local_part=B*local_part;
-                    local_part=local_part.';
-                    
-                    x = codistributed.build(local_part, codistributor1d...
-                        (1,partition,[cA,rB]));
+                    x=x.';                    
+                    x = codistributed.build(x, codistributor1d...
+                        (1,partition,[cA,cB]));
                     x = redistribute(x,codistributor1d(2));
+                    x = getLocalPart(x);
+                    x = A*x;
+                    x = x.';
                     
-                    local_part = getLocalPart(x);
-                    local_part=A*local_part;
-                    local_part=local_part.';
-                    x=codistributed.build(local_part,codistributor1d(1,...
+                    x = codistributed.build(x,codistributor1d(1,...
+                        codistributor1d.unsetPartition,[cB,rA]));
+                    x=redistribute(x,codistributor1d(2));
+                    x = getLocalPart(x);
+                    x = B*x;
+                    x = codistributed.build(x,codistributor1d(2,...
                         codistributor1d.unsetPartition,[rB,rA]));
-                    y=redistribute(x,codistributor1d(2));
+                    y = x(:);
                 end
             end
         end % Multiply
