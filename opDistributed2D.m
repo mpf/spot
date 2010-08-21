@@ -31,7 +31,7 @@ classdef (InferiorClasses = {?opKron})opDistributed2D < opClass
                 spmd
                     local_part=getLocalPart(obj);
                     if ~isempty(local_part)
-                        y=applyMultiply(A,local_part,1);
+                        y=A*local_part;
                     end
                 end
             elseif isa(A,'opDistributed2D')
@@ -41,7 +41,7 @@ classdef (InferiorClasses = {?opKron})opDistributed2D < opClass
                     obj=redistribute(obj,codistributor1d(2));
                     local_part=getLocalPart(obj);
                     if ~isempty(local_part)
-                        y=applyMultiply(B,local_part,2)';
+                        y=(B'*local_part)';
                     end
                 end
             end
