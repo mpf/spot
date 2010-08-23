@@ -1,6 +1,6 @@
-classdef op2DTransform < opKron & opSweep
+classdef oppKron2Lo < opKron & opSweep
     
-    %op2DTransform extends opKron. Indeed, it stores 2 transform operators
+    %oppKron2Lo extends opKron. Indeed, it stores 2 transform operators
     %which will be applied to the rows and the columns of a right-hand
     %matrix X according to the equivalent operation (A kron B)X(:). Thus the
     %number of columns of A must be equal to the numer of rows of X and
@@ -24,8 +24,8 @@ classdef op2DTransform < opKron & opSweep
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Constructor
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        function op = op2DTransform(varargin)
-            op=op@opKron(varargin);
+        function op = oppKron2Lo(varargin)
+            op= op@opKron(varargin);
         end % Constructor
         
         
@@ -40,6 +40,9 @@ classdef op2DTransform < opKron & opSweep
                 str=strcat(str,[', ',char(op.children{i})]);
             end
             str=strcat(str,')');
+            if op.tflag
+                str = strcat(str, '''');
+            end
         end % Char
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,7 +56,7 @@ classdef op2DTransform < opKron & opSweep
         function y=mtimes(op,x)
             assert( isa(x,'distributed') && size(x,2) == 1, ...
                 'Please, use a vected distributed matrix')
-            if ~isa(op,'op2DTransform')
+            if ~isa(op,'oppKron2Lo')
                 error('Left multiplication not taken in account')
             elseif ~isa(x,'distributed')
                 error('Please, multiply with a distributed matrix')
