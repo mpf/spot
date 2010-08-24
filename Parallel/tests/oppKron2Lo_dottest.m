@@ -24,9 +24,9 @@ tol    = sqrt(eps);
 err    = 0;
 kpass  = 0;
 
-m = randi(100); n = randi(100); o = randi(100); p = randi(100);
-A = opMatrix(randn(m,n));
-B = opMatrix(randn(o,p));
+m = randi(100); o = randi(50); p = randi(50);
+A = opDCT(m);
+B = opCurvelet(o,p);
 M = oppKron2Lo(A,B);
 
 if verbose
@@ -34,8 +34,8 @@ if verbose
 end
 
 for i=1:k
-    x   = distributed.randn(p,n);
-    y   = distributed.randn(o,m);
+    x   = distributed.randn(B.n,A.n);
+    y   = distributed.randn(B.m,A.m);
     x   = x(:);
     y   = y(:);
     z1  = (M*x)' * y;
