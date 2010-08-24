@@ -1,4 +1,4 @@
-classdef opFoG < opSpot & opSweep
+classdef opFoG < opSpot
 %OPFOG   Forms the product of to operators.
 %
 %   opFoG(OP1,OP2) creates an operator that successively applies each
@@ -67,6 +67,7 @@ classdef opFoG < opSpot & opSweep
           op = op@opSpot('FoG', m, n);
           op.cflag    = A.cflag  | B.cflag;
           op.linear   = A.linear | B.linear;
+          op.sweepflag= A.sweepflag & B.sweepflag;
           op.children = {A, B};
           op.precedence = 3;
 

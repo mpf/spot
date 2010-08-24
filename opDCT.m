@@ -1,4 +1,4 @@
-classdef opDCT < opOrthogonal & opSweep
+classdef opDCT < opOrthogonal
 %OPDCT  Discrete cosine transform (DCT).
 %
 %   opDCT(M) creates a one-dimensional discrete cosine transform
@@ -26,6 +26,7 @@ classdef opDCT < opOrthogonal & opSweep
             error('Argument to opDCT must be a positive integer.');
          end
          op = op@opOrthogonal('DCT',m,m);
+         op.sweepflag   = true;
       end % function opDCT
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

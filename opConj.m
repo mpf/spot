@@ -1,4 +1,4 @@
-classdef opConj < opSpot & opSweep
+classdef opConj < opSpot 
 %OPCONJ   Take the elementwise conjugate of a complex operator.
 %
 %   opConj(OP) is the elementwise complex conjugate of operator
@@ -40,6 +40,7 @@ classdef opConj < opSpot & opSweep
           op = op@opSpot('Conj', m, n);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
 
        end % function opConj

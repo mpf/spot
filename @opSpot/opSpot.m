@@ -26,6 +26,7 @@ classdef opSpot
         cflag    = false; % Complexity of underlying operator
         children = {};    % Constituent operators (for a meta operator)
         precedence = 1;
+        sweepflag = false; % whether we can do a sweep multiply, A*B
     end
     
     properties( Dependent = true, SetAccess = private )
@@ -74,7 +75,7 @@ classdef opSpot
         
         function y = applyMultiply(op,x,mode)
             op.counter.plus1(mode);
-            if isa(op,'opSweep')
+            if op.sweepflag
                 y = op.multiply(x,mode);
             else
                 q = size(x,2);

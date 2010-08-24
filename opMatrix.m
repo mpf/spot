@@ -1,4 +1,4 @@
-classdef opMatrix < opSpot & opSweep
+classdef opMatrix < opSpot
 %OPMATRIX   Convert a numeric matrix into a Spot operator.
 %
 %   opMatrix(A,DESCRIPTION) creates an operator that performs
@@ -45,6 +45,7 @@ classdef opMatrix < opSpot & opSweep
           % Create object
           op = op@opSpot(description, size(A,1), size(A,2));
           op.cflag  = ~isreal(A);
+          op.sweepflag  = true;
           op.matrix = A;
        end % function opMatrix
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
