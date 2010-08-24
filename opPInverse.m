@@ -1,4 +1,4 @@
-classdef opPInverse < opSpot & opSweep
+classdef opPInverse < opSpot
 %OPPINVERSE   Pseudo inverse of operator.
 %
 %   Apinv = opPInverse(A) creates the pseudo inverse of a M-by-N
@@ -40,6 +40,7 @@ classdef opPInverse < opSpot & opSweep
           op = op@opSpot('PInverse', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
        end % function opPInverse
       

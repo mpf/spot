@@ -40,10 +40,12 @@ classdef opKron < opSpot
           [m,n]  = size(opA);
           cflag  = opA.cflag;
           linear = opA.linear;
+          sweepflag = opA.sweepflag;
           for i=2:length(opList)
              opA    = opList{i};
              cflag  = cflag  | opA.cflag;
              linear = linear & opA.linear;
+             sweepflag = sweepflag & opA.sweepflag;
              [mi,ni]= size(opA);
              m = m * mi; n = n * ni;
           end
@@ -52,6 +54,7 @@ classdef opKron < opSpot
           op = op@opSpot('Kron', m, n);
           op.cflag    = cflag;
           op.linear   = linear;
+          op.sweepflag = sweepflag;
           op.children = opList;
        end % function opKron
 

@@ -1,4 +1,4 @@
-classdef opDFT < opOrthogonal & opSweep
+classdef opDFT < opOrthogonal
 %OPDFT  Fast Fourier transform (DFT).
 %
 %   opDFT(M) create a unitary one-dimensional discrete Fourier
@@ -47,8 +47,9 @@ classdef opDFT < opOrthogonal & opSweep
          end
          
          op = op@opOrthogonal('DFT',m,m);
-         op.centered = centered;
-         op.cflag    = true;
+         op.centered    = centered;
+         op.cflag       = true;
+         op.sweepflag   = true;
          
          % Create function handle
          if centered

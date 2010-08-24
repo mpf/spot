@@ -1,4 +1,4 @@
-classdef opCTranspose < opSpot & opSweep
+classdef opCTranspose < opSpot
 %OPCTRANSPOSE   Conjugate transpose of an operator.
 %
 %   opCTranspose(OP) returns the conjugate tranpose of OP.
@@ -38,6 +38,7 @@ classdef opCTranspose < opSpot & opSweep
           op = op@opSpot('CTranspose', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
        end % function opCTranspose
       

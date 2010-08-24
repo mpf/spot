@@ -1,4 +1,4 @@
-classdef opImag < opSpot & opSweep
+classdef opImag < opSpot
 %OPIMAG   Complex imaginary part of operator.
 %
 %   opImag(OP) is the complex imaginary part of operator OP. Note
@@ -39,6 +39,7 @@ classdef opImag < opSpot & opSweep
           op = op@opSpot('Imag', m, n);
           op.cflag      = false;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
        end % Constructor
       

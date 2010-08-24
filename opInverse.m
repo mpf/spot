@@ -1,4 +1,4 @@
-classdef opInverse < opSpot & opSweep
+classdef opInverse < opSpot
 %OPINVERSE   (Pseudo) inverse of operator.
 %
 %   Ainv = opInverse(A) creates the (pseudo) inverse of a square operator.
@@ -44,6 +44,7 @@ classdef opInverse < opSpot & opSweep
           op = op@opSpot('Inverse', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
        end % function opInverse
       

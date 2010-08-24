@@ -1,4 +1,4 @@
-classdef opTranspose < opSpot & opSweep
+classdef opTranspose < opSpot
 %OPTRANSPOSE   Transpose of an operator.
 %
 %   opTranspose(OP) returns the tranpose of OP.
@@ -45,6 +45,7 @@ classdef opTranspose < opSpot & opSweep
           op = op@opSpot('Transpose', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
           op.opIntrnl   = opCTranspose(opConj(A));
        end % function opTranspose

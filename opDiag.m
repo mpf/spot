@@ -1,4 +1,4 @@
-classdef opDiag < opSpot & opSweep
+classdef opDiag < opSpot
 %OPDIAG   Diagonal operator.
 %
 %   opDiag(D) creates an operator for multiplication by the
@@ -40,6 +40,7 @@ classdef opDiag < opSpot & opSweep
          op = op@opSpot('Diag',n,n);
          op.cflag      = ~isreal(d);
          op.diag       = d;
+         op.sweepflag  = true;
       end % function opDiag
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

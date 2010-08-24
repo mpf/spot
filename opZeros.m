@@ -1,4 +1,4 @@
-classdef opZeros < opSpot & opSweep
+classdef opZeros < opSpot
 %OPZEROS   Operator equivalent to zeros function.
 %
 %   opZeros(M,N) creates an operator corresponding to an M-by-N matrix
@@ -36,6 +36,7 @@ classdef opZeros < opSpot & opSweep
              error('Too many input arguments.');
           end
           op = op@opSpot('Zeros',m,n);
+          op.sweepflag  = true;
         end % function opZeros
         
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

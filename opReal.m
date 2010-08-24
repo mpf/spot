@@ -1,4 +1,4 @@
-classdef opReal < opSpot & opSweep
+classdef opReal < opSpot
 %OPREAL   Real part of operator.
 %
 %   opReal(OP) is the real part of operator OP.
@@ -38,6 +38,7 @@ classdef opReal < opSpot & opSweep
           op = op@opSpot('real', m, n);
           op.cflag      = false;
           op.linear     = A.linear;
+          op.sweepflag  = A.sweepflag;
           op.children   = {A};
           op.precedence = 1;
        end % Constructor

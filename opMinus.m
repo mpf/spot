@@ -1,4 +1,4 @@
-classdef opMinus < opSpot & opSweep
+classdef opMinus < opSpot
 %OPMINUS   Difference of two operators.
 %
 %   opMinus(OP1,OP2) creates a compound operator representing OP1-OP2.
@@ -49,6 +49,7 @@ classdef opMinus < opSpot & opSweep
           op = op@opSpot('Minus', m, n);
           op.cflag      = A.cflag  | B.cflag;
           op.linear     = A.linear | B.linear;
+          op.sweepflag  = A.sweepflag & B.sweepflag;
           op.children   = {A, B};
           op.precedence = 4;
        end % Constructor
