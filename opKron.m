@@ -1,16 +1,15 @@
-classdef opKron < opSpot & opSweep
-    %Kronecker tensor product
-    %
-    %opKron(OP1,OP2,...OPn) creates an operator that is the Kronecker
-    %tensor product of OP1, OP2, ..., OPn.
-    
-    %   Copyright 2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
-    %   See the file COPYING.txt for full copyright information.
-    %   Use the command 'spot.gpl' to locate this file.
-    
-    %   http://www.cs.ubc.ca/labs/scl/spot
-    
-    
+classdef opKron < opSpot
+%OPKRON   Kronecker tensor product.
+%
+%   opKron(OP1,OP2,...OPn) creates an operator that is the Kronecker
+%   tensor product of OP1, OP2, ..., OPn.
+
+%   Copyright 2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
+%   See the file COPYING.txt for full copyright information.
+%   Use the command 'spot.gpl' to locate this file.
+
+%   http://www.cs.ubc.ca/labs/scl/spot
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,11 +56,13 @@ classdef opKron < opSpot & opSweep
             [m,n]  = size(opA);
             cflag  = opA.cflag;
             linear = opA.linear;
+            sweepflag = opA.sweepflag;
             
             for i=2:narg
                 opA    = varargin{i};
                 cflag  = cflag  | opA.cflag;
                 linear = linear & opA.linear;
+                sweepflag = sweepflag & opA.sweepflag;
                 [mi,ni]= size(opA);
                 m = m * mi; n = n * ni;
             end
@@ -70,6 +71,7 @@ classdef opKron < opSpot & opSweep
             op = op@opSpot('Kron', m, n);
             op.cflag    = cflag;
             op.linear   = linear;
+            op.sweepflag= sweepflag;
             op.children = varargin;
             op.permutation=(1:narg);
             

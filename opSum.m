@@ -1,4 +1,4 @@
-classdef opSum < opSpot & opSweep
+classdef opSum < opSpot
 %OPSUM   Addition of two operators.
 %
 %   opSum(A,B) creates a compound operator representing (A + B).
@@ -56,6 +56,7 @@ classdef opSum < opSpot & opSweep
           op = op@opSpot('Sum', m, n);
           op.cflag      = A.cflag  | B.cflag;
           op.linear     = A.linear | B.linear;
+          op.sweepflag  = A.sweepflag & B.sweepflag;
           op.children   = {A, B};
           op.precedence = 4;
        end % Constructor
