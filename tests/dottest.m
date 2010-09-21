@@ -28,6 +28,7 @@ if verbose
    fprintf('Performing dot test on operator: %s\n', char(A));
 end
 
+Ratio = [inf,0];
 for i=1:k
     x   = A.drandn;
     y   = A.rrandn;
@@ -36,6 +37,10 @@ for i=1:k
     err = max( err, abs(z1 - z2) );
     if err < tol,
        kpass = kpass + 1;
+    else
+       ratio = abs(z1) / abs(z2);
+       if ratio < Ratio(1), Ratio(1) = ratio; end;
+       if ratio > Ratio(2), Ratio(2) = ratio; end;
     end
 end
 
@@ -43,6 +48,8 @@ if verbose
    if kpass < k
       fprintf('FAILED on %d out of %d tests\n', k-kpass, k);
       fprintf('%8s maximum absolute difference of %13.9e\n','',err);
+      fprintf('%8s ratio between %13.9e and %13.9e\n', ...
+                '',complexRatio(1),complexRatio(2));
    else
       fprintf('PASSED!\n');
    end
