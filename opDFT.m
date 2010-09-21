@@ -83,10 +83,12 @@ classdef opDFT < opOrthogonal
          n = op.n;
          if mode == 1
             % Analysis
-            y = fft(full(x)) / sqrt(n);
+            y = fft(full(x));
+            y = y / sqrt(n);
          else
             % Synthesis
-            y = ifft(full(x)) * sqrt(n);
+            y = ifft(full(x));
+            y = y * sqrt(n);
          end
       end
       
@@ -94,9 +96,11 @@ classdef opDFT < opOrthogonal
          % One-dimensional DFT - Centered
          n = op.n;
          if mode == 1
-            y = fftshift(fft(full(x))) / sqrt(n);
+            y = fftshift(fft(full(x)));
+            y = y / sqrt(n);
          else
-            y = ifft(ifftshift(full(x))) * sqrt(n);
+            y = ifft(ifftshift(full(x)));
+            y = y * sqrt(n);
          end
       end
       
