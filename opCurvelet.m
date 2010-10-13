@@ -15,6 +15,7 @@ classdef opCurvelet < opSpot
 %
 %   See also CURVELAB.
 
+%   Nameet Kumar - Oct 2010
 %   Copyright 2009, Gilles Hennenfent, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.
 %   Use the command 'spot.gpl' to locate this file.
@@ -24,8 +25,15 @@ classdef opCurvelet < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-       funHandle = []; % Multiplication function
+    properties (SetAccess = protected)
+       nbscales;
+       nbangles;
+       finest = 1;   %currently not adjustable, but put it here for view
+       header;          %sizes of coefficient vectors
+       nbcoeffs;           %total number of coefficients
+       dims;           %size of curvelet
+       ttype;           %type of transformation
+       
     end % Properties
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,25 +66,23 @@ classdef opCurvelet < opSpot
                 cn = cn + nw/2*prod(hdr{i}{1}) + nw/2*prod(hdr{i}{2});
              end
           else
-             C = fdct_wrapping_mex(m,n,nbscales,nbangles,finest,randn(m,n));
-  
-             hdr{1}{1} = size(C{1}{1});
-             cn = prod(hdr{1}{1});  
+             [tmphdr, cn] = fdct_sizes_mex(m,n,nbscales,nbangles,finest);
+             hdr = cell(1,nbscales);
+             hdr{1} = {[tmphdr{1:2}]}; 
              for i = 2:nbscales
-                nw = length(C{i});
-                hdr{i}{1} = size(C{i}{1});
-                hdr{i}{2} = size(C{i}{nw/4+1});
-                cn = cn + nw/2*prod(hdr{i}{1}) + nw/2*prod(hdr{i}{2});
+                j = 3 + 5*(i-2);
+                hdr{i}={[tmphdr{j+1:j+2}];[tmphdr{j+3:j+4}];[tmphdr{j}]};
              end
           end
-
-          parms = {m,n,cn,hdr,finest,nbscales,nbangles,is_real,ttype};
-          fun   = @(x,mode) opCurvelet_intrnl(parms{:},x,mode);
 
           % Construct operator
           op = op@opSpot('Curvelet', cn, m*n);
           op.cflag     = ~is_real;
-          op.funHandle = fun;
+          op.nbscales = nbscales;
+          op.nbangles = nbangles;
+          op.header = hdr;
+          op.nbcoeffs = cn;
+          op.dims = [m,n];
        end % Constructor
 
     end % Methods
@@ -86,42 +92,36 @@ classdef opCurvelet < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Multiply
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function y = multiply(op,x,mode)
-          y = op.funHandle(x,mode);
-       end % Multiply          
+       function x = multiply(op,x,mode)
+         if mode == 1
+            % Analysis mode
+            if strcmp(op.ttype,'ME')
+               x = mefcv2(reshape(x,op.dims(1),op.dims(2)),...
+                  op.dims(1),op.dims(2),op.nbscales,op.nbangles);
+            else
+               x = fdct_wrapping_mex(op.dims(1),op.dims(2),op.nbscales,...
+                  op.nbangles,op.finest,reshape(x,op.dims(1),op.dims(2)));
+               x = fdct_wrapping_c2r(x);
+            end
+            x = spot.utils.fdct_c2v(x,op.nbcoeffs);
+         else
+            % Synthesis mode  
+            if strcmp(op.ttype,'ME')
+               x = mefdct_v2c(x,op.header,op.nbangles);
+               x = meicv2(x,op.dims(1),op.dims(2),op.nbscales,op.nbangles);
+            else
+               x = spot.utils.fdct_v2c(x,op.header);
+               x = fdct_wrapping_r2c(x);
+               x = ifdct_wrapping_mex(op.dims(1),op.dims(2),op.nbscales,...
+               op.nbangles,op.finest,x);
+            end
+            if ~op.cflag
+               x = real(x);
+            end
+            x = x(:);
+         end
+       end % Multiply
 
     end % Methods
    
 end % Classdef
-
-
-%=======================================================================
-
-
-function y = opCurvelet_intrnl(m,n,cn,hdr,ac,nbs,nba,is_real,ttype,x,mode)
-
-if mode == 1
-   % Analysis mode
-   if strcmp(ttype,'ME')
-      y = mefcv2(reshape(x,m,n),m,n,nbs,nba);
-   else
-      y = fdct_wrapping_mex(m,n,nbs,nba,ac,reshape(x,m,n));
-      y = fdct_wrapping_c2r(y);
-   end
-   y = spot.utils.fdct_c2v(y,cn);
-else
-   % Synthesis mode  
-   if strcmp(ttype,'ME')
-      x = mefdct_v2c(x,hdr,nba);
-      y = meicv2(x,m,n,nbs,nba);
-   else
-      x = spot.utils.fdct_v2c(x,hdr,ac,nba);
-      x = fdct_wrapping_r2c(x);
-      y = ifdct_wrapping_mex(m,n,nbs,nba,ac,x);
-   end
-   if is_real
-      y = real(y);
-   end
-   y = y(:);
-end
-end
