@@ -49,7 +49,7 @@ if verbose
       fprintf('FAILED on %d out of %d tests\n', k-kpass, k);
       fprintf('%8s maximum absolute difference of %13.9e\n','',err);
       fprintf('%8s ratio between %13.9e and %13.9e\n', ...
-                '',complexRatio(1),complexRatio(2));
+                '',Ratio(1),Ratio(2));
    else
       fprintf('PASSED!\n');
    end

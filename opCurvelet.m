@@ -1,17 +1,18 @@
 classdef opCurvelet < opSpot
 %OPCURVELET  Two-dimensional curvelet operator.
 %
-%   opCurvelet(M,N,NBSCALES,NBANGLES,TTYPE) creates a two-dimensional
-%   curvelet operator for M by N matrices. The curvelet transform is
-%   computed using the Curvelab code.
+%   opCurvelet(M,N,NBSCALES,NBANGLES,TTYPE,FINEST,IS_REAL) creates a
+%   two-dimensional curvelet operator for M by N matrices. The curvelet
+%   transform is computed using the Curvelab code.
 %
-%   The remaining three parameters are optional; NBSCALES gives the
-%   number of scales and is set to max(1,ceil(log2(min(M,N)) - 3)) by
-%   default, as suggested by Curvelab. NBANGLES gives the number of
-%   angles at the second coarsest level which must be a multiple of
-%   four with a minimum of 8. By default NBANGLES is set to 16. TTYPE
-%   determines the type of transformation and is set to 'WRAP' by
-%   default.
+%   The remaining five parameters are optional; NBSCALES gives the number
+%   of scales and is set to max(1,ceil(log2(min(M,N)) - 3)) by default, as
+%   suggested by Curvelab. NBANGLES gives the number of angles at the
+%   second coarsest level which must be a multiple of four with a minimum
+%   of 8. By default NBANGLES is set to 16. TTYPE determines the type of
+%   transformation and is set to 'WRAP' by default. FINEST sets whether to
+%   do the transform to the finest scale and is set to 1 by default.
+%   IS_REAL set whether the tranform is for real data or complex data.
 %
 %   See also CURVELAB.
 
@@ -28,7 +29,7 @@ classdef opCurvelet < opSpot
     properties (SetAccess = protected)
        nbscales;
        nbangles;
-       finest = 1;   %currently not adjustable, but put it here for view
+       finest;   
        header;          %sizes of coefficient vectors
        nbcoeffs;           %total number of coefficients
        dims;           %size of curvelet
@@ -44,14 +45,22 @@ classdef opCurvelet < opSpot
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-       function op = opCurvelet(m,n,nbscales,nbangles,ttype)
+       function op = opCurvelet(m,n,nbscales,nbangles,ttype,finest,is_real)
 
+          assert( isscalar(m) && isscalar(n),['Please ensure'...
+            ' sizes are scalar values']);
           if nargin < 3, nbscales = max(1,ceil(log2(min(m,n)) - 3)); end;
           if nargin < 4, nbangles = 16;                              end;
           if nargin < 5, ttype = 'WRAP';                             end; % Wrapping
-
-          finest  = 1;
-          is_real = 1;
+          if nargin < 6, finest = 1;                                 end;
+          if nargin < 7, is_real = 1;                                end;
+          assert( strcmp(ttype,'WRAP') || strcmp(ttype,'ME'), ['Please ensure'...
+             ' ttype is set correctly. Options are "WRAP" for a wrapping '...
+             'transform and "ME" for a mirror-extended transform']);
+          assert( isscalar(nbscales) && isscalar(nbangles),['Please ensure'...
+             ' nbscales and nbangles are scalar values']);
+          assert( (finest==0||finest==1) && (is_real==0||is_real==1),...
+             'Please ensure finest and is_real are boolean values');
 
           % Compute length of curvelet coefficient vector
           if strcmp(ttype,'ME')
@@ -69,10 +78,11 @@ classdef opCurvelet < opSpot
              [tmphdr, cn] = fdct_sizes_mex(m,n,nbscales,nbangles,finest);
              hdr = cell(1,nbscales);
              hdr{1} = {[tmphdr{1:2}]}; 
-             for i = 2:nbscales
+             for i = 2:nbscales - (~finest)
                 j = 3 + 5*(i-2);
                 hdr{i}={[tmphdr{j+1:j+2}];[tmphdr{j+3:j+4}];[tmphdr{j}]};
              end
+             if ~finest,  hdr{end} = {[tmphdr{end-1:end}];1};       end;
           end
 
           % Construct operator
@@ -80,11 +90,22 @@ classdef opCurvelet < opSpot
           op.cflag     = ~is_real;
           op.nbscales = nbscales;
           op.nbangles = nbangles;
+          op.finest = finest;
           op.header = hdr;
           op.nbcoeffs = cn;
           op.dims = [m,n];
+          op.ttype = ttype;
        end % Constructor
 
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % rrandn             
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % overloaded to produce a vector that really falls in the range of op
+       function y = rrandn(op)
+          y = op.drandn;
+          y = multiply(op,y,1);
+       end
+       
     end % Methods
        
  
@@ -101,7 +122,9 @@ classdef opCurvelet < opSpot
             else
                x = fdct_wrapping_mex(op.dims(1),op.dims(2),op.nbscales,...
                   op.nbangles,op.finest,reshape(x,op.dims(1),op.dims(2)));
-               x = fdct_wrapping_c2r(x);
+               if ~op.cflag % real transforms have redundancy 
+                  x = fdct_wrapping_c2r(x);
+               end
             end
             x = spot.utils.fdct_c2v(x,op.nbcoeffs);
          else
@@ -111,17 +134,19 @@ classdef opCurvelet < opSpot
                x = meicv2(x,op.dims(1),op.dims(2),op.nbscales,op.nbangles);
             else
                x = spot.utils.fdct_v2c(x,op.header);
-               x = fdct_wrapping_r2c(x);
+               if ~op.cflag
+                  x = fdct_wrapping_r2c(x);
+               end
                x = ifdct_wrapping_mex(op.dims(1),op.dims(2),op.nbscales,...
                op.nbangles,op.finest,x);
             end
-            if ~op.cflag
-               x = real(x);
+            if ~op.cflag % real transforms don't have complex numbers for 
+                  x = real(x);  %the inverse transform
             end
             x = x(:);
          end
        end % Multiply
-
+       
     end % Methods
    
 end % Classdef
