@@ -81,8 +81,8 @@ classdef opFoG < opSpot
        % double
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function A = double(op)
-          C1 = op.children{1};
-          C2 = op.children{2};
+          C1 = op.operators{1};
+          C2 = op.operators{2};
           A  = double(C1)*double(C2);
        end
        
