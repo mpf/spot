@@ -130,7 +130,7 @@ classdef opCurvelet < opSpot
          else
             % Synthesis mode  
             if strcmp(op.ttype,'ME')
-               x = mefdct_v2c(x,op.header,op.nbangles);
+               x = spot.utils.mefdct_v2c(x,op.header,op.nbangles);
                x = meicv2(x,op.dims(1),op.dims(2),op.nbscales,op.nbangles);
             else
                x = spot.utils.fdct_v2c(x,op.header);
