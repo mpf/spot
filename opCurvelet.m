@@ -10,9 +10,11 @@ classdef opCurvelet < opSpot
 %   suggested by Curvelab. NBANGLES gives the number of angles at the
 %   second coarsest level which must be a multiple of four with a minimum
 %   of 8. By default NBANGLES is set to 16. TTYPE determines the type of
-%   transformation and is set to 'WRAP' by default. FINEST sets whether to
-%   do the transform to the finest scale and is set to 1 by default.
-%   IS_REAL set whether the tranform is for real data or complex data.
+%   transformation; either 'WRAP' for a wrapping transform or 'ME' for a
+%   Mirror-Extended Transform, it's set to 'WRAP' by default. FINEST sets
+%   whether to do the transform to the finest scale and is set to 1 by
+%   default. IS_REAL set whether the tranform is for real data or complex
+%   data.
 %
 %   See also CURVELAB.
 
