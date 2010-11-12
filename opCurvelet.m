@@ -12,7 +12,7 @@ classdef opCurvelet < opSpot
 %   of 8. By default NBANGLES is set to 16. FINEST sets whether to include
 %   the finest scale of coefficients and is set to 0 by default; set this
 %   to 1 to include the finest scale, or to 2 to keep the finest scale but
-%   set it to zeros.TTYPE determines the type of transformation; either
+%   set it to zeros. TTYPE determines the type of transformation; either
 %   'WRAP' for a wrapping transform or 'ME' for a Mirror-Extended
 %   Transform, it's set to 'WRAP' by default.  IS_REAL sets whether the
 %   transform is for real data or complex data.
@@ -63,7 +63,7 @@ classdef opCurvelet < opSpot
           assert( isscalar(nbscales) && isscalar(nbangles),['Please ensure'...
              ' nbscales and nbangles are scalar values']);
           assert( (any(finest == [0 1 2])) && (is_real==0||is_real==1),...
-             'Please ensure finest and is_real are boolean values');
+             'Please ensure finest and is_real are appropriate values');
 
           % Compute length of curvelet coefficient vector
           if strcmp(ttype,'ME')
