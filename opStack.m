@@ -23,6 +23,15 @@ classdef opStack < opSpot
 %   Use the command 'spot.gpl' to locate this file.
 
 %   http://www.cs.ubc.ca/labs/scl/spot
+    
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Properties
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    properties
+        weights;
+    end
+
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
@@ -96,6 +105,7 @@ classdef opStack < opSpot
           op.linear     = linear;
           op.children   = opListNew;
           op.precedence = 1;
+          op.weights    = weights;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -131,16 +141,17 @@ classdef opStack < opSpot
              for i=1:length(op.children)
                 child      = op.children{i};
                 s          = size(child,1);
-                y(k+(1:s)) = applyMultiply(child, x, 1);
+                y(k+(1:s)) = op.weights(i) * applyMultiply(child, x, 1);
                 k          = k + s;
-             end;
+             end
           else
              y = zeros(op.n,1);
              k = 0;
              for i=1:length(op.children)
                 child = op.children{i};
                 s     = size(child,1);
-                y     = y + applyMultiply(child, x(k+1:k+s), 2);
+                xd    = x(k+1:k+s) * conj(op.weights(i));
+                y     = y + applyMultiply(child,xd,2);
                 k     = k + s;
              end
           end
