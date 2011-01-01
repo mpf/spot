@@ -40,7 +40,6 @@ classdef opDiag < opSpot
          op = op@opSpot('Diag',n,n);
          op.cflag      = ~isreal(d);
          op.diag       = d;
-         op.sweepflag  = true;
       end % function opDiag
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

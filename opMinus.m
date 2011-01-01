@@ -49,7 +49,7 @@ classdef opMinus < opSpot
           op = op@opSpot('Minus', m, n);
           op.cflag      = A.cflag  | B.cflag;
           op.linear     = A.linear | B.linear;
-          op.sweepflag  = A.sweepflag & B.sweepflag;
+          op.sweepflag  = true;
           op.children   = {A, B};
           op.precedence = 4;
        end % Constructor

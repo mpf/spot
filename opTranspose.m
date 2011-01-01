@@ -45,7 +45,7 @@ classdef opTranspose < opSpot
           op = op@opSpot('Transpose', n, m);
           op.cflag      = A.cflag;
           op.linear     = A.linear;
-          op.sweepflag  = A.sweepflag;
+          op.sweepflag  = true;
           op.children   = {A};
           op.opIntrnl   = opCTranspose(opConj(A));
        end % function opTranspose
