@@ -1,7 +1,9 @@
 function test_suite = test_opOrthogonal
 %test_opOrthogonal  Unit tests for opOrthogonal and derivative operators
+initTestSuite;
+end
 
-function test_opOrthogonal
+function test_opOrthogonal_divide
    
    n = 23; % whatever...
    

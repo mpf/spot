@@ -76,9 +76,10 @@ elseif isnumeric(B)
    
    % Pre-allocate result matrix and apply mldivide to each column
    x = zeros(size(A,2),size(B,2));
-   for j=1:size(B,2)
-      x(:,j) = A.divide(B(:,j),1);
-   end
+   x = A.divide(B,1);
+%    for j=1:size(B,2)
+%       x(:,j) = A.divide(B(:,j),1);
+%    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 4: Both args are Spot ops.

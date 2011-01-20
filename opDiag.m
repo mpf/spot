@@ -92,11 +92,13 @@ classdef opDiag < opSpot
       % divide
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function x = divide(op,b,mode)
+          for j = 1:size(b,2)
          if mode == 1
-            x = b./op.diag;
+            x(:,j) = b(:,j)./op.diag;
          else
-            x = b./conj(op.diag);
+            x(:,j) = b(:,j)./conj(op.diag);
          end
+          end
       end % function divide
       
    end % methods - protected
