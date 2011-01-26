@@ -1,4 +1,4 @@
-function test_suite = test_opDiag
+function test_suite = mvtest_opDiag
 %test_opDiag  Unit tests for the opDiag operator
 initTestSuite;
 end
@@ -11,7 +11,7 @@ function seed = setup
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_diag(seed)
+function test_opDiag_diag(~)
    n = randi(100); k = randi(10);
 
    b = randn(n,k);
@@ -23,17 +23,17 @@ function test_opDiag_diag(seed)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_class(seed)
+function test_opDiag_class(~)
    n = randi(100);
    d = randn(n,1);
    assertEqual( double(diag(d)), double(opDiag(d)) ) 
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_divide(seed)
+function test_opDiag_divide(~)
    n = randi(100);
    d = randn(n,1) + 1i*randn(n,1);
-   b = randn(n,2) + 1i*randn(n,2);
+   b = randn(n,1) + 1i*randn(n,1);
    D = opDiag(d);
    assertEqual( D\b,  d.\b ) 
    assertEqual( D'\b, conj(d).\b )
