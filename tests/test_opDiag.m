@@ -33,7 +33,7 @@ end
 function test_opDiag_divide(seed)
    n = randi(100);
    d = randn(n,1) + 1i*randn(n,1);
-   b = randn(n,2) + 1i*randn(n,2);
+   b = randn(n,1) + 1i*randn(n,1);
    D = opDiag(d);
    assertEqual( D\b,  d.\b ) 
    assertEqual( D'\b, conj(d).\b )

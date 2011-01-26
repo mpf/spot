@@ -26,6 +26,14 @@ classdef opDirac < opOrthogonal
          A = eye(size(op));
       end
       
+      function result = xtratests(~)
+      %XTRATESTS    User defined tests
+      %
+      % Just a demo here
+      result = true;
+          disp('How thoughtful of you to test opDirac!!!');
+      end
+      
    end % methods - public
    
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

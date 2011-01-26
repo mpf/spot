@@ -62,14 +62,14 @@ classdef opSpot
         end % function opSpot
         
         function nprods = get.nprods(op)
-            %get.nprods  Get a count of the produts with the operator.
+            %get.nprods  Get a count of the products with the operator.
             nprods = [op.counter.mode1, op.counter.mode2];
         end % function get.Nprods
         
     end % methods - public
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Public methods
+    % Protected methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
         
@@ -82,14 +82,14 @@ classdef opSpot
                 
                 % Preallocate y
                 if q > 1
-                   if isscalar(op)
-                      % special case: allocate result size of x
-                      y = zeros(size(x));
-                   elseif mode==1
-                      y = zeros(op.m,q);
-                   else
-                      y = zeros(op.n,q);
-                   end
+                    if isscalar(op)
+                        % special case: allocate result size of x
+                        y = zeros(size(x));
+                    elseif mode==1
+                        y = zeros(op.m,q);
+                    else
+                        y = zeros(op.n,q);
+                    end
                 end
                 
                 for i=1:q
@@ -105,6 +105,8 @@ classdef opSpot
         % Signature of external protected functions
         y = divide(op,x,mode);
     end % methods - protected
+    
+    
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
