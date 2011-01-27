@@ -17,7 +17,8 @@ function test_opBlockDiag_prod(~)
    B = opMatrix(randn(n,n));
    D = opBlockDiag(A,B);
    x = randn(m+n,2);
-   for i = 1:2
+   for i = 1:2 % Because y = [A*x(1:m,:); B*x(m+1:end,:)] 
+               % has some weird rounding errors
        y(:,i) = [A*x(1:m,i); B*x(m+1:end,i)];
    end
    assertEqual( y, D*x )

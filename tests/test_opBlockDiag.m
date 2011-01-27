@@ -16,9 +16,9 @@ function test_opBlockDiag_prod(seed)
    A = opMatrix(randn(m,m));
    B = opMatrix(randn(n,n));
    D = opBlockDiag(A,B);
-   x = randn(m+n,2);
-   assertEqual( [A*x(1:m,:); B*x(m+1:end,:)], D*x )
-   assertEqual( [A'*x(1:m,:); B'*x(m+1:end,:)], D'*x )
+   x = randn(m+n,1);
+   assertEqual( [A*x(1:m); B*x(m+1:end)], D*x )
+   assertEqual( [A'*x(1:m); B'*x(m+1:end)], D'*x )
 end
 
 function test_opBlockDiag_overlap(seed)
