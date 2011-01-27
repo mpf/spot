@@ -15,7 +15,7 @@ function test_opBlockDiag_prod(~)
    n = randi(100); m = randi(100);
    A = opMatrix(randn(m,m));
    B = opMatrix(randn(n,n));
-   D = blkdiag(A,B);
+   D = opBlockDiag(A,B);
    x = randn(m+n,2);
    for i = 1:2
        y(:,i) = [A*x(1:m,i); B*x(m+1:end,i)];
