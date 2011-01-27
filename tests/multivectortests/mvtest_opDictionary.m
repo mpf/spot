@@ -11,9 +11,11 @@ function test_opDictionary_mixed
    B = opBernoulli(m,nB);
    D = [ A B ];
    
-   x = D.drandn;
+   x = [D.drandn D.drandn];
    
-   y1 = A*x(1:nA) + B*x(nA+1:end);
+   for i = 1:2
+       y1(:,i) = A*x(1:nA,i) + B*x(nA+1:end,i);
+   end
    y2 = D*x;
    
    assertEqual(y1,y2);

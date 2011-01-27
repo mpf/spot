@@ -33,9 +33,9 @@ end
 function test_opDiag_divide(~)
    n = randi(100);
    d = randn(n,1) + 1i*randn(n,1);
-   b = randn(n,1) + 1i*randn(n,1);
+   b = randn(n,2) + 1i*randn(n,2);
    D = opDiag(d);
-   assertEqual( D\b,  d.\b ) 
-   assertEqual( D'\b, conj(d).\b )
-   assertEqual( D.'\b, d.\b ) 
+   assertEqual( D\b,  [d.\b(:,1) d.\b(:,2)]) 
+   assertEqual( D'\b, [conj(d).\b(:,1) conj(d).\b(:,2)])
+   assertEqual( D.'\b, [d.\b(:,1) d.\b(:,2)]) 
 end

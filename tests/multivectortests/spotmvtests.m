@@ -1,24 +1,17 @@
-mvtest_char
-mvtest_coremethods
-mvtest_dottests
-mvtest_eigs
-mvtest_image_example
-mvtest_indexing
-mvtest_iterative
-mvtest_normest
-mvtest_opBernoulli
-mvtest_opBinary
-mvtest_opBlockDiag
-mvtest_opBlockOp
-mvtest_opDiag
-mvtest_opDictionary
-mvtest_opGaussian
-mvtest_opHadamard
-mvtest_opKron
-mvtest_opMatrix
-mvtest_opOrthogonal
-mvtest_opToeplitz
-mvtest_products
-mvtest_solves
-mvtest_sparsevecs
-mvtest_tree
+disp('mvtest_coremethods'); mvtest_coremethods
+disp('mvtest_dottests'); mvtest_dottests
+disp('mvtest_opBernoulli'); mvtest_opBernoulli
+disp('mvtest_opBinary'); mvtest_opBinary
+disp('mvtest_opBlockDiag'); mvtest_opBlockDiag
+disp('mvtest_opBlockOp'); mvtest_opBlockOp
+disp('mvtest_opDiag'); mvtest_opDiag
+disp('mvtest_opDictionary'); mvtest_opDictionary
+disp('mvtest_opGaussian'); mvtest_opGaussian
+disp('mvtest_opHadamard'); mvtest_opHadamard
+disp('mvtest_opKron'); mvtest_opKron
+disp('mvtest_opMatrix'); mvtest_opMatrix
+disp('mvtest_opOrthogonal'); mvtest_opOrthogonal
+disp('mvtest_opToeplitz'); mvtest_opToeplitz
+disp('mvtest_products'); mvtest_products
+disp('mvtest_solves'); mvtest_solves
+disp('mvtest_tree'); mvtest_tree

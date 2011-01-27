@@ -148,7 +148,7 @@ function test_coremethods_conj(dat)
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_coremethods_pow(dat)
-   A = dat.A; B = dat.B; x = dat.x; xr = real(x); xi = imag(x);
+   A = dat.A; B = dat.B; x = dat.x;
    c = randn(1,1) + sqrt(-1) * randn(1,1);
    assertElementsAlmostEqual(...
       (A^3) * x,...
@@ -182,7 +182,7 @@ function test_coremethods_inv(dat)
       A'/c);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function test_coremethods_inv_pow(dat)
+function test_coremethods_inv_pow(~)
    c = randn(1,1) + 1i * randn(1,1);
    A = randn(3,3) + 1i * randn(3,3);
    x = randn(3,1) + 1i * randn(3,1);
@@ -211,7 +211,7 @@ function test_coremethods_inv_pow(dat)
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_coremethods_simplification(dat)
-   A = dat.A; B = dat.B;
+   B = dat.B;
    assertEqual(char(B),...
                char((B')'));
    assertEqual(char(B),...
