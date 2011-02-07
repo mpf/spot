@@ -1,4 +1,4 @@
-function test_suite = mvtest_dottests
+function test_suite = testmv_dottests
 %test_dottests  Unit tests on operator-(sparse)matrix products.
 % All linear operators should pass the "dottest".
 initTestSuite;

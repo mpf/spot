@@ -1,4 +1,4 @@
-function test_suite = mvtest_opGaussian
+function test_suite = testmv_opGaussian
 %test_opGaussian  Unit tests for the Gaussian operator
 initTestSuite;
 end

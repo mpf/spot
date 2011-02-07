@@ -1,4 +1,4 @@
-function test_suite = mvtest_coremethods
+function test_suite = testmv_coremethods
 %test_coremethods  Unit tests for opSpot's core methods
 initTestSuite;
 end

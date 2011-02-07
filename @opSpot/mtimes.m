@@ -22,6 +22,10 @@ function y = mtimes(A,B)
 % 4) C*s
 % 5) C*C, either of which can be a foreign class
 
+try
+    y = mtimes(B,A,'swap'); % Calls pSpot's mtimes if possible
+catch
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M*C
 % Mode 3: s*C - Here we also handle the special case where C is 1-by-M.
@@ -80,3 +84,4 @@ elseif isnumeric(B)
 else
     y = opFoG(A,B);
 end
+end % of catch

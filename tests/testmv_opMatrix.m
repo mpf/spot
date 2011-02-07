@@ -1,4 +1,4 @@
-function test_suite = mvtest_opMatrix
+function test_suite = testmv_opMatrix
 %test_opMatrix  Unit tests for opMatrix.
 initTestSuite;
 end

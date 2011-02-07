@@ -1,7 +1,8 @@
-function test_suite = mvtest_opBernoulli
+function test_suite = testmv_opBinary
 %testGaussian  Unit tests for the Gaussian operator
 initTestSuite;
 end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
@@ -9,13 +10,13 @@ function seed = setup
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opBernoulli_mode01_against_rand(seed)
-   m = 10; n = 5;
+function test_opBinary_against_randn(seed)
+   m = randi(100); n = randi(100);
 
-   randn('state',seed);  A1 = 2*(randn(m,n)<0)-1;
-   randn('state',seed);  A2 = opBernoulli(m,n);
-   randn('state',seed);  A3 = opBernoulli(m,n,0); % explicit
-   randn('state',seed);  A4 = opBernoulli(m,n,1); % implicit
+   randn('state',seed);  A1 = double(randn(m,n)<0);
+   randn('state',seed);  A2 = opBinary(m,n);
+   randn('state',seed);  A3 = opBinary(m,n,0); % explicit
+   randn('state',seed);  A4 = opBinary(m,n,1); % implicit
 
    x = randn(n,2);
    y = A1 *x;
@@ -33,14 +34,4 @@ function test_opBernoulli_mode01_against_rand(seed)
    assertElementsAlmostEqual( A1', double(A2') );
    assertElementsAlmostEqual( A1', double(A3') );
    assertElementsAlmostEqual( A1', double(A4') );
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function test_opBernoulli_mode23(seed)
-   m = 10; n = 5;
-
-   randn('state',seed);  A1 = opBernoulli(m,n,2); % explicit
-   randn('state',seed);  A2 = opBernoulli(m,n,3); % implicit
-
-   assertElementsAlmostEqual( double(A1), double(A2) );
 end

@@ -1,4 +1,4 @@
-function test_suite = mvtest_opBlockOp
+function test_suite = testmv_opBlockOp
 initTestSuite;
 end
 

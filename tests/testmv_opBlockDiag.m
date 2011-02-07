@@ -1,4 +1,4 @@
-function test_suite = mvtest_opBlockDiag
+function test_suite = testmv_opBlockDiag
 %test_opBlockDiag  Unit tests for the opBlockDiag operator
 initTestSuite;
 end
@@ -17,16 +17,13 @@ function test_opBlockDiag_prod(~)
    B = opMatrix(randn(n,n));
    D = opBlockDiag(A,B);
    x = randn(m+n,2);
-   for i = 1:2 % Because y = [A*x(1:m,:); B*x(m+1:end,:)] 
-               % has some weird rounding errors
-       y(:,i) = [A*x(1:m,i); B*x(m+1:end,i)];
-   end
-   assertEqual( y, D*x )
+   y = [A*x(1:m,:); B*x(m+1:end,:)];
+   assertElementsAlmostEqual( y, D*x )
+   % assertElementsAlmostEqual is used instead of assertEqual because of a
+   % inherent error (of the magnitude e-15) of the matlab built-in A'*x
    
-   for i = 1:2
-       y2(:,i) = [A'*x(1:m,i); B'*x(m+1:end,i)];
-   end
-   assertEqual( y2, D'*x )
+   y2 = [A'*x(1:m,:); B'*x(m+1:end,:)];
+   assertElementsAlmostEqual( y2, D'*x )
 end
 
 function test_opBlockDiag_overlap(~)

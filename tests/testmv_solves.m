@@ -1,4 +1,4 @@
-function test_suite = mvtest_solves
+function test_suite = testmv_solves
 %test_solves  Unit tests for opInverse and friends.
 initTestSuite;
 end

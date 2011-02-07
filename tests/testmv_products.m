@@ -1,4 +1,4 @@
-function mvtest_products
+function testmv_products
 %test_op_products  Unit tests for operator products
 
    randn('state',0); rand('state',0);

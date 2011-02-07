@@ -1,4 +1,4 @@
-function test_suite = mvtest_opDiag
+function test_suite = testmv_opDiag
 %test_opDiag  Unit tests for the opDiag operator
 initTestSuite;
 end

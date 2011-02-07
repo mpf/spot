@@ -1,4 +1,4 @@
-function mvtest_opHadamard
+function testmv_opHadamard
 %test_opHadamard  Unit tests for the Hadamard operator
 
 % $Id$

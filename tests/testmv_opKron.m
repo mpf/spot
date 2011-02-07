@@ -1,4 +1,4 @@
-function mvtest_opKron
+function testmv_opKron
 %test_opKron  Unit tests for Kronecker products
    A1 = randn(3,4) + 1i*randn(3,4);
    A2 = randn(3,2) + 1i*randn(3,2);

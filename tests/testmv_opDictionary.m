@@ -1,4 +1,4 @@
-function test_suite = mvtest_opDictionary
+function test_suite = testmv_opDictionary
 %test_opDictionary  Unit tests for the Dictionary meta operator
 initTestSuite;
 end
@@ -13,12 +13,11 @@ function test_opDictionary_mixed
    
    x = [D.drandn D.drandn];
    
-   for i = 1:2
-       y1(:,i) = A*x(1:nA,i) + B*x(nA+1:end,i);
-   end
+   y1 = A*x(1:nA,:) + B*x(nA+1:end,:);
+   
    y2 = D*x;
    
-   assertEqual(y1,y2);
+   assertElementsAlmostEqual(y1,y2);
    assertFalse(dottest(D ))
    assertFalse(dottest(D'))
    

@@ -1,4 +1,4 @@
-function test_suite = mvtest_opToeplitz
+function test_suite = testmv_opToeplitz
 initTestSuite;
 end
 

@@ -1,4 +1,4 @@
-function test_suite = mvtest_tree
+function test_suite = testmv_tree
 %test_tree  Unit test for tree generation and optimization.
 initTestSuite;
 end

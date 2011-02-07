@@ -1,4 +1,4 @@
-function test_suite = mvtest_opOrthogonal
+function test_suite = testmv_opOrthogonal
 %test_opOrthogonal  Unit tests for opOrthogonal and derivative operators
 initTestSuite;
 end
