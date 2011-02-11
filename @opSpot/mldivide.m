@@ -42,7 +42,7 @@ function x = mldivide(A,B)
 %               If so, then we recast this as (C'*s)', which results in
 %               a call to the "usual" matrix-vector product.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if isnumeric(A)
+if ~isa(A,'opSpot')
    if isscalar(A)
       % s\C (mode 3).  NOTE: if B is a row vector, then the mtimes
       % routine will ensure that the following product evaluates to a
@@ -69,7 +69,7 @@ if isnumeric(A)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 2: C\M
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-elseif isnumeric(B)
+elseif ~isa(B,'opSpot')
    if size(A,1) ~= size(B,1)
       error('Matrix dimensions must agree.');
    end

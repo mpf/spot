@@ -3,6 +3,12 @@ function output = utest(op,k,verbose)
 %
 %   By default it runs the dottest on the operator in question.
 %   For overloading with extra tests
+try
+    addpath(fullfile(spot.path,'tests','xunit'))
+catch ME
+    error('Can''t find xunit toolbox.')
+end
+
 if nargin < 3, verbose = 0; end
 if nargin < 2, k = 10; end
 assertFalse(dottest(op,k,verbose));
