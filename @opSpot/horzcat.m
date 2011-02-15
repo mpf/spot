@@ -3,6 +3,8 @@ function y = horzcat(varargin)
 %
 %   [A B] is the horizonal concatenation of operators A and B.
 %
+%   If Matlabpool is on, parallel dictionary will be called.
+%
 %   See also opSpot.vertcat, opDictionary.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
@@ -11,4 +13,13 @@ function y = horzcat(varargin)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-y = opDictionary(varargin{:});
+try
+    if matlabpool('size') ~= 0
+        y = opDictionary(varargin{:});
+    else
+        y = oppDictionary(varargin{:});
+        warning('Matlabpool detected: Parallel Dictionary engaged');
+    end
+catch
+    y = opDictionary(varargin{:});
+end

@@ -10,7 +10,7 @@ catch ME
 end
 
 if nargin < 3, verbose = 0; end
-if nargin < 2, k = 10; end
+if nargin < 2, k = 3; end
 assertFalse(dottest(op,k,verbose));
 assertTrue(op.xtratests);
 output = 'PASSED!';
