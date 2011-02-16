@@ -75,6 +75,17 @@ classdef opSpot
         
         function y = applyMultiply(op,x,mode)
             op.counter.plus1(mode);
+            
+            % For border case: empty x
+            if isempty(x)
+                if mode == 1
+                    y = zeros(op.m,0);
+                else
+                    y = zeros(op.n,0);
+                end
+                return
+            end
+            
             if op.sweepflag
                 y = op.multiply(x,mode);
             else
