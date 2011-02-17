@@ -14,7 +14,7 @@ function y = horzcat(varargin)
 %   http://www.cs.ubc.ca/labs/scl/spot
 
 try
-    if matlabpool('size') ~= 0
+    if matlabpool('size') == 0
         y = opDictionary(varargin{:});
     else
         y = oppDictionary(varargin{:});
