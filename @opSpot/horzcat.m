@@ -3,7 +3,7 @@ function y = horzcat(varargin)
 %
 %   [A B] is the horizonal concatenation of operators A and B.
 %
-%   If Matlabpool is on, parallel dictionary will be called.
+%   If Matlabpool is on, pSpot's oppDictionary will be called.
 %
 %   See also opSpot.vertcat, opDictionary.
 

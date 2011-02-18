@@ -1,8 +1,26 @@
 function output = utest(op,k,verbose)
-%TEST   Built-in unit tests for spot operators
+%TEST   Built-in operator-specific unit tests
 %
-%   By default it runs the dottest on the operator in question.
-%   For overloading with extra tests
+%   A.utest runs the dottest on the operator in question, as well as
+%   operator specific tests overloaded in the operator level function,
+%   xtratests.
+%
+%   For overloading with extra tests, simply overload the function
+%   xtratests in the operator class file with the desired tests. xtratests 
+%   must return true to indicate a pass.
+%
+%   eg.
+%   function result = xtratests(op)
+%
+%       % Crazy amazing stuffs happen here
+%       if(passed)
+%           result = true;
+%       else
+%           result = false;
+%       end
+%   end
+
+
 try
     addpath(fullfile(spot.path,'tests','xunit'))
 catch ME
