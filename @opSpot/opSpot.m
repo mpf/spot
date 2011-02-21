@@ -103,8 +103,12 @@ classdef opSpot
                     end
                 end
                 
-                for i=1:q
-                    y(:,i) = op.multiply(x(:,i),mode);
+                if q == 1
+                    y = op.multiply(x,mode);
+                else
+                    for i=1:q
+                        y(:,i) = op.multiply(x(:,i),mode);
+                    end
                 end
             end
         end
