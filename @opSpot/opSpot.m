@@ -120,9 +120,7 @@ classdef opSpot
         % Signature of external protected functions
         y = divide(op,x,mode);
     end % methods - protected
-    
-    
-    
+        
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
