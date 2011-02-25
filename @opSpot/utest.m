@@ -4,6 +4,7 @@ function output = utest(op,k,verbose)
 %   A.utest runs the dottest on the operator in question, as well as
 %   operator specific tests overloaded in the operator level function,
 %   xtratests.
+%   By default, it runs the dottest 5 times.
 %
 %   For overloading with extra tests, simply overload the function
 %   xtratests in the operator class file with the desired tests. xtratests 
@@ -28,7 +29,7 @@ catch ME
 end
 
 if nargin < 3, verbose = 0; end
-if nargin < 2, k = 3; end
+if nargin < 2, k = 5; end
 assertFalse(dottest(op,k,verbose));
 assertTrue(op.xtratests);
 output = 'PASSED!';
