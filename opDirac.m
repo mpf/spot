@@ -20,13 +20,14 @@ classdef opDirac < opOrthogonal
       function op = opDirac(n)
          if nargin < 1, n = 1; end
          op = op@opOrthogonal('Dirac',n,n);
+         op.isDirac = true;
       end
       
       function A = double(op)
          A = eye(size(op));
       end
       
-      function result = xtratests(~)
+      function result = xtratests(op)
       %XTRATESTS    User defined tests
       %
       % Just a demo here
