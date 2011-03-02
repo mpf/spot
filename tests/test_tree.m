@@ -111,8 +111,8 @@ end
 function test_tree_concatentation(d)
    % test with concatenation
    import spot.utils.*
-   B5 = opStack(d.A1(1:2, :), d.A1(3:4, :), d.A1(5:end, :))*opDictionary(d.A2(:, 1:2), ...
-      d.A2(:, 3:4), d.A2(:,5:8), d.A2(:,9:end))*d.A3*d.A4*d.A5*d.A6;
+   B5 = [d.A1(1:2, :); d.A1(3:4, :); d.A1(5:end, :)]*[d.A2(:, 1:2), ...
+      d.A2(:, 3:4), d.A2(:,5:8), d.A2(:,9:end)]*d.A3*d.A4*d.A5*d.A6;
    C5 = optimalBracketing(B5);
    if d.plot
       B5tree = spottree(B5);

@@ -39,6 +39,9 @@ classdef opEye < opSpot
               error('Too many input arguments.');
            end
            op = op@opSpot('Eye',m,n);
+           if m == n
+            op.isDirac = true;
+           end
         end % function opEye
 
         function A = double(op)
