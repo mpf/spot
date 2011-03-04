@@ -10,8 +10,19 @@ function seed = setup
    seed = [];
 end
 
+function test_opDiag_multiply
+%% Test for multivectors multiplication
+n = randi(100);
+d = randn(n,1);
+D = opDiag(d);
+x = randn(n);
+
+assertEqual(diag(d)*x,D*x);
+assertEqual(diag(d)'*x,D'*x);
+end % Built-in
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_diag(~)
+function test_opDiag_diag
    n = randi(100); k = randi(10);
 
    b = randn(n,k);
@@ -23,14 +34,14 @@ function test_opDiag_diag(~)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_class(~)
+function test_opDiag_class
    n = randi(100);
    d = randn(n,1);
    assertEqual( double(diag(d)), double(opDiag(d)) ) 
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-function test_opDiag_divide(~)
+function test_opDiag_divide
    n = randi(100);
    d = randn(n,1) + 1i*randn(n,1);
    b = randn(n,2) + 1i*randn(n,2);
