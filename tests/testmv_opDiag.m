@@ -4,11 +4,6 @@ initTestSuite;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function seed = setup
-   randn('state',0);
-   rand('state',0);
-   seed = [];
-end
 
 function test_opDiag_multiply
 %% Test for multivectors multiplication
