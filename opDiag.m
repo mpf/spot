@@ -40,6 +40,7 @@ classdef opDiag < opSpot
          op = op@opSpot('Diag',n,n);
          op.cflag      = ~isreal(d);
          op.diag       = d;
+         op.sweepflag  = true;
       end % function opDiag
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,9 +83,9 @@ classdef opDiag < opSpot
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function y = multiply(op,x,mode)
          if mode == 1
-            y = op.diag.*x;
+            y = bsxfun(@times,op.diag,x);
          else
-            y = conj(op.diag).*x;
+            y = bsxfun(@times,conj(op.diag),x);
          end
       end % function multiply
 
