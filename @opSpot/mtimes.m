@@ -23,11 +23,8 @@ function y = mtimes(A,B)
 % 5) C*C, either of which can be a foreign class
 
 % dataContainer preprocessing
-try
-    if isa(B,'dataContainer')
-        B = double(B);
-    end
-catch
+if isa(B,'dataContainer')
+    B = double(B);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M*C
