@@ -23,9 +23,9 @@ function y = mtimes(A,B)
 % 5) C*C, either of which can be a foreign class
 
 % dataContainer preprocessing
-if isa(B,'dataContainer')
-    B = double(B);
-end
+try
+    y = mtimes(B,A,'swap');
+catch
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M*C
 % Mode 3: s*C - Here we also handle the special case where C is 1-by-M.
@@ -84,3 +84,4 @@ elseif ~isa(B,'opSpot')
 else
     y = opFoG(A,B);
 end
+end % catch
