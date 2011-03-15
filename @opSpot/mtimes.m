@@ -24,7 +24,11 @@ function y = mtimes(A,B)
 
 % dataContainer preprocessing
 try
-    y = mtimes(B,A,'swap');
+    if isa(B,'dataContainer')
+        y = mtimes(B,A,'swap');
+    else
+        error('Lets get on with life');
+    end
 catch
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M*C
