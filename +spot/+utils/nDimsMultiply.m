@@ -1,11 +1,11 @@
 function y = nDimsMultiply(OP,xloc)
 %NDIMSMULTIPLY  Multiplication across all dimensions higher than 2
 %
-%   y = nDimsMultiply(OP,x,SIZE) multiplies OP with the the first and second
+%   y = nDimsMultiply(OP,x) multiplies OP with the the first and second
 %   dimensions (slice) of the n-Dimensional array x across all dimensions
 %   3 to N recursively. OP can be a Spot operator or a numerical matrix.
 
-% Preallocate y
+% Preallocate y (Very important)
 sy    = size(xloc);
 sy(1) = size(OP,1);
 y     = zeros(sy);
