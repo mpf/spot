@@ -68,9 +68,10 @@ elseif ~isa(B,'opSpot')
          if A.m == 1 && A.n == 1
             % relax
          else
+            sizB = ['Matrix[' num2str(size(B)) ']'];
             error(...
-               'Matrix dimensions must agree when multiplying by %s.',...
-               char(A));
+               'Matrix dimensions must agree when multiplying by %s and %s.',...
+               char(A), sizB);
          end
       end
    
