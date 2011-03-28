@@ -9,6 +9,8 @@ classdef opRomberg < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties ( Access = private )
         dimensions = []; % Dimensions of the Romberg
+        phases     = [];
+        signs      = [];
     end
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,6 +43,8 @@ classdef opRomberg < opSpot
             op.linear     = true;
             op.sweepflag  = false;
             op.dimensions = dims;
+            op.phases     = random_phasesND(dims);
+            op.signs      = sign(randn(dims));
         end % Constructor
         
     end % Public methods
@@ -53,8 +57,8 @@ classdef opRomberg < opSpot
             
             % Setup variables
             dims = op.dimensions;
-            phs  = random_phasesND(dims);
-            sgn  = sign(randn(dims));
+            phs  = op.phases;
+            sgn  = op.signs;
             
             if mode == 1
                 x = reshape(x,dims);
