@@ -28,7 +28,7 @@ classdef opSpot
         precedence = 1;
         sweepflag  = false; % whether we can do a sweep multiply, A*B
         isDirac    = false; % Whether we can skip this (eg. oppKron2Lo)
-        structure  = [];    % Dimensions of output structure of A*x
+        outstruc   = [];    % Dimensions of output structure of A*x
     end
     
     properties( Dependent = true, SetAccess = private )
