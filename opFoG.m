@@ -97,7 +97,7 @@ classdef opFoG < opSpot
        % rrandn
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function A = rrandn(op,varargin)
-           A = drandn(op.children{1},varargin{:});
+           A = rrandn(op.children{1},varargin{:});
        end
        
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
