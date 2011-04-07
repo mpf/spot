@@ -23,7 +23,7 @@ function y = mtimes(A,B)
 % 5) C*C, either of which can be a foreign class
 
 % dataContainer preprocessing
-if isa(B,'dataContainer')
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
     y = mtimes(B,A,'swap');
 else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

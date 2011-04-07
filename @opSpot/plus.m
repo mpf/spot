@@ -9,7 +9,7 @@ function y = plus(A,B)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-if isa(B,'dataContainer')
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
     y = plus(B,A,'swap');
 else
 

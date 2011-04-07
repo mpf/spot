@@ -9,7 +9,7 @@ function y = minus(A,B)
    
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-if isa(B,'dataContainer')
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
     y = minus(B,A,'swap');
 else
 if nargin ~= 2
