@@ -65,10 +65,10 @@ classdef opFoG < opSpot
           
           % Construct operator
           op = op@opSpot('FoG', m, n);
-          op.cflag    = A.cflag  | B.cflag;
-          op.linear   = A.linear | B.linear;
-          op.sweepflag= A.sweepflag & B.sweepflag;
-          op.children = {A, B};
+          op.cflag      = A.cflag  | B.cflag;
+          op.linear     = A.linear | B.linear;
+          op.sweepflag  = A.sweepflag & B.sweepflag;
+          op.children   = {A, B};
           op.precedence = 3;          
           op.ms         = A.ms;
           op.ns         = B.ns;
