@@ -80,8 +80,12 @@ classdef opKron < opSpot
             if ~ (m == 0 || n == 0)
                 op.permutation=op.best_permutation();
             end
+            
+            % Setting up implicit dimensions of output vector
+            op.ms = cellfun(@(x) size(x,1),varargin);
+            op.ns = cellfun(@(x) size(x,2),varargin);
+                
         end % Constructor
-        
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Display

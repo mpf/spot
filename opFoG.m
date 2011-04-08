@@ -69,7 +69,9 @@ classdef opFoG < opSpot
           op.linear   = A.linear | B.linear;
           op.sweepflag= A.sweepflag & B.sweepflag;
           op.children = {A, B};
-          op.precedence = 3;
+          op.precedence = 3;          
+          op.ms         = A.ms;
+          op.ns         = B.ns;
 
           % Preprocess operators
           op.operators = {A,B};

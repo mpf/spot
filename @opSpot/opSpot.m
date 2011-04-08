@@ -22,13 +22,14 @@ classdef opSpot
         counter
         m          = 0;     % No. of rows
         n          = 0;     % No. of columns
+        ms         = 0;     % No. of implicit rows
+        ns         = 0;     % No. of implicit cols
         type       = '';
         cflag      = false; % Complexity of underlying operator
         children   = {};    % Constituent operators (for a meta operator)
         precedence = 1;
         sweepflag  = false; % whether we can do a sweep multiply, A*B
         isDirac    = false; % Whether we can skip this (eg. oppKron2Lo)
-        outstruc   = [];    % Dimensions of output structure of A*x
     end
     
     properties( Dependent = true, SetAccess = private )
@@ -57,6 +58,8 @@ classdef opSpot
                 op.type = type;
                 op.m    = m;
                 op.n    = n;
+                op.ms   = {m};
+                op.ns   = {n};
                 op.counter = spot.counter();
             else
                 error('Unsupported use of Spot constructor.');

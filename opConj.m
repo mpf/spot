@@ -42,6 +42,8 @@ classdef opConj < opSpot
           op.linear     = A.linear;
           op.sweepflag  = true;
           op.children   = {A};
+          op.ms         = A.ms;
+          op.ns         = A.ns;
 
        end % function opConj
 
