@@ -58,8 +58,8 @@ classdef opSpot
                 op.type = type;
                 op.m    = m;
                 op.n    = n;
-                op.ms   = {m};
-                op.ns   = {n};
+                op.ms   = m;
+                op.ns   = n;
                 op.counter = spot.counter();
             else
                 error('Unsupported use of Spot constructor.');

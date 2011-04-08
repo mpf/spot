@@ -38,7 +38,7 @@ function x = mldivide(A,B)
 
 % dataContainer preprocessing
 if isa(B,'dataContainer') % Please see DataContainerInfo.md
-    y = mtimes(B,A,'swap');
+    x = mldivide(B,A,'swap');
 else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M\C
