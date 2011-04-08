@@ -85,4 +85,4 @@ elseif ~isa(B,'opSpot')
 else
     y = opFoG(A,B);
 end
-end % catch
+end
