@@ -40,6 +40,8 @@ classdef opCTranspose < opSpot
           op.linear     = A.linear;
           op.sweepflag  = true;
           op.children   = {A};
+          op.ms         = A.ns;
+          op.ns         = A.ms;
        end % function opCTranspose
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

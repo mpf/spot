@@ -52,36 +52,40 @@ classdef opKron < opSpot
             
             % Determine operator size and complexity (this code is
             % general for any number of operators)
-            opA    = varargin{1};
-            [m,n]  = size(opA);
-            cflag  = opA.cflag;
-            linear = opA.linear;
+            opA       = varargin{1};
+            [m,n]     = size(opA);
+            cflag     = opA.cflag;
+            linear    = opA.linear;
             sweepflag = opA.sweepflag;
             
             for i=2:narg
-                opA    = varargin{i};
-                cflag  = cflag  | opA.cflag;
-                linear = linear & opA.linear;
+                opA       = varargin{i};
+                cflag     = cflag  | opA.cflag;
+                linear    = linear & opA.linear;
                 sweepflag = sweepflag & opA.sweepflag;
-                [mi,ni]= size(opA);
+                [mi,ni]   = size(opA);
                 m = m * mi; n = n * ni;
             end
             
             % Construct operator
             op = op@opSpot('Kron', m, n);
-            op.cflag    = cflag;
-            op.linear   = linear;
-            op.sweepflag= sweepflag;
-            op.children = varargin;
-            op.permutation=(1:narg);
+            op.cflag       = cflag;
+            op.linear      = linear;
+            op.sweepflag   = sweepflag;
+            op.children    = varargin;
+            op.permutation =(1:narg);
             
             %Evaluate the best permutation to use when a multiplication is
             %applied
             if ~ (m == 0 || n == 0)
                 op.permutation=op.best_permutation();
             end
+            
+            % Setting up implicit dimensions of output vector
+            op.ms = fliplr(cellfun(@(x) size(x,1),varargin)); % Flipped
+            op.ns = fliplr(cellfun(@(x) size(x,2),varargin));
+                
         end % Constructor
-        
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Display

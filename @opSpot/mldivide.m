@@ -36,6 +36,10 @@ function x = mldivide(A,B)
 % 4) C\C (where both are Spot classes)
 % TODO: What if one of the classes in 5 is not a Spot class?
 
+% dataContainer preprocessing
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
+    x = mldivide(B,A,'swap');
+else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M\C
 % Mode 3: s\C - Here we also handle the special case where C is 1-by-M.
@@ -86,4 +90,5 @@ elseif ~isa(B,'opSpot')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 else
    x = pinv(A) * B;
+end
 end
