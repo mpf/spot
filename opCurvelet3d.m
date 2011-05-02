@@ -71,13 +71,14 @@ classdef opCurvelet3d < opSpot
           
           % Construct operator
           op = op@opSpot('Curvelet3d', cn, m*n*p);
-          op.cflag     = ~is_real;
+          op.cflag    = ~is_real;
           op.nbscales = nbscales;
           op.nbangles = nbangles;
-          op.finest = finest;
-          op.header = hdr;
+          op.finest   = finest;
+          op.header   = hdr;
           op.nbcoeffs = cn;
-          op.dims = [m,n,p];
+          op.dims     = [m,n,p];
+          op.ns       = [m,n,p];
        end % Constructor
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

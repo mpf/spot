@@ -22,12 +22,14 @@ classdef opSpot
         counter
         m          = 0;     % No. of rows
         n          = 0;     % No. of columns
+        ms         = [];    % Vector of implicit rows
+        ns         = [];    % Vector of implicit cols
         type       = '';
         cflag      = false; % Complexity of underlying operator
         children   = {};    % Constituent operators (for a meta operator)
         precedence = 1;
         sweepflag  = false; % whether we can do a sweep multiply, A*B
-        isDirac    = false; % Whether we can skip this (eg. oppKron2Lo)
+        isDirac    = false; % Whether we can skip this operator
     end
     
     properties( Dependent = true, SetAccess = private )
@@ -56,6 +58,8 @@ classdef opSpot
                 op.type = type;
                 op.m    = m;
                 op.n    = n;
+                op.ms   = m;
+                op.ns   = n;
                 op.counter = spot.counter();
             else
                 error('Unsupported use of Spot constructor.');
@@ -118,7 +122,7 @@ classdef opSpot
             y = op.divide(x,mode);
         end
         
-        % Signature of external protected functions
+        % Signature of external protected functions (In class folder)
         y = divide(op,x,mode);
     end % methods - protected
         

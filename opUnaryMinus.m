@@ -40,6 +40,8 @@ classdef opUnaryMinus < opSpot
           op.linear     = A.linear;
           op.children   = {A};
           op.precedence = 2;
+          op.ms         = A.ms;
+          op.ns         = A.ns;
        end % Constructor
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

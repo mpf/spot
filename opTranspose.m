@@ -48,6 +48,8 @@ classdef opTranspose < opSpot
           op.sweepflag  = true;
           op.children   = {A};
           op.opIntrnl   = opCTranspose(opConj(A));
+          op.ms         = A.ns;
+          op.ns         = A.ms;
        end % function opTranspose
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
