@@ -18,6 +18,7 @@ end % Built-in
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 function test_mvopDiag_diag
+%%
    n = randi(100); k = randi(10);
 
    b = randn(n,k);
@@ -25,7 +26,7 @@ function test_mvopDiag_diag
    D = opDiag(d);
    
    assertEqual( diag(double(D)), d )
-   assertEqual( diag(d)\b, D\b )
+   assertElementsAlmostEqual( diag(d)\b, D\b )
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
