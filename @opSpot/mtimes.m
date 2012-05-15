@@ -31,8 +31,8 @@ else
     %
     % This is to save memory and prevent unnecessary multiplies in opFog
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    if (isa(A, 'opMatrix') || isa(A, 'opDirac')) &&...
-       (isa(B, 'opMatrix') || isa(B, 'opDirac'))
+    if (isnumeric(A) || isa(A, 'opMatrix') || isa(A, 'opDirac')) &&...
+       (isscalar(B)  || isa(B, 'opMatrix') || isa(B, 'opDirac'))
    
         y = opMatrix(double(A)*double(B));
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
