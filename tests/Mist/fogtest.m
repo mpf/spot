@@ -1,7 +1,7 @@
 clear all
 clc
-A = Fog(randn(3,3),randn(3,3));
-for i=1:13
+A = Fog4(randn(3,3),randn(3,3));
+for i=1:14
     tic;
     A  = randn(3,3) * A;
     t1 = toc;
