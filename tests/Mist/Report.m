@@ -65,3 +65,24 @@ Atic=0.000359 bytes=5272 btic=0.000781
 Atic=0.000366 bytes=5672 btic=0.000832
 Atic=0.000370 bytes=6072 btic=0.000882
 % Time and memory does not increase exponentially
+
+% Fog5 same as Fog except A & B doubled at construction time
+Atic=0.004732 bytes=840 btic=0.000838
+Atic=0.000502 bytes=840 btic=0.000122
+Atic=0.000331 bytes=840 btic=0.000379
+Atic=0.000337 bytes=840 btic=0.000108
+Atic=0.000312 bytes=840 btic=0.000107
+Atic=0.000310 bytes=840 btic=0.000108
+Atic=0.000314 bytes=840 btic=0.000107
+Atic=0.000321 bytes=840 btic=0.000110
+Atic=0.000325 bytes=840 btic=0.000107
+Atic=0.000314 bytes=840 btic=0.000107
+Atic=0.000314 bytes=840 btic=0.000108
+Atic=0.000313 bytes=840 btic=0.000106
+Atic=0.000310 bytes=840 btic=0.000107
+Atic=0.000309 bytes=840 btic=0.000107
+% Time and memory does not increase exponentially
+
+% Thus, it can be concluded that the duplication of the operators at
+% construction time has minor effect compared to the non-doubling of the
+% operators at multiplication time

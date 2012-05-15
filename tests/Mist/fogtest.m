@@ -1,6 +1,6 @@
 clear all
 clc
-A = Fog4(randn(3,3),randn(3,3));
+A = Fog5(randn(3,3),randn(3,3));
 for i=1:14
     tic;
     A  = randn(3,3) * A;
