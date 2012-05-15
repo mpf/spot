@@ -11,6 +11,11 @@ classdef Fog < Mist
             op          = op@Mist();
             op.children = {A,B};
             op.boys     = {A,B};
+            whos 
+            x = op.children;
+            whos x
+            y = op.boys;
+            whos y
             
         end
         
@@ -19,12 +24,12 @@ classdef Fog < Mist
         end
         
         function y = mtimes(op,x)
-            if isa(op,'Mist') && isa(x,'Mist') ||...
-              ~isa(op,'Mist') && isa(x,'Mist')
+            if isa(x,'Mist')
                 y = Fog(op,x);
                 
             elseif isa(op,'Mist')
-                y = double(op)*x;
+                y = op.boys{2}*x;
+                y = op.boys{1}*y;
                 
             else
                 error('I dont know what youre doing');
