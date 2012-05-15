@@ -19,7 +19,7 @@ function test_opDiag_diag(seed)
    D = opDiag(d);
    
    assertEqual( diag(double(D)), d )
-   assertEqual( diag(d)\b, D\b )
+   assertElementsAlmostEqual( diag(d)\b, D\b )
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
