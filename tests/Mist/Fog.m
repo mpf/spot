@@ -3,24 +3,22 @@ classdef Fog < Mist
     %   Detailed explanation goes here
     
     properties (SetAccess = private)
-        boys = {};
+        operators = {};
     end
     
     methods
         function op = Fog(A,B)
             op          = op@Mist();
             op.children = {A,B};
-            op.boys     = {A,B};
-            whos 
-            x = op.children;
-            whos x
-            y = op.boys;
-            whos y
+            op.operators     = {A,B};
+            children = op.children;
+            operators = op.operators;
+            whos
             
         end
         
         function y = double(op)
-            y = double(op.boys{1})*double(op.boys{2});
+            y = double(op.operators{1})*double(op.operators{2});
         end
         
         function y = mtimes(op,x)
@@ -28,8 +26,8 @@ classdef Fog < Mist
                 y = Fog(op,x);
                 
             elseif isa(op,'Mist')
-                y = op.boys{2}*x;
-                y = op.boys{1}*y;
+                y = op.operators{2}*x;
+                y = op.operators{1}*y;
                 
             else
                 error('I dont know what youre doing');
