@@ -19,7 +19,11 @@ function test_opDiag_diag(seed)
    D = opDiag(d);
    
    assertEqual( diag(double(D)), d )
-   assertElementsAlmostEqual( diag(d)\b, D\b )
+   assertEqual( diag(d)\b, D\b )
+   % There should be no numerical difference between the two operations
+   % in this last test. If it does fail (even within floating-point
+   % accuracy), then there might be some ambiguity between the order of
+   % operations. (See opDiag's "divide" function.)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
