@@ -30,9 +30,11 @@ else
     % Mode: Explicit opFog Saver
     %
     % This is to save memory and prevent unnecessary multiplies in opFog
+    % Only applies to in-core serial explicit matrices
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if (isnumeric(A) || isa(A, 'opMatrix') || isa(A, 'opDirac')) &&...
-       (isscalar(B)  || isa(B, 'opMatrix') || isa(B, 'opDirac'))
+       (isscalar(B)  || isa(B, 'opMatrix') || isa(B, 'opDirac')) &&...
+       ~isa(A,'distributed') && ~isa(B,'distributed')
    
         y = opMatrix(double(A)*double(B));
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
