@@ -29,7 +29,7 @@ classdef opKron < opSpot
               if isa(A,'numeric')
                   % A matrix input is immediately cast as opMatrix
                   A = opMatrix(A);
-              elseif ~isa(A,'opSpot') && isa(B,'opSpot')
+              elseif ~isa(A,'opSpot')
                   error('One of the operators is not a valid input.')
               end              
               opList{i} = A;
