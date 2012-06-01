@@ -33,8 +33,8 @@ classdef opSum < opSpot
           end
           
           % Input matrices are immediately cast as opMatrix's.
-          if isa(A,'numeric'), A = opMatrix(A); end
-          if isa(B,'numeric'), B = opMatrix(B); end
+          if isnumeric(A), A = opMatrix(A); end
+          if isnumeric(B), B = opMatrix(B); end
           
           % Check that the input operators are valid.
           if ~( isa(A,'opSpot') && isa(B,'opSpot') )
@@ -56,7 +56,7 @@ classdef opSum < opSpot
           op = op@opSpot('Sum', m, n);
           op.cflag      = A.cflag  | B.cflag;
           op.linear     = A.linear | B.linear;
-          op.sweepflag  = A.sweepflag & B.sweepflag;
+          op.sweepflag  = true;
           op.children   = {A, B};
           op.precedence = 4;
        end % Constructor

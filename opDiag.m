@@ -83,9 +83,9 @@ classdef opDiag < opSpot
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function y = multiply(op,x,mode)
          if mode == 1
-            y = op.diag.*x;
+            y = bsxfun(@times,op.diag,x);
          else
-            y = conj(op.diag).*x;
+            y = bsxfun(@times,conj(op.diag),x);
          end
       end % function multiply
 
@@ -93,11 +93,13 @@ classdef opDiag < opSpot
       % divide
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function x = divide(op,b,mode)
+          for j = 1:size(b,2)
          if mode == 1
-            x = b./op.diag;
+            x(:,j) = b(:,j)./op.diag;
          else
-            x = b./conj(op.diag);
+            x(:,j) = b(:,j)./conj(op.diag);
          end
+          end
       end % function divide
       
    end % methods - protected

@@ -46,6 +46,8 @@ classdef opInverse < opSpot
           op.linear     = A.linear;
           op.sweepflag  = A.sweepflag;
           op.children   = {A};
+          op.ms         = A.ns;
+          op.ns         = A.ms;
        end % function opInverse
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

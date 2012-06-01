@@ -18,15 +18,18 @@ classdef opSpot
     % Properties
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     properties( SetAccess = protected )
-        linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+        linear     = 1;     % Flag the op. as linear (1) or nonlinear (0)
         counter
-        m        = 0;     % No. of rows
-        n        = 0;     % No. of columns
-        type     = '';
-        cflag    = false; % Complexity of underlying operator
-        children = {};    % Constituent operators (for a meta operator)
+        m          = 0;     % No. of rows
+        n          = 0;     % No. of columns
+        ms         = [];    % Vector of implicit rows
+        ns         = [];    % Vector of implicit cols
+        type       = '';
+        cflag      = false; % Complexity of underlying operator
+        children   = {};    % Constituent operators (for a meta operator)
         precedence = 1;
-        sweepflag = false; % whether we can do a sweep multiply, A*B
+        sweepflag  = false; % whether we can do a sweep multiply, A*B
+        isDirac    = false; % Whether we can skip this operator
     end
     
     properties( Dependent = true, SetAccess = private )
@@ -55,6 +58,8 @@ classdef opSpot
                 op.type = type;
                 op.m    = m;
                 op.n    = n;
+                op.ms   = m;
+                op.ns   = n;
                 op.counter = spot.counter();
             else
                 error('Unsupported use of Spot constructor.');
@@ -62,19 +67,30 @@ classdef opSpot
         end % function opSpot
         
         function nprods = get.nprods(op)
-            %get.nprods  Get a count of the produts with the operator.
+            %get.nprods  Get a count of the products with the operator.
             nprods = [op.counter.mode1, op.counter.mode2];
         end % function get.Nprods
         
     end % methods - public
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Public methods
+    % Protected methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Access = protected )
         
         function y = applyMultiply(op,x,mode)
             op.counter.plus1(mode);
+            
+            % For border case: empty x
+            if isempty(x)
+                if mode == 1
+                    y = zeros(op.m,0);
+                else
+                    y = zeros(op.n,0);
+                end
+                return
+            end
+            
             if op.sweepflag
                 y = op.multiply(x,mode);
             else
@@ -82,18 +98,22 @@ classdef opSpot
                 
                 % Preallocate y
                 if q > 1
-                   if isscalar(op)
-                      % special case: allocate result size of x
-                      y = zeros(size(x));
-                   elseif mode==1
-                      y = zeros(op.m,q);
-                   else
-                      y = zeros(op.n,q);
-                   end
+                    if isscalar(op)
+                        % special case: allocate result size of x
+                        y = zeros(size(x));
+                    elseif mode==1
+                        y = zeros(op.m,q);
+                    else
+                        y = zeros(op.n,q);
+                    end
                 end
                 
-                for i=1:q
-                    y(:,i) = op.multiply(x(:,i),mode);
+                if q == 1
+                    y = op.multiply(x,mode);
+                else
+                    for i=1:q
+                        y(:,i) = op.multiply(x(:,i),mode);
+                    end
                 end
             end
         end
@@ -102,10 +122,10 @@ classdef opSpot
             y = op.divide(x,mode);
         end
         
-        % Signature of external protected functions
+        % Signature of external protected functions (In class folder)
         y = divide(op,x,mode);
     end % methods - protected
-    
+        
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

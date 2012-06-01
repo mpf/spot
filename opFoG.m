@@ -17,13 +17,6 @@ classdef opFoG < opSpot
 %   http://www.cs.ubc.ca/labs/scl/spot
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Properties
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    properties (SetAccess = private)
-        operators = {}; % List of preprocessed operators
-    end % Properties
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods
@@ -65,11 +58,13 @@ classdef opFoG < opSpot
           
           % Construct operator
           op = op@opSpot('FoG', m, n);
-          op.cflag    = A.cflag  | B.cflag;
-          op.linear   = A.linear | B.linear;
-          op.sweepflag= A.sweepflag & B.sweepflag;
-          op.children = {A, B};
+          op.cflag      = A.cflag  | B.cflag;
+          op.linear     = A.linear | B.linear;
+          op.sweepflag  = A.sweepflag & B.sweepflag;
+          op.children   = {A, B};
           op.precedence = 3;
+          op.ms         = A.ms;
+          op.ns         = B.ns;
 
           % Preprocess children
           if isscalar(A), op.children{1} = opMatrix(double(A)); end
@@ -83,6 +78,20 @@ classdef opFoG < opSpot
           C1 = op.children{1};
           C2 = op.children{2};
           A  = double(C1)*double(C2);
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % drandn
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = drandn(op,varargin)
+           A = drandn(op.children{2},varargin{:});
+       end
+       
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       % rrandn
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       function A = rrandn(op,varargin)
+           A = rrandn(op.children{1},varargin{:});
        end
        
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

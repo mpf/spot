@@ -9,6 +9,10 @@ function y = plus(A,B)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
+    y = plus(B,A,'swap');
+else
+
 if nargin ~= 2
    error('Exactly two operators must be specified.')
 end
@@ -19,3 +23,5 @@ if isscalar(B)
    B = B*opOnes(size(A));
 end
 y = opSum(A,B);
+
+end % else

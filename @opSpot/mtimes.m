@@ -22,61 +22,77 @@ function y = mtimes(A,B)
 % 4) C*s
 % 5) C*C, either of which can be a foreign class
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Mode 1: M*C
-% Mode 3: s*C - Here we also handle the special case where C is 1-by-M.
-%               If so, then we recast this as (C'*s)', which results in
-%               a call to the "usual" matrix-vector product.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if isnumeric(A)
-    if isscalar(A) && (B.m ~= 1)
-       % s*C (mode 3)
-       y = opFoG(A,B);
-    else
-       % M*C (mode 1)
-       y = (B' * A')';
-    end
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Mode 2: C*M
-% Mode 4: C*s - Here we also handle the special case where C is N-by-1.
-%               If so, then we recast this as (C'*s)', which results in
-%               a call to the "usual" matrix-vector product.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-elseif isnumeric(B)
-   if isscalar(B)
-      if A.n ~= 1
-         % C*s (mode 4)
-         y = opFoG(A,B);
-      else
-         y = A.applyMultiply(B,1);  % A is a column "vector".
-      end
-   else
-      p = size(B,1);
-   
-      % Raise an error when the matrices do not commute. We make an
-      % exception for 1-by-1 operators.
-      if A.n ~= p
-         if A.m == 1 && A.n == 1
-            % relax
-         else
-            error(...
-               'Matrix dimensions must agree when multiplying by %s.',...
-               char(A));
-         end
-      end
-   
-      % Perform operator*matrix
-      if isempty(A)
-         y = zeros(A.m,size(B,2));
-      else
-         y = A.applyMultiply(B,1);
-      end
-      
-   end   
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Both args are Spot ops.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% dataContainer preprocessing
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
+    y = mtimes(B,A,'swap');
 else
-    y = opFoG(A,B);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Mode: Explicit opFog Saver
+    %
+    % This is to save memory and prevent unnecessary multiplies in opFog
+    % Only applies to in-core serial explicit matrices
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    if (isnumeric(A) || isa(A, 'opMatrix')) &&...
+       (isscalar(B)  || isa(B, 'opMatrix')) 
+   
+        y = opMatrix(double(A)*double(B));
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Mode 1: M*C
+    % Mode 3: s*C - Here we also handle the special case where C is 1-by-M.
+    %               If so, then we recast this as (C'*s)', which results in
+    %               a call to the "usual" matrix-vector product.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elseif ~isa(A,'opSpot')
+        if isscalar(A) && (B.m ~= 1)
+           % s*C (mode 3)
+           y = opFoG(A,B);
+        else
+           % M*C (mode 1)
+           y = (B' * A')';
+        end
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Mode 2: C*M
+    % Mode 4: C*s - Here we also handle the special case where C is N-by-1.
+    %               If so, then we recast this as (C'*s)', which results in
+    %               a call to the "usual" matrix-vector product.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elseif ~isa(B,'opSpot')
+       if isscalar(B)
+          if A.n ~= 1
+             % C*s (mode 4)
+             y = opFoG(A,B);
+          else
+             y = A.applyMultiply(B,1);  % A is a column "vector".
+          end
+       else
+          p = size(B,1);
+
+          % Raise an error when the matrices do not commute. We make an
+          % exception for 1-by-1 operators.
+          if A.n ~= p
+             if A.m == 1 && A.n == 1
+                % relax
+             else
+                sizB = ['Matrix[' num2str(size(B)) ']'];
+                error(...
+                   'Matrix dimensions must agree when multiplying by %s and %s.',...
+                   char(A), sizB);
+             end
+          end
+
+          % Perform operator*matrix
+          if isempty(A)
+             y = zeros(A.m,size(B,2));
+          else
+             y = A.applyMultiply(B,1);
+          end
+
+       end   
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Both args are Spot ops.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    else
+        y = opFoG(A,B);
+    end
 end
