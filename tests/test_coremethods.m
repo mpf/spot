@@ -230,3 +230,7 @@ function test_coremethods_simplification(dat)
    assertEqual(char(conj(B)'),...
                char(B.'));
 end
+
+function test_coremethods_sparse(dat)
+    assert(issparse(double(sprandn(3,3,0.5))));
+end
