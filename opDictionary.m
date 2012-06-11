@@ -1,10 +1,10 @@
 classdef opDictionary < opSpot
 %OPDICTIONARY   Dictionary of concatenated operators.
 %
-%   D = opDictionary(OP1,OP2,...OPn) creates a dictionary
+%   D = opDictionary(WEIGHTS,OP1,OP2,...OPn) creates a dictionary
 %   operator consisting of the concatenation of all operators, i.e.,
 %   
-%       D = [ OP1, OP2, ..., OPn ].
+%       D = [ WEIGHT1*OP1, WEIGHT2*OP2, ..., WEIGHTn*OPn ].
 %
 %   In general, it's best to use Matlab's horizonal concatenation
 %   operations instead of calling opDictionary. (The two are equivalent.)
@@ -17,6 +17,14 @@ classdef opDictionary < opSpot
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Properties
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    properties
+        weights;
+    end
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Methods
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,9 +34,27 @@ classdef opDictionary < opSpot
        % Constructor
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        function op = opDictionary(varargin)
-
+          
+          % Checks weights parameter
+          if ~isnumeric(varargin{1})
+             weights = ones(nargin,1);
+             opList  = varargin;
+          else
+             weights = varargin{1};
+             if isempty(weights), weights = 1; end;
+             [m,n]   = size(weights);
+             if (((m == 1) && (n == nargin-1)) || ...
+                 ((n == 1) && (m == nargin-1)) || ...
+                 ((m == 1) && (n == 1)))
+               weights = ones(nargin-1,1).*weights(:); 
+               opList  = varargin(2:end);
+             else
+               weights = ones(nargin,1);
+               opList  = varargin;
+             end
+          end
+          
           % Check number of operators
-          opList = varargin;
           if isempty(opList)
              error('At least one operator must be specified.');
           end
@@ -72,6 +98,7 @@ classdef opDictionary < opSpot
           op.linear     = linear;
           op.children   = opListNew;
           op.precedence = 1;
+          op.weights    = weights;
        end
       
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,7 +148,7 @@ classdef opDictionary < opSpot
              for i=1:length(op.children)
                 child = op.children{i};
                 s = size(child,2);
-                y = y + applyMultiply(child, x(k+1:k+s), 1);
+                y = y + op.weights(i) * applyMultiply(child, x(k+1:k+s), 1);
                 k = k + s;
              end
           else
@@ -130,7 +157,7 @@ classdef opDictionary < opSpot
              for i=1:length(op.children)
                 child = op.children{i};
                 s          = size(child,2);
-                y(k+1:k+s) = applyMultiply(child, x, 2);
+                y(k+1:k+s) = conj(op.weights(i)) * applyMultiply(child, x, 2);
                 k          = k + s;
              end
           end
