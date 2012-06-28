@@ -5,7 +5,7 @@ function test_sparsevecs
 % (should) internally do a full(x) before applying x. This script makes
 % certain that's the case.
 
-randn('state',0); rand('state',0)
+rng(0);
 
 m = randi(100);
 n = randi(100);

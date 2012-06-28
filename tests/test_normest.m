@@ -1,7 +1,7 @@
 function test_normest
 %test_normest  Unit tests for normest
 
-   randn('state',0);
+   rng(0);
    tol = 1e-6;
    
    % Square real matrices
