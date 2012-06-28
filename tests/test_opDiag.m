@@ -5,8 +5,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   rand('state',0);
+   rng(0);
    seed = [];
 end
 
@@ -20,6 +19,10 @@ function test_opDiag_diag(seed)
    
    assertEqual( diag(double(D)), d )
    assertEqual( diag(d)\b, D\b )
+   % There should be no numerical difference between the two operations
+   % in this last test. If it does fail (even within floating-point
+   % accuracy), then there might be some ambiguity between the order of
+   % operations. (See opDiag's "divide" function.)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  

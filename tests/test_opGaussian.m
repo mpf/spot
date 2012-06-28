@@ -5,18 +5,18 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   seed = randn('state');
+   rng(0);
+   seed = rng('default');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 function test_opGaussian_mode01_against_rand(seed)
    m = 10; n = 5;
 
-   randn('state',seed);  A1 = randn(m,n);
-   randn('state',seed);  A2 = opGaussian(m,n);
-   randn('state',seed);  A3 = opGaussian(m,n,0); % explicit
-   randn('state',seed);  A4 = opGaussian(m,n,1); % implicit
+   rng(seed);  A1 = randn(m,n);
+   rng(seed);  A2 = opGaussian(m,n);
+   rng(seed);  A3 = opGaussian(m,n,0); % explicit
+   rng(seed);  A4 = opGaussian(m,n,1); % implicit
 
    x = randn(n,1);
    y = A1*x;
@@ -33,8 +33,8 @@ end
 function test_opGaussian_mode23(seed)
    m = 10; n = 5;
 
-   randn('state',seed);  A1 = opGaussian(m,n,2); % explicit
-   randn('state',seed);  A2 = opGaussian(m,n,3); % implicit
+   rng(seed);  A1 = opGaussian(m,n,2); % explicit
+   rng(seed);  A2 = opGaussian(m,n,3); % implicit
 
    assertElementsAlmostEqual( double(A1), double(A2) );
 end
@@ -42,7 +42,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_opGaussian_mode4(seed)
 % Mode 4 produces orthog rows. Check that singular vals are all 1.
-   randn('state',seed);
+   rng(seed);
    m = 10; n = 10;  A = opGaussian(m,n,4); % explicit
    assertElementsAlmostEqual( ones(m,1), svd(double(A)) );
 
