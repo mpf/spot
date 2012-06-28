@@ -5,8 +5,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   rand('state',0);
+   rng(0);
    seed = [];
 end
 
