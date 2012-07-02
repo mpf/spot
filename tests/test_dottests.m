@@ -53,9 +53,21 @@ function test_dottest_fast(seed)
    assertFalse(dottest(opToepSign(m,n,'circular',1)));   
 end
 
-function test_dottest_meta(seed)
+function test_dottest_matrix(seed)
    m = randi(100); n = randi(100);
    A = opMatrix(randn(m,n));
    B = opMatrix(randn(m,n));
    assertFalse(dottest(opBlockDiag(A,B)))
+end
+
+function test_dottest_extend(seed)
+   p = randi(100); q = randi(100);
+   % Check extensions greater than 2
+   pext = p*(2+floor(rand));
+   qext = q*(2+floor(rand));
+   assertFalse(dottest(opExtend(p,q,pext,qext)))
+   % Check extensions less than 1
+   pext = p*floor(rand);
+   qext = q*floor(rand);
+   assertFalse(dottest(opExtend(p,q,pext,qext)))
 end
