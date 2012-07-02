@@ -1,27 +1,43 @@
 classdef opWavelet < opOrthogonal
-%OPWAVELET   Wavelet operator.
-%
-%   opWavelet(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
-%   signals of size M-by-N. The wavelet transformation is computed using
-%   the Rice Wavelet Toolbox.  The values supported for FAMILY are
-%   'Daubechies' and 'Haar'. When omitted, FAMILY is set to 'Daubechies'.
-%
-%   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
-%   additional parameters: FILTER (default 8) specifies the filter length,
-%   which must be even. LEVELS (default 5) gives the number of levels in
-%   the transformation. Alternatively, a vector of filter coefficient can
-%   be given in the FILTER field. Both P and Q must be divisible by
-%   2^LEVELS. The Boolean field REDUNDANT (default false) indicates whether
-%   the wavelet is redundant. TYPE (default 'min') indictates what type of
-%   solution is desired; 'min' for minimum phase, 'max' for maximum phase,
-%   and 'mid' for mid-phase solutions. 
-
-%   Copyright 2007-2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
-%   See the file COPYING.txt for full copyright information.
-%   Use the command 'spot.gpl' to locate this file.
-
-%   http://www.cs.ubc.ca/labs/scl/spot
-
+   %OPWAVELET   Wavelet operator.
+   %
+   %   opWavelet(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
+   %   signals of size M-by-N. The wavelet transformation is computed using
+   %   the Rice Wavelet Toolbox.  The values supported for FAMILY are
+   %   'Daubechies' and 'Haar'.
+   %
+   %   opWavelet(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
+   %   additional parameters: FILTER (default 8) specifies the filter length,
+   %   which must be even. LEVELS (default 5) gives the number of levels in
+   %   the transformation. Both P and Q must be divisible by 2^LEVELS. The
+   %   Boolean field REDUNDANT (default false) indicates whether the wavelet
+   %   is redundant. TYPE (default 'min') indictates what type of solution is
+   %   desired; 'min' for minimum phase, 'max' for maximum phase, and 'mid'
+   %   for mid-phase solutions.
+   %
+   %   The opWavelet operator is linear but not orthogonal. Therefore, the
+   %   transpose of the operator is not the inverse operator. However, the
+   %   inverse of the operator can be obtained through a left-inverse
+   %   operation. For example:
+   %               W = opWavelet_hm2(...)
+   %               y = W*x
+   %               if z = W'*y, then z ~= x
+   %               but, u = W\y, then u = x
+   
+   %   Copyright 2007-2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
+   %
+   %   June  6, 2012: Added mirror symmetric extension of signals that are not
+   %                  integer multiples of 2^levels.
+   %                  Hassan Mansour (hassanm@cs.ubc.ca)
+   %   June 25, 2012: Overloaded mldivide function to compute the inverse of
+   %                  the operator.
+   %                  Hassan Mansour (hassanm@cs.ubc.ca)
+   %
+   %   See the file COPYING.txt for full copyright information.
+   %   Use the command 'spot.gpl' to locate this file.
+   
+   %   http://www.cs.ubc.ca/labs/scl/spot
+   
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Properties
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,8 +50,14 @@ classdef opWavelet < opOrthogonal
       redundant  = false;          % Redundant flag
       nseg
       signal_dims                  % Dimensions of the signal domain
+      coeff_dims                   % Dimensions of extended coefficients
       funHandle                    % Multiplication function
+      funHandle2                   % Divide function
    end % Properties
+   
+   properties( SetAccess = public, GetAccess = public)
+      temp
+   end
    
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Methods - public
@@ -56,63 +78,77 @@ classdef opWavelet < opOrthogonal
             else
                nseg = 3*levels + 1;
             end
-            m = p*q*nseg;
             n = p*q;
+            
+            % find coefficient dimensions
+            [pext, qext, levels] = CoeffDims(p, q, levels);
+            
+            m = pext*qext*nseg;
+            
             redundant = true;
          else
             nseg = [];
-            m = p*q;
             n = p*q;
+            
+            % find coefficient dimensions
+            [pext, qext, levels] = CoeffDims(p, q, levels);
+            
+            m = pext*qext;
+            
             redundant = false;
          end
          
          op = op@opOrthogonal('Wavelet', m, n);
          op.signal_dims = [p, q];
-         op.levels      = levels;
-         op.redundant   = redundant;
-         op.nseg        = nseg;
+         op.coeff_dims = [pext, qext];
+         op.levels = levels;
+         op.redundant = redundant;
+         op.nseg = nseg;
          
-         if nargin >= 3 && ~isempty(family)
-            op.family = family;
-         end
+         op.temp = [];%spot.temp();
+         %          op.temp.store(op,[]);
+         
          if nargin >= 4 && ~isempty(lenFilter)
             op.lenFilter = lenFilter;
          end
          if nargin >= 7 && ischar(typeFilter)
             op.typeFilter  = typeFilter;
          end
-         
-         if length(op.lenFilter) > 1
-            op.family    = family;
-            op.filter    = op.lenFilter;
-            op.lenFilter = length(op.filter);
-         else
-            switch lower(op.family)
-               case {'daubechies'}
-                  op.family = 'Daubechies';
-                  op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
+         switch lower(family)
+            case {'daubechies'}
+               op.family = 'Daubechies';
+               op.filter = spot.rwt.daubcqf(op.lenFilter,op.typeFilter);
                
-               case {'haar'}
-                  op.family = 'Haar';
-                  op.filter = spot.rwt.daubcqf(0);
+            case {'haar'}
+               op.family = 'Haar';
+               op.filter = spot.rwt.daubcqf(0);
                
-               otherwise
-                  error('Wavelet family %s is unknown.', family);
-            end
+            otherwise
+               error('Wavelet family %s is unknown.', family);
          end
          
          % Initialize function handle
          if redundant
             op.funHandle = @multiply_redundant_intrnl;
+            op.funHandle2 = @divide_redundant_intrnl;
          else
             op.funHandle = @multiply_intrnl;
+            op.funHandle2 = @divide_intrnl;
          end
          
       end % function opWavelet
       
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      % Divide
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      function y = mldivide(op,x)
+         y = op.funHandle2(op,x);
+      end % function multiply
+      
    end % methods - public
    
    methods( Access = private )
+      
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % matvec.  Application of Wavlet operator.
@@ -120,10 +156,23 @@ classdef opWavelet < opOrthogonal
       function y = multiply_intrnl(op,x,mode)
          p = op.signal_dims(1);
          q = op.signal_dims(2);
+         pext = op.coeff_dims(1);
+         qext = op.coeff_dims(2);
+         
          levels = op.levels; filter = op.filter;
          if issparse(x), x = full(x); end
-         Xmat = reshape(x,p,q);
+         
+         % apply matvec operation
+         R = opExtend(p,q,pext,qext);
+         
          if mode == 1
+            
+            % extend the signal
+            xext = R*x;
+            
+            % reshape the extended signal
+            Xmat = reshape(xext,pext,qext);
+            
             if isreal(x)
                y  = spot.rwt.mdwt(Xmat, filter, levels);
             else
@@ -132,7 +181,8 @@ classdef opWavelet < opOrthogonal
                y  = y1 + sqrt(-1) * y2;
             end
             y = y(:);
-         else
+         else % mode == 2
+            Xmat = reshape(x,pext,qext);
             if isreal(x)
                y = spot.rwt.midwt(Xmat, filter, levels);
             else
@@ -140,7 +190,10 @@ classdef opWavelet < opOrthogonal
                y2 = spot.rwt.midwt(imag(Xmat), filter, levels);
                y  = y1 + sqrt(-1) * y2;
             end
-            y = y(:);
+            
+            % apply adjoint of extension operator
+            y = R'*y(:);
+            
          end
       end % function matvec
       
@@ -150,11 +203,23 @@ classdef opWavelet < opOrthogonal
       function y = multiply_redundant_intrnl(op,x,mode)
          p = op.signal_dims(1);
          q = op.signal_dims(2);
+         pext = op.coeff_dims(1);
+         qext = op.coeff_dims(2);
+         
          nseg = op.nseg;
          levels = op.levels; filter = op.filter;
          if issparse(x), x = full(x); end
+         
+         R = opExtend(p,q,pext,qext);
+         
          if mode == 1
-            Xmat = reshape(x,p,q);
+            
+            % extend the signal
+            xext = R*x;
+            
+            % reshape the extended signal
+            Xmat = reshape(xext,pext,qext);
+            
             if isreal(x)
                [yl,yh] = spot.rwt.mrdwt(Xmat, filter, levels);
                y = [yl,yh];
@@ -164,9 +229,9 @@ classdef opWavelet < opOrthogonal
                y = [yl1,yh1] + sqrt(-1) * [yl2,yh2];
             end
             y = y(:);
-         else
-            xl = reshape(x(1:p*q),p,q);
-            xh = reshape(x(p*q+1:end),p,(nseg-1)*q);
+         else % mode == 2
+            xl = reshape(x(1:pext*qext),pext,qext);
+            xh = reshape(x(pext*qext+1:end),pext,(nseg-1)*qext);
             if isreal(x)
                y = spot.rwt.mirdwt(xl, xh, filter, levels);
             else
@@ -174,10 +239,126 @@ classdef opWavelet < opOrthogonal
                y2 = spot.rwt.mirdwt(imag(xl), imag(xh), filter, levels);
                y = y1 + sqrt(-1) * y2;
             end
-            y = y(:);
+            
+            % apply adjoint of extension operator
+            y = R'*y(:);
+            
          end
       end % function matvec_redundant
       
+      
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      % divide_intrnl.  Application of redundant Wavlet operator.
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      function y = divide_intrnl(op,x)
+         p = op.signal_dims(1);
+         q = op.signal_dims(2);
+         pext = op.coeff_dims(1);
+         qext = op.coeff_dims(2);
+         
+         levels = op.levels; filter = op.filter;
+         if issparse(x), x = full(x); end
+         
+         
+         Xmat = reshape(x,pext,qext);
+         if isreal(x)
+            y = spot.rwt.midwt(Xmat, filter, levels);
+         else
+            y1 = spot.rwt.midwt(real(Xmat), filter, levels);
+            y2 = spot.rwt.midwt(imag(Xmat), filter, levels);
+            y  = y1 + sqrt(-1) * y2;
+         end
+         
+         
+         % clip signal back to original dimensions
+         y = y(1:p, 1:q);
+         
+         y = y(:);
+      end % function divide
+      
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      % divide_intrnl.  Application of redundant Wavlet operator.
+      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      function y = divide_redundant_intrnl(op,x)
+         p = op.signal_dims(1);
+         q = op.signal_dims(2);
+         pext = op.coeff_dims(1);
+         qext = op.coeff_dims(2);
+         
+         nseg = op.nseg;
+         levels = op.levels; filter = op.filter;
+         if issparse(x), x = full(x); end
+         
+         
+         xl = reshape(x(1:pext*qext),pext,qext);
+         xh = reshape(x(pext*qext+1:end),pext,(nseg-1)*qext);
+         if isreal(x)
+            y = spot.rwt.mirdwt(xl, xh, filter, levels);
+         else
+            y1 = spot.rwt.mirdwt(real(xl), real(xh), filter, levels);
+            y2 = spot.rwt.mirdwt(imag(xl), imag(xh), filter, levels);
+            y = y1 + sqrt(-1) * y2;
+         end
+         
+         
+         % clip signal back to original dimensions
+         y = y(1:p, 1:q);
+         
+         y = y(:);
+         
+         
+      end % function divide
+      
+      function [pext, qext, levels] = CoeffDims(p, q, levels)
+         
+         if p >= 2^levels
+            plevels = levels;
+            if q >= 2^levels
+               qext = ceil(q/(2^levels))*2^levels;
+            elseif q > 1
+               warning('Number of levels too large to perform decomposition along the rows.\n');
+               qlevels = floor(log2(q));
+               levels = min(plevels,qlevels);
+               warning('Changing number of levels to %d\n', levels);
+               qext = ceil(q/(2^levels))*2^levels;
+            else
+               qext = q;
+            end
+            pext = ceil(p/(2^levels))*2^levels;
+         elseif p > 1
+            warning('Number of levels too large to perform decomposition along the columns.\n');
+            plevels = floor(log2(p));
+            if q >= 2^levels
+               levels = min(levels,plevels);
+               warning('Changing number of levels to %d\n', levels);
+               qext = ceil(q/(2^levels))*2^levels;
+            elseif q > 1
+               warning('Number of levels too large to perform decomposition along the rows.\n');
+               qlevels = floor(log2(q));
+               levels = min(plevels,qlevels);
+               warning('Changing number of levels to %d\n', levels);
+               qext = ceil(q/(2^levels))*2^levels;
+            else
+               levels = min(levels,plevels);
+               warning('Changing number of levels to %d\n', levels);
+               qext = q;
+            end
+            pext = ceil(p/(2^levels))*2^levels;
+         else
+            pext = p;
+            if q >= 2^levels
+               qext = ceil(q/(2^levels))*2^levels;
+            elseif q > 1
+               warning('Number of levels too large to perform decomposition along the rows.\n');
+               levels = floor(log2(q));
+               warning('Changing number of levels to %d\n', levels);
+               qext = ceil(q/(2^levels))*2^levels;
+            else
+               qext = q;
+            end
+         end
+      end
+         
    end % methods - private
    
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -191,7 +372,7 @@ classdef opWavelet < opOrthogonal
       function y = multiply(op,x,mode)
          y = op.funHandle(op,x,mode);
       end % function multiply
-            
+      
    end % methods - protected
    
 end % classdef
