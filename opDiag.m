@@ -39,7 +39,7 @@ classdef opDiag < opSpot
          % Construct operator
          op = op@opSpot('Diag',n,n);
          op.cflag      = ~isreal(d);
-         op.diag       = d;
+         op.diag       = spdiags(d,0,n,n);
          op.sweepflag  = true;
       end % function opDiag
       
@@ -83,9 +83,9 @@ classdef opDiag < opSpot
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function y = multiply(op,x,mode)
          if mode == 1
-            y = op.diag.*x;
+            y = op.diag*x;
          else
-            y = conj(op.diag).*x;
+            y = op.diag'*x;
          end
       end % function multiply
 
