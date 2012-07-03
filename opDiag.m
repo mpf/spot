@@ -47,7 +47,7 @@ classdef opDiag < opSpot
       % double
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function A = double(op)
-         A = diag(op.diag);
+         A = full(op.diag);
       end
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,14 +61,14 @@ classdef opDiag < opSpot
       % conj
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function opOut = conj(op)
-         opOut = opDiag(conj(op.diag));
+         opOut = opDiag(conj(spdiags(op.diag)));
       end
 
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % ctranpose
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function opOut = ctranspose(op)
-         opOut = opDiag(conj(op.diag));
+         opOut = opDiag(conj(spdiags(op.diag)));
       end
 
    end % methods - public
@@ -94,9 +94,9 @@ classdef opDiag < opSpot
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function x = divide(op,b,mode)
          if mode == 1
-            x = b./op.diag;
+            x = op.diag\b;
          else
-            x = b./conj(op.diag);
+            x = op.diag'\b;
          end
       end % function divide
       
