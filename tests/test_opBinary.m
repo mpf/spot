@@ -6,17 +6,17 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   seed = randn('state');
+   seed = rng('default');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 function test_opBinary_against_randn(seed)
    m = randi(100); n = randi(100);
 
-   randn('state',seed);  A1 = double(randn(m,n)<0);
-   randn('state',seed);  A2 = opBinary(m,n);
-   randn('state',seed);  A3 = opBinary(m,n,0); % explicit
-   randn('state',seed);  A4 = opBinary(m,n,1); % implicit
+   rng(seed);  A1 = double(randn(m,n)<0);
+   rng(seed);  A2 = opBinary(m,n);
+   rng(seed);  A3 = opBinary(m,n,0); % explicit
+   rng(seed);  A4 = opBinary(m,n,1); % implicit
 
    x = randn(n,2);
    y = A1 *x;

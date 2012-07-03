@@ -68,7 +68,7 @@ classdef opBinary < opSpot
                 op.matrix  = double(randn(m,n) < 0);
                
              case 1
-                op.seed = randn('state');
+                op.seed = rng;
                 for i=1:m, randn(n,1); end; % Ensure random state is advanced
                 
             otherwise
@@ -103,8 +103,8 @@ classdef opBinary < opSpot
              end
           else
              % Store current random number generator state
-             seed0 = randn('state');
-             randn('state',op.seed);
+             seed0 = rng;
+             rng(op.seed);
              m = op.m; n = op.n;
 
              % Multiply
@@ -123,7 +123,7 @@ classdef opBinary < opSpot
              end
 
              % Restore original random number generator state
-             randn('state',seed0);
+             rng(seed0);
           end
        end % Multiply
 
