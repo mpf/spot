@@ -5,7 +5,7 @@ end
 
 function d = setup
    d.plot = false;
-   rng(0);
+   rng('default');
    d.A1 = opMatrix(randn(30,35));
    d.A2 = opMatrix(randn(35,15));
    d.A3 = opMatrix(randn(15, 5));

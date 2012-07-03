@@ -6,7 +6,7 @@ D = opDCT(512);
 H = opHaar(512,8);
 
 %% Create sparse signal
-rng(0); rng(3); % 0
+rng(2);
 p = randperm(48);
 xd = zeros(512,1); xd(p(1:5)) = randn(5,1);
 p = randperm(10);

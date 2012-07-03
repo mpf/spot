@@ -5,7 +5,7 @@ end
 
 function test_opMatrix_multiply
    
-   rng(0);
+   rng('default');
    
    % Set up matrices and operators for problems
    A  = randn(2,2) + sqrt(-1) * randn(2,2);
@@ -26,7 +26,7 @@ end
 
 function test_opMatrix_divide
    
-   rng(0);
+   rng('default');
    
    % Set up matrices and operators for problems
    A  = randn(2,2) + sqrt(-1) * randn(2,2);

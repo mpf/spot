@@ -5,7 +5,7 @@ initTestSuite;
 end
 
 function seed = setup
-   rng(0);
+   rng('default');
    seed = [];
 end
 

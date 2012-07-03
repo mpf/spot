@@ -5,7 +5,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function dat = setup
-   rng(0);
+   rng('default');
    A  = randn(2,2) + 1i*randn(2,2);
    B  = opMatrix(A);
    c  = randn(1,1) + 1i*randn(1,1);

@@ -33,7 +33,7 @@ M2 = opKron(opEye(64),M) + opKron(M,opEye(64));
 pcolor(reshape(M2*img(:),64,64)), shading flat, colormap gray; set(gca,'YDir','reverse');
 
 figure(1); subplot(3,3,6);
-rng(0);
+rng('default');
 imgNoisy = img + 0.3*randn(64,64);
 pcolor(imgNoisy), shading flat, colormap gray; set(gca,'YDir','reverse');
 
