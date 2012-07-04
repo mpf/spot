@@ -13,7 +13,7 @@ function test_char_elementary_ops
    check( opDFT2(m,n),      'DFT2',      m*n, m*n)
    check( opDirac(m),       'Dirac',     m, m )
    check( opEmpty(m,0),     'Empty',     m, 0 )
-   check( opExtend(m,n,2*m,2*n),'Extend',2*m,2*n )
+   check( opExtend(m,n,2*m,2*n),'Extend',(2*m)*(2*n), m*n )
    check( opEye(m),         'Eye',       m, m )   
    check( opEye(m,n),       'Eye',       m, n )
    check( opGaussian(m,n),  'Gaussian',  m, n )

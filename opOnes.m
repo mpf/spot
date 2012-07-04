@@ -61,7 +61,7 @@ classdef opOnes < opSpot
            else
               y = ones(op.n,1)*sum(x);
            end
-        end % Multipy
+        end % multiply
       
     end % Methods
         

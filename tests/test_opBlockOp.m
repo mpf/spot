@@ -4,15 +4,14 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   seed = randn('state');
+   seed = rng('default');
 end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_opBlockOp_DCT2a(seed);
     
-   randn('state',seed);
+   rng(seed);
    data = randn(7*16,4*16);
 
    A = opBlockOp(size(data,1),size(data,2),opDCT2(16),16,16);
@@ -24,7 +23,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_opBlockOp_DCT2b(seed);
     
-   randn('state',seed);
+   rng(seed);
    data = randn(7*16,4*16);
 
    A = opBlockOp(size(data,1),size(data,2),opDCT2(16),16,16,256,1);
@@ -36,7 +35,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_opBlockOp_DCT(seed);
     
-   randn('state',seed);
+   rng(seed);
    data = randn(7*16,4*16);
 
    A = opBlockOp(size(data,1),size(data,2),opDCT(256),16,16,32,8);
@@ -48,7 +47,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_opBlockOp_Gaussian(seed);
     
-   randn('state',seed);
+   rng(seed);
    data = randn(32,80); % 4x5 blocks of size 8x16
    
    G = randn(120,128); % Map 8x16 blocks to 10x12 blocks

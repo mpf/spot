@@ -1,5 +1,5 @@
 classdef opExcise < opSpot
-%OPEXCISE   Excise rows or columsn of an operator.
+%OPEXCISE   Excise rows or columns of an operator.
 %
 %   opExcise(OP,IDX,TYPE) excises the entries in the rows or columns
 %   given by IDX, depending on whether TYPE = 'rows', or 'cols'.
