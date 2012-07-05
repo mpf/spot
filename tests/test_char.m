@@ -22,7 +22,8 @@ function test_char_elementary_ops
    check( opHadamard(n),    'Hadamard',  n, n )
    check( opHeaviside(n),   'Heaviside', n, n )
    check( opOnes(m,n),      'Ones',      m, n )
-   check( opWavelet(m,n,'Daubechies'),'Wavelet', m*n, m*n )
+   check( opWavelet(m,'Daubechies'),'Wavelet', m, n )
+   check( opWavelet2(m,n,'Daubechies'),'Wavelet2', m*n, m*n )
    check( opZeros(m,n),     'Zeros',     m, n )
 end
 

@@ -1,4 +1,4 @@
-classdef opHaar2 < opWavelet
+classdef opHaar2 < opWavelet2
 %OPHAAR2   2-D Haar Wavelet.
 %
 %   opHaar2(M,N) creates a Haar Wavelet operator for 2-D signals of
@@ -36,7 +36,7 @@ classdef opHaar2 < opWavelet
             error('N must be a multiple of 2^(%i)',levels)
          end
          
-         op = op@opWavelet(m,n,'Haar',1,levels,redundant);
+         op = op@opWavelet2(m,n,'Haar',1,levels,redundant);
          op.type = 'Haar2';
          
       end % function opHaar2
