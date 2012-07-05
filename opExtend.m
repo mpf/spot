@@ -127,7 +127,7 @@ methods(Access = protected)
          Xmat = op.Rc'*Xmat;
          Xmat = (op.Rr'*Xmat')';
       end
-      y = Xmat(:);
+      y = full(Xmat(:));  % need full because op.Rx is sparse
    end % function multiply
    
 end % methods protected
