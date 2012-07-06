@@ -32,8 +32,7 @@ else
     % This is to save memory and prevent unnecessary multiplies in opFog
     % Only applies to in-core serial explicit matrices
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    if (isnumeric(A) || isa(A, 'opMatrix')) &&...
-       (isscalar(B)  || isa(B, 'opMatrix')) 
+    if (isnumeric(A) || isa(A, 'opMatrix')) && isa(B, 'opMatrix')
    
         y = opMatrix(double(A)*double(B));
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
