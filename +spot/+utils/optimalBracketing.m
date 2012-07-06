@@ -164,7 +164,7 @@ function [result, s] = filterChain(chain)
    s = 1;
    for i = 1:n
       if size(chain{i})==[1 1]
-         s=s*chain{i};
+         s=chain{i}*s;
       else
          result = [result; {chain{i}}];
       end
