@@ -14,10 +14,10 @@ end
 
 function test_image_clown(h)
 
-load clown                   % the famous clown image
+load 'clown';           % the famous clown image
 m  = 128; n = 256; N = m*n;
 [P,c] = psfGaussian(m,n,2);  % Gaussian PSF
-Y  = Y(1:m,1:n);             % nicely-shaped version of the original image 
+Y  = X(1:m,1:n);             % nicely-shaped version of the original image 
 y  = Y(:);                   % vectorized version of image
 A1 = circshift(P,1-c);       % first col of blurring operator A
 

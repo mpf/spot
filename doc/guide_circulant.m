@@ -1,5 +1,4 @@
-%% A first example: building a circulant operator
-%
+%% Building a Circulant Operator
 % In our first example we will use Spot to create an implicit
 % circulant matrix and that can be used as a fast operator.  Circulant
 % matrices are fully specified by their first column, and each
@@ -22,14 +21,14 @@
 % where d = Fc. An important implication is that |C| can be treated as a
 % fast operator.
 
-%%
+%% Instantiating a simple Spot operator
 % In our toy example, we create a circulant matrix whose first column
 % is simply the sequence 1,...,5:
 
 n = 5;
 c = (1:n)';  % make sure c is a column vector
 
-%% Instantiating a simple Spot operator
+%%
 % Our very first Spot command will create the required DFT operator.
 % We omit the semicolon so that Matlab will display details of the
 % resulting operator:
@@ -41,7 +40,7 @@ F = opDFT(n)
 % vector. The following command applies the Fourier transform to the
 % vector |c|, which yields the eigenvalues of |C|:
 
-d = sqrt(n)*F*c;
+d = sqrt(n)*F*c
 
 %%
 % Notice that we scaled this product by |sqrt(n)|. This is necessary
@@ -68,7 +67,7 @@ C = real( F'*opDiag(d)*F )
 %
 % However, we need to safeguard against numerical errors that might
 % allow complex values to seep in. Hence, we finish off our
-% construction with the <matlab:doc('opSpot/real') real> operator.
+% construction with the |real| operator.
 
 %%
 % Just as the DFT operator |F| could be applied to vectors, the
@@ -101,9 +100,8 @@ F.nprods
 % |F| and another with |F'| occurred when we applied |C*e|.
 
 %%
-% Let's verify that |C| is indeed circulant. We can do this two
-% ways. The first uses the overloaded method
-% <matlab:doc('opSpot/double') double> which converts a Spot
+% Let's verify that |C| is indeed circulant. We can do this two ways. The
+% first uses the overloaded method |double| which converts a Spot
 % operator into an explicit matrix:
 
 double(C)

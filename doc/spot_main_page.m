@@ -32,13 +32,12 @@
 %
 %  addpath /path/to/spotbox/directory
 %
-% See
-% the <http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html
+% See the <http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html
 % MATLAB documentation for setting the search path>.
         
 %% Getting Started
 %       
-% * <html/guide_circulant.html A first example: building a circulant operator>
+% * <guide_quick.html A Quick Guide to Spot>
 
 %%        
 % _Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander_

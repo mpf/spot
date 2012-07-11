@@ -3,12 +3,16 @@
 <toc version="1.0">
 
 <tocitem target="html/spot_main_page.html">Spot Linear Operator Toolbox
-    <tocitem target="html/guide_circulant.html"
-             image="$toolbox/matlab/icons/greencircleicon.gif">
-             Getting started: A first example
+    <tocitem target="html/guide_quick.html"
+             image="HelpIcon.GETTING_STARTED">
+             A quick guide to Spot
+    </tocitem>
+    <tocitem target="html/usingmethods.html"
+             image= "HelpIcon.USER_GUIDE">
+             Using methods on operators
     </tocitem>
     <tocitem target="html/spot_operators.html"
-             image="$toolbox/matlab/icons/pagesicon.gif">
+             image="HelpIcon.RELEASE_NOTES">
              Operators
              <tocitem target="html/elementary_operators.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
@@ -25,6 +29,27 @@
              <tocitem target="html/random_ensembles.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
                       Random ensembles
+             </tocitem>
+             
+             <tocitem target="html/meta_operators.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Meta operators
+             </tocitem>
+    </tocitem>
+    <tocitem target="html/examples.html"
+             image="HelpIcon.EXAMPLES">
+             Examples
+             <tocitem target="html/guide_circulant.html">
+                      Building a circulant operator
+             </tocitem>
+             <tocitem target="html/guide_containers.html">
+                      Using Spot containers
+             </tocitem>
+             <tocitem target="html/guide_convolution.html">
+                      Blurring and deblurring with opConvolve
+             </tocitem>
+             <tocitem target="html/guide_sparserecovery.html">
+                      Sparse Recovery
              </tocitem>
     </tocitem>
 </tocitem>
