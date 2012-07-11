@@ -5,21 +5,18 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   rand('state',0);
-   seed = [];
+   seed = rng('default');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 function test_opDiag_diag(seed)
    n = randi(100); k = randi(10);
 
-   b = randn(n,k);
-   d = randn(n,1);
+   b = randn(n,k) + 1i*randn(n,k);
+   d = randn(n,1) + 1i*randn(n,1);
    D = opDiag(d);
    
    assertEqual( diag(double(D)), d )
-   assertEqual( diag(d)\b, D\b )
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  

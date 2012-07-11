@@ -71,7 +71,7 @@ classdef opEye < opSpot
                  y = [x; zeros(n-m,1)];
               end
            end
-        end % Multipy
+        end % multiply
       
     end % Methods
         

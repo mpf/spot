@@ -17,7 +17,7 @@ function x = mldivide(A,B)
 %   The least-squares problem (*) is solved using LSQR with default
 %   parameters specified by spotparams.
 %
-%   See also mldivide, opSpot.mrdivide, opFoG, opPInverse, spotparams.
+%   See also opSpot.mrdivide, opFoG, opPInverse, spotparams.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.

@@ -13,6 +13,7 @@ function test_char_elementary_ops
    check( opDFT2(m,n),      'DFT2',      m*n, m*n)
    check( opDirac(m),       'Dirac',     m, m )
    check( opEmpty(m,0),     'Empty',     m, 0 )
+   check( opExtend(m,n,2*m,2*n),'Extend',(2*m)*(2*n), m*n )
    check( opEye(m),         'Eye',       m, m )   
    check( opEye(m,n),       'Eye',       m, n )
    check( opGaussian(m,n),  'Gaussian',  m, n )
@@ -21,7 +22,8 @@ function test_char_elementary_ops
    check( opHadamard(n),    'Hadamard',  n, n )
    check( opHeaviside(n),   'Heaviside', n, n )
    check( opOnes(m,n),      'Ones',      m, n )
-   check( opWavelet(m,n,'Daubechies'),'Wavelet', m*n, m*n )
+   check( opWavelet(m,'Daubechies'),'Wavelet', m, n )
+   check( opWavelet2(m,n,'Daubechies'),'Wavelet2', m*n, m*n )
    check( opZeros(m,n),     'Zeros',     m, n )
 end
 

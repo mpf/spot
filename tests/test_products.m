@@ -1,7 +1,7 @@
 function test_products
 %test_op_products  Unit tests for operator products
 
-   randn('state',0); rand('state',0);
+   rng('default');
 
    % Set up matrices and operators for problems
    A  = randn(2,2) + 1i * randn(2,2);

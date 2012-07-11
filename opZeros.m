@@ -66,7 +66,7 @@ classdef opZeros < opSpot
            else
               y = zeros(s,1);
            end
-        end % function multipy
+        end % function multiply
       
     end % methods - protected
         
