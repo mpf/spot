@@ -3,7 +3,7 @@
 <toc version="1.0">
 
 <tocitem target="html/spot_main_page.html">Spot Linear Operator Toolbox
-    <tocitem target="html/guide_quick.html"
+    <tocitem target="html/docguide_quick.html"
              image="HelpIcon.GETTING_STARTED">
              A quick guide to Spot
     </tocitem>
@@ -39,16 +39,16 @@
     <tocitem target="html/examples.html"
              image="HelpIcon.EXAMPLES">
              Examples
-             <tocitem target="html/guide_circulant.html">
+             <tocitem target="html/docguide_circulant.html">
                       Building a circulant operator
              </tocitem>
-             <tocitem target="html/guide_containers.html">
+             <tocitem target="html/docguide_containers.html">
                       Using Spot containers
              </tocitem>
-             <tocitem target="html/guide_convolution.html">
+             <tocitem target="html/docguide_convolution.html">
                       Blurring and deblurring with opConvolve
              </tocitem>
-             <tocitem target="html/guide_sparserecovery.html">
+             <tocitem target="html/docguide_sparserecovery.html">
                       Sparse Recovery
              </tocitem>
     </tocitem>

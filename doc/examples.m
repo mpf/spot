@@ -5,4 +5,4 @@
 % * <guide_circulant.html Building a circulant operator>
 % * <guide_containers.html Using Spot containers>
 % * <guide_convolution.html Blurring and deblurring with opConvolve>
-% * <guide_sparserecovery.html Sparse Recovery>
+% * <guide_sparserecovery.html Sparse recovery>
