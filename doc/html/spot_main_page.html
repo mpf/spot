@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Spot: A Linear-Operator Toolbox</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-07-10"><meta name="DC.source" content="spot_main_page.m"><style type="text/css">
+      --><title>Spot: A Linear-Operator Toolbox</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-07-18"><meta name="DC.source" content="spot_main_page.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,7 +62,7 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>Spot: A Linear-Operator Toolbox</h1><!--introduction--><p>Ewout van den Berg and <a href="http://www.cs.ubc.ca/~mpf">Michael P Friedlander</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#3">Installation</a></li><li><a href="#5">Getting Started</a></li></ul></div><p>Linear operators are at the core of many of the most basic algorithms for signal and image processing. Matlab's high-level, matrix-based language allows us to naturally express many of the underlying matrix operations (e.g., computation of matrix-vector products and manipulation of matrices) and is thus a powerful platform on which to develop concrete implementations of these algorithms. Many of the most useful operators, however, do not lend themselves to the explicit matrix representations that Matlab provides. The aim of the Spot Toolbox is to bring the expressiveness of Matlab's built-in matrix notation to problems for which explicit matrices are not practical.</p><p>Please visit the <a href="http://www.cs.ubc.ca/labs/spot">Spot website</a> to download the latest version of the toolbox.</p><h2>Installation<a name="3"></a></h2><p>The Spot toolbox requires Matlab version <b>R2008a or later</b>.  In particular, Spot makes extensive use of the "new" object-oriented features (defined by the "classdef" keyword) that were introduced in the first quarter of 2008 later. It's been extensively tested against R2009a and R2009b. Please make sure to email one of the authors if you notice some incompatibility.</p><p>Spot is prepackaged with all of its required dependencies, and the core functionality will work out-of-the-box.  The first step is to add the "spotbox" directory to your Matlab path:</p><pre>addpath /path/to/spotbox/directory</pre><p>See the <a href="matlab:doc('Changing">the Search Path') change</a> <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html">MATLAB documentation for setting the search path</a>.</p><h2>Getting Started<a name="5"></a></h2><div><ul><li><a href="guide_quick.html">A Quick Guide to Spot</a></li></ul></div><p><i>Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander</i></p><p class="footer"><br>
+  </style></head><body><div class="content"><h1>Spot: A Linear-Operator Toolbox</h1><!--introduction--><p>Ewout van den Berg and <a href="http://www.cs.ubc.ca/~mpf">Michael P Friedlander</a></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#3">Installation</a></li><li><a href="#5">Getting Started</a></li></ul></div><p>Linear operators are at the core of many of the most basic algorithms for signal and image processing. Matlab's high-level, matrix-based language allows us to naturally express many of the underlying matrix operations (e.g., computation of matrix-vector products and manipulation of matrices) and is thus a powerful platform on which to develop concrete implementations of these algorithms. Many of the most useful operators, however, do not lend themselves to the explicit matrix representations that Matlab provides. The aim of the Spot Toolbox is to bring the expressiveness of Matlab's built-in matrix notation to problems for which explicit matrices are not practical.</p><p>Please visit the <a href="http://www.cs.ubc.ca/labs/spot">Spot website</a> to download the latest version of the toolbox.</p><h2>Installation<a name="3"></a></h2><p>The Spot toolbox requires Matlab version <b>R2008a or later</b>.  In particular, Spot makes extensive use of the "new" object-oriented features (defined by the "classdef" keyword) that were introduced in the first quarter of 2008 later. It's been extensively tested against R2009a and R2009b. Please make sure to email one of the authors if you notice some incompatibility.</p><p>Spot is prepackaged with all of its required dependencies, and the core functionality will work out-of-the-box.  The first step is to add the "spotbox" directory to your Matlab path:</p><pre>addpath /path/to/spotbox/directory</pre><p>See the <a href="http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html">MATLAB documentation for setting the search path</a>.</p><h2>Getting Started<a name="5"></a></h2><div><ul><li><a href="docguide_quick.html">A Quick Guide to Spot</a></li></ul></div><p><i>Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander</i></p><p class="footer"><br>
       Published with MATLAB&reg; 7.12<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Spot: A Linear-Operator Toolbox
@@ -99,14 +99,12 @@ p.footer {
 %
 %  addpath /path/to/spotbox/directory
 %
-% See
-% the <matlab:doc('Changing the Search Path') change>
-% <http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html
+% See the <http://www.mathworks.com/access/helpdesk/help/techdoc/matlab_env/f10-26235.html
 % MATLAB documentation for setting the search path>.
         
 %% Getting Started
 %       
-% * <guide_quick.html A Quick Guide to Spot>
+% * <docguide_quick.html A Quick Guide to Spot>
 
 %%        
 % _Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander_

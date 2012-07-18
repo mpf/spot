@@ -37,7 +37,7 @@
         
 %% Getting Started
 %       
-% * <guide_quick.html A Quick Guide to Spot>
+% * <docguide_quick.html A Quick Guide to Spot>
 
 %%        
 % _Copyright 2008-2009 Ewout van den Berg and Michael P. Friedlander_
