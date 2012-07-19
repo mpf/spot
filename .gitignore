@@ -3,3 +3,4 @@ doc/html
 .DS_Store
 *~
 *.mex*
+*.tgz
