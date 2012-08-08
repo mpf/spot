@@ -81,7 +81,7 @@
 % function is defined in the |@opSpot| folder,
 % |opZeros| has a more efficient implementation, as it only needs to create
 % a matrix of zeros with the right dimensions. |double| is defined as a
-% method in |opZeros|, overloading the generic |double| function:
+% method in |opZeros|, overloading the generic |double| method:
 %
 %   function A = double(op)
 %       A = zeros(size(op));
@@ -109,8 +109,8 @@
 % information on multiplication with operators, see
 % <usingmethods.html#multiplication Using the Methods>.
 % Each operator's |multiply| function should take the "mode" into
-% consideration: 1 for multiplying the operator, and 2 for multiplying
-% the operator's inverse:
+% consideration. Mode 1 multiplies the operator, and mode 2 multiplies
+% the operator's inverse.:
 %
 %   methods( Access = protected )
 %       function y = multiply(op,x,mode)

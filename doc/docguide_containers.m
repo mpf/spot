@@ -15,7 +15,7 @@ type heaviside.m
 
 %%
 % In order to make this function available as a Spot operator, we wrap it
-% using <http://www.cs.ubc.ca/labs/scl/spot/operators.html\#opFunction/ |opFunction|>:
+% using <matlab:doc('opFunction') opFunction>:
 
 n = 5; m = 5;
 A = opFunction(n,m,@heaviside);
@@ -43,10 +43,10 @@ C = A * opMatrix(diag(1:m))
 
 %%
 % Though in this special case, we might have as well used the Spot operator
-% <http://www.cs.ubc.ca/labs/scl/spot/operators.html\#opDiag/ |opDiag|> instead of the more general (and in this
-% case, cumbersome) <http://www.cs.ubc.ca/labs/scl/spot/operators.html\#opMatrix/ |opMatrix|>|(diag(1:m))|.
+% <matlab:doc('opDiag') opDiag> instead of the more general (and in this
+% case, cumbersome) <matlab:doc('opMatrix') opMatrix>|(diag(1:m))|.
 
 %% Class containers
-% Finally, the <http://www.cs.ubc.ca/labs/scl/spot/operators.html\#opClass/ |opClass|> container can be used to encapsulate
+% Finally, the <matlab:doc('opClass') opClass> container can be used to encapsulate
 % objects defined by external toolboxes.
 

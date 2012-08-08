@@ -410,6 +410,10 @@
                       image="HelpIcon.FUNCTION">
                       size
              </tocitem>
+             <tocitem target="html/htmlhelp/spotexport.html"
+                      image="HelpIcon.FUNCTION">
+                      spotexport
+             </tocitem>
              <tocitem target="html/htmlhelp/spotparams.html"
                       image="HelpIcon.FUNCTION">
                       spotparams
@@ -474,3 +478,8 @@
 </tocitem>
 
 </toc>
+
+
+
+
+

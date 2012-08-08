@@ -42,6 +42,7 @@
 % * <htmlhelp/real.html real> - Complex real part
 % * <htmlhelp/rrandn.html rrandn> - Normally distributed pseudorandom vector in the operator range
 % * <htmlhelp/size.html size> - Dimensions of a Spot operator
+% * <htmlhelp/spotexport.html spotexport> - 
 % * <htmlhelp/spotparams.html spotparams> - 
 % * <htmlhelp/spotpublish.html spotpublish> - 
 % * <htmlhelp/spottests.html spottests> - 
