@@ -2,7 +2,7 @@ How the Spot Help Browser Works
 ===============================
 Frances Russell, August 8 2012
 
-The spot/doc folder contains the files necessary for Spot to show up in the Matlab help browser. I have written a few functions to automatically update these files when Spot changes.
+The spot/doc folder contains the files necessary for Spot to show up in the Matlab help browser. I have written a few functions to automatically update these files when Spot changes. If you want to export Spot to a .zip file, first run spothelpbrowser.m, then commit your changes to git, and finally run spotexport.m. This is because spotexport.m uses the version of Spot most recently commited to git.
 
 >> SPOTHELPBROWSER.M
 
