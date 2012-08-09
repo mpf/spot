@@ -10,11 +10,15 @@ function spotexport(tag)
    if nargin < 1 || isempty(tag)
       error('tag required')
    end
-
+   
    % Export to zip file.
    cd(spot.path)
    cmd = sprintf('git archive %s --prefix=spotbox-%s/ | tar -x -C /tmp',tag,tag);
    system(cmd);
+   
+   % Update help browser files
+   addpath('doc');
+   run spothelpbrowser
    
    % Create archive
    cd(sprintf('/tmp',tag));
