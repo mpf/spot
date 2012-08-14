@@ -470,6 +470,10 @@
                       image="HelpIcon.EXAMPLES">
                       Blurring and deblurring with opConvolve
              </tocitem>
+             <tocitem target="html/docguide_sparserecovery.html"
+                      image="HelpIcon.EXAMPLES">
+                      Sparse Recovery
+             </tocitem>
              <tocitem target="html/docguide_implement.html"
                       image="HelpIcon.EXAMPLES">
                       Implementing Your Own Spot Operator
@@ -478,13 +482,4 @@
 </tocitem>
 
 </toc>
-
-
-
-
-
-
-
-
-
 

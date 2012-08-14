@@ -76,8 +76,6 @@ for k = 1:numel(mfiles)
     
     % Publish the mfile
     publishexample(hbmfilespath, hbname);
-    
-    fprintf([name, ' updated and published to html\n']);
 
 end
 
