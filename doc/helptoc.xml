@@ -474,6 +474,10 @@
                       image="HelpIcon.EXAMPLES">
                       Sparse Recovery
              </tocitem>
+             <tocitem target="html/docguide_interpolation.html"
+                      image="HelpIcon.EXAMPLES">
+                      Interpolating Seismic Data
+             </tocitem>
              <tocitem target="html/docguide_implement.html"
                       image="HelpIcon.EXAMPLES">
                       Implementing Your Own Spot Operator
@@ -482,4 +486,6 @@
 </tocitem>
 
 </toc>
+
+
 
