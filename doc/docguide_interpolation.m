@@ -116,7 +116,7 @@ R = opKron(opRestriction(nr, idx), opDirac(nt))
 %
 % We can test out our operator using the dot-product test (type |help
 % dottest| for more information):
-dottest(R, 1, 'verbose');
+spot.utils.dottest(R, 1, 'verbose');
 
 %% Simulating the Observed Data
 % We can take out the columns with missing receivers by applying our
@@ -188,7 +188,7 @@ A = R*F'
 
 %%
 % Test the measurement operator using the dot-product test again:
-dottest(A, 1, 'verbose');
+spot.utils.dottest(A, 1, 'verbose');
 
 %% Solving the 1-Norm Recovery Problem
 % Now that we have our system $Ax=b$, we can solve for |x| using the SPGL1
@@ -205,7 +205,8 @@ dottest(A, 1, 'verbose');
 %
 % Let's set our 'optimality tolerance' to 0.0001 and the number of
 % iterations to perform to 200:
-options = spgSetParms('optTol', 1e-4, 'iterations', 200, 'verbosity', 1);
+options = spgSetParms('optTol', 5e-3, 'bpTol', 5e-3, ...
+                      'iterations', 200, 'verbosity', 1);
 
 %%
 % Now we pass our |A|, |b|, and |options| to the SPGL1 solver's |spg_bp|

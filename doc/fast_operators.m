@@ -10,6 +10,7 @@
 % * <htmlhelp/opHaar.html opHaar> - Haar wavelet
 % * <htmlhelp/opHaar2.html opHaar2> - 2-D Haar Wavelet
 % * <htmlhelp/opWavelet.html opWavelet> - Wavelet operator
+% * <htmlhelp/opWavelet2.html opWavelet2> - Wavelet operator
 % * <htmlhelp/opWindow.html opWindow> - Diagonal window matrix
 
 %%

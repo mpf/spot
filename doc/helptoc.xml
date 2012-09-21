@@ -93,6 +93,10 @@
                       image="HelpIcon.BLOCK">
                       opWavelet
              </tocitem>
+             <tocitem target="html/htmlhelp/opWavelet2.html"
+                      image="HelpIcon.BLOCK">
+                      opWavelet2
+             </tocitem>
              <tocitem target="html/htmlhelp/opWindow.html"
                       image="HelpIcon.BLOCK">
                       opWindow
@@ -486,6 +490,7 @@
 </tocitem>
 
 </toc>
+
 
 
 

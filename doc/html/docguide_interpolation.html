@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Interpolating Seismic Data</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-08-16"><meta name="DC.source" content="docguide_interpolation.m"><style type="text/css">
+      --><title>Interpolating Seismic Data</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-09-21"><meta name="DC.source" content="docguide_interpolation.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -81,7 +81,7 @@ idx = sort(idx(1:round(nr*p)));
   Spot operator: Kron(Restriction(96,128),Dirac(512,512))
     rows:  49152    complex: no        
     cols:  65536    type:    Kron      
-</pre><p>This operator <tt>R</tt> represents a matrix like the following, where <img src="docguide_interpolation_eq35427.png" alt="$I$"> is an <tt>ntxnt</tt> identity matrix, <img src="docguide_interpolation_eq12896.png" alt="$0$"> represents an <tt>ntxnt</tt> block of zeros, and the positions of each <img src="docguide_interpolation_eq35427.png" alt="$I$"> are determined by <tt>idx</tt>; in this case, <tt>idx</tt> would be <tt>[2,4,5,6]</tt>.</p><p><img src="docguide_interpolation_eq23167.png" alt="$$&#xA;C =  \pmatrix{&#xA;       0   &amp; I   &amp; 0   &amp; 0   &amp; 0   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; I   &amp; 0   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; 0   &amp; I   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; 0   &amp; 0   &amp; I&#xA;    }&#xA;$$"></p><p>The operator has <tt>nr</tt> column blocks and <tt>length(idx)</tt> row blocks. When a row block of the operator multiplies the vectorized <tt>D</tt>, the identity matrix selects the set of <tt>nt</tt> time samples from a particular receiver. In this way, each row block selects a receiver to include in the new data set. Continuing the above example, the receivers 2, 4, 5, and 6 would be included, and the receivers 1 and 3 would be left out.</p><p>We can test out our operator using the dot-product test (type <tt>help dottest</tt> for more information):</p><pre class="codeinput">dottest(R, 1, <span class="string">'verbose'</span>);
+</pre><p>This operator <tt>R</tt> represents a matrix like the following, where <img src="docguide_interpolation_eq35427.png" alt="$I$"> is an <tt>ntxnt</tt> identity matrix, <img src="docguide_interpolation_eq12896.png" alt="$0$"> represents an <tt>ntxnt</tt> block of zeros, and the positions of each <img src="docguide_interpolation_eq35427.png" alt="$I$"> are determined by <tt>idx</tt>; in this case, <tt>idx</tt> would be <tt>[2,4,5,6]</tt>.</p><p><img src="docguide_interpolation_eq23167.png" alt="$$&#xA;C =  \pmatrix{&#xA;       0   &amp; I   &amp; 0   &amp; 0   &amp; 0   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; I   &amp; 0   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; 0   &amp; I   &amp; 0&#xA;   \cr 0   &amp; 0   &amp; 0   &amp; 0   &amp; 0   &amp; I&#xA;    }&#xA;$$"></p><p>The operator has <tt>nr</tt> column blocks and <tt>length(idx)</tt> row blocks. When a row block of the operator multiplies the vectorized <tt>D</tt>, the identity matrix selects the set of <tt>nt</tt> time samples from a particular receiver. In this way, each row block selects a receiver to include in the new data set. Continuing the above example, the receivers 2, 4, 5, and 6 would be included, and the receivers 1 and 3 would be left out.</p><p>We can test out our operator using the dot-product test (type <tt>help dottest</tt> for more information):</p><pre class="codeinput">spot.utils.dottest(R, 1, <span class="string">'verbose'</span>);
 </pre><pre class="codeoutput">Performing dot test on operator: Kron(Restriction(96,128),Dirac(512,512))
 PASSED!
 </pre><h2>Simulating the Observed Data<a name="10"></a></h2><p>We can take out the columns with missing receivers by applying our sampling operator <tt>R</tt> to the vectorized <tt>D</tt>:</p><pre class="codeinput">RD = R*D(:);
@@ -104,45 +104,45 @@ xlabel(<span class="string">'Receiver number'</span>); ylabel(<span class="strin
   Spot operator: Kron(Restriction(96,128),Dirac(512,512)) * DFT2(65536,65536)'
     rows:  49152    complex: yes       
     cols:  65536    type:    FoG       
-</pre><p>Test the measurement operator using the dot-product test again:</p><pre class="codeinput">dottest(A, 1, <span class="string">'verbose'</span>);
+</pre><p>Test the measurement operator using the dot-product test again:</p><pre class="codeinput">spot.utils.dottest(A, 1, <span class="string">'verbose'</span>);
 </pre><pre class="codeoutput">Performing dot test on operator: Kron(Restriction(96,128),Dirac(512,512)) * DFT2(65536,65536)'
 PASSED!
-</pre><h2>Solving the 1-Norm Recovery Problem<a name="18"></a></h2><p>Now that we have our system <img src="docguide_interpolation_eq84590.png" alt="$Ax=b$">, we can solve for <tt>x</tt> using the SPGL1 solver. To find the best estimate (or recovery) of <tt>x</tt>, we will solve the following basis pursuit problem for <tt>xest</tt>:</p><p><img src="docguide_interpolation_eq39601.png" alt="$minimize_{xest}\|xest\|_1 \;subject\;to\; A(xest)=b$"></p><p>We do not solve the basis pursuit denoising problem that we solved in the <a href="http://www.cs.ubc.ca/labs/scl/spot/guide_sparserecovery.html">Sparse Recovery</a> example because no noise has been added in the sampling process; we want <img src="docguide_interpolation_eq81342.png" alt="$A(xest)=b$"> exactly. However, we still minimize the 1-norm of <tt>xest</tt> to get the sparsest solution.</p><p>Let's set our 'optimality tolerance' to 0.0001 and the number of iterations to perform to 200:</p><pre class="codeinput">options = spgSetParms(<span class="string">'optTol'</span>, 1e-4, <span class="string">'iterations'</span>, 200, <span class="string">'verbosity'</span>, 1);
+</pre><h2>Solving the 1-Norm Recovery Problem<a name="18"></a></h2><p>Now that we have our system <img src="docguide_interpolation_eq84590.png" alt="$Ax=b$">, we can solve for <tt>x</tt> using the SPGL1 solver. To find the best estimate (or recovery) of <tt>x</tt>, we will solve the following basis pursuit problem for <tt>xest</tt>:</p><p><img src="docguide_interpolation_eq39601.png" alt="$minimize_{xest}\|xest\|_1 \;subject\;to\; A(xest)=b$"></p><p>We do not solve the basis pursuit denoising problem that we solved in the <a href="http://www.cs.ubc.ca/labs/scl/spot/guide_sparserecovery.html">Sparse Recovery</a> example because no noise has been added in the sampling process; we want <img src="docguide_interpolation_eq81342.png" alt="$A(xest)=b$"> exactly. However, we still minimize the 1-norm of <tt>xest</tt> to get the sparsest solution.</p><p>Let's set our 'optimality tolerance' to 0.0001 and the number of iterations to perform to 200:</p><pre class="codeinput">options = spgSetParms(<span class="string">'optTol'</span>, 5e-3, <span class="string">'bpTol'</span>, 5e-3, <span class="keyword">...</span>
+                      <span class="string">'iterations'</span>, 200, <span class="string">'verbosity'</span>, 1);
 </pre><p>Now we pass our <tt>A</tt>, <tt>b</tt>, and <tt>options</tt> to the SPGL1 solver's <tt>spg_bp</tt> ("basis pursuit") function:</p><pre class="codeinput">xest = spg_bp(A, b, options);
 </pre><pre class="codeoutput">
  ================================================================================
- SPGL1  v. 83  (Mon, 09 Jul 2012)
+ SPGL1  v. 1017  (Mon, 16 Jun 2008)
  ================================================================================
  No. rows              :    49152      No. columns           :    65536
- Initial tau           : 0.00e+00      Penalty               :    funLS
- Regularizer           : NormL1_primal Penalty(b)            : 4.26e+03
- Optimality tol        : 1.00e-04      Target objective      : 0.00e+00
- Basis pursuit tol     : 1.00e-06      Maximum iterations    :      200
+ Initial tau           : 0.00e+00      Two-norm of b         : 4.26e+03
+ Optimality tol        : 5.00e-03      Target objective      : 0.00e+00
+ Basis pursuit tol     : 5.00e-03      Maximum iterations    :      200
 
   Iter      Objective   Relative Gap  Rel Error      gNorm   stepG    nnzX    nnzG            tau
-     0  4.2560378e+03  0.0000000e+00   1.00e+00  4.814e-02     0.0       0       0  8.8407045e+04
-     6  2.7972070e+03  1.0036688e+03   1.00e+00  1.192e-02     0.0    3346     574  3.2307317e+05
-    17  7.3874056e+02  2.3661447e+03   1.00e+00  7.706e-03     0.0   15012    3978  4.1893845e+05
-    50  9.0032128e+01  2.3606306e+03   1.00e+00  5.924e-03     0.0   24639    8215  4.3413590e+05
-   133  1.3722524e+01  1.7026913e+03   1.00e+00  4.426e-03     0.0   48409   19283  4.3723647e+05
-   200  9.9536370e-01  1.2715043e+02   9.95e-01  4.256e-03     0.0   61115   23860
+     0  4.2560378e+03  0.0000000e+00   1.00e+00  2.049e+02     0.0       0       0  8.8407045e+04
+     6  2.7975048e+03  1.2976820e-01   1.00e+00  3.737e+01     0.0    3344       0  2.9780298e+05
+    17  9.2668688e+02  3.8099035e-01   1.00e+00  7.533e+00    -0.6   13564       0  4.1180480e+05
+    44  1.3178171e+02  9.6664593e-01   1.00e+00  8.175e-01     0.0   22173    3869  4.3304783e+05
+    80  1.8233962e+01  2.6134040e+01   1.00e+00  8.919e-02    -0.9   38631   25149  4.3677560e+05
+    99  2.6817845e+00  2.0787876e+02   1.00e+00  1.252e-02    -0.9   48653   41461  4.3734992e+05
+   176  3.6212715e-01  2.3277839e+02   3.62e-01  1.980e-03    -0.6   50402   42742  4.3741614e+05
+   198  9.6563793e-02  1.0262370e+02   9.66e-02  6.206e-04    -0.6   50637   42937  4.3743117e+05
+   200  3.6901000e-02  7.4490217e+00   3.69e-02  1.626e-04     0.0   50665   42981
 
  ERROR EXIT -- Too many iterations
 
- Products with A     :     229        Total time   (secs) :    34.2
- Products with A'    :     201        Project time (secs) :     2.0
- Newton iterations   :       5        Mat-vec time (secs) :    20.1
- Line search its     :      28        Subspace iterations :       0
+ Products with A     :     326        Total time   (secs) :    62.8
+ Products with A'    :     202        Project time (secs) :     3.9
+ Newton iterations   :       8        Mat-vec time (secs) :    54.7
+ Line search its     :     124        Subspace iterations :       0
 
 </pre><h2>Recovering the Data<a name="20"></a></h2><p><tt>xest</tt> is the solution to our basis pursuit problem, but it is still in the Fourier domain, so we have to transform it back to the time-space domain using an inverse Fourier transform:</p><pre class="codeinput">dest = F'*xest;
 </pre><p>We can then reshape our data into a matrix. It still has <tt>nt</tt> rows (time samples), but unlike the observed data, has <tt>nr</tt> columns (receiver indices):</p><pre class="codeinput">Dest = reshape(dest, nt, nr);
 </pre><p>To determine the accuracy of our recovery we can compute the residual <tt>Ddiff</tt> and the signal-to-noise ratio <tt>SNR</tt>:</p><pre class="codeinput">Ddiff = D - Dest;
 SNR = -20*log10(norm(Ddiff(:))/norm(D(:)))
-</pre><pre class="codeoutput">
-SNR =
-
-    8.4939
-
+</pre><pre class="codeoutput">SNR =
+   8.489312607535759
 </pre><h2>Plotting the Results<a name="23"></a></h2><p>To visualize how accurate our recovery is, plot the true data, observed data, adjoint recovery (from "Leaving Zero Gaps for Missing Receivers"), basis pursuit recovery, and residual:</p><pre class="codeinput">figure(4);
 imagesc(D); colormap(gray);
 title(<span class="string">'Truth'</span>); caxis([-2e2 2e2]);
@@ -168,7 +168,7 @@ imagesc(real(Ddiff)); colormap(gray);
 title(<span class="string">'Residual'</span>); caxis([-2e2 2e2]);
 xlabel(<span class="string">'Receiver number'</span>); ylabel(<span class="string">'Time sample'</span>)
 </pre><img vspace="5" hspace="5" src="docguide_interpolation_04.png" alt=""> <img vspace="5" hspace="5" src="docguide_interpolation_05.png" alt=""> <img vspace="5" hspace="5" src="docguide_interpolation_06.png" alt=""> <img vspace="5" hspace="5" src="docguide_interpolation_07.png" alt=""> <img vspace="5" hspace="5" src="docguide_interpolation_08.png" alt=""> <p class="footer"><br>
-      Published with MATLAB&reg; 7.12<br></p></div><!--
+      Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Interpolating Seismic Data
 % In reflection seismology, sound waves are sent into the ground using an 
@@ -288,7 +288,7 @@ R = opKron(opRestriction(nr, idx), opDirac(nt))
 %
 % We can test out our operator using the dot-product test (type |help
 % dottest| for more information):
-dottest(R, 1, 'verbose');
+spot.utils.dottest(R, 1, 'verbose');
 
 %% Simulating the Observed Data
 % We can take out the columns with missing receivers by applying our
@@ -360,7 +360,7 @@ A = R*F'
 
 %%
 % Test the measurement operator using the dot-product test again:
-dottest(A, 1, 'verbose');
+spot.utils.dottest(A, 1, 'verbose');
 
 %% Solving the 1-Norm Recovery Problem
 % Now that we have our system $Ax=b$, we can solve for |x| using the SPGL1
@@ -377,7 +377,8 @@ dottest(A, 1, 'verbose');
 %
 % Let's set our 'optimality tolerance' to 0.0001 and the number of
 % iterations to perform to 200:
-options = spgSetParms('optTol', 1e-4, 'iterations', 200, 'verbosity', 1);
+options = spgSetParms('optTol', 5e-3, 'bpTol', 5e-3, ...
+                      'iterations', 200, 'verbosity', 1);
 
 %%
 % Now we pass our |A|, |b|, and |options| to the SPGL1 solver's |spg_bp|

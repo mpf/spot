@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Elementary operators</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-08-16"><meta name="DC.source" content="elementary_operators.m"><style type="text/css">
+      --><title>Elementary operators</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-09-21"><meta name="DC.source" content="elementary_operators.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -63,23 +63,17 @@ p.footer {
 }
 
   </style></head><body><div class="content"><h1>Elementary operators</h1><!--introduction--><p>The most elementary operators are created with the following commands.</p><div><ul><li><a href="htmlhelp/opDirac.html">opDirac</a> - Dirac basis</li><li><a href="htmlhelp/opEmpty.html">opEmpty</a> - Operator equivalent to empty matrix</li><li><a href="htmlhelp/opEye.html">opEye</a> - Identity operator</li><li><a href="htmlhelp/opOnes.html">opOnes</a> - Operator equivalent to ones function</li><li><a href="htmlhelp/opZeros.html">opZeros</a> - Operator equivalent to zeros function</li></ul></div><!--/introduction--><p>In most cases, these elementary operators mirror the Matlab primitives. For example,</p><pre class="codeinput">double(opOnes(3,2))
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1     1
      1     1
      1     1
-
 </pre><p>is equivalent to</p><pre class="codeinput">ones(3,2)
-</pre><pre class="codeoutput">
-ans =
-
+</pre><pre class="codeoutput">ans =
      1     1
      1     1
      1     1
-
 </pre><p>The main difference, of course, is that <tt>opOnes</tt> does not create an explicit matrix.</p><p class="footer"><br>
-      Published with MATLAB&reg; 7.12<br></p></div><!--
+      Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Elementary operators
 % The most elementary operators are created with the following commands.
