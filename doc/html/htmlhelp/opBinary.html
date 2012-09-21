@@ -1,0 +1,35 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opBinary</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opBinary</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opBinary</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opBinary</span>   Binary (0/1) ensemble.
+ 
+    <span class="helptopic">opBinary</span>(M,N) creates an M-by-N binary-ensemble operator.
+ 
+    <span class="helptopic">opBinary</span>(M) creates a square M-by-M binary-ensemble.
+ 
+    opGaussian(M,N,MODE) is the same as above, except that the
+    parameter MODE controls the type of ensemble that is generated.
+    The default is MODE=0 unless the overall memory requred exceeds 50
+    MBs.
+ 
+    MODE = 0 (default): generates an explicit matrix with O(M*N)
+    storage.
+ 
+    MODE = 1: generates columns of the matrix as the operator is
+    applied. This allows for much larger ensembles because the matrix
+    is stored implicitly. The overall storage is O(M).</pre></div><!--after help -->
+   </body>
+</html>

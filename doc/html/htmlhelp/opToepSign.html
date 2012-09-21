@@ -1,0 +1,36 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opToepSign</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opToepSign</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opToepSign</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opToepSign</span>  Toeplitz matrix with random sign entries.
+ 
+    OP = <span class="helptopic">opToepSign</span>(M,N,TYPE,NORMALIZED) creates an M by N Toeplitz
+    matrix with random +1 and -1 entries. TYPE can either be
+    'toeplitz' or 'circular'. For the 'toeplitz' type matrix, m+n-1
+    different generating entries are generated at random, whereas for
+    the 'circular' matrix, only max(m,n) are needed. When the TYPE
+    field is empty [], or not specified 'toeplitz' is chosen by
+    default. Setting the NORMALIZED flag scales the columns of the
+    Toeplitz matrix to unit norm.  Multiplication is implemented using
+    the fast Fourier transform. The use of such matrices in compressed
+    sensing was suggested by:
+ 
+    [1] W. U. Bajwa, J. D. Haupt, G. M. Raz, S. J. Wright, and
+        R. D. Nowak, Toeplitz-Structured Compressed Sensing Matrices,
+        IEEE/SP 14th Workshop on Statistical Signal Processing,
+        pp. 294-298, August 2007.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opToepGauss">opToepGauss</a>, <a href="matlab:helpwin opToeplitz">opToeplitz</a>.
+</div>
+   </body>
+</html>

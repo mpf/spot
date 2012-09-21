@@ -1,0 +1,33 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opSparseBinary</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opSparseBinary</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opSparseBinary</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opSparseBinary</span>   Random sparse binary matrix.
+ 
+    <span class="helptopic">opSparseBinary</span>(M,N) creates an M-by-N sparse binary matrix with
+    min(M,8) nonzeros in each column.
+ 
+    <span class="helptopic">opSparseBinary</span>(M,N,D) is the same as above, except that each
+    column has min(M,D) nonzero elements.
+ 
+    This matrix was suggested by Radu Berinde and Piotr Indyk,
+    "Sparse recovery using sparse random matrices", MIT CSAIL TR
+    2008-001, January 2008, <a href="http://hdl.handle.net/1721.1/40089">http://hdl.handle.net/1721.1/40089</a>
+ 
+    Note that <span class="helptopic">opSparseBinary</span> calls RANDPERM and thus changes the state
+    of RAND.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin rand">rand</a>, <a href="matlab:helpwin randperm">randperm</a>, <a href="matlab:helpwin sparse">sparse</a>
+</div>
+   </body>
+</html>

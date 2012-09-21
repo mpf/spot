@@ -12,6 +12,7 @@
 % * <container_operators.html Containers>
 % * <fast_operators.html Fast transforms>
 % * <random_ensembles.html Random ensembles>
+% * <meta_operators.html Meta operators>
 
 
 

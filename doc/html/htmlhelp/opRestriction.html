@@ -1,0 +1,29 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opRestriction</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opRestriction</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opRestriction</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opRestriction</span>   Restriction operator.
+ 
+    <span class="helptopic">opRestriction</span>(N,IDX) creates a restriction operator that selects
+    the entries listed in the index vector IDX from an input vector of
+    length N. The adjoint of the operator creates a zero vector of
+    length N and fills the entries given by IDX with the input data.
+ 
+    Algebraically, <span class="helptopic">opRestriction</span>(N,IDX) is equivalent to a matrix of
+    size length(IDX)-by-N, where row i has a single 1 in column
+    IDX(i).</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opMask">opMask</a>.
+</div>
+   </body>
+</html>

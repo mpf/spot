@@ -1,0 +1,33 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opSpot/mrdivide</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opSpot/mrdivide</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opSpot/mrdivide</div>
+      <div class="helptext"><pre><!--helptext --> /  Slash or right matrix divide.
+ 
+    X = A/B is similar to Matlab's slash operator. If B is a Spot
+    operator and A is a matrix then X is computed as the transpose
+    of the solution to the least-squares problem
+ 
+    (*)  minimize  ||B'x - A'||_F;
+ 
+    when A is a vector, this is a standard least-squares problem.
+ 
+    If B is a scalar and A is a spot operator, then X = opFoG(1/B,A).
+ 
+    The least-squares problem (*) is solved using LSQR with default
+    parameters specified by spotparams.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin mrdivide">mrdivide</a>, <a href="matlab:helpwin opSpot/mldivide">opSpot/mldivide</a>, <a href="matlab:helpwin opFoG">opFoG</a>, <a href="matlab:helpwin opInverse">opInverse</a>, <a href="matlab:helpwin spotparams">spotparams</a>.
+</div>
+   </body>
+</html>

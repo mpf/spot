@@ -1,0 +1,38 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opBlockDiag</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opBlockDiag</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opBlockDiag</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opBlockDiag</span>   Operator-diagonal operator.
+ 
+    B = <span class="helptopic">opBlockDiag</span>(OP1, OP2,...,OPN,OVERLAP) creates a compound block
+    operator with the input operators OP1, OP2,... on the diagonal of
+    B, e.g., B = DIAG([OP1 OP2 ... OPN]). When OVERLAP is a positive
+    integer the blocks will be offset OVERLAP rows relative to the
+    previous operator, when OVERLAP is negative the operators are
+    offset by the absolute value of OVERLAP in columns. Note that
+    choosing OVERLAP larger than the operator size may cause the
+    matrix to become block antidiagonal.
+ 
+    B = <span class="helptopic">opBlockDiag</span>(WEIGHT,OP1,...,OPN,OVERLAP) additionally
+    weights each block by the elements of the vector WEIGHT. If
+    only a single operator is given it is replicated as many times
+    as there are weights.
+ 
+    B = <span class="helptopic">opBlockDiag</span>(N,OP,OVERLAP) similar as above with WEIGHT
+    equal to ones(N,1). This will cause operator OP to be repeated
+    N times.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opFoG">opFoG</a>, <a href="matlab:helpwin opKron">opKron</a>, <a href="matlab:helpwin opDictionary">opDictionary</a>.
+</div>
+   </body>
+</html>

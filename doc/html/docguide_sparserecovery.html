@@ -1,0 +1,236 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Sparse Recovery</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-08-13"><meta name="DC.source" content="docguide_sparserecovery.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>Sparse Recovery</h1><!--introduction--><p>One of Spot's major applications is compressed sensing. In compressed sensing, a sparse signal (one with only a few nonzero values) is sampled below the <a href="http://en.wikipedia.org/wiki/Nyquist_rate">Nyquist rate</a>, but with a particular sampling method that allows it to be reconstructed later. This enables measurements that are faster and consume less memory. For example, a 2007 paper by <a href="http://www.stanford.edu/~mlustig/">Lustig et al.</a> showed that MRI images can be acquired five times as fast using compressed sensing techniques.</p><p>Some signals are inherently sparse (sparse in the Dirac basis), such as images that only have a few nonzero pixel values. However, compressed sensing has a wide range of applications because many signals can be made sparse through particular transforms; for example, the Fourier transform of a sine wave is very sparse because the wave only contains one frequency. In this example, we will simply create a generic sparse signal.</p><p>If we sample the signal (represented by the vector <tt>x0</tt>) using a matrix <tt>A</tt>, we get the smaller vector <tt>b</tt>:</p><p><img src="docguide_sparserecovery_eq33963.png" alt="$$A*x_0=b$$"></p><p><tt>b</tt> must be smaller than <tt>x</tt>, otherwise no compression of the signal has occured. This means that the matrix <tt>A</tt> must have fewer rows than columns, and the system is "underdetermined", having more unknowns than equations. This usually means that the vector <tt>b</tt> is not unique, and if we try to solve the system for <tt>x0</tt> using <tt>A</tt> and <tt>b</tt>, we will get many different solutions. However, in compressed sensing, we can guarantee that that we will be able to solve the system to recover the original signal. This guarantee requires two things: first, the signal must be sparse, and second, we must use a special kind of measurement matrix. Most of these special matrices satisfy the <a href="http://en.wikipedia.org/wiki/Restricted_isometry_property">"Restricted Isometry Property"</a>.</p><p>In this example, we will demonstrate how to create the measurement matrix <tt>A</tt> as a Spot operator, use it to take measurements of a sparse signal, then reconstruct the signal using a basis pursuit solver called SPGL1.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating an Example Signal</a></li><li><a href="#5">Taking Measurements</a></li><li><a href="#9">Reconstructing the Signal</a></li></ul></div><h2>Creating an Example Signal<a name="1"></a></h2><p>Let's create a sparse signal that we can measure and reconstruct. We will create a "spike train" signal, which only has -1 and 1 magnitudes. Our signal will have <tt>k</tt> nonzero values out of <tt>n</tt> values.</p><pre class="codeinput">n = 512; k = 20;
+</pre><p>Create a random permutation of the integers 1 to <tt>n</tt>; the first <tt>k</tt> of these will be the indices of the signal's nonzero values.</p><pre class="codeinput">p = randperm(n);
+</pre><p>Initialize the signal <tt>x0</tt> as a column vector of <tt>n</tt> zeros. Set the designated nonzero values to be randomly 1 or -1:</p><pre class="codeinput">x0 = zeros(n,1);
+x0(p(1:k)) = sign(randn(k,1));
+</pre><p>Plot the resulting signal:</p><pre class="codeinput">figure(1); plot(1:n, x0);
+axis([0 512 -1.5 1.5]);
+</pre><img vspace="5" hspace="5" src="docguide_sparserecovery_01.png" alt=""> <h2>Taking Measurements<a name="5"></a></h2><p>Now that we have a signal, we have to create the measurement matrix to sample it. Gaussian matrices, which have entries randomly chosen from the Gaussian (or normal) distribution, satisfy the Restricted Isometry Property. We will use one for our measurement matrix. It must have <tt>n</tt> columns (the number of rows in the signal vector <tt>x0</tt>), but the number of rows is our choice. Each row in the measurement matrix represents a single measurement, as it will produce a single entry in the resulting vector. As a rule of thumb, the number of measurements should be about five times as large as the number of nonzero values; we'll use six times:</p><pre class="codeinput">m = 120;
+</pre><p>Instead of an explicit matrix, we can use a Spot <a href="http://www.cs.ubc.ca/labs/scl/spot/operators.html#opGaussian"><tt>opGuassian</tt></a> operator. Using mode 2 of opGaussian creates an implicit Gaussian matrix. This means that the columns of the matrix are generated as the operator is applied, so that we never have to store the entire matrix.</p><pre class="codeinput">A = opGaussian(m,n,2)
+</pre><pre class="codeoutput">A = 
+  Spot operator: Gaussian(120,512)
+    rows:    120    complex: no        
+    cols:    512    type:    Gaussian  
+</pre><p>To take our measurements, we simply have to apply <tt>A</tt> to <tt>x0</tt>. Our new vector <tt>b</tt> has <tt>m</tt> entries. We will also add some random noise:</p><pre class="codeinput">b  = A*x0 + 0.005 * randn(m,1);
+</pre><p>This is what our compressed data looks like:</p><pre class="codeinput">figure(); plot(1:m, b)
+</pre><img vspace="5" hspace="5" src="docguide_sparserecovery_02.png" alt=""> <h2>Reconstructing the Signal<a name="9"></a></h2><p>We have stored our signal as the vector <tt>b</tt>; let's try to recover it using <tt>A</tt>. We will use a solver called SPGL1, which solves the following basis pursuit denoising problem:</p><p><img src="docguide_sparserecovery_eq46380.png" alt="$minimize_{x}\|x\|_1 \;subject\;to\; \|Ax\ ^\_ \ b\|_2 \leq \sigma$"></p><p>The second half of this problem is our condition that <tt>x</tt> actually satisfies the equation <img src="docguide_sparserecovery_eq84590.png" alt="$Ax=b$"> within some range represented by <img src="docguide_sparserecovery_eq24873.png" alt="$\sigma$">. Minimizing the 1-norm of <tt>x</tt> gives us the sparsest <tt>x</tt> that meets this condition.</p><p>First we will set our "optimality tolerance" to 0.0001. This means that the solution that the solver finds is guaranteed to be within 0.01% of the optimal solution.</p><pre class="codeinput">opts = spgSetParms(<span class="string">'optTol'</span>, 1e-4, <span class="string">'verbosity'</span>, 1);
+</pre><p>Next we simply pass <tt>A</tt>, <tt>b</tt>, <img src="docguide_sparserecovery_eq70887.png" alt="$\sigma =0.001$">, and our parameters to the SPGL1 solver:</p><pre class="codeinput">[x,r,g,info] = spg_bpdn(A,b,1e-3,opts);
+</pre><pre class="codeoutput">
+ ================================================================================
+ SPGL1  v. 83  (Mon, 09 Jul 2012)
+ ================================================================================
+ No. rows              :      120      No. columns           :      512
+ Initial tau           : 0.00e+00      Penalty               :    funLS
+ Regularizer           : NormL1_primal Penalty(b)            : 4.41e+00
+ Optimality tol        : 1.00e-04      Target objective      : 1.00e-03
+ Basis pursuit tol     : 1.00e-06      Maximum iterations    :     1200
+
+  Iter      Objective   Relative Gap  Rel Error      gNorm   stepG    nnzX    nnzG            tau
+     0  4.4145549e+00  0.0000000e+00   1.00e+00  3.240e-01     0.0       0       0  1.3623864e+01
+    19  1.2988313e+00  5.8673028e-01   9.99e-01  2.092e-01    -0.3      34       3  1.9827784e+01
+    90  5.0487018e-02  3.1680333e+00   4.95e-02  1.681e-01     0.0      52       1  2.0122188e+01
+   121  8.7264744e-03  3.1558246e+00   7.73e-03  1.578e-01    -0.9     101       1  2.0171137e+01
+   218  2.4306183e-03  2.7165079e+00   1.43e-03  1.350e-01    -0.3     106       0  2.0181737e+01
+   257  1.1749222e-03  2.5965813e+00   1.75e-04  1.288e-01    -0.6     108       0  2.0183096e+01
+   258  1.0259731e-03  2.5378135e+00   2.60e-05  1.258e-01     0.0     108       2
+
+ EXIT -- Found a root
+
+ Products with A     :     400        Total time   (secs) :     0.6
+ Products with A'    :     259        Project time (secs) :     0.1
+ Newton iterations   :       6        Mat-vec time (secs) :     0.2
+ Line search its     :     141        Subspace iterations :       0
+
+</pre><p>You can see that the solver stopped once the relative error became less than 0.0001. Let's plot the reconstruction, <tt>x</tt>, with the original signal, <tt>x0</tt>:</p><pre class="codeinput">figure(2); plot(1:n, x0, 1:n, x);
+axis([0 550 -1.5 1.5]);
+legend(<span class="string">'truth'</span>, <span class="string">'recovery'</span>);
+</pre><img vspace="5" hspace="5" src="docguide_sparserecovery_03.png" alt=""> <p>The signal and reconstruction overlap almost completely, so our reconstruction is accurate.</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.12<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Sparse Recovery
+% One of Spot's major applications is compressed sensing. In compressed
+% sensing, a sparse signal (one with only a few nonzero values) is
+% sampled below the <http://en.wikipedia.org/wiki/Nyquist_rate Nyquist rate>,
+% but with a particular sampling method that allows it to be reconstructed
+% later. This enables measurements that are faster and consume
+% less memory. For example, a 2007 paper by <http://www.stanford.edu/~mlustig/ Lustig et al.>
+% showed that MRI images can be acquired five times as fast using
+% compressed sensing techniques.
+%
+% Some signals are inherently sparse (sparse in the Dirac basis), such as images that only have a few
+% nonzero pixel values. However, compressed sensing has a wide range of
+% applications because many signals can be made sparse through particular
+% transforms; for example, the Fourier transform of a sine wave is very
+% sparse because the wave only contains one frequency. In this
+% example, we will simply create a generic sparse signal.
+%
+% If we sample the signal (represented by the vector |x0|) using a matrix
+% |A|, we get the smaller vector |b|:
+%
+% $$A*x_0=b$$
+%
+% |b| must be smaller than |x|, otherwise no compression of the signal has occured.
+% This means that the matrix |A| must have fewer rows than columns, and the system is
+% "underdetermined", having more unknowns than equations. This usually
+% means that the vector |b| is not unique, and if we try to solve the system for |x0| using |A| and |b|, we
+% will get many different solutions. However, in compressed sensing, we can guarantee that
+% that we will be able to solve the system to recover the original signal.
+% This guarantee requires two things: first, the signal must be sparse, and
+% second, we must use a special kind of measurement matrix. Most of these
+% special matrices satisfy the <http://en.wikipedia.org/wiki/Restricted_isometry_property
+% "Restricted Isometry Property">.
+%
+% In this example, we will demonstrate how to create the measurement matrix
+% |A| as a Spot operator, use it to take measurements of a sparse signal,
+% then reconstruct the signal using a basis pursuit solver called SPGL1.
+
+%% Creating an Example Signal
+% Let's create a sparse signal that we can measure and reconstruct. We will
+% create a "spike train" signal, which only has -1 and 1 magnitudes.
+% Our signal will have |k| nonzero values out of |n| values.
+n = 512; k = 20;
+
+%%
+% Create a random permutation of the integers 1 to |n|; the
+% first |k| of these will be the indices of the signal's nonzero values.
+p = randperm(n);
+
+%%
+% Initialize the signal |x0| as a column vector of |n| zeros. Set the
+% designated nonzero values to be randomly 1 or -1:
+x0 = zeros(n,1);
+x0(p(1:k)) = sign(randn(k,1));
+
+%%
+% Plot the resulting signal:
+figure(1); plot(1:n, x0);
+axis([0 512 -1.5 1.5]);
+
+%% Taking Measurements
+% Now that we have a signal, we have to create the measurement matrix to
+% sample it. Gaussian matrices, which have entries randomly
+% chosen from the Gaussian (or normal) distribution, satisfy the
+% Restricted Isometry Property. We will use one for our measurement
+% matrix. It must have |n| columns (the number of rows in the signal vector
+% |x0|), but the number of rows is our choice. Each row in the measurement
+% matrix represents a single measurement, as it will produce a single entry
+% in the resulting vector. As a rule of thumb, the number of measurements should
+% be about five times as large as the number of nonzero values; we'll use six times:
+m = 120;
+
+%%
+% Instead of an explicit matrix, we can use a Spot
+% <http://www.cs.ubc.ca/labs/scl/spot/operators.html#opGaussian |opGuassian|> operator.
+% Using mode 2 of opGaussian creates an implicit Gaussian matrix. This
+% means that the columns of the matrix are generated as the operator is
+% applied, so that we never have to store the entire matrix.
+A = opGaussian(m,n,2)
+
+%%
+% To take our measurements, we simply have to apply |A| to |x0|. Our new
+% vector |b| has |m| entries. We will also add some random noise:
+b  = A*x0 + 0.005 * randn(m,1);
+
+%%
+% This is what our compressed data looks like:
+figure(); plot(1:m, b)
+
+%% Reconstructing the Signal
+% We have stored our signal as the vector |b|; let's try to recover
+% it using |A|. We will use a solver called SPGL1, which solves the following basis
+% pursuit denoising problem:
+%
+% $minimize_{x}\|x\|_1 \;subject\;to\; \|Ax\ ^\_ \ b\|_2 \leq \sigma$
+%
+% The second half of this problem is our condition that |x| actually
+% satisfies the equation $Ax=b$ within some range represented by $\sigma$.
+% Minimizing the 1-norm of |x| gives us the sparsest |x| that meets
+% this condition.
+%
+% First we will set our "optimality tolerance" to 0.0001. This means that
+% the solution that the solver finds is guaranteed to be within 0.01% of
+% the optimal solution.
+opts = spgSetParms('optTol', 1e-4, 'verbosity', 1);
+
+%%
+% Next we simply pass |A|, |b|, $\sigma =0.001$, and our parameters to the
+% SPGL1 solver:
+[x,r,g,info] = spg_bpdn(A,b,1e-3,opts);
+
+%%
+% You can see that the solver stopped once the relative error became less
+% than 0.0001. Let's plot the reconstruction, |x|, with the original signal,
+% |x0|:
+figure(2); plot(1:n, x0, 1:n, x);
+axis([0 550 -1.5 1.5]);
+legend('truth', 'recovery');
+
+%%
+% The signal and reconstruction overlap almost completely, so our
+% reconstruction is accurate.
+
+##### SOURCE END #####
+--></body></html>
