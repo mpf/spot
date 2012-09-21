@@ -1,0 +1,34 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opWavelet</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opWavelet</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opWavelet</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opWavelet</span>   Wavelet operator.
+ 
+    <span class="helptopic">opWavelet</span>(M,N,FAMILY) creates a Wavelet operator of given FAMILY for
+    signals of size M-by-N. The wavelet transformation is computed using
+    the Rice Wavelet Toolbox.  The values supported for FAMILY are
+    'Daubechies' and 'Haar'. When omitted, FAMILY is set to 'Daubechies'.
+ 
+    <span class="helptopic">opWavelet</span>(M,N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
+    additional parameters: FILTER (default 8) specifies the filter length,
+    which must be even. LEVELS (default 5) gives the number of levels in
+    the transformation. Alternatively, a vector of filter coefficient can
+    be given in the FILTER field. Both P and Q must be divisible by
+    2^LEVELS. The Boolean field REDUNDANT (default false) indicates whether
+    the wavelet is redundant. TYPE (default 'min') indictates what type of
+    solution is desired; 'min' for minimum phase, 'max' for maximum phase,
+    and 'mid' for mid-phase solutions.</pre></div><!--after help -->
+   </body>
+</html>

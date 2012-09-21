@@ -1,0 +1,38 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opSpot/eigs</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opSpot/eigs</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opSpot/eigs</div>
+      <div class="helptext"><pre><!--helptext --> EIGS   Find a few eigenvalues and eigenvectors of an operator using ARPACK.
+ 
+    eigs(A) returns six of the largest eigenvalues of an operator.
+ 
+    This routine is simply a wrapper to Matlab's own EIGS routine, and
+    most of the argument-list variations described in Matlab's EIGS
+    documentation are also allowed here.  The usage is identical to
+    Matlab's default version, except that the first argument must be a
+    Spot operator, and only the largest eigenvalues are considered.
+ 
+    Supported usage includes
+ 
+    D = EIGS(A)
+    [V,D] = EIGS(A)
+    [V,D,FLAG] = EIGS(A)
+    [V,D,FLAG] = EIGS(A,K)
+    [V,D,FLAG] = EIGS(A,K,SIGMA)
+    [V,D,FLAG] = EIGS(A,K,SIGMA,OPTS)
+ 
+    Again, see Matlab's built-in EIGS for details on these calls.</pre></div><!--after help -->
+   </body>
+</html>

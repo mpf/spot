@@ -1,0 +1,36 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opSpot/mldivide</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opSpot/mldivide</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opSpot/mldivide</div>
+      <div class="helptext"><pre><!--helptext --> \  Backslash or left matrix divide.
+ 
+    X = A\B is similar to Matlab's backslash operator. If A is a Spot
+    operator and B is a vector, then in general X is computed as the solution to the
+    least-squares problem
+ 
+    (*)  minimize  ||Ax - b||_2.
+ 
+    However, some Spot operators implement their own mldivide routines
+    that determine exactly how a solution to (*) is obtained.  For
+    example, the orthogonal operators (e.g., opWavlet) obtain X via
+    A'*b.
+ 
+    If A is a scalar and B is a spot operator, then X = opFoG(1/A,B).
+ 
+    The least-squares problem (*) is solved using LSQR with default
+    parameters specified by spotparams.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opSpot/mrdivide">opSpot/mrdivide</a>, <a href="matlab:helpwin opFoG">opFoG</a>, <a href="matlab:helpwin opPInverse">opPInverse</a>, <a href="matlab:helpwin spotparams">spotparams</a>.
+</div>
+   </body>
+</html>

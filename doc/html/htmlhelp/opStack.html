@@ -1,0 +1,35 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opStack</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opStack</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opStack</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opStack</span>  Stack of vertically concatenated operators.
+ 
+    <span class="helptopic">opStack</span>(WEIGHTS, OP1, OP2, ...) creates a stacked
+    operator consisting of the vertical concatenation of all
+    operators;
+ 
+                [WEIGHT1*OP1
+                 WEIGHT2*OP2
+                    ...
+                 WEIGHTn*OPn]
+ 
+    If the same weight is to be applied to each operator, set
+    WEIGHTS to a scalar. When WEIGHTS is empty [], it is set to
+    one. The WEIGHT parameter can be omitted as long as OP1 is not
+    a vector of length (n-1); in which case there is no way to
+    decide whether it is a weight vector or operator.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opDictionary">opDictionary</a>, <a href="matlab:helpwin opFoG">opFoG</a>, <a href="matlab:helpwin opSum">opSum</a>.
+</div>
+   </body>
+</html>

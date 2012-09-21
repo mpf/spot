@@ -1,0 +1,758 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+<title>Using Methods on Operators</title>
+</head>
+<body>
+<table summary="Table for page layout." id="tlayout">
+<tr valign="top">
+<td id="layout-content">
+<div id="toptitle">
+<h1>Using Methods on Operators</h1>
+</div>
+<ul id="toc">
+<li><a href="#multiplication">Multiplication</a></li>
+<li><a href="#transconj">Transposition and conjugation</a></li>
+<li><a href="#addsubtract">Addition and subtraction</a></li>
+<li><a href="#opinfo">Operator Information</a></li>
+<li><a href="#dictsandarrays">Dictionaries and arrays</a></li>
+<li><a href="#blockdiagops">Block diagonal operators</a></li>
+<li><a href="#kronecker">Kronecker products</a></li>
+<li><a href="#subsasgn">Subset assignment and reference</a></li>
+<li><a href="#elementwise">Elementwise operations</a></li>
+<li><a href="#powinv">Power, inverse, and backslash operations</a></li>
+<li><a href="#solvesystems">Solving systems of linear equations</a></li>
+<li><a href="#nonlinear">Application to non-linear operators</a></li>
+</ul>
+<p>All Spot operators provide routines for multiplying vectors by
+itself and its adjoint. The real power of the operator toolbox is
+the ease with which  (see the <a href="elementary_operators.html">basic operators</a>) can be combined into more powerful
+operators, which themselves can be combined into yet more powerful
+operators. In this section we discuss the type of operations can be
+applied to all Spot operators. All operations discussed in this
+section are implemented using underlying meta-operators. Pointers to
+these operators are given at the end of each section, where
+relevant. In the cases where the meta-operators provide more extensive
+possibilities, they are described in more detail below the basic use.</p>
+<p>We denote by <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />&ndash;<img class="eq" src="eqs/8704026181-130.png" alt="D" style="vertical-align: -0px" /> arbitrary Spot operators and by <img class="eq" src="eqs/9856029644-130.png" alt="M" style="vertical-align: -0px" /> any
+matrix. All operator and matrix are assumed to have appropriate
+dimensions that can vary line per line. Most operations described in
+this section are meaningful only when applied to linear operators; see <a href="#nonlinear/">Application to non-linear operators</a> for more details.</p>
+<a name="multiplication"></a>
+<h2>Multiplication</h2>
+<p>Multiplication by operators is the most elementary operation in
+Spot. In its simplest form we have operator-vector products such
+as:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+y = A * x;
+z = B * y;
+n = m'* C;
+</pre></div></div>
+<p>This will evaluate the application of <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> on <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" />, and then <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" /> to
+<img class="eq" src="eqs/15488046584-130.png" alt="y" style="vertical-align: -4px" /> (the third command is evaluated as <img class="eq" src="eqs/1783685614375308192-130.png" alt="n = (C^Hm)^H" style="vertical-align: -5px" />). In both cases the result will be an explicit vector of real or
+complex numbers. An equivalent approach is to first create a new
+operator <img class="eq" src="eqs/8576025794-130.png" alt="C" style="vertical-align: -1px" /> representing the product <img class="eq" src="eqs/4455612808563855295-130.png" alt="Bcdot A" style="vertical-align: -0px" />, and then apply this
+to <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" /> to immediately get vector <img class="eq" src="eqs/15616046971-130.png" alt="z" style="vertical-align: -1px" />:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+C = B * A;  % Construct compound operator
+z = C * x;  % Evaluate z = BAx
+</pre></div></div>
+<p>Although Spot operators are expected to support only
+multiplication of vectors, it is possible to write operator-matrix
+multiplications. However, it should be kept in mind that this is
+implemented as a series of operator-vector multiplications. The second command below is evaluated as <img class="eq" src="eqs/4083764253005335780-130.png" alt="N = (C^HM^H)^H" style="vertical-align: -5px" />.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+N = C * M;
+N = M * C;  %
+</pre></div></div>
+<p>A special case of multiplication is multiplication by
+scalars. Generally, this will give a new operator scaled by that
+quantity;</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+C = 3 * A;  % Construct compound operator C = 3A
+C = A * 3;
+</pre></div></div>
+<p>One notable exception is when the corresponding dimension of the
+operator is one. In that case we have a valid matrix-vector product
+which results in a numeric solution. In other words, matrix-vector
+products take precedence over scalar multiplication. In such cases it
+is still possible to scale the operator, either by changing the order
+(as shown above) or by directly setting the <tt>.scalar</tt> property
+of the operator.
+Two remaining special cases are multiplication by <img class="eq" src="eqs/3779426073040366563-130.png" alt="pm 1" style="vertical-align: -0px" />, indicated
+by the unary plus and minus operations</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+C = -A;
+B = +A;
+</pre></div></div>
+<p>This works regardless of the dimensions of the operator. Note that
+elementwise multiplication using <tt>.*</tt> is not supported as this
+would require the explicit matrix underlying the operator to be known.</p>
+<p>In the evaluation and comparison of algorithms it is often useful to
+know how many multiplications have been performed using a given
+operator. To facilitate these kind of measurements it is possible to
+associate a counter variable to each operator.</p>
+<p><b>See <a href="matlab:doc('opFoG')"><tt>opFoG</tt></a></b></p>
+<a name="transconj"></a>
+<h2>Transposition and conjugation</h2>
+<p>As mentioned in the introduction, each Spot operator implements
+multiplication by itself and its conjugate. Using Matlab&rsquo;s transpose
+operator <tt>&rsquo;</tt> returns a new operator in which these two modes are
+switched.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+B = A';
+x = A'* y;
+x = B * y; % Identical result as previous line
+</pre></div></div>
+<p>When using transposes within calculations these new operators are
+discarded as soon as the multiplication has been done. Since
+transposes in Spot are simple book keeping operations, they are
+essentially free; no underlying matrices are actually transposed.
+The transpose of a complex operator, rather than its conjugate, can be
+formed using the <tt>.&rsquo;</tt> operator. This is implemented as the
+elementwise conjugate (see <a href="matlab:doc('conj')"><tt>conj</tt></a>) of the conjugate, or <img class="eq" src="eqs/6471588101837471346-130.png" alt="C^T = overline{(C^H)}" style="vertical-align: -5px" />:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = C.'; % Transpose of complex operator
+</pre></div></div>
+<p>Note that in this case a single multiplication of a complex vector by
+<img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> requires two multiplications by <img class="eq" src="eqs/1658743042909269106-130.png" alt="C^H" style="vertical-align: -1px" /> due to the implementation of
+the <tt>conj</tt> operation. When applied to a real operator, the
+<tt>.&rsquo;</tt> operation reduces to the standard <tt>&rsquo;</tt> operation.</p>
+<a name="addsubtract"></a>
+<h2>Addition and subtraction</h2>
+<p>The next elementary operation is the addition and subtraction of
+operators. In its simplest for we add two or more operators;</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+x = (B + C + D) * y;
+A = B + C + D;
+x = A * y;           % Equivalent to first statement
+</pre></div></div>
+<p>When Spot encounters the sum of an operator with a matrix or some
+class object that implements the multiplication and size operators, it
+will first wrap that entity to a Spot operator using the <a href="matlab:doc('opMatrix')"><tt>opMatrix</tt></a> command. This
+allows us to write</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+C = A + M;  % Addition of operator and matrix
+C = M + A;  % Addition of matrix and operator
+</pre></div></div>
+<p>Addition of scalars to an operator is interpreted as an elementwise
+addition, just like it is done for matrices. In order to make this
+work we first create a new operator of appropriate size, consisting of
+only ones (see <a href="matlab:doc('opOnes')"><tt>OpOnes</tt></a>), and premultiply that
+with the scalar. The following two statements are therefore equivalent</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B + 3;
+A = B + 3*opOnes(size(B));
+</pre></div></div>
+<p>Subtraction is implemented by scalar multiplication combined with
+addition.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B - C;
+A = B + (-C);
+</pre></div></div>
+<p>Unfortunately, Spot can only provide a limited amount of
+simplification of operators. This means that in the following case, no
+simplification is done;</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B + 3 - 2; % Not simplified, A = B + 3 - 2;
+A = B + C - C; % Not simplified
+</pre></div></div>
+<p><b>See <a href="matlab:doc('opSum')"><tt>opSum</tt></a></b></p>
+<a name="opinfo"></a>
+<h2>Operator information</h2>
+<p>Before we proceed with more advanced operator manipulations, let us
+briefly look at some ways of querying operator information. This kind
+of information is useful when developing algorithms and also enable us
+to explain how certain operator manipulations work.</p>
+<p>The most elementary property of each operator is its size, and it can
+be queried using the <tt>size</tt> command. The use of this command is
+best illustrated using a number of examples based on a <img class="eq" src="eqs/2577508771177243574-130.png" alt="3times 6" style="vertical-align: -1px" />
+operator <tt>A</tt>:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+[m,n] = size(A);    % Gives m = 3, n = 6;
+m = size(A,1);      % Gives m = 3;
+n = size(A,2);      % Gives n = 6;
+o = size(A,3);      % Gives o = 1;
+</pre></div></div>
+<p>Note that the first two dimensions give the number of rows and columns
+respectively. All higher dimensions have size one by definition. To
+check if an operator is empty we can use <tt>isempty</tt>:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+if isempty(A)
+   error('Operator A cannot be empty');
+end
+</pre></div></div>
+<p>An operator is considered empty if either its number of rows or its
+number of columns is zero; a <img class="eq" src="eqs/2027286959554378887-130.png" alt="0times 6" style="vertical-align: -1px" /> operator, albeit of limited
+use, is perfectly valid and can be applied to vectors of corresponding
+size.</p>
+<p>When working interactively from the Matlab command line it is often
+more convenient to display the operator by typing its name, or using
+the <tt>disp</tt> and <tt>whos</tt> commands. For the following example
+we assume that operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> is the operator representation of a
+<img class="eq" src="eqs/2577508771177243574-130.png" alt="3times 6" style="vertical-align: -1px" /> matrix (see <a href="matlab:doc('opMatrix')"><tt>opMatrix</tt></a>)</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A
+A =
+  Spot operator: Matrix(3,6)
+    rows:      3    complex: no
+    cols:      6    type:    Matrix
+
+&gt;&gt; disp(A)
+  Spot operator: Matrix(3,6)
+
+&gt;&gt; whos A
+  Name      Size            Bytes  Class       Attributes
+
+  A         3x6               305  opMatrix
+</pre></div></div>
+<p>The first two commands also provide information about the construction
+of the operator:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+B =
+  Spot operator: Matrix(3,6)' * Matrix(3,6)
+    rows:      6    complex: no
+    cols:      6    type:    FoG
+</pre></div></div>
+<p>At times, for example during debugging or when using codes not
+compatible with Spot, it is desirable to have access to the matrix
+form underlying an operator. This can be done identically using the
+<tt>double</tt>, or <tt>full</tt> commands:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A = opDCT(4);
+&gt;&gt; double(A)
+ans =
+    0.5000    0.5000    0.5000    0.5000
+    0.6533    0.2706   -0.2706   -0.6533
+    0.5000   -0.5000   -0.5000    0.5000
+    0.2706   -0.6533    0.6533   -0.2706
+</pre></div></div>
+<p>This explicit form is obtained though multiplication by the identity
+matrix. As such, it can be quite an expensive operator. When the
+number of rows is much smaller than the number of columns it may be
+faster to use <tt>double(A&rsquo;)&rsquo;</tt> instead of <tt>double(A)</tt>.</p>
+<p>Finally, the command <tt>isreal</tt> can be used to check if the
+operator is real or complex.</p>
+<a name="dictsandarrays"></a>
+<h2>Dictionaries and arrays</h2>
+<p>The original motivation for developing Spot was the concatenation
+of operators to form a dictionary. This can now be achieved simply by
+writing </p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = [B,C,M]; % or
+A = [B C M];
+</pre></div></div>
+<p>Note that explicit matrices and classes can be mixed with Spot
+operators, provided they are all compatible in size. Like in operator
+addition Spot automatically converts these entities to Spot
+operators. Vertical concatenation is done likewise by typing</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = [B;C;M]; % or
+A = [B
+     C
+     M];
+</pre></div></div>
+<p>With the specification of these two operations, Matlab automatically
+converts arrays of operators into a vertical concatenation of
+dictionaries: </p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = [B C; C' M]; % or
+A = [B   C
+     C'  M];     % both represent A = [[B,C];[C',M]];
+</pre></div></div>
+<p><b>See <a href="matlab:doc('opDictionary')"><tt>opDictionary</tt></a>, <a href="matlab:doc('opStack')"><tt>opStack</tt></a></b></p>
+<a name="blockdiagops"></a>
+<h2>Block diagonal operators</h2>
+<p>Analogous to matrices of operators it is possible to construct block
+diagonal operators of operators, using the <tt>blkdiag</tt> command. It
+takes a list of operators and matrices to create the desired operator:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+D = blkdiag(A,B,C,M);
+</pre></div></div>
+<p>There is no restriction on the dimension of each operator. This means
+that the resulting operator need not necessarily be square:</p>
+<table class="imgtable">
+<tr>
+<td><img src="FigSparcoBlockDiag1.png" alt="block diagonal operator" height="200"/></td>
+</tr>
+</table>
+<p><br />
+Any matrix, vector, or class object that is encountered is
+automatically converted into a Spot operator. This behavior is
+illustrated in the following example</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt; D = blkdiag(opDCT(2),ones(2,1)); double(D)
+ans =
+    0.7071    0.7071         0
+    0.7071   -0.7071         0
+         0         0    1.0000
+         0         0    1.0000
+</pre></div></div>
+<p>For more powerful constructions, including horizontal or vertical
+overlap of operators the underlying command <tt>opBlockDiag</tt> has to
+be called directly.</p>
+<p>In the <a href="#opinfo">Operator information</a> section we illustrated the <tt>isempty</tt>
+command on an empty <img class="eq" src="eqs/2027286959554378887-130.png" alt="0times 6" style="vertical-align: -1px" /> operators. Such operators, although
+seemingly useless, can come in handy when constructing block-diagonal
+operators that require horizontal or vertical padding between certain
+blocks.</p>
+<h3>Advanced interface</h3>
+<p>The block-diagonal operator can be
+invoked in two different ways:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+op = opBlockDiag([weight],op1,...,opn,[overlap]);
+op = opBlockDiag([weight],op,[overlap]);
+</pre></div></div>
+<p>In the first mode, a block-diagonal operator is formed using operators
+<img class="eq" src="eqs/6952529034888239997-130.png" alt="1,ldots,n" style="vertical-align: -4px" />, with weights set to
+<tt>weight(1)</tt>,<img class="eq" src="eqs/6356136762056159946-130.png" alt="ldots" style="vertical-align: -0px" />,<tt>weight(n)</tt>, and a horizontal or
+vertical overlap given by parameter <tt>overlap</tt>. Arguments in the
+operator list that are not Spot operators are automatically
+converted using the <tt>opMatrix</tt> command. The sign of the overlap
+parameter determines whether overlap should be horizontal or vertical:</p>
+<table class="imgtable">
+<tr>
+<td><img src="FigSparcoBlockDiag2.png" alt="block diagonal operator" height="200"/></td>
+<td><img src="FigSparcoBlockDiag3.png" alt="block diagonal operator" height="200"/></td>
+</tr><tr>
+<td>Vertical: overlap > 0 </td>
+<td>Horizontal: overlap < 0 </td>
+</tr>
+</table>
+<p><br />
+The weight and overlap parameters are optional and are set to
+<tt><a href=""></a></tt>, respectively <tt>0</tt> by default. When the first argument
+to <tt>opBlockDiag</tt> is numerical it is interpreted as a weight
+parameter, and likewise for the last argument and overlap. Thus,
+special care has to be taken when either parameter is omitted while
+the first (resp. last) operator is an explicit vector or matrix. This
+is best avoided by explicitly specifying the default arguments
+whenever ambiguity can arise.</p>
+<p>The second mode, with only a single operator specified, can be used to
+replicate the given operator. When the vectorized weight parameter,
+<tt>weight(:)</tt> is not a scalar its length gives the number of
+replications of the operator, each with its corresponding weight. A
+scalar weight simply gives the replication count and implies a weight
+of one on each operator. Anti-diagonal operators can be obtained by
+setting the overlap to twice the dimension of the operator (this also
+works in the first mode). An illustration of this with <tt>A</tt> a
+<img class="eq" src="eqs/3609640256411903582-130.png" alt="2times 3" style="vertical-align: -1px" /> Spot is given by</p>
+<table class="imgtable">
+<tr>
+<td><img src="FigSparcoBlockDiag4.png" alt="block diagonal operator" height="200"/></td>
+<td><img src="FigSparcoBlockDiag5.png" alt="block diagonal operator" height="200"/></td>
+<td><img src="FigSparcoBlockDiag6.png" alt="block diagonal operator" height="200"/></td>
+</tr><tr>
+<td>+opBlockDiag(3,A,0)+</td>
+<td>+opBlockDiag(3,A,-6)+</td>
+<td>+opBlockDiag(3,A,4)+</td>
+</tr>
+</table>
+<h3>Example</h3>
+<p>The block-diagonal operator can be very useful in constructing
+windowed Fourier transformations.</p>
+<p><b>See <a href="matlab:doc('blkdiag')"><tt>blkdiag</tt></a>, <a href="matlab:doc('opBlockDiag')"><tt>opBlockDiag</tt></a></b></p>
+<a name="kronecker"></a>
+<h2>Kronecker products</h2>
+<p>The <tt>kron</tt> operator allows the creation of Kronecker products
+between operators. Unlike Matlab&rsquo;s built-in <tt>kron</tt> function,
+the <tt>kron</tt> product in Spot can take an arbitrary number of
+arguments. Hence to construct <img class="eq" src="eqs/6827511244237758208-130.png" alt="D = A otimes B otimes C" style="vertical-align: -2px" /> we can type</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+D = kron(A,B,C)
+</pre></div></div>
+<p>Needless to say, Kronecker products can increase quickly in
+computational complexity. Given a set of operators of size <img class="eq" src="eqs/9190896899462041202-130.png" alt="m_itimes n_i" style="vertical-align: -4px" />, <img class="eq" src="eqs/4546430255957166546-130.png" alt="i=1,ldots,k" style="vertical-align: -4px" />, let <img class="eq" src="eqs/4335792958679249011-130.png" alt="m = prod m_i" style="vertical-align: -4px" />, and <img class="eq" src="eqs/6056964723800600849-130.png" alt="n = prod n_i" style="vertical-align: -4px" />. Then,
+application of the Kronecker product will require <img class="eq" src="eqs/7292520996289521568-130.png" alt="n / n_i" style="vertical-align: -5px" />
+multiplications with each operator <img class="eq" src="eqs/13440040424-130.png" alt="i" style="vertical-align: -1px" />, and likewise <img class="eq" src="eqs/4699383870994164432-130.png" alt="m / m_i" style="vertical-align: -5px" />
+products in transpose mode.</p>
+<h3>Example</h3>
+<p>Kronecker products can be useful when operating on high dimensional
+data represented in vectorized form. For example, when <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" /> represents
+a data volume of dimensions <img class="eq" src="eqs/4672496770117087070-130.png" alt="ltimes mtimes n" style="vertical-align: -1px" />.  To create an
+operator that applies a one-dimensional Fourier transformation on
+vectors along the second dimension, we can simply write</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+op = kron(opEye(n),opDFT(m),opEye(l))
+</pre></div></div>
+<p>Likewise, the block diagonal matrix of three operators <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />, given in
+the previous section, could have been created using the Kronecker
+product: <tt>kron(opEye(3),A)</tt>. This latter construction was
+found to outperform the block diagonal operator consisting of even a
+moderate number of identical blocks.</p>
+<p><b>See <a href="matlab:doc('opKron')"><tt>opKron</tt></a></b></p>
+<a name="subsasgn"></a>
+<h2>Subset assignment and reference</h2>
+<p>For certain applications we may be interested only in applying part
+of an operator. This can be done by creating new operators that are
+restrictions of existing operators. Restriction can be done in terms
+of rows, columns, a combination of rows and columns, and in terms of
+individual elements of the underlying matrix. Like in matrices, this
+is done by indexing using brackets. </p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B(3:5,:);     % Extract rows 3-5
+A = C(:,4:6);     % Extract columns 4-6
+A = D(3:5,4:6);   % Extract rows 3-5 of columns 4-6
+</pre></div></div>
+<p>The single colon &lsquo;<tt>:</tt>&rsquo; indicates that all elements in the given
+dimension are selected, and is equivalent to writing the range
+<tt>1:end</tt>.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B(3:5,1:end); % Extract rows 3-5
+</pre></div></div>
+<p>There is no restriction on the ordering of the selected columns and
+rows, and it is possible to repeat entries.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B([1,2,2,5,3],end:-1:1); % Extract rows in reverse
+</pre></div></div>
+<p>Because row and column indexing is implemented by pre- and post
+multiplication by selection matrices, the underlying operator is only
+applied once for each use of the restricted operator.</p>
+<p>In addition to ranges and index lists, it is also possible to use
+logicals. In this mode only those entries corresponding to a
+<tt>true</tt> value in the logical vector are selected. The length of
+the boolean vector must at most be equal to th size of the addressed
+dimension. In case it is shorted, additional <tt>false</tt> entries are
+added automatically. When using logicals it is not possible to repeat
+entries or shuffle them. The following two approaches are logically
+equivalent; for performance using logicals may be faster.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+logic = randn(10,1) &gt; 0;
+index = find(logic ==  true);
+A = B(logic,:);
+A = B(index,:); % Equivalent to previous line
+</pre></div></div>
+<p>The orientation of the logical or index vector is irrelevant and both
+row and column vectors can be used. Dimensions beyond the second one
+can be added provided they are either a vector of ones, the empty set
+<tt><a href=""></a></tt>, or the colon. These additional indices are checked but not
+used. Unlike in the matrix case, where <tt>M(1:3,1:4,<a href=""></a>)</tt> returns
+an empty <img class="eq" src="eqs/2493339635157168218-130.png" alt="3times 4times 0" style="vertical-align: -1px" /> matrix, the empty set is ignored in the
+operator case. It is possible to specify an empty set as the first or
+second argument though; this will results in an empty operator of
+appropriate size;</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A = B(1:3,[]); % Results in an empty 3-by-0 operator
+</pre></div></div>
+<p>When indexing with only a single argument the numbers are interpreted
+as indices in the vectorized matrix. For a given <img class="eq" src="eqs/3187889088634215596-130.png" alt="mtimes n" style="vertical-align: -1px" /> matrix,
+element <img class="eq" src="eqs/6542781286693810121-130.png" alt="(i,j)" style="vertical-align: -5px" /> is accessed by absolute index <img class="eq" src="eqs/6848887057047185851-130.png" alt="(i + (j-1)m)" style="vertical-align: -5px" />. In
+contrast to indexing by row and column, the result of such operations
+will be a vector, rather than an operator. In fact, all required
+rows or columns (depending on which one requires fewest applications
+of the operator) are first computed and all relevant entries
+extracted. When the only parameter is a logical it is first vectorized
+and padded with <tt>false</tt> values to the desired length.
+A special case is this type of indexing is vectorizing an operator:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+x = B(:); % Vectorized entries of B
+y = double(B);
+z = y(:); % Same as x
+</pre></div></div>
+<p>Extracting large numbers of columns or rows from an operator is
+computationally expensive since each column or row requires the
+multiplication of a vector of the identity matrix by the operator. It
+is thus advised to avoid using these operations whenever possible.</p>
+<h3>Example</h3>
+<p>As an illustration of the use of the subset selection we create an
+operator that consists of randomly selected rows of a the discrete
+Fourier transform. The first step is to construct a Fourier transform
+of the desired dimension using the <a href="matlab:doc('opDFT')"><tt>opDFT</tt></a> command. After that we choose which rows we want to keep
+and use subset selection to construct the restricted operator:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+F = opDFT(128);
+R = F(rand(128,1)&lt;=0.8,:);
+</pre></div></div>
+<p>This generates a restricted Fourier operator with approximately 80%
+of all rows selected.</p>
+<h3>Assignment</h3>
+<p>Existing operators can be modified by assigning new values to a subset
+of the entries of the underlying matrix representation. For example we
+may want to zero out part of some operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+A(2,:) = 0;      % Zero out row two
+A(:,[3,5]) = 0;  % Zero out columns three and five
+</pre></div></div>
+<p>These operations are not restricted only to zero values; other
+constants can be used as well. With the same ease we can also assign
+matrices and other operators to rectangular subsets of existing
+operators. In the following two examples we apply this to two <img class="eq" src="eqs/6092489849325735727-130.png" alt="8times 8" style="vertical-align: -1px" /> matrix-based operators <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> and <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />, and show the resulting operator
+format:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A(3:5,[2,4,6]) = randn(3,3)
+A =
+  Spot operator: Subsasgn(Matrix(8,8), Matrix(3,3))
+    rows:      8    complex: no
+    cols:      8    type:    SubsAsgn
+
+&gt;&gt; B(6:-1:3,4:7) = opDCT(4)
+B =
+  Spot operator: Subsasgn(Matrix(8,8), DCT(4,4))
+    rows:      8    complex: no
+    cols:      8    type:    SubsAsgn
+</pre></div></div>
+<p>Note that in the second example we also flip the rows of the DCT
+operator upside down by choosing the row indices from 6 to 3, instead
+of the other way around. As long as no destination row or column is
+repeated (which is not permitted), and the number of selected rows and
+columns matches the size of the operator, any ordering can be used.</p>
+<p>The row and column indices may exceed the size of the existing
+operator. Such assignments will enlarge the original operator by
+logically embedding it into an operator of all zeros prior to
+assigning the desired entries with the new operator, matrix or
+constant (all are automatically converted to operator form). The cost
+of multiplying with the resulting operator depends on whether the
+embedded operator overlaps with the original operator or not. Consider
+the following example (see the <a href="matlab:doc('double')"><tt>double</tt></a> command):</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A = opOnes(2,4); B = 2*opOnes(3,3);
+&gt;&gt; A(3:5,3:5) = B;
+&gt;&gt; double(A)
+ans =
+     1     1     1     1     0
+     1     1     1     1     0
+     0     0     2     2     2
+     0     0     2     2     2
+     0     0     2     2     2
+</pre></div></div>
+<p>In this case the operators do not overlap, and multiplication with the
+new operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> requires a single application of <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" /> and the original
+<img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />.  Although the command <tt>A(3:5,3:5) = B;</tt> looks like an
+update to <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />, what actually happens is that a new operator is
+created, which is then linked to variable <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />. The original operator
+<tt>A = opOnes(2,4);</tt> still exists but is no longer directly
+accessible. Obviously though, it does get used during the
+multiplication with the original <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />.</p>
+<p>When there is an overlap between the original and embedded operators
+the cost of applying the new operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> requires two applications of
+the original <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> and one application of <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />, and likewise for
+multiplication by <img class="eq" src="eqs/593367982112446620-130.png" alt="A^H" style="vertical-align: -0px" />.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A = opOnes(2,4); B = 2*opOnes(3,3);
+&gt;&gt; A(2:4,3:5) = B;
+&gt;&gt; double(A)
+ans =
+     1     1     1     1     0
+     1     1     2     2     2
+     0     0     2     2     2
+     0     0     2     2     2
+</pre></div></div>
+<p>In fact, multiplication by the new <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> takes place in three stages;
+the first stage performs multiplication by the original <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />, the
+second stage subtracts the influence of the overlap with <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />, and the
+third stage adds the result of multiplication by <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />. Note that in
+determining overlap Spot has to be conservative and assume that the
+operators are dense. In the overlapping example above, this means that
+assigning a new operator to <tt>A(3:4,1:2)</tt> does count as and
+overlap even though this neither overlaps with the original <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />, nor
+with <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />. When an operator consists of a number of non-overlapping
+blocks it is therefore recommended to add the operators in such an
+order that as few conservative decisions have to be
+made. Alternatively, a new meta-operator could be created to
+accommodate such constructions.</p>
+<p>A special situation arises when assigning the empty set <tt><a href=""></a></tt> to
+a subset of rows or columns. Doing so causes the given rows or columns
+to be deleted from the operator. Continuing with the above <img class="eq" src="eqs/6268663443196398682-130.png" alt="4times 5" style="vertical-align: -1px" />
+overlapped operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />, we have</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+&gt;&gt; A(:,[1,3]) = [];
+&gt;&gt; double(A)
+ans =
+     1     1     0
+     1     2     2
+     0     2     2
+     0     2     2
+
+&gt;&gt; A([2,3],:) = [];
+&gt;&gt; double(A);
+ans =
+     1     1     0
+     0     2     2
+</pre></div></div>
+<p>While the above example uses the colon (<tt>:</tt>) it is also possible
+to use <tt>1:end</tt>, <tt>end:-1:1</tt>, or any (logical) set of
+indices that covers all rows or columns. Cutting rows or columns is
+implemented by respectively pre- and post multiplying by a selection
+matrix. This means that multiplication by the resulting operator still
+requires application of the full original operator whether or not the
+relevant rows or columns are needed.</p>
+<p>Assignment using absolute index numbers is not supported in the
+current version of Spot. For the above <img class="eq" src="eqs/3609640256411903582-130.png" alt="2times 3" style="vertical-align: -1px" /> operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" />,
+the command <tt>A(5) = 3;</tt> will thus generate an error.</p>
+<p><b>See <a href="matlab:doc('opRestriction')"><tt>opRestriction</tt></a></b></p>
+<a name="elementwise"></a>
+<h2>Elementwise operations</h2>
+<p>There are a number of operations that, just like multiplication by
+scalars, affect all individual entries of matrix underlying the
+operator. For complex operators Spot provides the commands
+<tt>real</tt>, <tt>imag</tt>, and <tt>conj</tt>. The first command
+discards the imaginary parts of the operator and results in a real
+operator, while the second command keeps only the imaginary part of
+the operator (this results in a real number operator). The
+<tt>conj</tt> command replaces each element by its complex
+conjugate. When applied to a real operator <tt>real</tt> and
+<tt>conj</tt> do nothing, while <tt>image</tt> returns a new zero
+operator (all underlying operators are discarded). Due to 
+self-awareness, applying conjugation to a conjugated operator cancels
+the conjugation.</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+F = opMatrix(2 + 3i);
+a = real(F);          % a = opMatrix(2)
+b = imag(F);          % b = opMatrix(3)
+c = conj(F);          % c = opMatrix(2 - 3i)
+</pre></div></div>
+<p>Application of <tt>real</tt>, <tt>imag</tt>, or <tt>conj</tt> leads to
+the creation of a new operator. Provided the new operator is not the
+zero operator, multiplication is implemented by distinguishing between
+real, imaginary, and complex vectors. In the first two cases a single
+application of the underlying operator suffices. For complex vectors
+we need to apply the underlying operator to both the real and
+imaginary parts of the vector and combine the results according to the
+desired operation, thus requiring two operations per multiplication.</p>
+<p><b>See <a href="matlab:doc('opReal)"><tt>opReal</tt></a>, <a href="matlab:doc('opImag')"><tt>opImag</tt></a>, <a href="matlab:doc('opConj')"><tt>opConj</tt></a>, <a href="matlab:doc('isreal')"><tt>isreal</tt></a></b></p>
+<a name="powinv"></a>
+<h2>Power, inverse, and backslash operations</h2>
+<p>The operations discussed in this section are provided for convenience,
+but they should be used with care to avoid prohibitively slow or
+inaccurate operators. With that said, the power operator <tt>^</tt> or
+<tt>mpower</tt> takes a square operator and raises it to a given
+integer power. The following code illustrates the semantics of the
+power operator, when applied to a square operator <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /></p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+B = A^3            % A*A*A
+B = mpower(A,3)    % A*A*A
+B = mpower(A,0)    % A^0 = opOnes(size(A))
+B = mpower(A,-3)   % A^-3 = inv(mpower(A,3))
+</pre></div></div>
+<p>The <tt>inv</tt> command constructs an operator that represents the
+inverse of the given square operator, and is implemented using the
+<tt>opInverse</tt> operator. Multiplication by this operator is done by
+solving a least-squares system using LSQR (see C.C. Paige and M.A. Saunders, &lsquo;LSQR: An Algorithm for Sparse Linear Equations and Sparse Least Squares&rsquo;, ACMMathSoft 1982). Hence,
+<img class="eq" src="eqs/15488046584-130.png" alt="y" style="vertical-align: -4px" /> in the following code</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+B = opInverse(A);
+x = B * b;
+</pre></div></div>
+<p>is computed by solving</p>
+
+<img class="eqwl" src="eqs/599394731270602054-130.png" alt=" mathop{mbox{minimize}}_{x}quad Vert Ax - bVert_2, " />
+<br /><p>with additional regularization to obtain the least two-norm solution
+<img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" /> in case the system is underdetermined. Because the least-squares
+problem is not restricted to square matrices, <tt>opInverse</tt> can
+also be applied on rectangular operators to give the
+pseudo-inverse. When <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> is an <img class="eq" src="eqs/3187889088634215596-130.png" alt="mtimes n" style="vertical-align: -1px" />, it is obvious from the
+above problem that <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" /> must be an <img class="eq" src="eqs/1281182548146164340-130.png" alt="ntimes m" style="vertical-align: -1px" /> operator.  Due to the
+need to to solve a least-squares problem with each matrix-vector
+product, the use of the inverse operators is computationally
+expensive.</p>
+<p>The <tt>opPower</tt> command with a negative exponent corresponds to
+applying the inverse to the operator raised to the magnitude of the
+exponent. In other words, writing <img class="eq" src="eqs/4931800903347339616-130.png" alt="A^{-2}" style="vertical-align: -0px" /> is implemented as
+<img class="eq" src="eqs/2625088332809412420-130.png" alt="(A^2)^{-1}" style="vertical-align: -5px" />. When the inverse of an inverted operator (or one with
+negative power) is taken, the inverses cancel and the result will be
+the original operator, regardless of any possible singularity.</p>
+<p>Finally, the backslash operator <tt><img class="eq" src="eqs/4801692705415458837-130.png" alt="setminus" style="vertical-align: -5px" /></tt> can be used to
+represent the least-squares problem. With this
+operator, the above code block can be written without introducing <img class="eq" src="eqs/8448025411-130.png" alt="B" style="vertical-align: -0px" />:</p>
+<div class="codeblock">
+<div class="blockcontent"><pre>
+x = A \ b;
+</pre></div></div>
+<p>When <img class="eq" src="eqs/8320025024-130.png" alt="A" style="vertical-align: -0px" /> is underdetermined the resulting <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" /> may not be the same as
+<tt>x = double(A) <img class="eq" src="eqs/4801692705415458837-130.png" alt="setminus" style="vertical-align: -5px" /> b</tt>, because the latter does not necessarily
+give the least two-norm solution <img class="eq" src="eqs/15360046201-130.png" alt="x" style="vertical-align: -1px" />.
+In compliance with Matlab&rsquo;s <tt>mrdivide</tt> operator, or <tt>/</tt>
+for short, Spot implements the matrix division <img class="eq" src="eqs/593367982063446597-130.png" alt="A/B" style="vertical-align: -5px" /> as <img class="eq" src="eqs/3417162702478062751-130.png" alt="(B^H setminus A^H)^H" style="vertical-align: -5px" />. Obviously <img class="eq" src="eqs/593367982063446580-130.png" alt="A/3" style="vertical-align: -5px" /> is implemented as <img class="eq" src="eqs/1842691893509646613-130.png" alt="(1/3)A" style="vertical-align: -5px" />.</p>
+<p><b>See <a href="matlab:doc('opInverse')"><tt>opInverse</tt></a>, <a href="matlab:doc('opPower')"><tt>opPower</tt></a></b></p>
+<a name="solvesystems"></a>
+<h2>Solving systems of linear equations</h2>
+<p>Matlab provides a number of routines for solving systems of linear
+equations that either take a matrix or a function handle. Wrappers to
+these function that take Spot operators are implemented for the
+following functions:</p>
+<table id="methodstable">
+<tr class="r1"><td class="c1"><tt>bicg</tt>     </td><td class="c2"> Biconjugate gradients method </td></tr>
+<tr class="r2"><td class="c1"><tt>bicgstab</tt> </td><td class="c2"> Biconjugate gradients stabilized method </td></tr>
+<tr class="r3"><td class="c1"><tt>cgs</tt>      </td><td class="c2"> Conjugate gradients squared method </td></tr>
+<tr class="r4"><td class="c1"><tt>gmres</tt>    </td><td class="c2"> Generalized minimum residual method </td></tr>
+<tr class="r5"><td class="c1"><tt>lsqr</tt>     </td><td class="c2"> Least-squares method </td></tr>
+<tr class="r6"><td class="c1"><tt>minres</tt>   </td><td class="c2"> Minimum residual method </td></tr>
+<tr class="r7"><td class="c1"><tt>pcg</tt>      </td><td class="c2"> Preconditioned conjugate gradients method </td></tr>
+<tr class="r8"><td class="c1"><tt>qmr</tt>      </td><td class="c2"> Quasi-minimal residual method </td></tr>
+<tr class="r9"><td class="c1"><tt>symmlq</tt>   </td><td class="c2"> Symmetric LQ method
+</td></tr></table>
+<a name="nonlinear"></a>
+<h2>Application to non-linear operators</h2>
+<p>In some situations it may be desired to create nonlinear
+operators. For example, when the output of a certain series of
+operations on complex input is known to be real it may be desired to
+have an operator that discards the imaginary part of its input. While
+Spot permits the construction of such operators,
+utmost care has to be taken when using them in combination with meta
+operators. Because there are no sanity checks in the implementation of
+the meta operators, application to nonlinear operators is not
+guaranteed to be meaningful; this is something the user should
+decide.</p>
+<div id="footer">
+<div id="footer-text">
+Page last updated on 2012-07-10
+</div>
+</div>
+</td>
+</tr>
+</table>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4736412-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>
