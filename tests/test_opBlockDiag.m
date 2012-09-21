@@ -29,20 +29,20 @@ function test_opBlockDiag_overlap(seed)
    % row overlap
    ov = 5;
    D  = opBlockDiag(A,B,ov);
-   assertFalse(dottest(D));
+   assertFalse(spot.utils.dottest(D));
    
    % column overlap
    ov = -5;
    D  = opBlockDiag(A,B,ov);
-   assertFalse(dottest(D));
+   assertFalse(spot.utils.dottest(D));
 
    % row-anti-diag overlap
    ov = m1+1;
    D  = opBlockDiag(A,B,ov);
-   assertFalse(dottest(D));
+   assertFalse(spot.utils.dottest(D));
 
    % col-anti-diag overlap
    ov = -(m1+1);
    D  = opBlockDiag(A,B,ov);
-   assertFalse(dottest(D));
+   assertFalse(spot.utils.dottest(D));
 end
