@@ -52,7 +52,7 @@ classdef opSparseBinary < opSpot
           va =  ones(d*n,1);
 
           for k = 1:n  % Loop over each column.
-             % Generate random integers in [1,m].
+             % Generate d random integers in [1,m].
              p = randperm(m,d);
 
              % Indices for start and end of the k-th column.
