@@ -53,14 +53,14 @@ classdef opSparseBinary < opSpot
 
           for k = 1:n  % Loop over each column.
              % Generate random integers in [1,m].
-             p = randperm(m);
+             p = randperm(m,d);
 
              % Indices for start and end of the k-th column.
              colbeg = 1+(k-1)*d;
              colend = colbeg + d - 1;
 
              % Populate the row and column indices.
-             ia(colbeg:colend) = p(1:d);
+             ia(colbeg:colend) = p;
              ja(colbeg:colend) = k;
           end
           A  = sparse(ia,ja,va,m,n);
