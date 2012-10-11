@@ -1,0 +1,33 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opBlockOp</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opBlockOp</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opBlockOp</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opBlockOp</span>   Blockwise application of operator on matrices.
+ 
+    B = <span class="helptopic">opBlockOp</span>(M,N,OPIN,BR1,BC1,BR2,BC2) creates an operator that
+    applies the given OPIN operator on two-dimensional data in a
+    blockwise fashion. In the forward mode this means that the input
+    vector is reshaped into an M-by-N matrix, which is then divided
+    into blocks of size BR1-by-BC1. Next, we apply OPIN to each
+    (vectorized) block and reshape the output to BR2-by-BC2
+    blocks. These blocks are gathered in a matrix which is vectorized
+    to give the final output. In transpose mode, the input vector is
+    reshaped into a matrix with M/BR1-by-N/BC1 blocks of size
+    BR2-by-BC2, and the conjugate transpose of OPIN is applied to each
+    block as described above to give BR1-by-BC1 blocks. These form an
+    M-by-N matrix which is vectorized for output. When omitted, BR2
+    and BC2 are respectively set to BR1 and BC1 by default.</pre></div><!--after help -->
+   </body>
+</html>

@@ -1,4 +1,7 @@
-spotpublish.m  export-ignore
-doc/*.jemdoc   export-ignore
-.git*          export-ignore
-TODO           export-ignore
+spotexport.m                 export-ignore
+doc/README_helpbrowser.txt   export-ignore
+doc/spothelpbrowser.m        export-ignore
+doc/strcmpc.m                export-ignore
+doc/makehtmlhelp.m           export-ignore
+.git*                        export-ignore
+TODO                         export-ignore

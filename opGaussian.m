@@ -72,7 +72,7 @@ classdef opGaussian < opSpot
 
           % Create object.
           op = op@opSpot('Gaussian', m, n);
-          op.seed = randn('state');
+          op.seed = rng;
           op.mode = mode;
           [m,n] = size(op);
           
@@ -167,8 +167,8 @@ classdef opGaussian < opSpot
           m = op.m;
           n = op.n;
           % Store current random number generator state
-          seed0 = randn('state');
-          randn('state',op.seed);
+          seed0 = rng;
+          rng(op.seed);
           
           if mode == 1
              y = zeros(m,1);
@@ -183,7 +183,7 @@ classdef opGaussian < opSpot
           end
 
           % Restore original random number generator state
-          randn('state',seed0);
+          rng(seed0);
        end
 
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,8 +194,8 @@ classdef opGaussian < opSpot
           m = op.m;
           n = op.n;
           % Store current random number generator state
-          seed0 = randn('state');
-          randn('state',op.seed);
+          seed0 = rng('default');
+          rng(op.seed);
 
           if mode == 1
              y = zeros(m,1);
@@ -210,7 +210,7 @@ classdef opGaussian < opSpot
           end
           
           % Restore original random number generator state
-          randn('state',seed0);
+          rng(seed0);
        end
    
     end % methods - private

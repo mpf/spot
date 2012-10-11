@@ -1,0 +1,41 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opToeplitz</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opToeplitz</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opToeplitz</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opToeplitz</span>   Toeplitz matrix.
+ 
+    OP = <span class="helptopic">opToeplitz</span>(R) creates an N-by-N circular Toeplitz
+    operator from the N-vector R. The entries of R prescribe the
+    first row of the operator.
+ 
+    OP = <span class="helptopic">opToeplitz</span>(C,R) creates an M-by-N Toeplitz operator where
+    M = length(C) and N = length(R). The entries of C prescribe the
+    first column of the operator, and likewise, R prescribes the
+    first row.
+ 
+    The above calls are nearly idential to Matlab's built-in TOEPLITZ
+    function.
+ 
+    Additionally, each call above accepts an optional logical flag that
+    indicates if the column are scaled to have unit 2-norm length:
+ 
+    OP = <span class="helptopic">opToeplitz</span>(R,NORMALIZED)
+    OP = <span class="helptopic">opToeplitz</span>(C,R,NORMALIZED)
+ 
+    Multiplication in either mode is implemented using the fast
+    Fourier transform</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> teoplitz, <a href="matlab:helpwin opToepGauss">opToepGauss</a>, <a href="matlab:helpwin opToepSign">opToepSign</a>.
+</div>
+   </body>
+</html>

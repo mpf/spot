@@ -1,0 +1,255 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Building a circulant operator</title><meta name="generator" content="MATLAB 7.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-07-26"><meta name="DC.source" content="docguide_circulant.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+
+  </style></head><body><div class="content"><h1>Building a circulant operator</h1><!--introduction--><p>In our first example we will use Spot to create an implicit circulant matrix and that can be used as a fast operator.  Circulant matrices are fully specified by their first column, and each remaining column is a cyclic permutation of the first:</p><p><img src="docguide_circulant_eq08112.png" alt="$$&#xA;C =  \pmatrix{&#xA;       c_1   &amp; c_{n}      &amp; \ldots &amp; c_2&#xA;   \cr c_2   &amp; c_1        &amp; \ldots &amp; \vdots&#xA;   \cr \vdots&amp; \ddots     &amp; \ddots &amp; c_n&#xA;   \cr c_n   &amp; \ldots     &amp; c_2    &amp; c_1&#xA;    }.&#xA;$$"></p><p>These matrices have the property that they can be diagonalized by the discrete Fourier transform (DFT), so that</p><pre class="language-matlab">C = F'diag(d)F,
+</pre><p>where d = Fc. An important implication is that <tt>C</tt> can be treated as a fast operator.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Instantiating a simple Spot operator</a></li><li><a href="#6">Building more complex operators</a></li></ul></div><h2>Instantiating a simple Spot operator<a name="1"></a></h2><p>In our toy example, we create a circulant matrix whose first column is simply the sequence 1,...,5:</p><pre class="codeinput">n = 5;
+c = (1:n)';  <span class="comment">% make sure c is a column vector</span>
+</pre><p>Our very first Spot command will create the required <a href="http://www.cs.ubc.ca/labs/scl/spot/operators.html#opDFT">DFT operator</a>. We omit the semicolon so that Matlab will display details of the resulting operator:</p><pre class="codeinput">F = opDFT(n)
+</pre><pre class="codeoutput">F = 
+  Spot operator: DFT(5,5)
+    rows:      5    complex: yes       
+    cols:      5    type:    DFT       
+</pre><p>It's straightforward to apply the resulting DFT operator to a vector. The following command applies the Fourier transform to the vector <tt>c</tt>, which yields the eigenvalues of <tt>C</tt>:</p><pre class="codeinput">d = sqrt(n)*F*c
+</pre><pre class="codeoutput">
+d =
+
+  15.0000          
+  -2.5000 + 3.4410i
+  -2.5000 + 0.8123i
+  -2.5000 - 0.8123i
+  -2.5000 - 3.4410i
+
+</pre><p>Notice that we scaled this product by <tt>sqrt(n)</tt>. This is necessary because Spot's DFT is scaled so that it's orthogonal, and therefore, rather than the first column of <tt>F</tt> being a vector of ones, it's scaled by <tt>1/sqrt(n)</tt>. We can see this as follows:</p><pre class="codeinput">sqrt(n) * double( F(:,1) )
+</pre><pre class="codeoutput">
+ans =
+
+     1
+     1
+     1
+     1
+     1
+
+</pre><p>This last command hints at an important feature of Spot operators that allows them to be indexed like explicit Matlab matrices.</p><h2>Building more complex operators<a name="6"></a></h2><p>Finally, we build the circulant operator with the command</p><pre class="codeinput">C = real( F'*opDiag(d)*F )
+</pre><pre class="codeoutput">C = 
+  Spot operator: Real(DFT(5,5)' * Diag(5,5) * DFT(5,5))
+    rows:      5    complex: no        
+    cols:      5    type:    real      
+</pre><p>We could have left out the <a href="matlab:doc('opSpot/real')">real</a> modifier, and used the simpler command</p><pre class="language-matlab">C = F'*opDiag(d)*F
+</pre><p>However, we need to safeguard against numerical errors that might allow complex values to seep in. Hence, we finish off our construction with the <tt>real</tt> operator.</p><p>Just as the DFT operator <tt>F</tt> could be applied to vectors, the same is true of the compound operator <tt>C</tt>. Here we apply it to the first unit vector:</p><pre class="codeinput">e = eye(5,1);
+C*e
+</pre><pre class="codeoutput">
+ans =
+
+    1.0000
+    2.0000
+    3.0000
+    4.0000
+    5.0000
+
+</pre><p>Let's count the number of times that <tt>C</tt> and <tt>F</tt> were applied to vectors:</p><pre class="codeinput">C.nprods
+</pre><pre class="codeoutput">
+ans =
+
+     1     0
+
+</pre><pre class="codeinput">F.nprods
+</pre><pre class="codeoutput">
+ans =
+
+     3     1
+
+</pre><p>The suffix <tt>nprods</tt> gives the number of times that the operator acted on a vector: the first element of <tt>X.nprods</tt> tracks the count of products with the operator; the second element tracks the count of products with its adjoint.  In the first case, we see that <tt>C</tt> was only used once (in the command <tt>C*e</tt> above). In the second case, we see that <tt>F</tt> acted on a vector a total of 4 times---3 with <tt>F</tt> itself, and once with its adjoint. Where did these 4 products come from? The first is clear, and happened in the command <tt>d = sqrt(n)*F*c</tt>. Another multiplication with <tt>F</tt> occurred in the command <tt>double( F(:,1) )</tt>, which extracted the first column from <tt>F</tt>. Then two more multiplications, one with <tt>F</tt> and another with <tt>F'</tt> occurred when we applied <tt>C*e</tt>.</p><p>Let's verify that <tt>C</tt> is indeed circulant. We can do this two ways. The first uses the overloaded method <tt>double</tt> which converts a Spot operator into an explicit matrix:</p><pre class="codeinput">double(C)
+</pre><pre class="codeoutput">
+ans =
+
+    1.0000    5.0000    4.0000    3.0000    2.0000
+    2.0000    1.0000    5.0000    4.0000    3.0000
+    3.0000    2.0000    1.0000    5.0000    4.0000
+    4.0000    3.0000    2.0000    1.0000    5.0000
+    5.0000    4.0000    3.0000    2.0000    1.0000
+
+</pre><p>The second approach shows that it's possible to apply an operator simultaneously to a collection of vectors:</p><pre class="codeinput">C*eye(n)
+</pre><pre class="codeoutput">
+ans =
+
+    1.0000    5.0000    4.0000    3.0000    2.0000
+    2.0000    1.0000    5.0000    4.0000    3.0000
+    3.0000    2.0000    1.0000    5.0000    4.0000
+    4.0000    3.0000    2.0000    1.0000    5.0000
+    5.0000    4.0000    3.0000    2.0000    1.0000
+
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.14<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Building a circulant operator
+% In our first example we will use Spot to create an implicit
+% circulant matrix and that can be used as a fast operator.  Circulant
+% matrices are fully specified by their first column, and each
+% remaining column is a cyclic permutation of the first:
+%
+% $$
+% C =  \pmatrix{
+%        c_1   & c_{n}      & \ldots & c_2
+%    \cr c_2   & c_1        & \ldots & \vdots
+%    \cr \vdots& \ddots     & \ddots & c_n
+%    \cr c_n   & \ldots     & c_2    & c_1
+%     }.
+% $$
+%
+% These matrices have the property that they can be diagonalized by the
+% discrete Fourier transform (DFT), so that
+%
+%   C = F'diag(d)F,
+%
+% where d = Fc. An important implication is that |C| can be treated as a
+% fast operator.
+
+%% Instantiating a simple Spot operator
+% In our toy example, we create a circulant matrix whose first column
+% is simply the sequence 1,...,5:
+
+n = 5;
+c = (1:n)';  % make sure c is a column vector
+
+%%
+% Our very first Spot command will create the required
+% <http://www.cs.ubc.ca/labs/scl/spot/operators.html#opDFT DFT operator>.
+% We omit the semicolon so that Matlab will display details of the
+% resulting operator:
+
+F = opDFT(n)
+
+%%
+% It's straightforward to apply the resulting DFT operator to a
+% vector. The following command applies the Fourier transform to the
+% vector |c|, which yields the eigenvalues of |C|:
+
+d = sqrt(n)*F*c
+
+%%
+% Notice that we scaled this product by |sqrt(n)|. This is necessary
+% because Spot's DFT is scaled so that it's orthogonal, and therefore,
+% rather than the first column of |F| being a vector of ones, it's
+% scaled by |1/sqrt(n)|. We can see this as follows:
+
+sqrt(n) * double( F(:,1) )
+
+%%
+% This last command hints at an important feature of Spot operators
+% that allows them to be indexed like explicit Matlab matrices.
+
+%% Building more complex operators
+% Finally, we build the circulant operator with the command
+
+C = real( F'*opDiag(d)*F )
+
+%%
+% We could have left out the <matlab:doc('opSpot/real') real>
+% modifier, and used the simpler command
+%
+%   C = F'*opDiag(d)*F
+%
+% However, we need to safeguard against numerical errors that might
+% allow complex values to seep in. Hence, we finish off our
+% construction with the |real| operator.
+
+%%
+% Just as the DFT operator |F| could be applied to vectors, the
+% same is true of the compound operator |C|. Here we apply it to
+% the first unit vector:
+
+e = eye(5,1);
+C*e
+
+%%
+% Let's count the number of times that |C| and |F| were applied to
+% vectors:
+
+C.nprods
+%%
+F.nprods
+
+%%
+% The suffix |nprods| gives the number of times that the operator
+% acted on a vector: the first element of |X.nprods| tracks the count
+% of products with the operator; the second element tracks the count
+% of products with its adjoint.  In the first case, we see that |C|
+% was only used once (in the command |C*e| above). In the second
+% case, we see that |F| acted on a vector a total of 4 timesREPLACE_WITH_DASH_DASH-3
+% with |F| itself, and once with its adjoint. Where did these 4
+% products come from? The first is clear, and happened in the
+% command |d = sqrt(n)*F*c|. Another multiplication with |F|
+% occurred in the command |double( F(:,1) )|, which extracted the
+% first column from |F|. Then two more multiplications, one with
+% |F| and another with |F'| occurred when we applied |C*e|.
+
+%%
+% Let's verify that |C| is indeed circulant. We can do this two ways. The
+% first uses the overloaded method |double| which converts a Spot
+% operator into an explicit matrix:
+
+double(C)
+
+%%
+% The second approach shows that it's possible to apply an operator
+% simultaneously to a collection of vectors:
+
+C*eye(n)
+
+
+##### SOURCE END #####
+--></body></html>

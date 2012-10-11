@@ -1,0 +1,290 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>A quick guide to Spot</title><meta name="generator" content="MATLAB 7.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-07-26"><meta name="DC.source" content="docguide_quick.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+
+  </style></head><body><div class="content"><h1>A quick guide to Spot</h1><!--introduction--><p>Using explicit matrices is not practical for some very large problems. Instead, we can use Spot operators. A Spot operator represents a matrix, and can be treated in a similar way, but it doesn't rely on the matrix itself to implement most of the methods. This short guide will show you how to make and use Spot operators.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Creating Operators</a></li><li><a href="#5">Applying Operators</a></li><li><a href="#7">Subset Assignment and Reference</a></li><li><a href="#10">Creating More Complex Operators</a></li></ul></div><h2>Creating Operators<a name="1"></a></h2><p>Create a new operator using the constructor from the appropriate operator class. For example, to make an operator A that consists of all ones, with three rows and two columns, use the <a href="matlab:doc('opOnes')">opOnes</a> class:</p><pre class="codeinput">A = opOnes(3,2)
+</pre><pre class="codeoutput">A = 
+  Spot operator: Ones(3,2)
+    rows:      3    complex: no        
+    cols:      2    type:    Ones      
+</pre><p>We see that Spot displays some information about A when we leave off the semicolon, such as its construction, the number of rows and columns, and whether it is complex. We can also use the <a href="matlab:doc('opSpot/double')">double</a> method to construct the underlying matrix:</p><pre class="codeinput">double(A)
+</pre><pre class="codeoutput">
+ans =
+
+     1     1
+     1     1
+     1     1
+
+</pre><p>Operators can be easily added or subtracted. For example, make an operator B consisting of all twos and add it to A:</p><pre class="codeinput">B = 2*opOnes(3,2);
+C = A + B;
+double(C)
+</pre><pre class="codeoutput">
+ans =
+
+     3     3
+     3     3
+     3     3
+
+</pre><p>If you add a matrix and an operator, Spot will first automatically convert the matrix into a Spot operator using opMatrix. We can discover other information about the operator C by using the methods <a href="matlab:doc('opSpot/size')">size</a>, <a href="matlab:doc('opSpot/disp')">disp</a>, and <a href="matlab:doc('opSpot/whos')">whos</a>:</p><pre class="codeinput">whos <span class="string">C</span>
+</pre><pre class="codeoutput">  Name      Size            Bytes  Class    Attributes
+
+  C         3x2              1732  opSum              
+
+</pre><h2>Applying Operators<a name="5"></a></h2><p>Spot operators can be multiplied by vectors just like MATLAB matrices. Make a vector x and apply C to it:</p><pre class="codeinput">x = [1;2];
+y = C*x
+</pre><pre class="codeoutput">
+y =
+
+     9
+     9
+     9
+
+</pre><p>We can also multiply by the adjoint of an operator:</p><pre class="codeinput">w = [1;2;3];
+z = C'*w;
+</pre><h2>Subset Assignment and Reference<a name="7"></a></h2><p>If we are only interested in applying part of an operator, we can create a new operator that is a restriction of the existing one. The indexing used is the same as in MATLAB matrices; we can specify rows, columns, or individual elements, we can extract rows or columns in reverse, and we can repeat entries:</p><pre class="codeinput">x = [1;2;3;4;5];
+A = opDiag(x); <span class="comment">% Create a 5x5 operator with x's values on its diagonal</span>
+B = A(2:4,:);  <span class="comment">% Extract rows 2-4 of A</span>
+double(B)
+</pre><pre class="codeoutput">
+ans =
+
+     0     2     0     0     0
+     0     0     3     0     0
+     0     0     0     4     0
+
+</pre><p>We can also assign values to a subset of an operator, again using the same syntax as in MATLAB matrices. The row and column indices we specify don't have to be within those of the original operator. In fact, we can specify indices that don't overlap at all with the original operator, and we will simply end up with a larger operator. Zero out part of A:</p><pre class="codeinput">A(1:2,:) = 0;
+double(A)
+</pre><pre class="codeoutput">
+ans =
+
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     3     0     0
+     0     0     0     4     0
+     0     0     0     0     5
+
+</pre><p>Assign a new operator, C, to a subset of B:</p><pre class="codeinput">C = opOnes(2,2);
+B(2:3,1:2) = C;
+double(B)
+</pre><pre class="codeoutput">
+ans =
+
+     0     2     0     0     0
+     1     1     3     0     0
+     1     1     0     4     0
+
+</pre><h2>Creating More Complex Operators<a name="10"></a></h2><p>Spot operators can be combined into more complex operators using methods such as blkdiag and kron. Whenever a matrix is passed to one of these methods, it is automatically converted to a Spot operator. <a href="matlab:doc('opSpot/blkdiag')">blkdiag</a> takes a list of operators and matrices and creates a block diagonal operator:</p><pre class="codeinput">A = opOnes(2,2);
+B = 2*opOnes(3,2);
+C = 3*opOnes(1,3);
+D = blkdiag(A, B, C);
+double(D)
+</pre><pre class="codeoutput">
+ans =
+
+     1     1     0     0     0     0     0
+     1     1     0     0     0     0     0
+     0     0     2     2     0     0     0
+     0     0     2     2     0     0     0
+     0     0     2     2     0     0     0
+     0     0     0     0     3     3     3
+
+</pre><p>We can also have the blocks overlap and create anti-diagonal operators (see <a href="usingmethods.html">"Using the Methods"</a>). Operators can be horizontally or vertically concatenated using opDictionary or opStack, or simply by passing them as elements in a matrix:</p><pre class="codeinput">E = 4*opOnes(2,3);
+F = [A E];
+double(F)
+</pre><pre class="codeoutput">
+ans =
+
+     1     1     4     4     4
+     1     1     4     4     4
+
+</pre><p>The <a href="matlab:doc('opSpot/kron')">kron</a> method computes the Kronecker product of an arbitrary number of operators:</p><pre class="codeinput">G = opMatrix([2 1;3 0]);
+H = opMatrix([1 2]);
+K = kron(G, H);
+double(K)
+</pre><pre class="codeoutput">
+ans =
+
+     2     4     1     2
+     3     6     0     0
+
+</pre><p>For more information on how to work with Spot operators, see <a href="usingmethods.html">"Using the Methods"</a>. For a list of methods, see the <a href="http://www.cs.ubc.ca/labs/scl/spot/methods.html">"Index of Methods"</a>. For a list of the Spot operator classes and what they do, including fast transformations, random ensembles, and convolution, see the <a href="http://www.cs.ubc.ca/labs/scl/spot/operators.html">"Index of Operators"</a>.</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.14<br></p></div><!--
+##### SOURCE BEGIN #####
+%% A quick guide to Spot 
+% Using explicit matrices is not practical for some very large problems.
+% Instead, we can use Spot operators. A Spot operator represents a matrix,
+% and can be treated in a similar way, but it doesn't rely on the matrix
+% itself to implement most of the methods. This short guide will show you
+% how to make and use Spot operators.
+
+%% Creating Operators
+% Create a new operator using the constructor from the appropriate
+% operator class. For example, to make an operator A that consists of all
+% ones, with three rows and two columns, use the <matlab:doc('opOnes') opOnes> class:
+
+A = opOnes(3,2)
+
+%%
+% We see that Spot displays some information about A when we leave off the
+% semicolon, such as its construction, the number of rows and columns, and
+% whether it is complex. We can also use the <matlab:doc('opSpot/double') double>
+% method to construct the underlying matrix:
+
+double(A)
+
+%%
+% Operators can be easily added or subtracted. For example, make an
+% operator B consisting of all twos and add it to A:
+
+B = 2*opOnes(3,2);
+C = A + B;
+double(C)
+
+%%
+% If you add a matrix and an operator, Spot will first automatically
+% convert the matrix into a Spot operator using opMatrix. We can discover
+% other information about the operator C by using the methods
+% <matlab:doc('opSpot/size') size>,
+% <matlab:doc('opSpot/disp') disp>,
+% and <matlab:doc('opSpot/whos') whos>:
+
+whos C
+
+%% Applying Operators
+% Spot operators can be multiplied by vectors just like MATLAB matrices.
+% Make a vector x and apply C to it:
+
+x = [1;2];
+y = C*x
+
+%%
+% We can also multiply by the adjoint of an operator:
+
+w = [1;2;3];
+z = C'*w;
+
+%% Subset Assignment and Reference
+% If we are only interested in applying part of an operator, we can create
+% a new operator that is a restriction of the existing one. The indexing
+% used is the same as in MATLAB matrices; we can specify rows, columns, or
+% individual elements, we can extract rows or columns in reverse, and we
+% can repeat entries:
+
+x = [1;2;3;4;5];
+A = opDiag(x); % Create a 5x5 operator with x's values on its diagonal
+B = A(2:4,:);  % Extract rows 2-4 of A
+double(B)
+
+%%
+% We can also assign values to a subset of an operator, again using the same
+% syntax as in MATLAB matrices. The row and column indices we specify don't
+% have to be within those of the original operator. In fact, we can specify
+% indices that don't overlap at all with the original operator, and we will
+% simply end up with a larger operator. Zero out part of A:
+
+A(1:2,:) = 0;
+double(A)
+
+%%
+% Assign a new operator, C, to a subset of B:
+
+C = opOnes(2,2);
+B(2:3,1:2) = C;
+double(B)
+
+%% Creating More Complex Operators
+% Spot operators can be combined into more complex operators using methods
+% such as blkdiag and kron. Whenever a matrix is passed to one of these
+% methods, it is automatically converted to a Spot operator.
+% <matlab:doc('opSpot/blkdiag') blkdiag> takes
+% a list of operators and matrices and creates a block diagonal operator:
+
+A = opOnes(2,2);
+B = 2*opOnes(3,2);
+C = 3*opOnes(1,3);
+D = blkdiag(A, B, C);
+double(D)
+
+%%
+% We can also have the blocks overlap and create anti-diagonal operators
+% (see <usingmethods.html "Using the Methods">).
+% Operators can be horizontally or vertically concatenated using
+% opDictionary or opStack, or simply by passing them as elements in a matrix:
+
+E = 4*opOnes(2,3);
+F = [A E];
+double(F)
+
+%%
+% The <matlab:doc('opSpot/kron') kron> method
+% computes the Kronecker product of an arbitrary number of operators:
+
+G = opMatrix([2 1;3 0]);
+H = opMatrix([1 2]);
+K = kron(G, H);
+double(K)
+
+%% 
+% For more information on how to work with Spot operators, see
+% <usingmethods.html "Using the Methods">.
+% For a list of methods, see the <http://www.cs.ubc.ca/labs/scl/spot/methods.html "Index of Methods">.
+% For a list of the Spot operator classes and what they do, including fast
+% transformations, random ensembles, and convolution, see the
+% <http://www.cs.ubc.ca/labs/scl/spot/operators.html "Index of Operators">.
+
+
+##### SOURCE END #####
+--></body></html>

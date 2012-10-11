@@ -1,0 +1,271 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Implementing Your Own Spot Operator</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-08-08"><meta name="DC.source" content="docguide_implement.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>Implementing Your Own Spot Operator</h1><!--introduction--><p>At some point you might want to create a new Spot operator class to suit your own problems. In this tutorial, we will go through the definition of the <tt>opZeros</tt> class, explaining how you would define your own class along the way.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">First Lines</a></li><li><a href="#2">Properties</a></li><li><a href="#3">Methods</a></li></ul></div><h2>First Lines<a name="1"></a></h2><p>The first line in the file should specify the class name and say that it is a subclass of <a href="matlab:doc('opSpot')">opSpot</a> or another class such as <a href="matlab:doc('opOrthogonal')">opOrthogonal</a>:</p><pre> classdef opZeros &lt; opSpot</pre><p>You should then provide help comments about what the operator does:</p><pre class="codeinput"><span class="comment">%OPZEROS   Operator equivalent to zeros function.</span>
+<span class="comment">%</span>
+<span class="comment">%   opZeros(M,N) creates an operator corresponding to an M-by-N matrix</span>
+<span class="comment">%   of zeros. If parameter N is omitted it is set to M.</span>
+</pre><h2>Properties<a name="2"></a></h2><p>Next define any class properties that the operator has in addition to the ones inherited by <tt>opSpot</tt> and its other superclasses. <tt>opZeros</tt> has no extra properties defined. <tt>opSpot</tt> has the following properties, which are common to all Spot operator classes:</p><pre> properties( SetAccess = protected )
+     linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+     counter
+     m        = 0;     % No. of rows
+     n        = 0;     % No. of columns
+     type     = '';
+     cflag    = false; % Complexity of underlying operator
+     children = {};    % Constituent operators (for a meta operator)
+     precedence = 1;
+     sweepflag = false; % whether we can do a sweep multiply, A*B
+ end</pre><pre> properties( Dependent = true, SetAccess = private )
+     nprods
+ end</pre><p>All Spot operators store their size, whether they are complex or not, and several other properties. As seen above, you can also set the access to properties. Some Spot operator classes have certain properties that are public, and certain properties that have public "GetAccess" but private "SetAccess". The default access is public.</p><h2>Methods<a name="3"></a></h2><p>The first method that an operator needs is a constructor. The constructor for <tt>opZeros</tt> is below. It determines the values of <tt>m</tt>, <tt>n</tt>, and <tt>type</tt> according to the number and type of arguments passed in and then calls the <tt>opSpot</tt> constructor. More complicated operators such as <a href="matlab:doc('opExtend')">opExtend</a> have additional properties, and set these after calling the superclass constructor.</p><pre> methods
+    function op = opZeros(varargin)
+       if nargin == 0
+          m = 1; n = 1;
+       elseif nargin == 1
+          if length(varargin{1}) == 2
+             m = varargin{1}(1);
+             n = varargin{1}(2);
+          else
+             m = varargin{1};
+             n = m;
+          end
+       elseif nargin == 2
+          m = varargin{1};
+          n = varargin{2};
+       else
+          error('Too many input arguments.');
+       end
+       op = op@opSpot('Zeros',m,n);
+       op.sweepflag  = true;
+     end % function opZeros</pre><p>Although the <a href="matlab:doc('opSpot/double')">double</a> function is defined in the <tt>@opSpot</tt> folder, <tt>opZeros</tt> has a more efficient implementation, as it only needs to create a matrix of zeros with the right dimensions. <tt>double</tt> is defined as a method in <tt>opZeros</tt>, overloading the generic <tt>double</tt> method:</p><pre> function A = double(op)
+     A = zeros(size(op));
+ end</pre><pre> end % methods - public</pre><p>Spot operators can overload other functions as needed. The constructor and <tt>double</tt> are both public methods - they can be called on an <tt>opZero</tt> operator by the user. The next section in the class definition is the protected methods. As a subclass of opSpot, the only method other than the constructor that this class is required to implement is <tt>multiply(op,x,mode)</tt>.</p><p>Spot operators are multiplied using the <a href="matlab:doc('opSpot/mtimes')">mtimes</a> (or *) function. <tt>mtimes</tt> handles multiplication by scalars, calls opFoG if two Spot operators are being multiplied, and calls <tt>applyMultiply</tt> in the <tt>opSpot</tt> class if an operator and a matrix are being multiplied. The <tt>applyMultiply</tt> function checks the operator's <tt>sweepflag</tt> property. If <tt>sweepflag</tt> is set to true, the whole matrix is passed to the subclass's <tt>multiply</tt> function for a "sweep multiply". If <tt>sweepflag</tt> is false, <tt>applyMultiply</tt> calls the subclass operator's multiply function on each column of the matrix. For more information on multiplication with operators, see <a href="usingmethods.html#multiplication">Using the Methods</a>. Each operator's <tt>multiply</tt> function should take the "mode" into consideration. Mode 1 multiplies the operator, and mode 2 multiplies the operator's inverse.:</p><pre> methods( Access = protected )
+     function y = multiply(op,x,mode)
+        if (mode == 1)
+           s = op.m;
+        else
+           s = op.n;
+        end
+        if any(isinf(x) | isnan(x))
+           y = ones(s,1) * NaN;
+        else
+           y = zeros(s,1);
+        end
+     end % function multiply</pre><pre> end % methods - protected</pre><p><tt>opZeros</tt> has <tt>sweepflag</tt> set to true, so the whole matrix is passed to the <tt>multiply</tt> method. Since multiplying any matrix by a matrix of zeros produces a column of zeros, this implementation is more efficient than the column-by-column approach.</p><pre> end % classdef</pre><p>This is the end of the <tt>opZeros</tt> definition. Most of the Spot operators are more complicated, with additional properties, complicated constructors, their own public methods, and more overloaded public methods. The random operators like <a href="matlab:doc('opGuassian')">opGuassian</a> have implicit and explicit modes, which can create an explicit matrix or generate columns of a matrix as needed with a particular random number generator seed. <a href="matlab:doc('opDCT')">opDCT</a> and <a href="matlab:doc('opDCT2')">opDCT2</a> have a public method called <tt>spy</tt>, which produces a graphic representation of the operator. Look through the Spot classes for more examples of operator implementations.</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.12<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Implementing Your Own Spot Operator
+% At some point you might want to create a new Spot operator class to suit
+% your own problems. In this tutorial, we will go through the definition of
+% the |opZeros| class, explaining how you would define your own class along
+% the way.
+
+%% First Lines
+% The first line in the file should specify the class name and say that it is
+% a subclass of <matlab:doc('opSpot') opSpot>
+% or another class such as <matlab:doc('opOrthogonal') opOrthogonal>:
+%
+%   classdef opZeros < opSpot
+%
+% You should then provide help comments about what the operator does:
+
+%OPZEROS   Operator equivalent to zeros function.
+%
+%   opZeros(M,N) creates an operator corresponding to an M-by-N matrix
+%   of zeros. If parameter N is omitted it is set to M.
+
+%% Properties
+% Next define any class properties that the operator has in addition to the
+% ones inherited by |opSpot| and its other superclasses. |opZeros| has no
+% extra properties defined. |opSpot| has the following properties, which are
+% common to all Spot operator classes:
+%
+%   properties( SetAccess = protected )
+%       linear   = 1;     % Flag the op. as linear (1) or nonlinear (0)
+%       counter
+%       m        = 0;     % No. of rows
+%       n        = 0;     % No. of columns
+%       type     = '';
+%       cflag    = false; % Complexity of underlying operator
+%       children = {};    % Constituent operators (for a meta operator)
+%       precedence = 1;
+%       sweepflag = false; % whether we can do a sweep multiply, A*B
+%   end
+%     
+%   properties( Dependent = true, SetAccess = private )
+%       nprods
+%   end
+%
+% All Spot operators store their size, whether they are complex or not, and
+% several other properties. As seen above, you can also set the access to
+% properties. Some Spot operator classes have certain properties that are
+% public, and certain properties that have public "GetAccess" but
+% private "SetAccess". The default access is public.
+
+%% Methods
+% The first method that an operator needs is a constructor. The
+% constructor for |opZeros| is below. It determines the values of |m|, |n|,
+% and |type| according to the number and type of arguments passed in and
+% then calls the |opSpot| constructor. More complicated operators such as
+% <matlab:doc('opExtend') opExtend>
+% have additional properties, and set these after calling the superclass
+% constructor.
+%
+%   methods
+%      function op = opZeros(varargin)
+%         if nargin == 0
+%            m = 1; n = 1;
+%         elseif nargin == 1
+%            if length(varargin{1}) == 2
+%               m = varargin{1}(1);
+%               n = varargin{1}(2);
+%            else
+%               m = varargin{1};
+%               n = m;
+%            end
+%         elseif nargin == 2
+%            m = varargin{1};
+%            n = varargin{2};
+%         else
+%            error('Too many input arguments.');
+%         end
+%         op = op@opSpot('Zeros',m,n);
+%         op.sweepflag  = true;
+%       end % function opZeros
+%
+% Although the <matlab:doc('opSpot/double') double>
+% function is defined in the |@opSpot| folder,
+% |opZeros| has a more efficient implementation, as it only needs to create
+% a matrix of zeros with the right dimensions. |double| is defined as a
+% method in |opZeros|, overloading the generic |double| method:
+%
+%   function A = double(op)
+%       A = zeros(size(op));
+%   end
+%
+%   end % methods - public 
+%
+% Spot operators can overload other functions as needed. The constructor
+% and |double| are both public methods - they can be called on an |opZero|
+% operator by the user. The next section in the class definition is the
+% protected methods. As a subclass of opSpot, the only method other than the
+% constructor that this class is required to implement is
+% |multiply(op,x,mode)|.
+%
+% Spot operators are multiplied using the
+% <matlab:doc('opSpot/mtimes') mtimes>
+% (or *) function. |mtimes| handles multiplication by
+% scalars, calls opFoG if two Spot operators are being multiplied, and
+% calls |applyMultiply| in the |opSpot| class if an operator and a matrix are
+% being multiplied. The |applyMultiply| function checks the operator's
+% |sweepflag| property. If |sweepflag| is set to true, the whole matrix
+% is passed to the subclass's |multiply| function for a "sweep multiply".
+% If |sweepflag| is false, |applyMultiply| calls the subclass
+% operator's multiply function on each column of the matrix. For more
+% information on multiplication with operators, see
+% <usingmethods.html#multiplication Using the Methods>.
+% Each operator's |multiply| function should take the "mode" into
+% consideration. Mode 1 multiplies the operator, and mode 2 multiplies
+% the operator's inverse.:
+%
+%   methods( Access = protected )
+%       function y = multiply(op,x,mode)
+%          if (mode == 1)
+%             s = op.m;
+%          else
+%             s = op.n;
+%          end
+%          if any(isinf(x) | isnan(x))
+%             y = ones(s,1) * NaN;
+%          else
+%             y = zeros(s,1);
+%          end
+%       end % function multiply
+%       
+%   end % methods - protected
+%
+% |opZeros| has |sweepflag| set to true, so the whole matrix is passed to
+% the |multiply| method. Since multiplying any matrix by a matrix of zeros
+% produces a column of zeros, this implementation is more efficient than
+% the column-by-column approach.
+%
+%   end % classdef
+%
+% This is the end of the |opZeros| definition. Most of the Spot operators
+% are more complicated, with additional properties, complicated
+% constructors, their own public methods, and more overloaded public
+% methods. The random operators like
+% <matlab:doc('opGuassian') opGuassian>
+% have implicit and explicit
+% modes, which can create an explicit matrix or generate columns of a
+% matrix as needed with a particular random number generator seed.
+% <matlab:doc('opDCT') opDCT> and 
+% <matlab:doc('opDCT2') opDCT2>
+% have a public method called |spy|, which produces a graphic
+% representation of the operator. Look through the Spot classes for more
+% examples of operator implementations.
+
+
+##### SOURCE END #####
+--></body></html>

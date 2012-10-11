@@ -1,5 +1,5 @@
 classdef opFoG < opSpot
-%OPFOG   Forms the product of to operators.
+%OPFOG   Forms the product of two operators.
 %
 %   opFoG(OP1,OP2) creates an operator that successively applies each
 %   of the operators OP1, OP2 on a given input vector. In non-adjoint

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Meta operators</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-09-21"><meta name="DC.source" content="meta_operators.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>Meta operators</h1><div><ul><li><a href="htmlhelp/opBlockDiag.html">opBlockDiag</a> - Operator-diagonal operator</li><li><a href="htmlhelp/opBlockOp.html">opBlockOp</a> - Blockwise application of operator on matrices</li><li><a href="htmlhelp/opCTranspose.html">opCTranspose</a> - Conjugate transpose of an operator</li><li><a href="htmlhelp/opConj.html">opConj</a> - Take the elementwise conjugate of a complex operator</li><li><a href="htmlhelp/opDiag.html">opDiag</a> - Diagonal operator</li><li><a href="htmlhelp/opDictionary.html">opDictionary</a> - Dictionary of concatenated operators</li><li><a href="htmlhelp/opExcise.html">opExcise</a> - Excise rows or columns of an operator</li><li><a href="htmlhelp/opExtend.html">opExtend</a> - Symmetric extension operator</li><li><a href="htmlhelp/opFoG.html">opFoG</a> - Forms the product of two operators</li><li><a href="htmlhelp/opImag.html">opImag</a> - Complex imaginary part of operator</li><li><a href="htmlhelp/opInverse.html">opInverse</a> - (Pseudo) inverse of operator</li><li><a href="htmlhelp/opKron.html">opKron</a> - Kronecker tensor product</li><li><a href="htmlhelp/opMask.html">opMask</a> - Selection mask</li><li><a href="htmlhelp/opMinus.html">opMinus</a> - Difference of two operators</li><li><a href="htmlhelp/opOrthogonal.html">opOrthogonal</a> - Abstract class for orthogonal operators</li><li><a href="htmlhelp/opPInverse.html">opPInverse</a> - Pseudo inverse of operator</li><li><a href="htmlhelp/opPower.html">opPower</a> - Raise operator to integer power</li><li><a href="htmlhelp/opReal.html">opReal</a> - Real part of operator</li><li><a href="htmlhelp/opRestriction.html">opRestriction</a> - Restriction operator</li><li><a href="htmlhelp/opSpot.html">opSpot</a> - Spot operator super class</li><li><a href="htmlhelp/opStack.html">opStack</a> - Stack of vertically concatenated operators</li><li><a href="htmlhelp/opSubsAsgn.html">opSubsAsgn</a> - Redefine rectangular subset of operator</li><li><a href="htmlhelp/opSubsRef.html">opSubsRef</a> - Extract rectangular subset of operator entries</li><li><a href="htmlhelp/opSum.html">opSum</a> - Addition of two operators</li><li><a href="htmlhelp/opTranspose.html">opTranspose</a> - Transpose of an operator</li><li><a href="htmlhelp/opUnaryMinus.html">opUnaryMinus</a> - Negation of an operator</li></ul></div><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Meta operators
+%
+% * <htmlhelp/opBlockDiag.html opBlockDiag> - Operator-diagonal operator
+% * <htmlhelp/opBlockOp.html opBlockOp> - Blockwise application of operator on matrices
+% * <htmlhelp/opCTranspose.html opCTranspose> - Conjugate transpose of an operator
+% * <htmlhelp/opConj.html opConj> - Take the elementwise conjugate of a complex operator
+% * <htmlhelp/opDiag.html opDiag> - Diagonal operator
+% * <htmlhelp/opDictionary.html opDictionary> - Dictionary of concatenated operators
+% * <htmlhelp/opExcise.html opExcise> - Excise rows or columns of an operator
+% * <htmlhelp/opExtend.html opExtend> - Symmetric extension operator
+% * <htmlhelp/opFoG.html opFoG> - Forms the product of two operators
+% * <htmlhelp/opImag.html opImag> - Complex imaginary part of operator
+% * <htmlhelp/opInverse.html opInverse> - (Pseudo) inverse of operator
+% * <htmlhelp/opKron.html opKron> - Kronecker tensor product
+% * <htmlhelp/opMask.html opMask> - Selection mask
+% * <htmlhelp/opMinus.html opMinus> - Difference of two operators
+% * <htmlhelp/opOrthogonal.html opOrthogonal> - Abstract class for orthogonal operators
+% * <htmlhelp/opPInverse.html opPInverse> - Pseudo inverse of operator
+% * <htmlhelp/opPower.html opPower> - Raise operator to integer power
+% * <htmlhelp/opReal.html opReal> - Real part of operator
+% * <htmlhelp/opRestriction.html opRestriction> - Restriction operator
+% * <htmlhelp/opSpot.html opSpot> - Spot operator super class
+% * <htmlhelp/opStack.html opStack> - Stack of vertically concatenated operators
+% * <htmlhelp/opSubsAsgn.html opSubsAsgn> - Redefine rectangular subset of operator
+% * <htmlhelp/opSubsRef.html opSubsRef> - Extract rectangular subset of operator entries
+% * <htmlhelp/opSum.html opSum> - Addition of two operators
+% * <htmlhelp/opTranspose.html opTranspose> - Transpose of an operator
+% * <htmlhelp/opUnaryMinus.html opUnaryMinus> - Negation of an operator
+
+##### SOURCE END #####
+--></body></html>
