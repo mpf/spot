@@ -5,17 +5,17 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   seed = randn('state');
+   seed = rng('default');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 function test_opBernoulli_mode01_against_rand(seed)
    m = 10; n = 5;
 
-   randn('state',seed);  A1 = 2*(randn(m,n)<0)-1;
-   randn('state',seed);  A2 = opBernoulli(m,n);
-   randn('state',seed);  A3 = opBernoulli(m,n,0); % explicit
-   randn('state',seed);  A4 = opBernoulli(m,n,1); % implicit
+   rng(seed);  A1 = 2*(randn(m,n)<0)-1;
+   rng(seed);  A2 = opBernoulli(m,n);
+   rng(seed);  A3 = opBernoulli(m,n,0); % explicit
+   rng(seed);  A4 = opBernoulli(m,n,1); % implicit
 
    x = randn(n,2);
    y = A1 *x;
@@ -39,8 +39,8 @@ end
 function test_opBernoulli_mode23(seed)
    m = 10; n = 5;
 
-   randn('state',seed);  A1 = opBernoulli(m,n,2); % explicit
-   randn('state',seed);  A2 = opBernoulli(m,n,3); % implicit
+   rng(seed);  A1 = opBernoulli(m,n,2); % explicit
+   rng(seed);  A2 = opBernoulli(m,n,3); % implicit
 
    assertElementsAlmostEqual( double(A1), double(A2) );
 end

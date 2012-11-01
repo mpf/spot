@@ -17,7 +17,8 @@ released - <Dec 1 2002>
 
 4. Compile the toolbox by executing the Matlab command 
 
-        compile
+        addpath('.')
+	compile
 
 5. Add the toolbox directory to your Matlab path.
 

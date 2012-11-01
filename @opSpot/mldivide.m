@@ -17,7 +17,7 @@ function x = mldivide(A,B)
 %   The least-squares problem (*) is solved using LSQR with default
 %   parameters specified by spotparams.
 %
-%   See also mldivide, opSpot.mrdivide, opFoG, opPInverse, spotparams.
+%   See also opSpot.mrdivide, opFoG, opPInverse, spotparams.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.
@@ -36,13 +36,17 @@ function x = mldivide(A,B)
 % 4) C\C (where both are Spot classes)
 % TODO: What if one of the classes in 5 is not a Spot class?
 
+% dataContainer preprocessing
+if isa(B,'dataContainer') % Please see DataContainerInfo.md
+    x = mldivide(B,A,'swap');
+else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 1: M\C
 % Mode 3: s\C - Here we also handle the special case where C is 1-by-M.
 %               If so, then we recast this as (C'*s)', which results in
 %               a call to the "usual" matrix-vector product.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if isnumeric(A)
+if ~isa(A,'opSpot')
    if isscalar(A)
       % s\C (mode 3).  NOTE: if B is a row vector, then the mtimes
       % routine will ensure that the following product evaluates to a
@@ -69,20 +73,22 @@ if isnumeric(A)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 2: C\M
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-elseif isnumeric(B)
+elseif ~isa(B,'opSpot')
    if size(A,1) ~= size(B,1)
       error('Matrix dimensions must agree.');
    end
    
    % Pre-allocate result matrix and apply mldivide to each column
    x = zeros(size(A,2),size(B,2));
-   for j=1:size(B,2)
-      x(:,j) = A.divide(B(:,j),1);
-   end
+   x = A.divide(B,1);
+%    for j=1:size(B,2)
+%       x(:,j) = A.divide(B(:,j),1);
+%    end
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mode 4: Both args are Spot ops.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 else
    x = pinv(A) * B;
+end
 end

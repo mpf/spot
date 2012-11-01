@@ -5,7 +5,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function dat = setup
-   randn('state',0); rand('state',0);
+   rng('default');
    A  = randn(2,2) + 1i*randn(2,2);
    B  = opMatrix(A);
    c  = randn(1,1) + 1i*randn(1,1);
@@ -14,24 +14,6 @@ function dat = setup
    dat.A  = A * c;
    dat.B  = B * c;
    dat.x  = xr + xi;
-end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function test_coremethods_operator_sums(dat)
-   A = dat.A; B = dat.B; x = dat.x; xr = real(x); xi = imag(x);
-   C = A' * 5 * A;
-   D = B' * 5 * B;
-   assertElementsAlmostEqual( ...
-       (A + 5) * x         ,...
-       (B + 5) * x         );
-   assertElementsAlmostEqual( ...
-       (A - 5) * x         ,...
-       (B - 5) * x         );
-   assertElementsAlmostEqual( ...
-       (5 + A) * x         ,...
-       (5 + B) * x         );
-   assertElementsAlmostEqual( ...
-       (5 + (-A)) * x     ,...
-       (5 + (-B)) * x      );
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function test_coremethods_operator_products(dat)
@@ -247,4 +229,8 @@ function test_coremethods_simplification(dat)
                char(B'));
    assertEqual(char(conj(B)'),...
                char(B.'));
+end
+
+function test_coremethods_sparse(dat)
+    assert(issparse(double(sprandn(3,3,0.5))));
 end

@@ -5,8 +5,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function seed = setup
-   randn('state',0);
-   rand('state',0);
+   rng('default');
    seed = [];
 end
 
@@ -15,10 +14,10 @@ function test_opBlockDiag_prod(seed)
    n = randi(100); m = randi(100);
    A = opMatrix(randn(m,m));
    B = opMatrix(randn(n,n));
-   D = blkdiag(A,B);
+   D = opBlockDiag(A,B);
    x = randn(m+n,1);
-   assertEqual( [A*x(1:m); B*x(m+1:end)], D*x )
-   assertEqual( [A'*x(1:m); B'*x(m+1:end)], D'*x )
+   assertElementsAlmostEqual( [A*x(1:m); B*x(m+1:end)], D*x )
+   assertElementsAlmostEqual( [A'*x(1:m); B'*x(m+1:end)], D'*x )
 end
 
 function test_opBlockDiag_overlap(seed)

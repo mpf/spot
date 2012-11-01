@@ -9,7 +9,9 @@ function M = double(A)
 
 %   http://www.cs.ubc.ca/labs/scl/spot
 
-if size(A,1) < size(A,2)
+if (size(A,1) < size(A,2)) ...
+    && ~isa(A, 'opTranspose') && ~isa(A, 'opCTranspose') ...
+    && ~isa(A, 'oppTranspose') && ~isa(A, 'oppCTranspose')
    M = (A'*speye(size(A,1)))';
 else
    M = A*speye(size(A,2));

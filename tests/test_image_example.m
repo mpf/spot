@@ -16,9 +16,9 @@ function test_image_clown(h)
 
 load clown                   % the famous clown image
 m  = 128; n = 256; N = m*n;
-[P,c] = psfGaussian(m,n,2); % Gaussian PSF
-Y  = X(1:m,1:n);              % nicely-shaped version of the original image 
-y  = Y(:);                    % vectorized version of image
+[P,c] = psfGaussian(m,n,2);  % Gaussian PSF
+Y  = X(1:m,1:n);             % nicely-shaped version of the original image 
+y  = Y(:);                   % vectorized version of image
 A1 = circshift(P,1-c);       % first col of blurring operator A
 
 % Using Matlab's built-in DFTs.
@@ -30,7 +30,7 @@ B  = real(B);
 
 % Using Spot.
 F  = opDFT2(m,n);
-s  = sqrt(N) * F  * A1(:); % F*a1 = 1/sqrt(N) evals of A
+s  = sqrt(N) * F  * A1(:);   % F*a1 = 1/sqrt(N) evals of A
 b  = F' * (s .* (F*y));      % b = F'*S*F*y
 b  = real(b);
 B2 = reshape(b,m,n);         % Reshape into a matrix.
