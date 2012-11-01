@@ -1,4 +1,4 @@
-classdef opSpot
+classdef (HandleCompatible) opSpot
     %opSpot  Spot operator super class.
     %
     %   A = opSpot  creates an empty Spot operator.

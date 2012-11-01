@@ -1,4 +1,4 @@
-classdef opOrthogonal < opSpot
+classdef (HandleCompatible) opOrthogonal < opSpot
 %OPORTHOGONAL   Abstract class for orthogonal operators.
 %
 %   opOrthogonal methods:
