@@ -35,7 +35,7 @@ classdef opHaar < opWavelet
               error('N must be a multiple of 2^(%i)',levels)
            end
            
-           op = op@opWavelet(n,1,'Haar',0,levels,redundant);
+           op = op@opWavelet(n,'Haar',0,levels,redundant);
            op.type = 'Haar';
            
         end % function opHaar

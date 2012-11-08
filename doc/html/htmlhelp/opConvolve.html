@@ -1,0 +1,44 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opConvolve</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opConvolve</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opConvolve</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opConvolve</span>   One and two dimensional convolution operator.
+ 
+    <span class="helptopic">opConvolve</span>(M,N,KERNEL,OFFSET,MODE) creates an operator for one or
+    two-dimensional convolution, depending on the size of the KERNEL,
+    and the matrix or vector (MxN) the convolution is applied to. The
+    convolution is one dimensional only if KERNEL is a column vector
+    and N=1, or KERNEL is a row vector and M=1. The OFFSET parameter
+    determines the center of the KERNEL and has a default value of
+    [1,1]. When the OFFSET lies outside the size of the KERNEL, the
+    KERNEL is embedded in a zero matrix/vector with appropriate
+    center. For one-dimensional convolution, KERNEL may be a
+    scalar. Specifying an offset that is not equal to one where the
+    corresponding size of the kernel does equal one leads to the
+    construction of a two-dimensional convolution operator. There are
+    three types of MODE:
+  
+    MODE = 'regular'   - convolve input with kernel;
+           'truncated' - convolve input with kernel, but keep only
+                         those MxN entries in the result that
+                         overlap with the input;
+           'cyclic'    - do cyclic convolution of the input with a
+                         kernel that is wrapped around as many
+                         times as needed.
+ 
+    The output of the convolution operator, like all other
+    operators, is in vector form.</pre></div><!--after help -->
+   </body>
+</html>

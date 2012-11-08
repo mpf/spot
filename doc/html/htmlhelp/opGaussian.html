@@ -1,0 +1,46 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opGaussian</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opGaussian</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opGaussian</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opGaussian</span>   Gaussian ensemble.
+ 
+    <span class="helptopic">opGaussian</span>(M,N) creates an M-by-N Gaussian-ensemble operator.
+ 
+    <span class="helptopic">opGaussian</span>(M) creates a square M-by-M Gaussian-ensemble.
+ 
+    <span class="helptopic">opGaussian</span>(M,N,MODE) is the same as above, except that the
+    parameter MODE controls the type of ensemble that is generated.
+    The default is MODE=0 unless the overall memory requred exceeds 50
+    MBs.
+ 
+    MODE = 0 (default): generates an explicit unnormalized matrix from
+    the Normal distribution. The overall storage is O(M*N).
+ 
+    MODE = 1: generates columns of the unnormalized matrix as the
+    operator is applied. This allows for much larger ensembles because
+    the matrix is implicit. The overall storage is O(M).
+ 
+    MODE = 2: generates a explicit matrix with unit-norm columns.
+ 
+    MODE = 3: same as MODE=2, but the matrix is implicit (see MODE=1).
+ 
+    MODE = 4: generates an explicit matrix with orthonormal rows.
+    This mode requires M &lt;= N.
+ 
+    Available operator properties:
+    .mode  is the mode used to create the operator.
+    .seed  is the seed used to initialize the RNG.</pre></div><!--after help -->
+   </body>
+</html>

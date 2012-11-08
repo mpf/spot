@@ -1,0 +1,59 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opWindow</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opWindow</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opWindow</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opWindow</span>   Diagonal window matrix.
+ 
+    <span class="helptopic">opWindow</span>(D) creates an operator for multiplication by the
+    diagonal matrix with D on its diagonal.
+ 
+    <span class="helptopic">opWindow</span>(N,FAMILY,VARARGIN) creates an N by N diagonal matrix with
+    diagonal entries given by the window function of given family and
+    optional additional parameters.
+ 
+    Family                 Optional parameters
+    ---------------------  ----------------------------------------
+    Bartlett               -
+    Bartlett-Hann          -
+    Blackman               alpha = 0.16;
+    Blackman-Harris        -
+    Blackman-Nuttall       -
+    Bohman                 -
+    Cauchy                 alpha = 3;
+    Cos                    (see Cosine)
+    Cosine                 alpha = 1;
+    Dirichlet              -
+    Flattop                -
+    Gauss                  (see Gaussian)
+    Gaussian               alpha = 2.5;
+    Hamming                -
+    Hann                   -
+    Hann-Poisson           alpha = 1;
+    Kaiser                 alpha = 0.5;
+    Kaiser-Bessel Derived  alpha = 0.5;
+    KBD                    (see Kaiser-Bessel Derived)
+    Lanczos                alpha = 1;
+    Triangle               -
+    Parzen                 -
+    Poisson                alpha = 1;
+    Rectangle              (see Dirichlet)
+    Sinc                   (see Lanczos)
+    Tukey                  alpha = 0.5;
+    Uniform                (see Dirichlet)
+    Valle-Poussin          (see Parzen)
+    Weierstrasss           (see Gaussian)</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> <a href="matlab:helpwin opDiag">opDiag</a>.
+</div>
+   </body>
+</html>

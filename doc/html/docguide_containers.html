@@ -1,0 +1,158 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Using Spot containers</title><meta name="generator" content="MATLAB 7.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-08-08"><meta name="DC.source" content="docguide_containers.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>Using Spot containers</h1><!--introduction--><p>Spot provides a set of "wrappers" that can be used to integrate external opertors with Spot utilities.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Function containers</a></li><li><a href="#4">Matrix containers</a></li><li><a href="#7">Class containers</a></li></ul></div><h2>Function containers<a name="1"></a></h2><p>Suppose that we have an existing function that implements a discretized <a href="http://en.wikipedia.org/wiki/Heaviside_step_function">Heaviside step function</a>. This function returns a vector with the cumulative sum of the input vector (i.e., Matlab's <a href="matlab:doc('cumsum')">cumsum</a> function.) In the "adjoint" mode, our function returns the cumulative-sum vector, but in reverse order. Here is one simple way to implement such a function:</p><pre class="codeinput">type <span class="string">heaviside.m</span>
+</pre><pre class="codeoutput">
+function y = heaviside(x,mode)
+%heaviside  The discrete Heaviside transform.
+  if mode == 1
+     y = cumsum(x);
+  else
+     y = flipud(cumsum(flipud(x)));
+  end
+end
+</pre><p>In order to make this function available as a Spot operator, we wrap it using <a href="matlab:doc('opFunction')">opFunction</a>:</p><pre class="codeinput">n = 5; m = 5;
+A = opFunction(n,m,@heaviside);
+</pre><p>Note that we provide the number of rows and columns for this particular instance, because all Spot operators must have their dimensions defined. Now <tt>A</tt> can be used like any other Spot operator. For example:</p><pre class="codeinput">B = A(1:2:end,:);         <span class="comment">% B is a new operator with even rows of A</span>
+double(B)                 <span class="comment">% print the elements of B</span>
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     0     0     0
+     1     1     1     0     0
+     1     1     1     1     1
+
+</pre><h2>Matrix containers<a name="4"></a></h2><p>Spot's default behavior when multiplying operators with matrices is to apply the operator to each column of the matrix.  For example, this next command scales the columns of the Heaviside operator:</p><pre class="codeinput">C = A * diag(1:m)
+</pre><pre class="codeoutput">
+C =
+
+     1     0     0     0     0
+     1     2     0     0     0
+     1     2     3     0     0
+     1     2     3     4     0
+     1     2     3     4     5
+
+</pre><p>But if we instead want to form a new operator formed from the products of A and the diagonal, we first need to wrap the diagonal matrix:</p><pre class="codeinput">C = A * opMatrix(diag(1:m))
+</pre><pre class="codeoutput">C = 
+  Spot operator: Function(5,5) * Matrix(5,5)
+    rows:      5    complex: no        
+    cols:      5    type:    FoG       
+</pre><p>Though in this special case, we might have as well used the Spot operator <a href="matlab:doc('opDiag')">opDiag</a> instead of the more general (and in this case, cumbersome) <a href="matlab:doc('opMatrix')">opMatrix</a><tt>(diag(1:m))</tt>.</p><h2>Class containers<a name="7"></a></h2><p>Finally, the <a href="matlab:doc('opClass')">opClass</a> container can be used to encapsulate objects defined by external toolboxes.</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.12<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Using Spot containers
+% Spot provides a set of "wrappers" that can be used to integrate
+% external opertors with Spot utilities.
+
+%% Function containers
+% Suppose that we have an existing function that implements a discretized
+% <http://en.wikipedia.org/wiki/Heaviside_step_function Heaviside step
+% function>. This function
+% returns a vector with the cumulative sum of the input vector
+% (i.e., Matlab's <matlab:doc('cumsum') cumsum> function.) In the
+% "adjoint" mode, our function returns the cumulative-sum vector, but in
+% reverse order. Here is one simple way to implement such a function:
+
+type heaviside.m
+
+%%
+% In order to make this function available as a Spot operator, we wrap it
+% using <matlab:doc('opFunction') opFunction>:
+
+n = 5; m = 5;
+A = opFunction(n,m,@heaviside);
+
+%%
+% Note that we provide the number of rows and columns for this particular
+% instance, because all Spot operators must have their dimensions defined.
+% Now |A| can be used like any other Spot operator. For example:
+
+B = A(1:2:end,:);         % B is a new operator with even rows of A
+double(B)                 % print the elements of B
+
+%% Matrix containers
+% Spot's default behavior when multiplying operators with matrices is to
+% apply the operator to each column of the matrix.  For example, this next
+% command scales the columns of the Heaviside operator:
+
+C = A * diag(1:m)
+
+%%
+% But if we instead want to form a new operator formed from the products of
+% A and the diagonal, we first need to wrap the diagonal matrix:
+
+C = A * opMatrix(diag(1:m))
+
+%%
+% Though in this special case, we might have as well used the Spot operator
+% <matlab:doc('opDiag') opDiag> instead of the more general (and in this
+% case, cumbersome) <matlab:doc('opMatrix') opMatrix>|(diag(1:m))|.
+
+%% Class containers
+% Finally, the <matlab:doc('opClass') opClass> container can be used to encapsulate
+% objects defined by external toolboxes.
+
+
+##### SOURCE END #####
+--></body></html>

@@ -70,7 +70,7 @@ classdef opBernoulli < opSpot
 
           % Create object
           op = op@opSpot('Bernoulli', m, n);
-          op.seed = randn('state');
+          op.seed = rng;
           op.mode = mode;
           [m,n] = size(op);
           
@@ -143,8 +143,8 @@ classdef opBernoulli < opSpot
           m = op.m;
           n = op.n;
           % Store current random number generator state
-          seed0 = randn('state');
-          randn('state',op.seed);
+          seed0 = rng;
+          rng(op.seed);
 
           if mode == 1
              y = zeros(m,1);
@@ -164,7 +164,7 @@ classdef opBernoulli < opSpot
           if op.scale ~= 1, y = y * op.scale; end
 
           % Restore original random number generator state
-          randn('state',seed0);
+          rng(seed0);
        end % function multiplyImplicit
        
     end % methods - private

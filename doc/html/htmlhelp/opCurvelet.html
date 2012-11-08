@@ -1,0 +1,32 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opCurvelet</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opCurvelet</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opCurvelet</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opCurvelet</span>  Two-dimensional curvelet operator.
+ 
+    <span class="helptopic">opCurvelet</span>(M,N,NBSCALES,NBANGLES,TTYPE) creates a two-dimensional
+    curvelet operator for M by N matrices. The curvelet transform is
+    computed using the Curvelab code.
+ 
+    The remaining three parameters are optional; NBSCALES gives the
+    number of scales and is set to max(1,ceil(log2(min(M,N)) - 3)) by
+    default, as suggested by Curvelab. NBANGLES gives the number of
+    angles at the second coarsest level which must be a multiple of
+    four with a minimum of 8. By default NBANGLES is set to 16. TTYPE
+    determines the type of transformation and is set to 'WRAP' by
+    default.</pre></div><!--after help --><!--seeAlso--><div class="footerlinktitle">See also</div><div class="footerlink"> CURVELAB.
+</div>
+   </body>
+</html>

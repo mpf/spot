@@ -17,18 +17,18 @@ function test_opDictionary_mixed
    y2 = D*x;
    
    assertEqual(y1,y2);
-   assertFalse(dottest(D ))
-   assertFalse(dottest(D'))
+   assertFalse(spot.utils.dottest(D ))
+   assertFalse(spot.utils.dottest(D'))
    
 end
 
 function test_opDictionary_multiple
 
    D = [ opDCT(10) opDFT(10) double(opDCT(10)) ];
-   assertFalse(dottest(D))
+   assertFalse(spot.utils.dottest(D))
 
    D = [ opDCT(10) opDFT(10) [] double(opDCT(10)) ];
-   assertFalse(dottest(D))
+   assertFalse(spot.utils.dottest(D))
    assertTrue( all(size(D) == [10 30]) )
    
 end

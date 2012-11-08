@@ -1,0 +1,125 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Spot methods</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-09-21"><meta name="DC.source" content="spot_methods.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>Spot methods</h1><p>Many of the Spot methods have the same syntax as Matlab methods that are called on matrices.</p><div><ul><li><a href="htmlhelp/bicg.html">bicg</a> - BiConjugate Gradients Method</li><li><a href="htmlhelp/bicgstab.html">bicgstab</a> - BiConjugate Gradients Stabilized Method</li><li><a href="htmlhelp/blkdiag.html">blkdiag</a> - Block-diagonal concatenation of operator input arguments</li><li><a href="htmlhelp/cgs.html">cgs</a> - Conjugate Gradients Squared Method</li><li><a href="htmlhelp/char.html">char</a> - Create a string representation of a Spot operator</li><li><a href="htmlhelp/conj.html">conj</a> - Elementwise conjugate of operator</li><li><a href="htmlhelp/ctranspose.html">ctranspose</a> - Complex conjugate tranpose</li><li><a href="htmlhelp/diag.html">diag</a> - Diagonal operator and diagonals of an operator</li><li><a href="htmlhelp/disp.html">disp</a> - Display a Spot operator</li><li><a href="htmlhelp/display.html">display</a> - Display an operator</li><li><a href="htmlhelp/double.html">double</a> - Converts a Spot operator to matrix</li><li><a href="htmlhelp/drandn.html">drandn</a> - Normally distributed pseudorandom vector in the operator domain</li><li><a href="htmlhelp/eigs.html">eigs</a> - Find a few eigenvalues and eigenvectors of an operator using ARPACK</li><li><a href="htmlhelp/end.html">end</a> - returns maximum index</li><li><a href="htmlhelp/full.html">full</a> - Convert a Spot operator into a (dense) matrix</li><li><a href="htmlhelp/gmres.html">gmres</a> - Generalized Minimum Residual Method</li><li><a href="htmlhelp/horzcat.html">horzcat</a> - Horizontal concatenation</li><li><a href="htmlhelp/imag.html">imag</a> - Complex imaginary part</li><li><a href="htmlhelp/inv.html">inv</a> - Inverse of a linear operator</li><li><a href="htmlhelp/isempty.html">isempty</a> - True for empty operator</li><li><a href="htmlhelp/isreal.html">isreal</a> - True for real operator</li><li><a href="htmlhelp/isscalar.html">isscalar</a> - True if operator is a scalar</li><li><a href="htmlhelp/kron.html">kron</a> - Kronecker tensor product of operators</li><li><a href="htmlhelp/length.html">length</a> - Maximum dimension of operator</li><li><a href="htmlhelp/lsqr.html">lsqr</a> - LSQR Method</li><li><a href="htmlhelp/minres.html">minres</a> - Minimum Residual Method</li><li><a href="htmlhelp/minus.html">minus</a> - Difference of two operators</li><li><a href="htmlhelp/mldivide.html">mldivide</a> - Backslash or left matrix divide</li><li><a href="htmlhelp/mpower.html">mpower</a> - Matrix power</li><li><a href="htmlhelp/mrdivide.html">mrdivide</a> - Slash or right matrix divide</li><li><a href="htmlhelp/mtimes.html">mtimes</a> - Product of two operators</li><li><a href="htmlhelp/ndims.html">ndims</a> - Number of dimensions</li><li><a href="htmlhelp/normest.html">normest</a> - Estimate the matrix 2-norm</li><li><a href="htmlhelp/pcg.html">pcg</a> - Preconditioned Conjugate Gradients Method</li><li><a href="htmlhelp/pinv.html">pinv</a> - Pseudo-inverse of an operator</li><li><a href="htmlhelp/plus.html">plus</a> - Sum of two operators</li><li><a href="htmlhelp/qmr.html">qmr</a> - Quasi-Minimal Residual Method</li><li><a href="htmlhelp/real.html">real</a> - Complex real part</li><li><a href="htmlhelp/rrandn.html">rrandn</a> - Normally distributed pseudorandom vector in the operator range</li><li><a href="htmlhelp/size.html">size</a> - Dimensions of a Spot operator</li><li><a href="htmlhelp/spotexport.html">spotexport</a> -</li><li><a href="htmlhelp/spotparams.html">spotparams</a> -</li><li><a href="htmlhelp/spotpublish.html">spotpublish</a> -</li><li><a href="htmlhelp/spottests.html">spottests</a> -</li><li><a href="htmlhelp/subsasgn.html">subsasgn</a> - Subscribed assignment</li><li><a href="htmlhelp/subsref.html">subsref</a> - Subscripted reference</li><li><a href="htmlhelp/symmlq.html">symmlq</a> - Symetric LQ Method</li><li><a href="htmlhelp/transpose.html">transpose</a> - Operator tranpose</li><li><a href="htmlhelp/uminus.html">uminus</a> - Unary minus</li><li><a href="htmlhelp/uplus.html">uplus</a> - Unary plus</li><li><a href="htmlhelp/vertcat.html">vertcat</a> - Vertical concatenation</li></ul></div><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Spot methods
+% Many of the Spot methods have the same syntax as Matlab methods that are
+% called on matrices.
+%
+% * <htmlhelp/bicg.html bicg> - BiConjugate Gradients Method
+% * <htmlhelp/bicgstab.html bicgstab> - BiConjugate Gradients Stabilized Method
+% * <htmlhelp/blkdiag.html blkdiag> - Block-diagonal concatenation of operator input arguments
+% * <htmlhelp/cgs.html cgs> - Conjugate Gradients Squared Method
+% * <htmlhelp/char.html char> - Create a string representation of a Spot operator
+% * <htmlhelp/conj.html conj> - Elementwise conjugate of operator
+% * <htmlhelp/ctranspose.html ctranspose> - Complex conjugate tranpose
+% * <htmlhelp/diag.html diag> - Diagonal operator and diagonals of an operator
+% * <htmlhelp/disp.html disp> - Display a Spot operator
+% * <htmlhelp/display.html display> - Display an operator
+% * <htmlhelp/double.html double> - Converts a Spot operator to matrix
+% * <htmlhelp/drandn.html drandn> - Normally distributed pseudorandom vector in the operator domain
+% * <htmlhelp/eigs.html eigs> - Find a few eigenvalues and eigenvectors of an operator using ARPACK
+% * <htmlhelp/end.html end> - returns maximum index
+% * <htmlhelp/full.html full> - Convert a Spot operator into a (dense) matrix
+% * <htmlhelp/gmres.html gmres> - Generalized Minimum Residual Method
+% * <htmlhelp/horzcat.html horzcat> - Horizontal concatenation
+% * <htmlhelp/imag.html imag> - Complex imaginary part
+% * <htmlhelp/inv.html inv> - Inverse of a linear operator
+% * <htmlhelp/isempty.html isempty> - True for empty operator
+% * <htmlhelp/isreal.html isreal> - True for real operator
+% * <htmlhelp/isscalar.html isscalar> - True if operator is a scalar
+% * <htmlhelp/kron.html kron> - Kronecker tensor product of operators
+% * <htmlhelp/length.html length> - Maximum dimension of operator
+% * <htmlhelp/lsqr.html lsqr> - LSQR Method
+% * <htmlhelp/minres.html minres> - Minimum Residual Method
+% * <htmlhelp/minus.html minus> - Difference of two operators
+% * <htmlhelp/mldivide.html mldivide> - Backslash or left matrix divide
+% * <htmlhelp/mpower.html mpower> - Matrix power
+% * <htmlhelp/mrdivide.html mrdivide> - Slash or right matrix divide
+% * <htmlhelp/mtimes.html mtimes> - Product of two operators
+% * <htmlhelp/ndims.html ndims> - Number of dimensions
+% * <htmlhelp/normest.html normest> - Estimate the matrix 2-norm
+% * <htmlhelp/pcg.html pcg> - Preconditioned Conjugate Gradients Method
+% * <htmlhelp/pinv.html pinv> - Pseudo-inverse of an operator
+% * <htmlhelp/plus.html plus> - Sum of two operators
+% * <htmlhelp/qmr.html qmr> - Quasi-Minimal Residual Method
+% * <htmlhelp/real.html real> - Complex real part
+% * <htmlhelp/rrandn.html rrandn> - Normally distributed pseudorandom vector in the operator range
+% * <htmlhelp/size.html size> - Dimensions of a Spot operator
+% * <htmlhelp/spotexport.html spotexport> - 
+% * <htmlhelp/spotparams.html spotparams> - 
+% * <htmlhelp/spotpublish.html spotpublish> - 
+% * <htmlhelp/spottests.html spottests> - 
+% * <htmlhelp/subsasgn.html subsasgn> - Subscribed assignment
+% * <htmlhelp/subsref.html subsref> - Subscripted reference
+% * <htmlhelp/symmlq.html symmlq> - Symetric LQ Method
+% * <htmlhelp/transpose.html transpose> - Operator tranpose
+% * <htmlhelp/uminus.html uminus> - Unary minus
+% * <htmlhelp/uplus.html uplus> - Unary plus
+% * <htmlhelp/vertcat.html vertcat> - Vertical concatenation
+
+##### SOURCE END #####
+--></body></html>

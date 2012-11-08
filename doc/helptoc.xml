@@ -3,30 +3,494 @@
 <toc version="1.0">
 
 <tocitem target="html/spot_main_page.html">Spot Linear Operator Toolbox
-    <tocitem target="html/guide_circulant.html"
-             image="$toolbox/matlab/icons/greencircleicon.gif">
-             Getting started: A first example
+    <tocitem target="html/docguide_quick.html"
+             image="HelpIcon.GETTING_STARTED">
+             A quick guide to Spot
+    </tocitem>
+    <tocitem target="html/usingmethods.html"
+             image= "HelpIcon.USER_GUIDE">
+             Using methods on operators
     </tocitem>
     <tocitem target="html/spot_operators.html"
-             image="$toolbox/matlab/icons/pagesicon.gif">
+             image="HelpIcon.RELEASE_NOTES">
              Operators
              <tocitem target="html/elementary_operators.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
                       Elementary operators
+             <tocitem target="html/htmlhelp/opDirac.html"
+                      image="HelpIcon.BLOCK">
+                      opDirac
+             </tocitem>
+             <tocitem target="html/htmlhelp/opEmpty.html"
+                      image="HelpIcon.BLOCK">
+                      opEmpty
+             </tocitem>
+             <tocitem target="html/htmlhelp/opEye.html"
+                      image="HelpIcon.BLOCK">
+                      opEye
+             </tocitem>
+             <tocitem target="html/htmlhelp/opOnes.html"
+                      image="HelpIcon.BLOCK">
+                      opOnes
+             </tocitem>
+             <tocitem target="html/htmlhelp/opZeros.html"
+                      image="HelpIcon.BLOCK">
+                      opZeros
+             </tocitem>
              </tocitem>
              <tocitem target="html/container_operators.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
                       Containers
+             <tocitem target="html/htmlhelp/opClass.html"
+                      image="HelpIcon.BLOCK">
+                      opClass
+             </tocitem>
+             <tocitem target="html/htmlhelp/opFunction.html"
+                      image="HelpIcon.BLOCK">
+                      opFunction
+             </tocitem>
+             <tocitem target="html/htmlhelp/opMatrix.html"
+                      image="HelpIcon.BLOCK">
+                      opMatrix
+             </tocitem>
              </tocitem>
              <tocitem target="html/fast_operators.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
                       Fast transforms
+             <tocitem target="html/htmlhelp/opConvolve.html"
+                      image="HelpIcon.BLOCK">
+                      opConvolve
+             </tocitem>
+             <tocitem target="html/htmlhelp/opCurvelet.html"
+                      image="HelpIcon.BLOCK">
+                      opCurvelet
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDCT.html"
+                      image="HelpIcon.BLOCK">
+                      opDCT
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDCT2.html"
+                      image="HelpIcon.BLOCK">
+                      opDCT2
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDFT.html"
+                      image="HelpIcon.BLOCK">
+                      opDFT
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDFT2.html"
+                      image="HelpIcon.BLOCK">
+                      opDFT2
+             </tocitem>
+             <tocitem target="html/htmlhelp/opHaar.html"
+                      image="HelpIcon.BLOCK">
+                      opHaar
+             </tocitem>
+             <tocitem target="html/htmlhelp/opHaar2.html"
+                      image="HelpIcon.BLOCK">
+                      opHaar2
+             </tocitem>
+             <tocitem target="html/htmlhelp/opWavelet.html"
+                      image="HelpIcon.BLOCK">
+                      opWavelet
+             </tocitem>
+             <tocitem target="html/htmlhelp/opWavelet2.html"
+                      image="HelpIcon.BLOCK">
+                      opWavelet2
+             </tocitem>
+             <tocitem target="html/htmlhelp/opWindow.html"
+                      image="HelpIcon.BLOCK">
+                      opWindow
+             </tocitem>
              </tocitem>
              <tocitem target="html/random_ensembles.html"
                       image="$toolbox/matlab/icons/HDF_object01.gif">
                       Random ensembles
+             <tocitem target="html/htmlhelp/opBernoulli.html"
+                      image="HelpIcon.BLOCK">
+                      opBernoulli
+             </tocitem>
+             <tocitem target="html/htmlhelp/opBinary.html"
+                      image="HelpIcon.BLOCK">
+                      opBinary
+             </tocitem>
+             <tocitem target="html/htmlhelp/opGaussian.html"
+                      image="HelpIcon.BLOCK">
+                      opGaussian
+             </tocitem>
+             <tocitem target="html/htmlhelp/opHadamard.html"
+                      image="HelpIcon.BLOCK">
+                      opHadamard
+             </tocitem>
+             <tocitem target="html/htmlhelp/opHeaviside.html"
+                      image="HelpIcon.BLOCK">
+                      opHeaviside
+             </tocitem>
+             <tocitem target="html/htmlhelp/opSparseBinary.html"
+                      image="HelpIcon.BLOCK">
+                      opSparseBinary
+             </tocitem>
+             <tocitem target="html/htmlhelp/opToepGauss.html"
+                      image="HelpIcon.BLOCK">
+                      opToepGauss
+             </tocitem>
+             <tocitem target="html/htmlhelp/opToepSign.html"
+                      image="HelpIcon.BLOCK">
+                      opToepSign
+             </tocitem>
+             <tocitem target="html/htmlhelp/opToeplitz.html"
+                      image="HelpIcon.BLOCK">
+                      opToeplitz
+             </tocitem>
+             </tocitem>
+             <tocitem target="html/meta_operators.html"
+                      image="$toolbox/matlab/icons/HDF_object01.gif">
+                      Meta operators
+             <tocitem target="html/htmlhelp/opBlockDiag.html"
+                      image="HelpIcon.BLOCK">
+                      opBlockDiag
+             </tocitem>
+             <tocitem target="html/htmlhelp/opBlockOp.html"
+                      image="HelpIcon.BLOCK">
+                      opBlockOp
+             </tocitem>
+             <tocitem target="html/htmlhelp/opCTranspose.html"
+                      image="HelpIcon.BLOCK">
+                      opCTranspose
+             </tocitem>
+             <tocitem target="html/htmlhelp/opConj.html"
+                      image="HelpIcon.BLOCK">
+                      opConj
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDiag.html"
+                      image="HelpIcon.BLOCK">
+                      opDiag
+             </tocitem>
+             <tocitem target="html/htmlhelp/opDictionary.html"
+                      image="HelpIcon.BLOCK">
+                      opDictionary
+             </tocitem>
+             <tocitem target="html/htmlhelp/opExcise.html"
+                      image="HelpIcon.BLOCK">
+                      opExcise
+             </tocitem>
+             <tocitem target="html/htmlhelp/opExtend.html"
+                      image="HelpIcon.BLOCK">
+                      opExtend
+             </tocitem>
+             <tocitem target="html/htmlhelp/opFoG.html"
+                      image="HelpIcon.BLOCK">
+                      opFoG
+             </tocitem>
+             <tocitem target="html/htmlhelp/opImag.html"
+                      image="HelpIcon.BLOCK">
+                      opImag
+             </tocitem>
+             <tocitem target="html/htmlhelp/opInverse.html"
+                      image="HelpIcon.BLOCK">
+                      opInverse
+             </tocitem>
+             <tocitem target="html/htmlhelp/opKron.html"
+                      image="HelpIcon.BLOCK">
+                      opKron
+             </tocitem>
+             <tocitem target="html/htmlhelp/opMask.html"
+                      image="HelpIcon.BLOCK">
+                      opMask
+             </tocitem>
+             <tocitem target="html/htmlhelp/opMinus.html"
+                      image="HelpIcon.BLOCK">
+                      opMinus
+             </tocitem>
+             <tocitem target="html/htmlhelp/opOrthogonal.html"
+                      image="HelpIcon.BLOCK">
+                      opOrthogonal
+             </tocitem>
+             <tocitem target="html/htmlhelp/opPInverse.html"
+                      image="HelpIcon.BLOCK">
+                      opPInverse
+             </tocitem>
+             <tocitem target="html/htmlhelp/opPower.html"
+                      image="HelpIcon.BLOCK">
+                      opPower
+             </tocitem>
+             <tocitem target="html/htmlhelp/opReal.html"
+                      image="HelpIcon.BLOCK">
+                      opReal
+             </tocitem>
+             <tocitem target="html/htmlhelp/opRestriction.html"
+                      image="HelpIcon.BLOCK">
+                      opRestriction
+             </tocitem>
+             <tocitem target="html/htmlhelp/opSpot.html"
+                      image="HelpIcon.BLOCK">
+                      opSpot
+             </tocitem>
+             <tocitem target="html/htmlhelp/opStack.html"
+                      image="HelpIcon.BLOCK">
+                      opStack
+             </tocitem>
+             <tocitem target="html/htmlhelp/opSubsAsgn.html"
+                      image="HelpIcon.BLOCK">
+                      opSubsAsgn
+             </tocitem>
+             <tocitem target="html/htmlhelp/opSubsRef.html"
+                      image="HelpIcon.BLOCK">
+                      opSubsRef
+             </tocitem>
+             <tocitem target="html/htmlhelp/opSum.html"
+                      image="HelpIcon.BLOCK">
+                      opSum
+             </tocitem>
+             <tocitem target="html/htmlhelp/opTranspose.html"
+                      image="HelpIcon.BLOCK">
+                      opTranspose
+             </tocitem>
+             <tocitem target="html/htmlhelp/opUnaryMinus.html"
+                      image="HelpIcon.BLOCK">
+                      opUnaryMinus
+             </tocitem>
+             </tocitem>
+    </tocitem>
+    <tocitem target="html/spot_methods.html"
+             image="HelpIcon.RELEASE_NOTES">
+             Methods
+             <tocitem target="html/htmlhelp/bicg.html"
+                      image="HelpIcon.FUNCTION">
+                      bicg
+             </tocitem>
+             <tocitem target="html/htmlhelp/bicgstab.html"
+                      image="HelpIcon.FUNCTION">
+                      bicgstab
+             </tocitem>
+             <tocitem target="html/htmlhelp/blkdiag.html"
+                      image="HelpIcon.FUNCTION">
+                      blkdiag
+             </tocitem>
+             <tocitem target="html/htmlhelp/cgs.html"
+                      image="HelpIcon.FUNCTION">
+                      cgs
+             </tocitem>
+             <tocitem target="html/htmlhelp/char.html"
+                      image="HelpIcon.FUNCTION">
+                      char
+             </tocitem>
+             <tocitem target="html/htmlhelp/conj.html"
+                      image="HelpIcon.FUNCTION">
+                      conj
+             </tocitem>
+             <tocitem target="html/htmlhelp/ctranspose.html"
+                      image="HelpIcon.FUNCTION">
+                      ctranspose
+             </tocitem>
+             <tocitem target="html/htmlhelp/diag.html"
+                      image="HelpIcon.FUNCTION">
+                      diag
+             </tocitem>
+             <tocitem target="html/htmlhelp/disp.html"
+                      image="HelpIcon.FUNCTION">
+                      disp
+             </tocitem>
+             <tocitem target="html/htmlhelp/display.html"
+                      image="HelpIcon.FUNCTION">
+                      display
+             </tocitem>
+             <tocitem target="html/htmlhelp/double.html"
+                      image="HelpIcon.FUNCTION">
+                      double
+             </tocitem>
+             <tocitem target="html/htmlhelp/drandn.html"
+                      image="HelpIcon.FUNCTION">
+                      drandn
+             </tocitem>
+             <tocitem target="html/htmlhelp/eigs.html"
+                      image="HelpIcon.FUNCTION">
+                      eigs
+             </tocitem>
+             <tocitem target="html/htmlhelp/end.html"
+                      image="HelpIcon.FUNCTION">
+                      end
+             </tocitem>
+             <tocitem target="html/htmlhelp/full.html"
+                      image="HelpIcon.FUNCTION">
+                      full
+             </tocitem>
+             <tocitem target="html/htmlhelp/gmres.html"
+                      image="HelpIcon.FUNCTION">
+                      gmres
+             </tocitem>
+             <tocitem target="html/htmlhelp/horzcat.html"
+                      image="HelpIcon.FUNCTION">
+                      horzcat
+             </tocitem>
+             <tocitem target="html/htmlhelp/imag.html"
+                      image="HelpIcon.FUNCTION">
+                      imag
+             </tocitem>
+             <tocitem target="html/htmlhelp/inv.html"
+                      image="HelpIcon.FUNCTION">
+                      inv
+             </tocitem>
+             <tocitem target="html/htmlhelp/isempty.html"
+                      image="HelpIcon.FUNCTION">
+                      isempty
+             </tocitem>
+             <tocitem target="html/htmlhelp/isreal.html"
+                      image="HelpIcon.FUNCTION">
+                      isreal
+             </tocitem>
+             <tocitem target="html/htmlhelp/isscalar.html"
+                      image="HelpIcon.FUNCTION">
+                      isscalar
+             </tocitem>
+             <tocitem target="html/htmlhelp/kron.html"
+                      image="HelpIcon.FUNCTION">
+                      kron
+             </tocitem>
+             <tocitem target="html/htmlhelp/length.html"
+                      image="HelpIcon.FUNCTION">
+                      length
+             </tocitem>
+             <tocitem target="html/htmlhelp/lsqr.html"
+                      image="HelpIcon.FUNCTION">
+                      lsqr
+             </tocitem>
+             <tocitem target="html/htmlhelp/minres.html"
+                      image="HelpIcon.FUNCTION">
+                      minres
+             </tocitem>
+             <tocitem target="html/htmlhelp/minus.html"
+                      image="HelpIcon.FUNCTION">
+                      minus
+             </tocitem>
+             <tocitem target="html/htmlhelp/mldivide.html"
+                      image="HelpIcon.FUNCTION">
+                      mldivide
+             </tocitem>
+             <tocitem target="html/htmlhelp/mpower.html"
+                      image="HelpIcon.FUNCTION">
+                      mpower
+             </tocitem>
+             <tocitem target="html/htmlhelp/mrdivide.html"
+                      image="HelpIcon.FUNCTION">
+                      mrdivide
+             </tocitem>
+             <tocitem target="html/htmlhelp/mtimes.html"
+                      image="HelpIcon.FUNCTION">
+                      mtimes
+             </tocitem>
+             <tocitem target="html/htmlhelp/ndims.html"
+                      image="HelpIcon.FUNCTION">
+                      ndims
+             </tocitem>
+             <tocitem target="html/htmlhelp/normest.html"
+                      image="HelpIcon.FUNCTION">
+                      normest
+             </tocitem>
+             <tocitem target="html/htmlhelp/pcg.html"
+                      image="HelpIcon.FUNCTION">
+                      pcg
+             </tocitem>
+             <tocitem target="html/htmlhelp/pinv.html"
+                      image="HelpIcon.FUNCTION">
+                      pinv
+             </tocitem>
+             <tocitem target="html/htmlhelp/plus.html"
+                      image="HelpIcon.FUNCTION">
+                      plus
+             </tocitem>
+             <tocitem target="html/htmlhelp/qmr.html"
+                      image="HelpIcon.FUNCTION">
+                      qmr
+             </tocitem>
+             <tocitem target="html/htmlhelp/real.html"
+                      image="HelpIcon.FUNCTION">
+                      real
+             </tocitem>
+             <tocitem target="html/htmlhelp/rrandn.html"
+                      image="HelpIcon.FUNCTION">
+                      rrandn
+             </tocitem>
+             <tocitem target="html/htmlhelp/size.html"
+                      image="HelpIcon.FUNCTION">
+                      size
+             </tocitem>
+             <tocitem target="html/htmlhelp/spotexport.html"
+                      image="HelpIcon.FUNCTION">
+                      spotexport
+             </tocitem>
+             <tocitem target="html/htmlhelp/spotparams.html"
+                      image="HelpIcon.FUNCTION">
+                      spotparams
+             </tocitem>
+             <tocitem target="html/htmlhelp/spotpublish.html"
+                      image="HelpIcon.FUNCTION">
+                      spotpublish
+             </tocitem>
+             <tocitem target="html/htmlhelp/spottests.html"
+                      image="HelpIcon.FUNCTION">
+                      spottests
+             </tocitem>
+             <tocitem target="html/htmlhelp/subsasgn.html"
+                      image="HelpIcon.FUNCTION">
+                      subsasgn
+             </tocitem>
+             <tocitem target="html/htmlhelp/subsref.html"
+                      image="HelpIcon.FUNCTION">
+                      subsref
+             </tocitem>
+             <tocitem target="html/htmlhelp/symmlq.html"
+                      image="HelpIcon.FUNCTION">
+                      symmlq
+             </tocitem>
+             <tocitem target="html/htmlhelp/transpose.html"
+                      image="HelpIcon.FUNCTION">
+                      transpose
+             </tocitem>
+             <tocitem target="html/htmlhelp/uminus.html"
+                      image="HelpIcon.FUNCTION">
+                      uminus
+             </tocitem>
+             <tocitem target="html/htmlhelp/uplus.html"
+                      image="HelpIcon.FUNCTION">
+                      uplus
+             </tocitem>
+             <tocitem target="html/htmlhelp/vertcat.html"
+                      image="HelpIcon.FUNCTION">
+                      vertcat
+             </tocitem>
+    </tocitem>
+    <tocitem target="html/examples.html"
+             image="HelpIcon.EXAMPLES">
+             Examples
+             <tocitem target="html/docguide_circulant.html"
+                      image="HelpIcon.EXAMPLES">
+                      Building a circulant operator
+             </tocitem>
+             <tocitem target="html/docguide_containers.html"
+                      image="HelpIcon.EXAMPLES">
+                      Using Spot containers
+             </tocitem>
+             <tocitem target="html/docguide_convolution.html"
+                      image="HelpIcon.EXAMPLES">
+                      Blurring and deblurring with opConvolve
+             </tocitem>
+             <tocitem target="html/docguide_sparserecovery.html"
+                      image="HelpIcon.EXAMPLES">
+                      Sparse Recovery
+             </tocitem>
+             <tocitem target="html/docguide_interpolation.html"
+                      image="HelpIcon.EXAMPLES">
+                      Interpolating Seismic Data
+             </tocitem>
+             <tocitem target="html/docguide_implement.html"
+                      image="HelpIcon.EXAMPLES">
+                      Implementing Your Own Spot Operator
              </tocitem>
     </tocitem>
 </tocitem>
 
 </toc>
+
+
+
+

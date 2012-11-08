@@ -1,0 +1,46 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opWavelet</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opWavelet</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opWavelet</div>
+      <div class="helptext"><pre><!--helptext --> <span class="helptopic">opWavelet</span>   Wavelet operator.
+ 
+    <span class="helptopic">opWavelet</span>(N) creates a Wavelet transform for 1-dimensional signals
+    of size N.  The wavelet transformation is computed using the Rice
+    Wavelet Toolbox.
+ 
+    <span class="helptopic">opWavelet</span>(N,FAMILY) additionally specifies the FAMILY for the
+    wavelet. Supported values for FAMILY are 'Daubechies' and 'Haar'.
+ 
+    <span class="helptopic">opWavelet</span>(N,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
+    additional parameters: FILTER (default 8) specifies the filter
+    length, which must be even. LEVELS (default 5) gives the number of
+    levels in the transformation. P does not need to be divisible by
+    2^LEVELS. However, if LEVELS is bigger than LOG2(P), then LEVELS is
+    adjusted to be equal to FLOOR(LOG2(P)). The Boolean field REDUNDANT
+    (default false) indicates whether the wavelet is redundant. TYPE
+    (default 'min') indictates what type of solution is desired; 'min'
+    for minimum phase, 'max' for maximum phase, and 'mid' for mid-phase
+    solutions.
+ 
+    The <span class="helptopic">opWavelet</span> operator is linear but not orthogonal. Therefore, the
+    transpose of the operator is not the inverse operator. However, the
+    inverse of the operator can be obtained through a left-inverse
+    operation. For example:
+                W = <span class="helptopic">opWavelet</span>(...)
+                y = W*x
+                if z = W'*y, then z ~= x
+                but, u = W\y, then u = x</pre></div><!--after help -->
+   </body>
+</html>
