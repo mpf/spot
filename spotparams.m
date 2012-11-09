@@ -1,6 +1,18 @@
 function p = spotparams(varargin)
 %SPOTPARAMS  Get or set default Spot parameters.
-   
+%
+%   SPOTPARAMS('key',VAL) sets one or more global Spot parameters.
+%
+%   SPOTPARAMS, with no arguments, displays the current parameters values.
+%
+%   The parameters, their default values, and a brief description:
+%
+%   'cgtol'      1e-6   convergence tolerance for the CG-type solver
+%   'cgitsfact'  1      max number of CG itns = cgitsfactor * min{m,n,20}
+%   'cgshow'     false  show output from CG itns
+%   'cgdamp'     0      LSQR damping parameter
+%   'conlim'     1e8    Condition number limit on LSQR solves
+
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.
 %   Use the command 'spot.gpl' to locate this file.
