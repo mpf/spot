@@ -76,41 +76,41 @@ classdef opSpot
         function y = applyMultiply(op,x,mode)
             op.counter.plus1(mode);
             if op.sweepflag
-                y = op.multiply(x,mode);
+                y = op.multiply(x, mode);
             else
-                q = size(x,2);
+                q = size(x, 2);
                 
                 % Preallocate y
                 if q > 1
                    if isscalar(op)
                       % special case: allocate result size of x
-                      y = zeros(size(x));
+                      y = zeros(size(x), class(x));
                    elseif mode==1
-                      y = zeros(op.m,q);
+                      y = zeros(op.m, q, class(x));
                    else
-                      y = zeros(op.n,q);
+                      y = zeros(op.n, q, class(x));
                    end
                 end
                 
                 for i=1:q
-                    y(:,i) = op.multiply(x(:,i),mode);
+                    y(:,i) = op.multiply(x(:,i), mode);
                 end
             end
         end
         
-        function y = applyDivide(op,x,mode)
-            y = op.divide(x,mode);
+        function y = applyDivide(op, x, mode)
+            y = op.divide(x, mode);
         end
         
         % Signature of external protected functions
-        y = divide(op,x,mode);
+        y = divide(op, x, mode);
     end % methods - protected
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Abstract methods -- must be implemented by subclass.
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     methods( Abstract, Access = protected )
-        y = multiply(op,x,mode)
+        y = multiply(op, x, mode)
     end % methods - abstract
     
 end % classdef
