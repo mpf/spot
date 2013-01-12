@@ -1,0 +1,44 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <link rel="stylesheet" href="../helpwin.css">
+      <title>M-File Help: opWavelet2</title>
+   </head>
+   <body>
+      <!--Single-page help-->
+      <table border="0" cellspacing="0" width="100%">
+         <tr class="subheader">
+            <td class="headertitle">Spot operator: opWavelet2</td>
+            <td class="subheader-right"><a href="../index.html">Spot Home Page</a></td>
+         </tr>
+      </table>
+      <div class="title">opWavelet2</div>
+      <div class="helptext"><pre><!--helptext --> OPWAVELET   Wavelet operator.
+ 
+    opWavelet(P,Q,FAMILY) creates a Wavelet operator of given FAMILY for
+    signals of size P-by-1. The wavelet transformation is computed using
+    the Rice Wavelet Toolbox.  The values supported for FAMILY are
+    'Daubechies' and 'Haar'.
+ 
+    opWavelet(P,Q,FAMILY,FILTER,LEVELS,REDUNDANT,TYPE) allows for four
+    additional parameters: FILTER (default 8) specifies the filter length,
+    which must be even. LEVELS (default 5) gives the number of levels in
+    the transformation. P and Q do not need to be divisible by 2^LEVELS.
+    However, if LEVELS is bigger than LOG2(MIN(P,Q)), then LEVELS is
+    adjusted to be equal to FLOOR(LOG2(MIN(P,Q))).
+    The Boolean field REDUNDANT (default false) indicates whether the wavelet
+    is redundant. TYPE (default 'min') indictates what type of solution is
+    desired; 'min' for minimum phase, 'max' for maximum phase, and 'mid'
+    for mid-phase solutions.
+ 
+    The opWavelet operator is linear but not orthogonal. Therefore, the
+    transpose of the operator is not the inverse operator. However, the
+    inverse of the operator can be obtained through a left-inverse
+    operation. For example:
+                W = opWavelet(...)
+                y = W*x
+                if z = W'*y, then z ~= x
+                but, u = W\y, then u = x</pre></div><!--after help -->
+   </body>
+</html>

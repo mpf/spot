@@ -36,7 +36,7 @@
 %For information on commercial licenses, contact Rice University's Office of 
 %Technology Transfer at techtran@rice.edu or (713) 348-6173
 
-mex mdwt.c   
-mex midwt.c  
-mex mrdwt.c  
-mex mirdwt.c 
+mex mdwt.c -I"."
+mex midwt.c -I"." 
+mex mrdwt.c -I"."
+mex mirdwt.c -I"."
