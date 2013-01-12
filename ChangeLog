@@ -1,3 +1,10 @@
+2013-01-12  Michael P. Friedlander  <mpf@cs.ubc.ca>
+
+	* opSparseBinary: Allow for older versions of Matlab where
+	randperm only allows 1 argument.
+
+	* RWT: Add 64-bit Windows versions of MEX interfaces. 
+
 2009-12-21  Michael P. Friedlander  <mpf@cs.ubc.ca>
 
 	* kron, opKron: allow for multiple (ie, >2) arguments, as
