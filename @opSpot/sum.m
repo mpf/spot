@@ -15,7 +15,7 @@ elseif nargin > 2
     
 elseif nargin > 1 && ~isempty(dim)
     if ~(dim == 1 || dim == 2)
-        error('imension argument must be 1 or 2');
+        error('dimension argument must be 1 or 2');
     end
 else
     dim = 1;
