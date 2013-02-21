@@ -292,7 +292,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   x = mxGetPr(plhs[0]);
-  if (nrhs < 4){
+  if (nlhs > 1 && nrhs < 4){
       plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
       Lr = mxGetPr(plhs[1]);
       *Lr = L;

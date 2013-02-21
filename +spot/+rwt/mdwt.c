@@ -235,9 +235,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   y = mxGetPr(plhs[0]);
-  plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
-  Lr = mxGetPr(plhs[1]);
-  *Lr = L;
+  if (nlhs > 1){
+    plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
+    Lr = mxGetPr(plhs[1]);
+    *Lr = L;
+  }
+  
   MDWT(x, m, n, h, lh, L, y);
 }
 
