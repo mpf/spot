@@ -73,10 +73,10 @@ MATLAB description:
 
 #include <math.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include "mex.h"
 #include "matrix.h"
 
+#define intptr_t size_t
 
 #define max(A,B) (A > B ? A : B)
 #define min(A,B) (A < B ? A : B)

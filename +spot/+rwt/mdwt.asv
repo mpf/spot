@@ -72,8 +72,6 @@ Change History: Fixed the code such that 1D vectors passed to it can be in
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
 #define mat(a, i, j) (*(a + (m*(j)+i)))  /* macro for matrix indices */
 
-#define intptr_t size_t
-
 MDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L, double *y)
 {
   double  *h0, *h1, *ydummyl, *ydummyh, *xdummy;
