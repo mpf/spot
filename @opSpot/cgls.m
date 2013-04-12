@@ -6,7 +6,7 @@ function varargout = cgls(A,b,varargin)
 %
 %   This routine is simply a wrapper to a custom CGLS routine, and the
 %   argument list variations described in CGLS documentation are also
-%   allowed here.  The usage is identical to the default version, except
+%   allowed here. The usage is identical to the default version, except
 %   that the first argument must be a Spot operator.
 
 fun = @(x, opt) afun(A, x, opt);
