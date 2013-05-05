@@ -73,10 +73,10 @@ MATLAB description:
 
 #include <math.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include "mex.h"
 #include "matrix.h"
 
+#define intptr_t size_t
 
 #define max(A,B) (A > B ? A : B)
 #define min(A,B) (A < B ? A : B)
@@ -266,15 +266,19 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   yl = mxGetPr(plhs[0]);
-  if (min(m,n) == 1)
-    plhs[1] = mxCreateDoubleMatrix(m,L*n,mxREAL);
-  else
-    plhs[1] = mxCreateDoubleMatrix(m,3*L*n,mxREAL);
-  yh = mxGetPr(plhs[1]);
-  if (nrhs < 3){
-      plhs[2] = mxCreateDoubleMatrix(1,1,mxREAL);
-      Lr = mxGetPr(plhs[2]);
-      *Lr = L;
+  if (nlhs > 1){
+    if (min(m,n) == 1)
+        plhs[1] = mxCreateDoubleMatrix(m,L*n,mxREAL);
+    else
+        plhs[1] = mxCreateDoubleMatrix(m,3*L*n,mxREAL);
+    yh = mxGetPr(plhs[1]);
+  } 
+  if (nlhs > 2) {
+      if (nrhs < 3){
+          plhs[2] = mxCreateDoubleMatrix(1,1,mxREAL);
+          Lr = mxGetPr(plhs[2]);
+          *Lr = L;
+      }
   }
   MRDWT(x, m, n, h, lh, L, yl, yh);
 }

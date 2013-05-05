@@ -63,7 +63,6 @@ Change History: Fixed the code such that 1D vectors passed to it can be in
 
 #include <math.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include "mex.h"
 #include "matrix.h"
 
@@ -72,6 +71,8 @@ Change History: Fixed the code such that 1D vectors passed to it can be in
 #define even(x)  ((x & 1) ? 0 : 1)
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
 #define mat(a, i, j) (*(a + (m*(j)+i)))  /* macro for matrix indices */
+
+#define intptr_t size_t
 
 MDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L, double *y)
 {
@@ -235,9 +236,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   y = mxGetPr(plhs[0]);
-  plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
-  Lr = mxGetPr(plhs[1]);
-  *Lr = L;
+  if (nlhs > 1){
+    plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
+    Lr = mxGetPr(plhs[1]);
+    *Lr = L;
+  }
+  
   MDWT(x, m, n, h, lh, L, y);
 }
 

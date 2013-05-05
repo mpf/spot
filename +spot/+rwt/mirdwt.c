@@ -74,7 +74,6 @@ MATLAB description:
 */
 #include <math.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include "mex.h"
 #include "matrix.h"
 
@@ -83,6 +82,8 @@ MATLAB description:
 #define even(x)  ((x & 1) ? 0 : 1)
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
 #define mat(a, i, j) (*(a + (m*(j)+i)))  /* macro for matrix indices */
+
+#define intptr_t size_t
 
 MIRDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L,
        double *yl, double *yh)
@@ -292,7 +293,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   x = mxGetPr(plhs[0]);
-  if (nrhs < 4){
+  if (nlhs > 1 && nrhs < 4){
       plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
       Lr = mxGetPr(plhs[1]);
       *Lr = L;

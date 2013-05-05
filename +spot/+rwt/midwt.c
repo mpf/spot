@@ -67,7 +67,6 @@ decription of the matlab call:
 
 #include <math.h>
 #include <stdio.h>
-#include <inttypes.h>
 #include "mex.h"
 #include "matrix.h"
 
@@ -76,6 +75,8 @@ decription of the matlab call:
 #define min(A,B) (A < B ? A : B)
 #define even(x)  ((x & 1) ? 0 : 1)
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
+
+#define intptr_t size_t
 
 void MIDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L, double *y)
 {
@@ -248,8 +249,10 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
   }
   plhs[0] = mxCreateDoubleMatrix(m,n,mxREAL);
   x = mxGetPr(plhs[0]);
-  plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
-  Lr = mxGetPr(plhs[1]);
-  *Lr = L;
+  if (nlhs > 1){
+      plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
+      Lr = mxGetPr(plhs[1]);
+      *Lr = L;
+  }
   MIDWT(x, m, n, h, lh, L, y);
 }
