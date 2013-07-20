@@ -1,19 +1,20 @@
 classdef opFunction < opSpot
 %OPFUNCTION   Wrapper for functions.
 %
-%   opFunction(M,N,FUN,CFLAG,LINFLAG) creates a wrapper for function
-%   FUN, which corresponds to an M-by-N operator. The FUN parameter
-%   can be one of two types:
+%   opFunction(M,N,FUN) creates a wrapper for function FUN, which
+%   corresponds to an M-by-N operator. The FUN parameter can be one of two
+%   types:
 %
 %   1) A handle to a function of the form FUN(X,MODE), where the
-%      operator is applied to X when MODE = 1, and the transpose is
-%      applied when MODE = 2;
+%      operator is applied to X when MODE = 1, and the transpose is applied
+%      when MODE = 2;
 %   2) A cell array of two function handles: {FUN,FUN_TRANSPOSE},
 %      each of which requires only one parameter, X.
 %
-%   Optional arguments CFLAG and LINFLAG indicate whether the
-%   function implements a complex or real operator and whether it
-%   is linear or not. The default values are CFLAG=0, LINFLAG=1.
+%   opFunction(M,N,FUN,CFLAG,LINFLAG) additionally allows the arguments
+%   CFLAG and LINFLAG to indicate whether the function implements a complex
+%   or real operator and whether it is linear or not. The default values
+%   are CFLAG=0, LINFLAG=1.
 
 %   Copyright 2009, Ewout van den Berg and Michael P. Friedlander
 %   See the file COPYING.txt for full copyright information.
