@@ -76,8 +76,6 @@ decription of the matlab call:
 #define even(x)  ((x & 1) ? 0 : 1)
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
 
-#define intptr_t size_t
-
 void MIDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L, double *y)
 {
   double  *g0, *g1, *ydummyl, *ydummyh, *xdummy;

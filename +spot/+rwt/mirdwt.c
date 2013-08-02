@@ -83,8 +83,6 @@ MATLAB description:
 #define isint(x) ((x - floor(x)) > 0.0 ? 0 : 1)
 #define mat(a, i, j) (*(a + (m*(j)+i)))  /* macro for matrix indices */
 
-#define intptr_t size_t
-
 MIRDWT(double *x, intptr_t m, intptr_t n, double *h, intptr_t lh, intptr_t L,
        double *yl, double *yh)
 {
