@@ -146,7 +146,6 @@ classdef opWavelet2 < opSpot
    
    methods( Access = private )
       
-      
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % matvec.  Application of Wavlet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -229,6 +228,26 @@ classdef opWavelet2 < opSpot
          else % mode == 2
             xl = reshape(x(1:pext*qext),pext,qext);
             xh = reshape(x(pext*qext+1:end),pext,(nseg-1)*qext);
+            
+            % scaling for transpose instead of inverse          
+            if(p==1 || q==1)
+                xl = xl*(2^(levels));
+                
+                for seg = 0:levels-1
+                    xh(:, (seg)*qext+1:((seg)+1)*qext) = ...
+                        xh(:, (seg)*qext+1:((seg)+1)*qext)*( 2^(seg+1));
+                end
+            else
+                xl = xl*(2^(levels) * 2^(levels));
+                
+                for seg = 0:levels-1
+                    xh(:, (seg*3)*qext+1:((seg+1)*3)*qext) = ...
+                        xh(:, (seg*3)*qext+1:((seg+1)*3)*qext)*...
+                        ( 2^(seg+1) * 2^(seg+1));
+                end
+                
+            end       
+            
             if isreal(x)
                y = spot.rwt.mirdwt(xl, xh, filter, levels);
             else
@@ -243,7 +262,6 @@ classdef opWavelet2 < opSpot
          end
       end % function matvec_redundant
       
-      
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % divide_intrnl.  Application of redundant Wavlet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -255,7 +273,6 @@ classdef opWavelet2 < opSpot
          
          levels = op.levels; filter = op.filter;
          if issparse(x), x = full(x); end
-         
          
          Xmat = reshape(x,pext,qext);
          if isreal(x)
@@ -269,14 +286,15 @@ classdef opWavelet2 < opSpot
          
          % clip signal back to original dimensions
          y = y(1:p, 1:q);
-         
          y = y(:);
+
       end % function divide
       
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % divide_intrnl.  Application of redundant Wavlet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       function y = divide_redundant_intrnl(op,x)
+         
          p = op.signal_dims(1);
          q = op.signal_dims(2);
          pext = op.coeff_dims(1);
@@ -284,8 +302,11 @@ classdef opWavelet2 < opSpot
          
          nseg = op.nseg;
          levels = op.levels; filter = op.filter;
-         if issparse(x), x = full(x); end
          
+         ii = 1:length(filter);
+         filter = (-1).^ii.*(filter);
+         
+         if issparse(x), x = full(x); end
          
          xl = reshape(x(1:pext*qext),pext,qext);
          xh = reshape(x(pext*qext+1:end),pext,(nseg-1)*qext);
@@ -297,16 +318,11 @@ classdef opWavelet2 < opSpot
             y = y1 + sqrt(-1) * y2;
          end
          
-         
          % clip signal back to original dimensions
          y = y(1:p, 1:q);
-         
          y = y(:);
          
-         
       end % function divide
-      
-      
          
    end % methods - private
    
@@ -327,42 +343,43 @@ classdef opWavelet2 < opSpot
 end % classdef
 
 function [pext, qext, levels] = CoeffDims(p, q, levels)
-         
-         if p >= 2^levels
-            plevels = levels;
-            if q >= 2^levels
-               qext = ceil(q/(2^levels))*2^levels;
-            elseif q > 1
-               qlevels = floor(log2(q));
-               levels = min(plevels,qlevels);
-               qext = ceil(q/(2^levels))*2^levels;
-            else
-               qext = q;
-            end
-            pext = ceil(p/(2^levels))*2^levels;
-         elseif p > 1
-            plevels = floor(log2(p));
-            if q >= 2^levels
-               levels = min(levels,plevels);
-               qext = ceil(q/(2^levels))*2^levels;
-            elseif q > 1
-               qlevels = floor(log2(q));
-               levels = min(plevels,qlevels);
-               qext = ceil(q/(2^levels))*2^levels;
-            else
-               levels = min(levels,plevels);
-               qext = q;
-            end
-            pext = ceil(p/(2^levels))*2^levels;
-         else
-            pext = p;
-            if q >= 2^levels
-               qext = ceil(q/(2^levels))*2^levels;
-            elseif q > 1
-               levels = floor(log2(q));
-               qext = ceil(q/(2^levels))*2^levels;
-            else
-               qext = q;
-            end
-         end
-      end
+
+if p >= 2^levels
+   plevels = levels;
+   if q >= 2^levels
+      qext = ceil(q/(2^levels))*2^levels;
+   elseif q > 1
+      qlevels = floor(log2(q));
+      levels = min(plevels,qlevels);
+      qext = ceil(q/(2^levels))*2^levels;
+   else
+      qext = q;
+   end
+   pext = ceil(p/(2^levels))*2^levels;
+elseif p > 1
+   plevels = floor(log2(p));
+   if q >= 2^levels
+      levels = min(levels,plevels);
+      qext = ceil(q/(2^levels))*2^levels;
+   elseif q > 1
+      qlevels = floor(log2(q));
+      levels = min(plevels,qlevels);
+      qext = ceil(q/(2^levels))*2^levels;
+   else
+      levels = min(levels,plevels);
+      qext = q;
+   end
+   pext = ceil(p/(2^levels))*2^levels;
+else
+   pext = p;
+   if q >= 2^levels
+      qext = ceil(q/(2^levels))*2^levels;
+   elseif q > 1
+      levels = floor(log2(q));
+      qext = ceil(q/(2^levels))*2^levels;
+   else
+      qext = q;
+   end
+end
+end
+      
