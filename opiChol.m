@@ -58,7 +58,7 @@ classdef opiChol < opFactorization
         opts = varargin{1};
       end
       opts.shape   = 'lower';
-      op.L         = ichol(B, opts);
+      op.L         = opMatrix(ichol(B, opts));
       op.Ainv      = inv(op.L') * inv(op.L);
       op.cflag     = ~isreal(A);
     end % function opiChol

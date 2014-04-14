@@ -57,7 +57,9 @@ classdef opLU < opFactorization
        B             = sparse(A);
       end
       op.A            = opMatrix(B);
-      [op.L, op.U, p, q] = lu(B, 'vector');
+      [L, U, p, q] = lu(B, 'vector');
+      op.L            = opMatrix(L);
+      op.U            = opMatrix(U);
       op.P            = opPermutation(p);
       op.Q            = opPermutation(q);
       op.Ainv         = op.Q * inv(op.U) * inv(op.L) * op.P;
