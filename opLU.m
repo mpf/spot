@@ -54,16 +54,16 @@ classdef opLU < opFactorization
       op = op@opFactorization('LU', m, n);
       B  = A;
       if ~issparse(A)
-       B             = sparse(A);
+       B           = sparse(A);
       end
-      op.A            = opMatrix(B);
+      op.A         = opMatrix(B);
       [L, U, p, q] = lu(B, 'vector');
-      op.L            = opMatrix(L);
-      op.U            = opMatrix(U);
-      op.P            = opPermutation(p);
-      op.Q            = opPermutation(q);
-      op.Ainv         = op.Q * inv(op.U) * inv(op.L) * op.P;
-      op.cflag        = ~isreal(A);
+      op.L         = opMatrix(L);
+      op.U         = opMatrix(U);
+      op.P         = opPermutation(p);
+      op.Q         = opPermutation(q);
+      op.Ainv      = op.Q' * inv(op.U) * inv(op.L) * op.P;
+      op.cflag     = ~isreal(A);
     end % function opLU
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
