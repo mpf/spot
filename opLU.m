@@ -70,21 +70,21 @@ classdef opLU < opFactorization
     % transpose
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = transpose(op)
-       opOut = op.P' * inv(op.L.') * inv(op.U.') * op.Q';
+       opOut = op.P' * inv(op.L.') * inv(op.U.') * op.Q;
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % conj
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = conj(op)
-       opOut = op.Q * inv(conj(op.U)) * inv(conj(op.L)) * op.P;
+       opOut = op.Q' * inv(conj(op.U)) * inv(conj(op.L)) * op.P;
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % ctranpose
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = ctranspose(op)
-       opOut = op.P' * inv(op.L') * inv(op.U') * op.Q';
+       opOut = op.P' * inv(op.L') * inv(op.U') * op.Q;
     end
 
   end % methods - public
