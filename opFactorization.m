@@ -62,17 +62,17 @@ classdef opFactorization < opSpot
     % multiply
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function y = multiply(op, x, mode)
-       y = op.Ainv * x;
+       y = applyMultiply(op.Ainv, x, mode);
        % Perform iterative refinement if necessary / requested
        if op.nitref > 0
-          r = x - op.A * y;
+          r = x - applyMultiply(op.A, y, mode);
           rNorm = norm(r, 'inf');
           xNorm = norm(x, 'inf');
           nit = 0;
           while nit < op.nitref & (rNorm >= op.itref_tol * xNorm | op.force_itref)
-             dy = op.Ainv * r;
+             dy = applyMultiply(op.Ainv, r, mode);
              y = y + dy;
-             r = x - op.A * y;
+             r = x - applyMultiply(op.A, y, mode);
              rNorm = norm(r, 'inf');
              nit = nit + 1;
           end
