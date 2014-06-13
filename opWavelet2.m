@@ -149,7 +149,6 @@ classdef opWavelet2 < opSpot
    
    methods( Access = private )
       
-      
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % matvec.  Application of Wavelet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -293,10 +292,10 @@ classdef opWavelet2 < opSpot
          
          % clip signal back to original dimensions
          y = y(1:p, 1:q);
-         
          y = y(:);
       end % function divide
       
+
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       % divide_intrnl.  Application of redundant Wavelet operator.
       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,6 +310,9 @@ classdef opWavelet2 < opSpot
          
          nseg = op.nseg;
          levels = op.levels; filter = op.filter;
+         
+%        ii = 1:length(filter);
+%        filter = (-1).^ii.*(filter);
 
          xl = reshape(x(1:pext*qext),pext,qext);
          xh = reshape(x(pext*qext+1:end),pext,(nseg-1)*qext);
@@ -324,13 +326,12 @@ classdef opWavelet2 < opSpot
          
          % clip signal back to original dimensions
          y = y(1:p, 1:q);
-         
          y = y(:);
       end % function divide
          
    end % methods - private
    
-   
+
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Methods - protected
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

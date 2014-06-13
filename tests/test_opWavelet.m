@@ -124,7 +124,7 @@ function test_opWavelet_2d_redundant_div1(seed)
    x = randn(size(A1,2),1);
    y = A1*x;
       
-   assertElementsAlmostEqual(A \ y, x);
+   assertElementsAlmostEqual(A1 \ y, x);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -136,7 +136,7 @@ function test_opWavelet_2d_redundant_div2(seed)
    x = randn(size(A1,2),1);
    y = A1*x;
       
-   assertElementsAlmostEqual(A \ y, x);
+   assertElementsAlmostEqual(A1 \ y, x);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -148,5 +148,5 @@ function test_opWavelet_2d_redundant_div3(seed)
    x = randn(size(A1,2),1);
    y = A1*x;
       
-   assertElementsAlmostEqual(A \ y, x);
+   assertElementsAlmostEqual(A1 \ y, x);
 end
