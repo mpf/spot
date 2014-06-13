@@ -28,15 +28,15 @@ classdef opWavelet2 < opSpot
    
    %   Copyright 2007-2009, Rayan Saab, Ewout van den Berg and Michael P. Friedlander
    %
-   %   Feb  28, 2014: Incorporate fix by Prasad Sudhakar regarding a bug
-   %                  in the code for redundant wavelet transforms. This
-   %                  issue was independently reported by Stephen Becker.
    %   June  6, 2012: Added mirror symmetric extension of signals that are not
    %                  integer multiples of 2^levels.
    %                  Hassan Mansour (hassanm@cs.ubc.ca)
    %   June 25, 2012: Overloaded mldivide function to compute the inverse of
    %                  the operator.
    %                  Hassan Mansour (hassanm@cs.ubc.ca)
+   %   Feb  28, 2014: Incorporate fix by Prasad Sudhakar regarding a bug
+   %                  in the code for redundant wavelet transforms. This
+   %                  issue was independently reported by Stephen Becker.
    %
    %   See the file COPYING.txt for full copyright information.
    %   Use the command 'spot.gpl' to locate this file.
