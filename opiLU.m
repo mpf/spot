@@ -53,7 +53,9 @@ classdef opiLU < opFactorization
        B           = sparse(A);
       end
       op.A         = opMatrix(B);
-      [op.L, op.U] = ilu(B, varargin{:});
+      [L, U]       = ilu(B, varargin{:});
+      op.L         = opMatrix(L);
+      op.U         = opMatrix(U);
       op.Ainv      = inv(op.U) * inv(op.L);
       op.cflag     = ~isreal(A);
     end % function opiLU
