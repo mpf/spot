@@ -47,6 +47,6 @@ function test_opLDL_double
    B  = opLDL(A);
 
    % Check opLDL
-   assertElementsAlmostEqual(inv(A), B.double);
+   assertElementsAlmostEqual(inv(A), double(B));
 
 end

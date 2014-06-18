@@ -63,6 +63,6 @@ function test_opHermitian_double
    B  = opHermitian(tril(A));
 
    % Check opHermitian
-   assertEqual(A, B.double);
+   assertEqual(A, double(B));
 
 end
