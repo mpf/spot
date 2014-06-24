@@ -59,11 +59,13 @@ classdef opLDL < opFactorization
       if ~issparse(A)
        B             = sparse(A);
       end
-      op.A            = opHermitian(B);
-      [op.L, op.D, p] = ldl(tril(B), 'vector');
-      op.P            = opPermutation(p);
-      op.Ainv         = op.P * inv(op.L') * inv(op.D) * inv(op.L) * op.P';
-      op.cflag        = ~isreal(A);
+      op.A           = opHermitian(B);
+      [L, D, p]      = ldl(tril(B), 'vector');
+      op.L           = opMatrix(L);
+      op.D           = opMatrix(D);
+      op.P           = opPermutation(p);
+      op.Ainv        = op.P * inv(op.L') * inv(op.D) * inv(op.L) * op.P';
+      op.cflag       = ~isreal(A);
     end % function opLDL
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -54,35 +54,37 @@ classdef opLU < opFactorization
       op = op@opFactorization('LU', m, n);
       B  = A;
       if ~issparse(A)
-       B             = sparse(A);
+       B           = sparse(A);
       end
-      op.A            = opMatrix(B);
-      [op.L, op.U, p, q] = lu(B, 'vector');
-      op.P            = opPermutation(p);
-      op.Q            = opPermutation(q);
-      op.Ainv         = op.Q * inv(op.U) * inv(op.L) * op.P;
-      op.cflag        = ~isreal(A);
+      op.A         = opMatrix(B);
+      [L, U, p, q] = lu(B, 'vector');
+      op.L         = opMatrix(L);
+      op.U         = opMatrix(U);
+      op.P         = opPermutation(p);
+      op.Q         = opPermutation(q);
+      op.Ainv      = op.Q' * inv(op.U) * inv(op.L) * op.P;
+      op.cflag     = ~isreal(A);
     end % function opLU
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % transpose
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = transpose(op)
-       opOut = op.P' * inv(op.L.') * inv(op.U.') * op.Q';
+       opOut = op.P' * inv(op.L.') * inv(op.U.') * op.Q;
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % conj
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = conj(op)
-       opOut = op.Q * inv(conj(op.U)) * inv(conj(op.L)) * op.P;
+       opOut = op.Q' * inv(conj(op.U)) * inv(conj(op.L)) * op.P;
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % ctranpose
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     function opOut = ctranspose(op)
-       opOut = op.P' * inv(op.L') * inv(op.U') * op.Q';
+       opOut = op.P' * inv(op.L') * inv(op.U') * op.Q;
     end
 
   end % methods - public

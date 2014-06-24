@@ -47,6 +47,8 @@ function test_opChol_double
    B  = opChol(A);
 
    % Check opChol
-   assertElementsAlmostEqual(inv(A), B.double);
+   aa = inv(A); bb = double(B);
+   err = any(abs(aa(:)-bb(:)>1e-8));
+   assertFalse(err);
 
 end

@@ -53,7 +53,7 @@ classdef opChol < opFactorization
        B             = sparse(A);
       end
       op.A           = opHermitian(B);
-      op.L           = chol(B, 'lower');
+      op.L           = opMatrix(chol(B, 'lower'));
       op.Ainv        = inv(op.L') * inv(op.L);
       op.cflag       = ~isreal(A);
     end % function opChol

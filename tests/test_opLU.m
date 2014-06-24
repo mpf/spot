@@ -44,6 +44,6 @@ function test_opLU_double
    B  = opLU(A);
 
    % Check opLU
-   assertElementsAlmostEqual(inv(A), B.double);
+   assertElementsAlmostEqual(inv(A), double(B));
 
 end
