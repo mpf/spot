@@ -76,3 +76,77 @@ function test_opWavelet_levels(seed)
    
    assertEqual(length(x), length(y))
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant1(seed)
+   p = 32; q = 32;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = randn(size(A1,1),1);
+      
+   assertElementsAlmostEqual(y'*(A1*x), x'*(A1'*y));
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant2(seed)
+   p = 1; q = 32;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = randn(size(A1,1),1);
+      
+   assertElementsAlmostEqual(y'*(A1*x), x'*(A1'*y));
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant3(seed)
+   p = 32; q = 1;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = randn(size(A1,1),1);
+      
+   assertElementsAlmostEqual(y'*(A1*x), x'*(A1'*y));
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant_div1(seed)
+   p = 32; q = 32;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = A1*x;
+      
+   assertElementsAlmostEqual(A1 \ y, x);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant_div2(seed)
+   p = 1; q = 32;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = A1*x;
+      
+   assertElementsAlmostEqual(A1 \ y, x);
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+function test_opWavelet_2d_redundant_div3(seed)
+   p = 32; q = 1;
+   
+   A1 = opWavelet2(p,q,'Daubechies',8,5,true,'min');
+
+   x = randn(size(A1,2),1);
+   y = A1*x;
+      
+   assertElementsAlmostEqual(A1 \ y, x);
+end
