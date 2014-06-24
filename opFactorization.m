@@ -44,7 +44,7 @@ classdef opFactorization < opSpot
     end
 
     function op = set.force_itref(op, val)
-      if val ~= false & val ~= true
+      if val ~= false && val ~= true
         op.force_itref = false;
       else
         op.force_itref = val;
@@ -69,7 +69,7 @@ classdef opFactorization < opSpot
           rNorm = norm(r, 'inf');
           xNorm = norm(x, 'inf');
           nit = 0;
-          while nit < op.nitref & (rNorm >= op.itref_tol * xNorm | op.force_itref)
+          while nit < op.nitref && (rNorm >= op.itref_tol * xNorm || op.force_itref)
              dy = applyMultiply(op.Ainv, r, mode);
              y = y + dy;
              r = x - applyMultiply(op.A, y, mode);

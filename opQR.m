@@ -49,13 +49,15 @@ classdef opQR < opFactorization
       op = op@opFactorization('QR', n, m);
       B  = A;
       if ~issparse(A)
-        B             = sparse(A);
+        B = sparse(A);
       end
-      op.A            = opMatrix(B);
-      [op.Q, op.R, p] = qr(B, 'vector');
-      op.P            = opPermutation(p);
-      op.Ainv         = op.P' * opPInverse(op.R) * op.Q';
-      op.cflag        = ~isreal(A);
+      op.A = opMatrix(B);
+      [QQ, RR, p] = qr(B, 'vector');
+      op.Q = opMatrix(QQ);
+      op.R = opMatrix(RR);
+      op.P = opPermutation(p);
+      op.Ainv = op.P' * opPInverse(op.R) * op.Q';
+      op.cflag = ~isreal(A);
     end % function opQR
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
