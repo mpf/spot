@@ -22,6 +22,8 @@ function y = idct (x, n)
 %
 % 2007-08-18
 %   * Converted to Matlab by Michael P. Friedlander (mpf@cs.ubc.ca).
+% 2014-10-06
+%   * Removed automatic transpose on row vectors, E. van den Berg
 
 % Copyright (C) 2001 Paul Kienzle
 %
@@ -44,9 +46,7 @@ function y = idct (x, n)
   end
 
   realx = isreal(x);
-  transpose = (size(x,1) == 1);
 
-  if transpose, x = x (:); end
   [nr, nc] = size (x);
   if nargin == 1
     n = nr;
@@ -76,6 +76,5 @@ function y = idct (x, n)
     y = y(1:n, :);
     if (realx) y = real (y); end
   end
-  if transpose, y = y.'; end
 
 end % function

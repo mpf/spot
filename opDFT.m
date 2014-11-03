@@ -52,7 +52,7 @@ classdef opDFT < opOrthogonal
          op.sweepflag   = true;
          
          % Create function handle
-         if centered
+         if centered && m > 1
             op.funHandle = @opDFT_centered_intrnl;
          else
             op.funHandle = @opDFT_intrnl;
@@ -83,10 +83,18 @@ classdef opDFT < opOrthogonal
          n = op.n;
          if mode == 1
             % Analysis
-            y = fft(full(x)) / sqrt(n);
+            if (n == 1)
+               y = fft(full(x),[],1);
+            else
+               y = fft(full(x)) / sqrt(n);
+            end
          else
             % Synthesis
-            y = ifft(full(x)) * sqrt(n);
+            if (n == 1)
+               y = ifft(full(x),[],1);
+            else
+               y = ifft(full(x)) * sqrt(n);
+            end
          end
       end
       
@@ -94,9 +102,9 @@ classdef opDFT < opOrthogonal
          % One-dimensional DFT - Centered
          n = op.n;
          if mode == 1
-            y = fftshift(fft(full(x))) / sqrt(n);
+            y = fftshift(fft(full(x),[],1),1) / sqrt(n);
          else
-            y = ifft(ifftshift(full(x))) * sqrt(n);
+            y = ifft(ifftshift(full(x),1),[],1) * sqrt(n);
          end
       end
       
