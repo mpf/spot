@@ -82,15 +82,10 @@ classdef opDiag < opSpot
         % multiply
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function y = multiply(op,x,mode)
-            y = zeros(op.n,size(x,2));
             if mode == 1
-                for k = 1:size(x,2) % for sweepflag, can also be achieved with bsxfun, but that seems slower
-                    y(:,k) = op.diag.*x(:,k);
-                end
+                y = bsxfun(@times,op.diag,x);
             else
-                for k = 1:size(x,2) % for sweepflag, can also be achieved with bsxfun, but that seems slower
-                    y(:,k) = conj(op.diag).*x(:,k);
-                end
+                y = bsxfun(@times,conj(op.diag),x);
             end
         end % function multiply
         
@@ -98,15 +93,10 @@ classdef opDiag < opSpot
         % divide
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function x = divide(op,b,mode)
-            x = zeros(op.n,size(b,2));
             if mode == 1
-                for k = 1:size(x,2) % for sweepflag, can also be achieved with bsxfun, but that seems slower
-                    x(:,k) = b(:,k)./op.diag;
-                end
+                x = bsxfun(@ldivide,op.diag,b);
             else
-                for k = 1:size(x,2) % for sweepflag, can also be achieved with bsxfun, but that seems slower
-                    x = b(:,k)./conj(op.diag);
-                end
+                x = bsxfun(@ldivide,conj(op.diag),b);
             end
         end % function divide
         
