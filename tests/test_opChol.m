@@ -47,6 +47,9 @@ function test_opChol_double
    B  = opChol(A);
 
    % Check opChol
-   assertElementsAlmostEqual(inv(A), B.double);
+   aa = inv(A);
+   bb = full(B);
+   assertTrue( norm(aa-bb,'inf') <= sqrt(eps) )
+%   assertElementsAlmostEqual(inv(A), full(B));
 
 end
