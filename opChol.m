@@ -47,7 +47,7 @@ classdef opChol < opFactorization
       [m,n] = size(A);
 
       % Construct operator
-      op = op@opFactorization('LU', m, n);
+      op = op@opFactorization('Chol', m, n);
       B  = A;
       if ~issparse(A)
        B             = sparse(A);

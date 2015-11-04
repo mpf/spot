@@ -44,7 +44,7 @@ classdef opFactorization < opSpot
     end
 
     function op = set.force_itref(op, val)
-      if val ~= false & val ~= true
+      if val ~= false && val ~= true
         op.force_itref = false;
       else
         op.force_itref = val;
@@ -61,15 +61,15 @@ classdef opFactorization < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % multiply
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function y = multiply(op, x, mode)
+    function y = multiply(op, x, ~)
        y = op.Ainv * x;
        % Perform iterative refinement if necessary / requested
        if op.nitref > 0
           r = x - op.A * y;
-          rNorm = norm(r, 'inf');
+          rNorm = norm(r, 'inf'); %#ok<*PROP>
           xNorm = norm(x, 'inf');
           nit = 0;
-          while nit < op.nitref & (rNorm >= op.itref_tol * xNorm | op.force_itref)
+          while nit < op.nitref && (rNorm >= op.itref_tol * xNorm || op.force_itref)
              dy = op.Ainv * r;
              y = y + dy;
              r = x - op.A * y;
@@ -83,7 +83,7 @@ classdef opFactorization < opSpot
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % divide
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function x = divide(op, b, mode)
+    function x = divide(op, b, ~)
        x = op.A * b;
     end % function divide
 
