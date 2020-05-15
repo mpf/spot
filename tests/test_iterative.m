@@ -57,6 +57,38 @@ function test_iterative_lsqr
    
 end
 
+function test_iterative_lsmr
+
+   n  = 100; on = ones(n,1); A = spdiags([-2*on 4*on -on],-1:1,n,n);
+   b  = sum(A,2); tol = 1e-8; maxit = 15; lambda = 0;
+   [x1,flag1,relres1,iter1] = lsmr(A,b,lambda,tol,tol,[],maxit);
+   
+   Aop = opFunction(n,n,@(x,mode)afun_diff(x,n,mode));
+   [x2,flag2,relres2,iter2] = lsmr(Aop,b,lambda,tol,tol,[],maxit);
+      
+   assertElementsAlmostEqual(x1,x2)
+   assertElementsAlmostEqual(flag1,flag2)
+   assertElementsAlmostEqual(relres1,relres2)
+   assertElementsAlmostEqual(iter1,iter2)
+   
+end
+
+function test_iterative_cgls
+
+   n  = 100; on = ones(n,1); A = spdiags([-2*on 4*on -on],-1:1,n,n);
+   b  = sum(A,2); tol = 1e-8; maxit = 15; shift = 0;
+   [x1,flag1,relres1,iter1] = cgls(A,b,shift,tol,maxit);
+   
+   Aop = opFunction(n,n,@(x,mode)afun_diff(x,n,mode));
+   [x2,flag2,relres2,iter2] = cgls(Aop,b,shift,tol,maxit);
+      
+   assertElementsAlmostEqual(x1,x2)
+   assertElementsAlmostEqual(flag1,flag2)
+   assertElementsAlmostEqual(relres1,relres2)
+   assertElementsAlmostEqual(iter1,iter2)
+   
+end
+
 function test_iterative_qmr
 
    n  = 100; on = ones(n,1); A = spdiags([-2*on 4*on -on],-1:1,n,n);
